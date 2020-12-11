@@ -19,6 +19,14 @@ export class AppComponent implements AfterViewInit {
   }
   ngAfterViewInit() {
 
+    /*
+    Callback functions
+    */
+    this.addStep = () => {
+
+      var v1 = this.graph.insertVertex(parent, null, obj, 350, 150, 250, 160, "resizable=0;", null);
+      // var v2 = this.graph.insertVertex(v1, null, "dfgdf", 40, 0, 180, 50, "resizable=0;constituent=1;", null);
+    }
     this.zoomOut = () => {
       this.graph.zoomOut();
     }
@@ -32,7 +40,20 @@ export class AppComponent implements AfterViewInit {
     this.graph.setAllowDanglingEdges(false);
     this.graph.panningHandler.select = false;
     this.graph.view.setTranslate(120, 100);
+    this.graph.setCellsEditable(false);
 
+    this.graph.isPart = function(cell)
+    {
+      return this.getCurrentCellStyle(cell)['constituent'] == '1';
+    };
+    // Redirects selection to parent
+    this.graph.selectCellForEvent = function (cell) {
+      if (this.isPart(cell)) {
+        cell = this.model.getParent(cell);
+      }
+
+      mxGraph.prototype.selectCellForEvent.apply(this, arguments);
+    };
     //For edge connections
     this.graph = Helper.connectPreview(this.graph);
 
@@ -76,9 +97,10 @@ export class AppComponent implements AfterViewInit {
           div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", function () {
             // var textnode = document.createTextNode("Add Trigger");
             // node.appendChild(textnode);
-            node.innerHTML=`<br> <button type="button" class="btn btn-outline-primary btn-block btnAddTrigger">Text</button>` +node.innerHTML ;
+            node.innerHTML = `<br> <button type="button" class="btn btn-outline-primary btn-block btnAddTrigger">Text</button>` + node.innerHTML;
+            mxUtils.br(node);
             alert("Add trigger Clicked!");
-            div.getElementsByClassName('btnAppend')[0].appendChild(node);
+            div.getElementsByClassName('btnAppend')[0].prepend(node);
 
           });
 
@@ -138,14 +160,7 @@ export class AppComponent implements AfterViewInit {
       new mxHierarchicalLayout(this.graph).execute(this.graph.getDefaultParent());
     }
 
-    /*
-    Callback functions
-    */
-    this.addStep = () => {
 
-      var v1 = this.graph.insertVertex(parent, null, obj, 350, 150, 250, 160, "resizable=0;", null);
-
-    }
   }
 
 
