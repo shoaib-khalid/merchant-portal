@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Helper } from './helpers/graph-helper';
-import { Cards } from './helpers/cards';
+import { Card } from './helpers/custom-card';
 declare var mxUtils: any;
 declare var mxGraphModel: any;
 declare var mxCodecRegistry: any;
@@ -12,54 +12,29 @@ declare var mxCodecRegistry: any;
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('graphContainer') graphContainer: ElementRef;
-
   public anchorPosition: boolean = true;
   graph: any;
-  constructor() {
-  }
+  v1: any;
+  constructor() { }
+
   ngAfterViewInit() {
-
-    /*
-    Callback functions
-    */
+    //Callback functions
     this.addStep = () => {
-
-      var v1 = this.graph.insertVertex(parent, null, obj, 350, 150, 250, 160, "resizable=0;", null);
-      // var v2 = this.graph.insertVertex(v1, null, "dfgdf", 40, 0, 180, 50, "resizable=0;constituent=1;", null);
+      this.v1 = this.graph.insertVertex(parent, null, obj, 350, 150, 250, 160, "resizable=0;", null);
+      var v2 = this.graph.insertVertex(this.v1, null, triggers, 60, 0, 135, 40, "resizable=0;constituent=1;movable=0;", null);
     }
-    this.zoomOut = () => {
-      this.graph.zoomOut();
-    }
-    this.zoomIn = () => {
-      this.graph.zoomIn();
-    }
-
+    this.zoomOut = () => { this.graph.zoomOut(); }
+    this.zoomIn = () => { this.graph.zoomIn(); }
+    //End callback functions
+    //Graph configurations
     this.graph = new mxGraph(this.graphContainer.nativeElement);
-    this.graph.setPanning(true);
-    this.graph.panningHandler.useLeftButtonForPanning = true;
-    this.graph.setAllowDanglingEdges(false);
-    this.graph.panningHandler.select = false;
-    this.graph.view.setTranslate(120, 100);
-    this.graph.setCellsEditable(false);
-
-    this.graph.isPart = function(cell)
-    {
-      return this.getCurrentCellStyle(cell)['constituent'] == '1';
-    };
-    // Redirects selection to parent
-    this.graph.selectCellForEvent = function (cell) {
-      if (this.isPart(cell)) {
-        cell = this.model.getParent(cell);
-      }
-
-      mxGraph.prototype.selectCellForEvent.apply(this, arguments);
-    };
+    Helper.graphConfigurations(this.graph);
     //For edge connections
     this.graph = Helper.connectPreview(this.graph);
 
-
     var doc = mxUtils.createXmlDocument();
     var obj = doc.createElement('UserObject');
+    var triggers = doc.createElement('triggers');
     var cached = true;
 
     if (cached) {
@@ -73,7 +48,7 @@ export class AppComponent implements AfterViewInit {
       };
     }
 
-    this.graph.convertValueToString = function (cell) {
+    this.graph.convertValueToString = (cell) => {
       if (cached && cell.div != null) {
         // Uses cached label
         return cell.div;
@@ -82,48 +57,33 @@ export class AppComponent implements AfterViewInit {
         // Returns a DOM for the label
         var div = document.createElement('div');
         div.innerHTML = cell.getAttribute('label');
-        div.innerHTML = Cards.startingStep();
-
+        div.innerHTML = Card.startingStep();
         mxUtils.br(div);
-
 
         if (cached) {
           // Caches label
           cell.div = div;
         }
         if (div.getElementsByClassName('btnAddTrigger')[0]) {
-
           var node = document.createElement("SPAN");
-          div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", function () {
-            // var textnode = document.createTextNode("Add Trigger");
-            // node.appendChild(textnode);
-            node.innerHTML = `<br> <button type="button" class="btn btn-outline-primary btn-block btnAddTrigger">Text</button>` + node.innerHTML;
-            mxUtils.br(node);
-            alert("Add trigger Clicked!");
-            div.getElementsByClassName('btnAppend')[0].prepend(node);
-
-          });
-
+          div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", this.addTrigger.bind(this));
         }
-
         return div;
       }
+      else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'triggers') {
+        // Returns a DOM for the label
+        var div = document.createElement('div');
+        div.innerHTML = cell.getAttribute('label');
+        div.innerHTML = Helper.customTrigger();
 
-      return '';
-    };
-
-
-    // Overrides method to store a cell label in the model
-    var cellLabelChanged = this.graph.cellLabelChanged;
-    this.graph.cellLabelChanged = function (cell, newValue, autoSize) {
-      if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'userobject') {
-        // Clones the value for correct undo/redo
-        var elt = cell.value.cloneNode(true);
-        elt.setAttribute('label', newValue);
-        newValue = elt;
+        mxUtils.br(div);
+        if (cached) {
+          // Caches label
+          cell.div = div;
+        }
+        return div;
       }
-
-      cellLabelChanged.apply(this, arguments);
+      return '';
     };
 
     // Overrides method to create the editing value
@@ -133,57 +93,21 @@ export class AppComponent implements AfterViewInit {
         return cell.getAttribute('label');
       }
     };
-    var parent = this.graph.getDefaultParent();
 
+    var parent = this.graph.getDefaultParent();
     //For orthogonal edge style
     Helper.setEdgeStyle(this.graph);
-
-
-    this.graph.constrainChildren = false;
-    this.graph.extendParents = false;
-    this.graph.extendParentsOnAdd = false;
-
     new mxRubberband(this.graph);
-
     var parent = this.graph.getDefaultParent();
-
-    // Adds cells to the model in a single step
     this.graph.getModel().beginUpdate();
     this.graph.foldingEnabled = false;
-
-
-
-    try {
-
-    } finally {
-      this.graph.getModel().endUpdate();
-      new mxHierarchicalLayout(this.graph).execute(this.graph.getDefaultParent());
-    }
-
-
+    this.graph.getModel().endUpdate();
+    new mxHierarchicalLayout(this.graph).execute(this.graph.getDefaultParent());
   }
-
-
-  addStep() {
-
+  addStep() { }
+  zoomOut() { }
+  zoomIn() { }
+  addTrigger() {
+    alert("Hello");
   }
-  zoomOut() {
-
-  }
-  zoomIn() {
-
-  }
-
-
-  private reSetInformationMessage(flow_start_trigger_list: HTMLElement) {
-    let flow_start_info = document.getElementById('flow-start-info');
-    if (flow_start_trigger_list.children.length > 0) {
-      flow_start_info.style.display = "none";
-    } else {
-      flow_start_info.style.display = "inline-block";
-    }
-  }
-
-
-
 }

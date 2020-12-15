@@ -1,4 +1,4 @@
-export class Cards {
+export class Card {
     static startingStep() {
       return `  <div class='flow-start-container shadow-lg p-3 mb-5 bg-white' style='border-radius:35px'>
           <div class="card" style='border-radius:35px;border:0px'>
