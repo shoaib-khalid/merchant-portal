@@ -2,15 +2,16 @@ declare var mxConnectionConstraint: any;
 declare var mxConstants: any;
 declare var mxUtils: any;
 declare var mxCellState: any;
+declare var mxPerimeter: any;
+
 export class Helper {
 
 	static connectPreview = (graph) => {
 		graph.setConnectable(true);
 		graph.setMultigraph(false);
-		graph.connectionHandler.createEdgeState = function(me)
-		{
+		graph.connectionHandler.createEdgeState = function (me) {
 			var edge = graph.createEdge(null, null, null, null, null);
-			
+
 			return new mxCellState(graph.view, edge, this.graph.getCellStyle(edge));
 		};
 		// Disables floating connections (only use with no connect image)
@@ -45,7 +46,7 @@ export class Helper {
 	static setVertexStyle = (graph) => {
 		var style1 = [];
 		style1[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_RECTANGLE;
-		// style1[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
+		style1[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
 		style1[mxConstants.STYLE_STROKECOLOR] = 'gray';
 		style1[mxConstants.STYLE_ROUNDED] = true;
 		style1[mxConstants.STYLE_FILLCOLOR] = 'white';
@@ -56,6 +57,9 @@ export class Helper {
 		style1[mxConstants.STYLE_FONTSIZE] = '13';
 		style1[mxConstants.STYLE_FONTSTYLE] = 1;
 		style1[mxConstants.STYLE_FONTFAMILY] = 'Verdana';
+
+        mxConstants.VERTEX_SELECTION_COLOR = 'none'
+
 		graph.getStylesheet().putDefaultVertexStyle(style1);
 	}
 

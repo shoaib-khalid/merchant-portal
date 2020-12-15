@@ -15,13 +15,15 @@ export class AppComponent implements AfterViewInit {
   public anchorPosition: boolean = true;
   graph: any;
   v1: any;
+  triggers:any;
+  verticalDistance:any;
   constructor() { }
 
   ngAfterViewInit() {
+    this.verticalDistance = 0;
     //Callback functions
     this.addStep = () => {
       this.v1 = this.graph.insertVertex(parent, null, obj, 350, 150, 250, 160, "resizable=0;", null);
-      var v2 = this.graph.insertVertex(this.v1, null, triggers, 60, 0, 135, 40, "resizable=0;constituent=1;movable=0;", null);
     }
     this.zoomOut = () => { this.graph.zoomOut(); }
     this.zoomIn = () => { this.graph.zoomIn(); }
@@ -29,12 +31,13 @@ export class AppComponent implements AfterViewInit {
     //Graph configurations
     this.graph = new mxGraph(this.graphContainer.nativeElement);
     Helper.graphConfigurations(this.graph);
+    Helper.setVertexStyle(this.graph);
     //For edge connections
     this.graph = Helper.connectPreview(this.graph);
 
     var doc = mxUtils.createXmlDocument();
     var obj = doc.createElement('UserObject');
-    var triggers = doc.createElement('triggers');
+    this.triggers = doc.createElement('triggers');
     var cached = true;
 
     if (cached) {
@@ -48,7 +51,7 @@ export class AppComponent implements AfterViewInit {
       };
     }
 
-    this.graph.convertValueToString = (cell) => {
+    this.graph.convertValueToString =  (cell) => {
       if (cached && cell.div != null) {
         // Uses cached label
         return cell.div;
@@ -65,7 +68,7 @@ export class AppComponent implements AfterViewInit {
           cell.div = div;
         }
         if (div.getElementsByClassName('btnAddTrigger')[0]) {
-          var node = document.createElement("SPAN");
+          
           div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", this.addTrigger.bind(this));
         }
         return div;
@@ -108,6 +111,12 @@ export class AppComponent implements AfterViewInit {
   zoomOut() { }
   zoomIn() { }
   addTrigger() {
-    alert("Hello");
+    
+    // var node = document.createElement("SPAN");
+    // node.innerHTML = Helper.addTrigger() + node.innerHTML;
+    // mxUtils.br(node);
+    // div.getElementsByClassName('btnAppend')[0].prepend(node);
+    var v2 = this.graph.insertVertex(this.v1, null, this.triggers, 60, this.verticalDistance, 135, 40, "resizable=0;constituent=1;movable=0;", null);
+    this.verticalDistance = this.verticalDistance+50;
   }
 }
