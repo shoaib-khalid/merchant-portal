@@ -3,35 +3,47 @@ declare var mxConstants: any;
 declare var mxUtils: any;
 declare var mxCellState: any;
 declare var mxPerimeter: any;
+declare var mxGraphHandler: any;
+
+
 
 export class Helper {
 
 	static connectPreview = (graph) => {
+
+		
+
 		graph.setConnectable(true);
 		graph.setMultigraph(false);
-		graph.connectionHandler.createEdgeState = function (me) {
-			var edge = graph.createEdge(null, null, null, null, null);
+		// graph.connectionHandler.createEdgeState = function (me) {
+		// 	var edge = graph.createEdge(null, null, null, null, null);
 
-			return new mxCellState(graph.view, edge, this.graph.getCellStyle(edge));
-		};
+		// 	return new mxCellState(graph.view, edge, this.graph.getCellStyle(edge));
+		// };
+
+		// let graphHandler = new mxGraphHandler(graph);
+        // graphHandler.htmlPreview = true;
+
 		// Disables floating connections (only use with no connect image)
-		if (graph.connectionHandler.connectImage == null) {
-			graph.connectionHandler.isConnectableCell = function (cell) {
-				return false;
-			};
-			mxEdgeHandler.prototype.isConnectableCell = function (cell) {
-				return graph.connectionHandler.isConnectableCell(cell);
-			};
-		}
+		// if (graph.connectionHandler.connectImage == null) {
+		// 	graph.connectionHandler.isConnectableCell = function (cell) {
+		// 		return false;
+		// 	};
+		// 	mxEdgeHandler.prototype.isConnectableCell = function (cell) {
+		// 		return graph.connectionHandler.isConnectableCell(cell);
+		// 	};
+		// }
 
-		graph.getAllConnectionConstraints = function (terminal) {
-			if (terminal != null && this.model.isVertex(terminal.cell)) {
-				return [new mxConnectionConstraint(new mxPoint(0, 0), true),
-				new mxConnectionConstraint(new mxPoint(1, 1), true)];
-			}
+		// graph.getAllConnectionConstraints = function (terminal) {
+		// 	if (terminal != null && this.model.isVertex(terminal.cell)) {
+		// 		return [
+		// 		// new mxConnectionConstraint(new mxPoint(0, 0), true),
+		// 		// new mxConnectionConstraint(new mxPoint(1, 1), true)
+		// 	];
+		// 	}
 
-			return null;
-		};
+		// 	return null;
+		// };
 
 		return graph;
 
@@ -56,7 +68,7 @@ export class Helper {
 		style1[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_MIDDLE;
 		style1[mxConstants.STYLE_FONTSIZE] = '13';
 		style1[mxConstants.STYLE_FONTSTYLE] = 1;
-		style1[mxConstants.STYLE_FONTFAMILY] = 'Verdana';
+		style1[mxConstants.STYLE_FONTFAMILY] = 'Calibri';
 
         mxConstants.VERTEX_SELECTION_COLOR = 'none'
 
@@ -122,6 +134,18 @@ export class Helper {
 
 	static addTrigger() {
 		return `<br> <button type="button" class="btn btn-outline-primary btn-block btnAddTrigger">Text</button>`;
+	}
+
+	static graphUpdate = (graph) => {
+		var parent = graph.getDefaultParent();
+		Helper.setEdgeStyle(graph);
+		new mxRubberband(graph);
+		var parent = graph.getDefaultParent();
+		graph.getModel().beginUpdate();
+		graph.foldingEnabled = false;
+		graph.getModel().endUpdate();
+		new mxHierarchicalLayout(graph).execute(graph.getDefaultParent());
+		return graph;
 	}
 
 

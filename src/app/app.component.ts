@@ -7,6 +7,7 @@ declare var mxGraphModel: any;
 declare var mxCodecRegistry: any;
 declare var mxConstants: any;
 declare var mxGraphHandler: any;
+declare var mxClient: any;
 
 
 
@@ -25,14 +26,28 @@ export class AppComponent implements AfterViewInit {
   constructor() { }
 
   ngAfterViewInit() {
+    mxClient.link('stylesheet', '../assets/css/mxGraph.css');
+
+
     this.verticalDistance = 0;
+    var flag= false;
     //Callback functions
     this.addStep = () => {
-      this.v1 = this.graph.insertVertex(parent, null, obj, 350, 150, 250, 160, "resizable=0;", null);
-
-      var port = this.graph.insertVertex(this.v1, null, 'Error', 0.97 , 0.955, 16, 16,
+      
+      this.v1 = this.graph.insertVertex(parent, null, obj, 230, 100, 330, 177, "rounded=1;whiteSpace=wrap ;autosize=1;resizable=0;", null);
+      if(flag){
+        this.v1.setConnectable(true);
+      }else{
+        this.v1.setConnectable(false);
+        flag = true;
+        var port = this.graph.insertVertex(this.v1, null, 'Test', 0.90 , 0.90, 16, 16,
         'port;image=../assets/circle.png;spacingLeft=18', true);
+      }
+     
+  
+        // port.geometry.offset = new mxPoint(-5, -5);
 
+       
     }
     this.zoomOut = () => { this.graph.zoomOut(); }
     this.zoomIn = () => { this.graph.zoomIn(); }
@@ -85,8 +100,9 @@ export class AppComponent implements AfterViewInit {
         if (div.getElementsByClassName('btnAddTrigger')[0]) {
 
           div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", () => {
-            var v2 = this.graph.insertVertex(this.v1, null, this.triggers, 60, 10, 135, 40, "resizable=0;constituent=1;movable=0;", null);
+            var v2 = this.graph.insertVertex(this.v1, null, this.triggers, 60, this.verticalDistance, 135, 40, "resizable=0;constituent=1;movable=0;", null);
             // div.getElementsByClassName('btnAppend')[0].prepend(v2);
+            this.verticalDistance = this.verticalDistance+50;
           });
         }
         return div;
@@ -117,10 +133,8 @@ export class AppComponent implements AfterViewInit {
     };
 
     var parent = this.graph.getDefaultParent();
-    //For orthogonal edge style
     Helper.setEdgeStyle(this.graph);
     new mxRubberband(this.graph);
-    var parent = this.graph.getDefaultParent();
     this.graph.getModel().beginUpdate();
     this.graph.foldingEnabled = false;
     this.graph.getModel().endUpdate();
