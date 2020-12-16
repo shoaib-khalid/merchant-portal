@@ -1,9 +1,14 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Helper } from './helpers/graph-helper';
 import { Card } from './helpers/custom-card';
+import { NgModel } from '@angular/forms';
 declare var mxUtils: any;
 declare var mxGraphModel: any;
 declare var mxCodecRegistry: any;
+declare var mxConstants: any;
+declare var mxGraphHandler: any;
+
+
 
 @Component({
   selector: 'app-root',
@@ -15,8 +20,8 @@ export class AppComponent implements AfterViewInit {
   public anchorPosition: boolean = true;
   graph: any;
   v1: any;
-  triggers:any;
-  verticalDistance:any;
+  triggers: any;
+  verticalDistance: any;
   constructor() { }
 
   ngAfterViewInit() {
@@ -24,12 +29,22 @@ export class AppComponent implements AfterViewInit {
     //Callback functions
     this.addStep = () => {
       this.v1 = this.graph.insertVertex(parent, null, obj, 350, 150, 250, 160, "resizable=0;", null);
+
+      var port = this.graph.insertVertex(this.v1, null, 'Error', 0.97 , 0.955, 16, 16,
+        'port;image=../assets/circle.png;spacingLeft=18', true);
+
     }
     this.zoomOut = () => { this.graph.zoomOut(); }
     this.zoomIn = () => { this.graph.zoomIn(); }
     //End callback functions
     //Graph configurations
     this.graph = new mxGraph(this.graphContainer.nativeElement);
+    mxGraphHandler.prototype.guidesEnabled = true;
+    // Uses the port icon while connections are previewed
+    this.graph.connectionHandler.getConnectImage = function (state) {
+      return new mxImage(state.style[mxConstants.STYLE_IMAGE], 16, 16);
+    };
+    this.graph.connectionHandler.targetConnectImage = true;
     Helper.graphConfigurations(this.graph);
     Helper.setVertexStyle(this.graph);
     //For edge connections
@@ -51,13 +66,13 @@ export class AppComponent implements AfterViewInit {
       };
     }
 
-    this.graph.convertValueToString =  (cell) => {
+    this.graph.convertValueToString = (cell) => {
       if (cached && cell.div != null) {
         // Uses cached label
         return cell.div;
       }
       else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'userobject') {
-        // Returns a DOM for the label
+        // Returns a DOM for the labelalert("Hello");
         var div = document.createElement('div');
         div.innerHTML = cell.getAttribute('label');
         div.innerHTML = Card.startingStep();
@@ -68,13 +83,17 @@ export class AppComponent implements AfterViewInit {
           cell.div = div;
         }
         if (div.getElementsByClassName('btnAddTrigger')[0]) {
-          
-          div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", this.addTrigger.bind(this));
+
+          div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", () => {
+            var v2 = this.graph.insertVertex(this.v1, null, this.triggers, 60, 10, 135, 40, "resizable=0;constituent=1;movable=0;", null);
+            // div.getElementsByClassName('btnAppend')[0].prepend(v2);
+          });
         }
         return div;
       }
       else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'triggers') {
         // Returns a DOM for the label
+
         var div = document.createElement('div');
         div.innerHTML = cell.getAttribute('label');
         div.innerHTML = Helper.customTrigger();
@@ -111,12 +130,13 @@ export class AppComponent implements AfterViewInit {
   zoomOut() { }
   zoomIn() { }
   addTrigger() {
-    
+
+
     // var node = document.createElement("SPAN");
     // node.innerHTML = Helper.addTrigger() + node.innerHTML;
     // mxUtils.br(node);
     // div.getElementsByClassName('btnAppend')[0].prepend(node);
-    var v2 = this.graph.insertVertex(this.v1, null, this.triggers, 60, this.verticalDistance, 135, 40, "resizable=0;constituent=1;movable=0;", null);
-    this.verticalDistance = this.verticalDistance+50;
+    // var v2 = this.graph.insertVertex(this.v1, null, this.triggers, 60, this.verticalDistance, 135, 40, "resizable=0;constituent=1;movable=0;", null);
+    // this.verticalDistance = this.verticalDistance+50;
   }
 }

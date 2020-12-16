@@ -61,6 +61,21 @@ export class Helper {
         mxConstants.VERTEX_SELECTION_COLOR = 'none'
 
 		graph.getStylesheet().putDefaultVertexStyle(style1);
+
+
+
+		var style = new Object();
+		style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
+		style[mxConstants.STYLE_FONTCOLOR] = '#774400';
+		style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
+		style[mxConstants.STYLE_PERIMETER_SPACING] = '6';
+		style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_LEFT;
+		style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_MIDDLE;
+		style[mxConstants.STYLE_FONTSIZE] = '10';
+		style[mxConstants.STYLE_FONTSTYLE] = 2;
+		style[mxConstants.STYLE_IMAGE_WIDTH] = '16';
+		style[mxConstants.STYLE_IMAGE_HEIGHT] = '16';
+		graph.getStylesheet().putCellStyle('port', style);
 	}
 
 	static graphConfigurations = (graph) => {
