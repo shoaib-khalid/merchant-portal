@@ -30,7 +30,11 @@ export class Helper {
 			false, 'Test', null, null, 0, 1, ['Source'],
 			'Target Must Have 1 Source',
 			'Wrong connection!'));
-
+		// Target needs exactly one incoming connection from Source
+		graph.multiplicities.push(new mxMultiplicity(
+			false, 'UserObject', null, null, 1, 1, ['Test'],
+			'Target Must Have 1 Source',
+			'Wrong connection!'));
 
 		// graph.getAllConnectionConstraints = function (terminal) {
 		// 	if (terminal != null && this.model.isVertex(terminal.cell)) {
