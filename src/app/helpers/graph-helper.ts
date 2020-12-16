@@ -1,38 +1,36 @@
+import { Card } from '../helpers/custom-card';
 declare var mxConnectionConstraint: any;
 declare var mxConstants: any;
 declare var mxUtils: any;
 declare var mxCellState: any;
 declare var mxPerimeter: any;
-declare var mxGraphHandler: any;
+declare var mxMultiplicity: any;
 
 
 
 export class Helper {
 
 	static connectPreview = (graph) => {
+		var doc = mxUtils.createXmlDocument();
+		var obj = doc.createElement('UserObject');
 
-		
 
 		graph.setConnectable(true);
 		graph.setMultigraph(false);
-		// graph.connectionHandler.createEdgeState = function (me) {
-		// 	var edge = graph.createEdge(null, null, null, null, null);
 
-		// 	return new mxCellState(graph.view, edge, this.graph.getCellStyle(edge));
-		// };
+		// Source nodes needs 1..2 connected Targets
+		graph.multiplicities.push(new mxMultiplicity(
+			true, "UserObject", null, null, 0, 0, ['Target'],
+			'Cannot connect without anchor points!',
+			''));
 
-		// let graphHandler = new mxGraphHandler(graph);
-        // graphHandler.htmlPreview = true;
 
-		// Disables floating connections (only use with no connect image)
-		// if (graph.connectionHandler.connectImage == null) {
-		// 	graph.connectionHandler.isConnectableCell = function (cell) {
-		// 		return false;
-		// 	};
-		// 	mxEdgeHandler.prototype.isConnectableCell = function (cell) {
-		// 		return graph.connectionHandler.isConnectableCell(cell);
-		// 	};
-		// }
+		// Target needs exactly one incoming connection from Source
+		graph.multiplicities.push(new mxMultiplicity(
+			false, 'Test', null, null, 0, 1, ['Source'],
+			'Target Must Have 1 Source',
+			'Wrong connection!'));
+
 
 		// graph.getAllConnectionConstraints = function (terminal) {
 		// 	if (terminal != null && this.model.isVertex(terminal.cell)) {
@@ -70,7 +68,7 @@ export class Helper {
 		style1[mxConstants.STYLE_FONTSTYLE] = 1;
 		style1[mxConstants.STYLE_FONTFAMILY] = 'Calibri';
 
-        mxConstants.VERTEX_SELECTION_COLOR = 'none'
+		mxConstants.VERTEX_SELECTION_COLOR = 'none'
 
 		graph.getStylesheet().putDefaultVertexStyle(style1);
 
@@ -145,8 +143,64 @@ export class Helper {
 		graph.foldingEnabled = false;
 		graph.getModel().endUpdate();
 		new mxHierarchicalLayout(graph).execute(graph.getDefaultParent());
-		return graph;
+		return graph
+	}
+
+
+	static customVertex(graph, v1, triggers) {
+		var cached = true;
+
+		graph.convertValueToString = (cell) => {
+			if (cached && cell.div != null) {
+				// Uses cached label
+				return cell.div;
+			}
+			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'userobject') {
+				// Returns a DOM for the labelalert("Hello");
+				var div = document.createElement('div');
+				div.innerHTML = cell.getAttribute('label');
+				div.innerHTML = Card.startingStep();
+				mxUtils.br(div);
+
+				if (cached) {
+					// Caches label
+					cell.div = div;
+				}
+				if (div.getElementsByClassName('btnAddTrigger')[0]) {
+
+					div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", () => {
+						var v2 = graph.insertVertex(v1, null, triggers, 325, 100, 135, 40, "resizable=0;constituent=1;movable=0;", null);
+						// div.getElementsByClassName('btnAppend')[0].prepend(v2);
+						//   this.verticalDistance = this.verticalDistance+50;
+					});
+				}
+				return div;
+			}
+			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'triggers') {
+				// Returns a DOM for the label
+
+				var div = document.createElement('div');
+				div.innerHTML = cell.getAttribute('label');
+				div.innerHTML = Helper.customTrigger();
+
+				mxUtils.br(div);
+				if (cached) {
+					// Caches label
+					cell.div = div;
+				}
+				return div;
+			}
+			return '';
+		};
 	}
 
 
 }
+
+
+    // var node = document.createElement("SPAN");
+    // node.innerHTML = Helper.addTrigger() + node.innerHTML;
+    // mxUtils.br(node);
+    // div.getElementsByClassName('btnAppend')[0].prepend(node);
+    // var v2 = this.graph.insertVertex(this.v1, null, this.triggers, 60, this.verticalDistance, 135, 40, "resizable=0;constituent=1;movable=0;", null);
+    // this.verticalDistance = this.verticalDistance+50;
