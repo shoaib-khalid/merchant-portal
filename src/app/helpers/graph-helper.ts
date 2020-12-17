@@ -2,18 +2,33 @@ import { Card } from '../helpers/custom-card';
 declare var mxConnectionConstraint: any;
 declare var mxConstants: any;
 declare var mxUtils: any;
-declare var mxCellState: any;
+declare var mxCellTracker: any;
 declare var mxPerimeter: any;
 declare var mxMultiplicity: any;
 
 
 
 export class Helper {
-
+	static verticalDistance: any = 100;
 	static connectPreview = (graph) => {
 		var doc = mxUtils.createXmlDocument();
 		var obj = doc.createElement('UserObject');
 
+		if (graph.connectionHandler.connectImage == null) {
+			graph.connectionHandler.isConnectableCell = function (cell) {
+				console.log(cell);
+				try {
+					if(cell.value=="Test"){
+						return true;
+					}
+				} catch (ex) {
+				}
+				return true;
+			};
+			mxEdgeHandler.prototype.isConnectableCell = function (cell) {
+				return graph.connectionHandler.isConnectableCell(cell);
+			};
+		}
 
 		graph.setConnectable(true);
 		graph.setMultigraph(false);
@@ -36,6 +51,10 @@ export class Helper {
 			'Target Must Have 1 Source',
 			'Wrong connection!'));
 
+
+		// new mxCellTracker(graph);
+
+		
 		// graph.getAllConnectionConstraints = function (terminal) {
 		// 	if (terminal != null && this.model.isVertex(terminal.cell)) {
 		// 		return [
@@ -73,7 +92,7 @@ export class Helper {
 		style1[mxConstants.STYLE_FONTFAMILY] = 'Calibri';
 
 		mxConstants.VERTEX_SELECTION_COLOR = 'none'
-
+		mxConstants.TARGET_HIGHLIGHT_COLOR = 'none';
 		graph.getStylesheet().putDefaultVertexStyle(style1);
 
 
@@ -139,10 +158,8 @@ export class Helper {
 	}
 
 	static graphUpdate = (graph) => {
-		var parent = graph.getDefaultParent();
 		Helper.setEdgeStyle(graph);
 		new mxRubberband(graph);
-		var parent = graph.getDefaultParent();
 		graph.getModel().beginUpdate();
 		graph.foldingEnabled = false;
 		graph.getModel().endUpdate();
@@ -173,7 +190,8 @@ export class Helper {
 				if (div.getElementsByClassName('btnAddTrigger')[0]) {
 
 					div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", () => {
-						var v2 = graph.insertVertex(v1, null, triggers, 325, 100, 135, 40, "resizable=0;constituent=1;movable=0;", null);
+						var v2 = graph.insertVertex(v1, null, triggers, 325, Helper.verticalDistance, 135, 40, "resizable=0;constituent=1;movable=0;", null);
+						Helper.verticalDistance = Helper.verticalDistance + 50;
 						// div.getElementsByClassName('btnAppend')[0].prepend(v2);
 						//   this.verticalDistance = this.verticalDistance+50;
 					});
