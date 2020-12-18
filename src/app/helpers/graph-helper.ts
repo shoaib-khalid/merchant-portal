@@ -16,7 +16,6 @@ export class Helper {
 
 		if (graph.connectionHandler.connectImage == null) {
 			graph.connectionHandler.isConnectableCell = function (cell) {
-				console.log(cell);
 				try {
 					if(cell.value=="Test"){
 						return true;
