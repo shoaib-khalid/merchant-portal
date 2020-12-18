@@ -1,0 +1,18 @@
+#graphContainer {
+  top: 55px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  overflow: hidden;
+}
+.header {
+  height: 50px;
+  top: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  h2 {
+    height: 100%;
+  }
+}

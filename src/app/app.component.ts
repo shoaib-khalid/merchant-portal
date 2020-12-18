@@ -12,7 +12,7 @@ declare var mxUndoManager: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('graphContainer') graphContainer: ElementRef;
@@ -85,7 +85,8 @@ export class AppComponent implements AfterViewInit {
         mxGraphModel.prototype.setValue.apply(this, arguments);
       };
     }
-    Helper.customVertex(this.graph, this.v1, this.triggers)
+    debugger;
+    Helper.customVertex(this.graph, this.addTrigger.bind(this))
 
     // Overrides method to create the editing value
     var getEditingValue = this.graph.getEditingValue;
@@ -106,6 +107,11 @@ export class AppComponent implements AfterViewInit {
   zoomOut() { }
   zoomIn() { }
   addTrigger() {
+    debugger;
+    // function(parent, id, value, x, y, width, height, style, relative)
+    var v2 = this.graph.insertVertex(this.v1, null, this.triggers, 100, 30, 135, 40, "resizable=0;constituent=1;movable=0;", null);
+    // div.getElementsByClassName('btnAppend')[0].prepend(v2);
+    //   this.verticalDistance = this.verticalDistance+50;
   }
   undo(){
 

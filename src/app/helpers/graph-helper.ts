@@ -168,7 +168,8 @@ export class Helper {
 	}
 
 
-	static customVertex(graph, v1, triggers) {
+	static customVertex(graph, addTriggerCallBackFunction: Function) {
+
 		var cached = true;
 
 		graph.convertValueToString = (cell) => {
@@ -188,12 +189,8 @@ export class Helper {
 					cell.div = div;
 				}
 				if (div.getElementsByClassName('btnAddTrigger')[0]) {
-
 					div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", () => {
-						var v2 = graph.insertVertex(v1, null, triggers, 325, Helper.verticalDistance, 135, 40, "resizable=0;constituent=1;movable=0;", null);
-						Helper.verticalDistance = Helper.verticalDistance + 50;
-						// div.getElementsByClassName('btnAppend')[0].prepend(v2);
-						//   this.verticalDistance = this.verticalDistance+50;
+						addTriggerCallBackFunction();
 					});
 				}
 				return div;
