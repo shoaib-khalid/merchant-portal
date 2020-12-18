@@ -8,6 +8,7 @@ declare var mxGraphHandler: any;
 declare var mxEvent: any;
 declare var mxUndoManager: any;
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,7 +20,6 @@ export class AppComponent implements AfterViewInit {
   graph: any;
   v1: any;
   triggers: any;
-  stack: any;
   redoPointer: any;
   constructor() { }
 
@@ -53,11 +53,12 @@ export class AppComponent implements AfterViewInit {
     };
     var undoManager = new mxUndoManager();
     var listener = (sender, evt) => {
+      this.redoPointer++;
       undoManager.undoableEditHappened(evt.getProperty('edit'));
     };
 
     this.undo = () => {
-      if (this.redoPointer < 1) {
+      if (this.redoPointer<1){
         return;
       }
       try {
@@ -72,6 +73,7 @@ export class AppComponent implements AfterViewInit {
           undoManager.undo();
         }
 
+
       } catch (ex) {
         this.redoPointer--;
         undoManager.undo();
@@ -82,15 +84,19 @@ export class AppComponent implements AfterViewInit {
     }
     this.redo = () => {
       if (this.redoPointer < undoManager.history.length) {
+
         try {
-          if (undoManager.history[this.redoPointer].changes[0].child.value != "Test") {
+
+          if (undoManager.history[this.redoPointer].changes[0].child.value != "Test" && undoManager.history[this.redoPointer].changes[0].child.value !=null) {
             undoManager.redo();
             undoManager.redo();
             this.redoPointer++;
             this.redoPointer++;
+
           } else {
             undoManager.redo();
             this.redoPointer++;
+
           }
         } catch (ex) {
           this.redoPointer++;
