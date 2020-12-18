@@ -31,6 +31,7 @@ export class AppComponent implements AfterViewInit {
       }
       var port = this.graph.insertVertex(this.v1, null, 'Test', 0.90, 0.90, 16, 16,
         'port;image=../assets/circle.png;spacingLeft=18', true);
+      // var v2 = this.graph.insertVertex(this.v1, null, this.triggers, 325, 100, 135, 40, "resizable=0;constituent=1;movable=0;", null);
     }
     this.zoomOut = () => { this.graph.zoomOut(); }
     this.zoomIn = () => { this.graph.zoomIn(); }
@@ -65,7 +66,8 @@ export class AppComponent implements AfterViewInit {
         mxGraphModel.prototype.setValue.apply(this, arguments);
       };
     }
-    Helper.customVertex(this.graph, this.v1, this.triggers)
+    debugger;
+    Helper.customVertex(this.graph, this.addTrigger.bind(this))
 
     // Overrides method to create the editing value
     var getEditingValue = this.graph.getEditingValue;
@@ -86,5 +88,10 @@ export class AppComponent implements AfterViewInit {
   zoomOut() { }
   zoomIn() { }
   addTrigger() {
+    debugger;
+    // function(parent, id, value, x, y, width, height, style, relative)
+    var v2 = this.graph.insertVertex(this.v1, null, this.triggers, 100, 30, 135, 40, "resizable=0;constituent=1;movable=0;", null);
+    // div.getElementsByClassName('btnAppend')[0].prepend(v2);
+    //   this.verticalDistance = this.verticalDistance+50;
   }
 }
