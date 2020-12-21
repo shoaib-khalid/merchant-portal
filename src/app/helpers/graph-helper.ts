@@ -151,10 +151,8 @@ export class Helper {
 	}
 
 
-	static customVertex(graph, addTriggerCallBackFunction: Function) {
-
+	static customVertex(graph) {		
 		var cached = true;
-
 		graph.convertValueToString = (cell) => {
 			if (cached && cell.div != null) {
 				// Uses cached label
@@ -173,7 +171,11 @@ export class Helper {
 				}
 				if (div.getElementsByClassName('btnAddTrigger')[0]) {
 					div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", () => {
-						addTriggerCallBackFunction();
+						var doc = mxUtils.createXmlDocument();
+						let triggers = doc.createElement('triggers');
+						var v2 = graph.insertVertex(cell, null, triggers, 100, 30, 135, 40, "resizable=0;constituent=1;movable=0;", null);
+						// div.getElementsByClassName('btnAppend')[0].prepend(v2);
+						//   this.verticalDistance = this.verticalDistance+50;
 					});
 				}
 				return div;
