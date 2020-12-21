@@ -2,18 +2,32 @@ import { Card } from '../helpers/custom-card';
 declare var mxConnectionConstraint: any;
 declare var mxConstants: any;
 declare var mxUtils: any;
-declare var mxCellState: any;
+declare var mxCellTracker: any;
 declare var mxPerimeter: any;
 declare var mxMultiplicity: any;
 
 
 
 export class Helper {
-
+	static verticalDistance: any = 100;
 	static connectPreview = (graph) => {
 		var doc = mxUtils.createXmlDocument();
 		var obj = doc.createElement('UserObject');
 
+		if (graph.connectionHandler.connectImage == null) {
+			graph.connectionHandler.isConnectableCell = function (cell) {
+				try {
+					if(cell.value=="Test"){
+						return true;
+					}
+				} catch (ex) {
+				}
+				return true;
+			};
+			mxEdgeHandler.prototype.isConnectableCell = function (cell) {
+				return graph.connectionHandler.isConnectableCell(cell);
+			};
+		}
 
 		graph.setConnectable(true);
 		graph.setMultigraph(false);
@@ -36,6 +50,10 @@ export class Helper {
 			'Target Must Have 1 Source',
 			'Wrong connection!'));
 
+
+		// new mxCellTracker(graph);
+
+		
 		// graph.getAllConnectionConstraints = function (terminal) {
 		// 	if (terminal != null && this.model.isVertex(terminal.cell)) {
 		// 		return [
@@ -73,7 +91,7 @@ export class Helper {
 		style1[mxConstants.STYLE_FONTFAMILY] = 'Calibri';
 
 		mxConstants.VERTEX_SELECTION_COLOR = 'none'
-
+		mxConstants.TARGET_HIGHLIGHT_COLOR = 'none';
 		graph.getStylesheet().putDefaultVertexStyle(style1);
 
 
@@ -139,10 +157,8 @@ export class Helper {
 	}
 
 	static graphUpdate = (graph) => {
-		var parent = graph.getDefaultParent();
 		Helper.setEdgeStyle(graph);
 		new mxRubberband(graph);
-		var parent = graph.getDefaultParent();
 		graph.getModel().beginUpdate();
 		graph.foldingEnabled = false;
 		graph.getModel().endUpdate();

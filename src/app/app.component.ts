@@ -5,6 +5,10 @@ declare var mxGraphModel: any;
 declare var mxCodecRegistry: any;
 declare var mxConstants: any;
 declare var mxGraphHandler: any;
+declare var mxEvent: any;
+declare var mxUndoManager: any;
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,13 +20,18 @@ export class AppComponent implements AfterViewInit {
   graph: any;
   v1: any;
   triggers: any;
+  redoPointer: any;
   constructor() { }
 
   ngAfterViewInit() {
+    this.redoPointer = 0;
     var flag = false;
     //Callback functions
     this.addStep = () => {
       this.v1 = this.graph.insertVertex(parent, null, obj, 230, 100, 330, 177, "rounded=1;whiteSpace=wrap ;autosize=1;resizable=0;", null);
+      var port = this.graph.insertVertex(this.v1, null, 'Test', 0.98, 0.84, 16, 16,
+        'port;image=../assets/circle.png;spacingLeft=18', true);
+
       if (flag) {
         this.v1.setConnectable(true);
       } else {
@@ -43,7 +52,62 @@ export class AppComponent implements AfterViewInit {
     this.graph.connectionHandler.getConnectImage = function (state) {
       return new mxImage(state.style[mxConstants.STYLE_IMAGE], 16, 16);
     };
+    var undoManager = new mxUndoManager();
+    var listener = (sender, evt) => {
+      this.redoPointer++;
+      undoManager.undoableEditHappened(evt.getProperty('edit'));
+    };
 
+    this.undo = () => {
+      if (this.redoPointer<1){
+        return;
+      }
+      try {
+        if (undoManager.history[this.redoPointer - 1].changes[0].child.value === "Test") {
+          undoManager.undo();
+          undoManager.undo();
+          this.redoPointer--;
+          this.redoPointer--;
+
+        } else {
+          this.redoPointer--;
+          undoManager.undo();
+        }
+
+
+      } catch (ex) {
+        this.redoPointer--;
+        undoManager.undo();
+
+
+      }
+
+    }
+    this.redo = () => {
+      if (this.redoPointer < undoManager.history.length) {
+
+        try {
+
+          if (undoManager.history[this.redoPointer].changes[0].child.value != "Test" && undoManager.history[this.redoPointer].changes[0].child.value !=null) {
+            undoManager.redo();
+            undoManager.redo();
+            this.redoPointer++;
+            this.redoPointer++;
+
+          } else {
+            undoManager.redo();
+            this.redoPointer++;
+
+          }
+        } catch (ex) {
+          this.redoPointer++;
+          undoManager.redo();
+        }
+      }
+    }
+
+    this.graph.getModel().addListener(mxEvent.UNDO, listener);
+    this.graph.getView().addListener(mxEvent.UNDO, listener);
     this.graph.connectionHandler.targetConnectImage = true;
     Helper.graphConfigurations(this.graph);
     Helper.setVertexStyle(this.graph);
@@ -66,6 +130,7 @@ export class AppComponent implements AfterViewInit {
       };
     }
     Helper.customVertex(this.graph);
+    
     // Overrides method to create the editing value
     var getEditingValue = this.graph.getEditingValue;
     this.graph.getEditingValue = function (cell) {
@@ -85,5 +150,11 @@ export class AppComponent implements AfterViewInit {
   zoomOut() { }
   zoomIn() { }
   addTrigger() {
+  }
+  undo() {
+
+  }
+  redo() {
+
   }
 }
