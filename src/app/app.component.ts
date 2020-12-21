@@ -87,7 +87,7 @@ export class AppComponent implements AfterViewInit {
 
         try {
 
-          if (undoManager.history[this.redoPointer].changes[0].child.value != "Test" && undoManager.history[this.redoPointer].changes[0].child.value !=null) {
+          if (undoManager.history[this.redoPointer].changes[0].child.value.localName==="UserObject") {
             undoManager.redo();
             undoManager.redo();
             this.redoPointer++;
