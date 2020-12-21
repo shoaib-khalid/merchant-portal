@@ -17,7 +17,7 @@ export class Helper {
 		if (graph.connectionHandler.connectImage == null) {
 			graph.connectionHandler.isConnectableCell = function (cell) {
 				try {
-					if(cell.value=="Test"){
+					if (cell.value == "Test") {
 						return true;
 					}
 				} catch (ex) {
@@ -53,7 +53,7 @@ export class Helper {
 
 		// new mxCellTracker(graph);
 
-		
+
 		// graph.getAllConnectionConstraints = function (terminal) {
 		// 	if (terminal != null && this.model.isVertex(terminal.cell)) {
 		// 		return [
@@ -167,7 +167,7 @@ export class Helper {
 	}
 
 
-	static customVertex(graph) {		
+	static customVertex(graph) {
 		var cached = true;
 		graph.convertValueToString = (cell) => {
 			if (cached && cell.div != null) {
@@ -189,6 +189,8 @@ export class Helper {
 					div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", () => {
 						var doc = mxUtils.createXmlDocument();
 						let triggers = doc.createElement('triggers');
+						let initialMessage = cell.children.find(m => m.id == 'InitialMesssage');
+						graph.removeCells([initialMessage], true);
 						var v2 = graph.insertVertex(cell, null, triggers, 100, 30, 135, 40, "resizable=0;constituent=1;movable=0;", null);
 						// div.getElementsByClassName('btnAppend')[0].prepend(v2);
 						//   this.verticalDistance = this.verticalDistance+50;
@@ -202,6 +204,20 @@ export class Helper {
 				var div = document.createElement('div');
 				div.innerHTML = cell.getAttribute('label');
 				div.innerHTML = Helper.customTrigger();
+
+				mxUtils.br(div);
+				if (cached) {
+					// Caches label
+					cell.div = div;
+				}
+				return div;
+			}
+			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'initialmessage') {
+				// Returns a DOM for the label
+				debugger;
+				var div = document.createElement('div');
+				div.innerHTML = cell.getAttribute('label');
+				div.innerHTML = Card.InitialMesssage;
 
 				mxUtils.br(div);
 				if (cached) {

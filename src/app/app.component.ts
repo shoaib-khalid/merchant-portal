@@ -29,6 +29,7 @@ export class AppComponent implements AfterViewInit {
     //Callback functions
     this.addStep = () => {
       this.v1 = this.graph.insertVertex(parent, null, obj, 230, 100, 330, 177, "rounded=1;whiteSpace=wrap ;autosize=1;resizable=0;", null);
+      this.graph.insertVertex(this.v1, 'InitialMesssage', initialMessage, 100, 30, 135, 40, "resizable=0;constituent=1;movable=0;", null);
       var port = this.graph.insertVertex(this.v1, null, 'Test', 0.98, 0.84, 16, 16,
         'port;image=../assets/circle.png;spacingLeft=18', true);
 
@@ -59,7 +60,7 @@ export class AppComponent implements AfterViewInit {
     };
 
     this.undo = () => {
-      if (this.redoPointer<1){
+      if (this.redoPointer < 1) {
         return;
       }
       try {
@@ -88,7 +89,7 @@ export class AppComponent implements AfterViewInit {
 
         try {
 
-          if (undoManager.history[this.redoPointer].changes[0].child.value != "Test" && undoManager.history[this.redoPointer].changes[0].child.value !=null) {
+          if (undoManager.history[this.redoPointer].changes[0].child.value != "Test" && undoManager.history[this.redoPointer].changes[0].child.value != null) {
             undoManager.redo();
             undoManager.redo();
             this.redoPointer++;
@@ -118,6 +119,7 @@ export class AppComponent implements AfterViewInit {
     var doc = mxUtils.createXmlDocument();
     var obj = doc.createElement('UserObject');
     this.triggers = doc.createElement('triggers');
+    var initialMessage = doc.createElement('InitialMessage');
     var cached = true;
     if (cached) {
       // Ignores cached label in codec
@@ -130,7 +132,7 @@ export class AppComponent implements AfterViewInit {
       };
     }
     Helper.customVertex(this.graph);
-    
+
     // Overrides method to create the editing value
     var getEditingValue = this.graph.getEditingValue;
     this.graph.getEditingValue = function (cell) {
