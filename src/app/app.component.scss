@@ -16,3 +16,48 @@
     height: 100%;
   }
 }
+
+.float{
+	position:fixed;
+	width:63px;
+	height:60px;
+  // bottom:40px;
+  top:70px;
+	right:30px;
+	background-color:#FFF;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px rgb(0, 0, 0);
+}
+
+.zoom-in-float{
+  position:fixed;
+	width:38px;
+	height:40px;
+  // bottom:40px;
+  top:250px;
+	right:40px;
+	background-color:#FFF;
+	color:rgb(238, 238, 238);
+	border-radius:50px;
+	text-align:center;
+  box-shadow: 2px 2px 3px rgb(0, 0, 0);
+  // border: 0.5pt solid black;
+}
+
+
+.zoom-out-float{
+  position:fixed;
+	width:38px;
+	height:40px;
+  // bottom:40px;
+  top:300px;
+	right:40px;
+	background-color:#FFF;
+	color:rgb(238, 238, 238);
+	border-radius:50px;
+	text-align:center;
+  box-shadow: 2px 2px 3px rgb(0, 0, 0);
+  // border: 0.5pt solid black;
+}

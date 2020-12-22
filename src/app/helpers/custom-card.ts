@@ -1,6 +1,6 @@
 export class Card {
     static startingStep() {
-      return `  <div class='flow-start-container shadow-lg p-3 mb-5 bg-white' style='border-radius:30px'>
+      return `  <div class='flow-start-container shadow-lg p-3 mt-3 bg-white' style='border-radius:33px'>
           <div class="card" style='border-radius:35px;border:0px;width:300px'>
             <div class="card-header" style='background-color:white;' >
               <img src="../assets/play.png" class="start-icon float-left" alt="..." >

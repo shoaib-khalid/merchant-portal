@@ -42,4 +42,31 @@ export class JsonCodec extends mxObjectCodec {
             4
         );
     }
+    static render(dataModel,graph) {
+        const jsonEncoder = new JsonCodec();
+        this._graph = graph;
+        this._vertices = {};
+        this._dataModel = dataModel;
+    
+				const parent = this._graph.getDefaultParent();
+				this._graph.getModel().beginUpdate(); // Adds cells to the model in a single step
+				try {
+          
+          this._dataModel.graph.map(
+            (node)=> {
+                if(node.value) {
+                  if(typeof node.value === "object") {
+                       const xmlNode = jsonEncoder.encode(node.value);
+                       this._vertices[node.id] = this._graph.insertVertex(parent, null, xmlNode, node.geometry.x, node.geometry.y, node.geometry.width, node.geometry.height);
+                  } else if(node.value === "Edge") {
+                       this._graph.insertEdge(parent, null, 'Edge', this._vertices[node.source],  this._vertices[node.target])
+                  }
+                }
+            }
+          );
+          
+				} finally {
+					this._graph.getModel().endUpdate(); // Updates the display
+        }
+  }  
 }
