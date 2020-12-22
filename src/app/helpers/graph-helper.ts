@@ -1,4 +1,5 @@
 import { Card } from '../helpers/custom-card';
+import { JsonCodec } from './json-codec'
 declare var mxConnectionConstraint: any;
 declare var mxConstants: any;
 declare var mxUtils: any;
@@ -146,7 +147,15 @@ export class Helper {
 			cellLabelChanged.apply(this, arguments);
 		};
 	}
-
+	static getJsonModel(graph: any) {
+		debugger;
+		const encoder = new JsonCodec();
+		const jsonModel = encoder.decode(graph.getModel());
+		var jsonNodes = {
+			"graph": jsonModel
+		}
+		return encoder.stringifyWithoutCircular(jsonNodes)
+	}
 	static customTrigger = () => {
 		return `<br> <button type="button" style="width:150px;"
 		class="btn btn-primary btn-block btnAddTrigger btn-lg">Text</button>`;

@@ -159,4 +159,8 @@ export class AppComponent implements AfterViewInit {
   redo() {
 
   }
+  showJson() {
+    var json = Helper.getJsonModel(this.graph);
+    alert(json);
+  }
 }
