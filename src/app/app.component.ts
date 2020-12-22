@@ -7,7 +7,7 @@ declare var mxConstants: any;
 declare var mxGraphHandler: any;
 declare var mxEvent: any;
 declare var mxUndoManager: any;
-
+declare var mxCodec: any;
 
 @Component({
   selector: 'app-root',
@@ -38,7 +38,6 @@ export class AppComponent implements AfterViewInit {
         this.v1.setConnectable(false);
         flag = true;
       }
-
     }
     this.zoomOut = () => { this.graph.zoomOut(); }
     this.zoomIn = () => { this.graph.zoomIn(); }
@@ -58,7 +57,7 @@ export class AppComponent implements AfterViewInit {
     };
 
     this.undo = () => {
-      if (this.redoPointer<1){
+      if (this.redoPointer < 1) {
         return;
       }
       try {
@@ -73,21 +72,17 @@ export class AppComponent implements AfterViewInit {
           undoManager.undo();
         }
 
-
       } catch (ex) {
         this.redoPointer--;
         undoManager.undo();
-
-
       }
-
     }
     this.redo = () => {
       if (this.redoPointer < undoManager.history.length) {
 
         try {
 
-          if (undoManager.history[this.redoPointer].changes[0].child.value.localName==="UserObject") {
+          if (undoManager.history[this.redoPointer].changes[0].child.value.localName === "UserObject") {
             undoManager.redo();
             undoManager.redo();
             this.redoPointer++;
@@ -137,11 +132,15 @@ export class AppComponent implements AfterViewInit {
         return cell.getAttribute('label');
       }
     };
+
     var parent = this.graph.getDefaultParent();
     Helper.setEdgeStyle(this.graph);
     new mxRubberband(this.graph);
     this.graph.getModel().beginUpdate();
+
     this.graph.foldingEnabled = false;
+    Helper.loadXml(this.graph);
+
     this.graph.getModel().endUpdate();
     new mxHierarchicalLayout(this.graph).execute(this.graph.getDefaultParent());
   }
@@ -154,10 +153,12 @@ export class AppComponent implements AfterViewInit {
     // div.getElementsByClassName('btnAppend')[0].prepend(v2);
     //   this.verticalDistance = this.verticalDistance+50;
   }
-  undo() {
+  undo() { }
+  redo() { }
+  showJson() {
+    var json = Helper.getJsonModel(this.graph);
+    console.log(json);
 
   }
-  redo() {
 
-  }
 }
