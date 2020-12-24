@@ -57,6 +57,11 @@
                                     <a href="#" (click)="showJson()" class="p-0">Show Json</a>
                                 </div>
                             </div>
+                            <div class="row p-2 ml-1">
+                                <div class="col-1">
+                                    <a href="#" (click)="loadJson()" class="p-0">Load Json</a>
+                                </div>
+                            </div>
                             <div>
                             </div>
 
@@ -67,6 +72,9 @@
             <main class="col bg-faded py-3 flex-grow-1">
                 <div class="header">
                     <h2 class="border-bottom border-dark">ChatBot</h2>
+                </div>
+                <div id="outlineContainer" #outlineContainer
+                    style="z-index:1;position:absolute;overflow:hidden;top:55px;right:0px;width:160px;height:120px;background:transparent;border-style:solid;border-color:lightgray;">
                 </div>
                 <div #graphContainer id="graphContainer">
                 </div>

@@ -31,7 +31,9 @@
             ],
             "scripts": [
               "src/assets/js/mxgraph.conf.js",
-              "node_modules/mxgraph/javascript/mxClient.js"
+              "node_modules/mxgraph/javascript/mxClient.js",
+              "src/assets/js/json2xml.js",
+              "src/assets/js/xml2json.js"
             ]
           },
           "configurations": {

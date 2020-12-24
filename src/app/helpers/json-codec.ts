@@ -1,45 +1,38 @@
-declare var mxObjectCodec: any;
-declare var mxUtils: any;
 
-export class JsonCodec extends mxObjectCodec {
-    constructor() {
-        super((value) => { });
+declare var mxUtils: any;
+declare var json2xml: any;
+declare var mxCodec: any;
+declare var xml2json: any;
+
+export class JsonCodec {
+
+
+    static getJson(graph: any): string {
+        var encoder = new mxCodec();
+        var node = encoder.encode(graph.getModel());
+        return xml2json(mxUtils.parseXml(mxUtils.getXml(node)), "");
+
     }
-    encode(value) {
-        const xmlDoc = mxUtils.createXmlDocument();
-        const newObject = xmlDoc.createElement("Object");
-        for (let prop in value) {
-            newObject.setAttribute(prop, value[prop]);
-        }
-        return newObject;
-    }
-    decode(model) {
-        return Object.keys(model.cells).map(
-            (iCell) => {
-                const currentCell = model.getCell(iCell);
-                return (currentCell.value !== undefined) ? currentCell : null;
-            }
-        ).filter((item) => (item !== null));
-    }
-    stringifyWithoutCircular(json) {
-        return JSON.stringify(
-            json,
-            (key, value) => {
-                if ((key === 'parent' || key == 'source' || key == 'target') && value !== null) {
-                    return value.id;
-                } else if (key === 'value' && value !== null && value.localName) {
-                    let results = {};
-                    Object.keys(value.attributes).forEach(
-                        (attrKey) => {
-                            const attribute = value.attributes[attrKey];
-                            results[attribute.nodeName] = attribute.nodeValue;
-                        }
-                    )
-                    return results;
+    static loadJson(graph: any, json: any) {
+
+        let xml2 = json2xml(JSON.parse(json), "");
+        let doc = mxUtils.parseXml(xml2);
+
+        let codec = new mxCodec(doc);
+        codec.decode(doc.documentElement, graph.getModel());
+        let elt = doc.documentElement.firstChild;
+        let cells = [];
+        while (elt != null) {
+            let cell = codec.decodeCell(elt)
+            if (cell != undefined) {
+                if (cell.id != undefined && cell.parent != undefined && (cell.id == cell.parent)) {
+                    elt = elt.nextSibling;
+                    continue;
                 }
-                return value;
-            },
-            4
-        );
+                cells.push(cell);
+            }
+            elt = elt.nextSibling;
+        }
+        graph.addCells(cells);
     }
 }

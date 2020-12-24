@@ -1,9 +1,6 @@
 import { Card } from '../helpers/custom-card';
-import { JsonCodec } from './json-codec'
-declare var mxConnectionConstraint: any;
 declare var mxConstants: any;
 declare var mxUtils: any;
-declare var mxCellTracker: any;
 declare var mxPerimeter: any;
 declare var mxMultiplicity: any;
 
@@ -147,15 +144,6 @@ export class Helper {
 			cellLabelChanged.apply(this, arguments);
 		};
 	}
-	static getJsonModel(graph: any) {
-		debugger;
-		const encoder = new JsonCodec();
-		const jsonModel = encoder.decode(graph.getModel());
-		var jsonNodes = {
-			"graph": jsonModel
-		}
-		return encoder.stringifyWithoutCircular(jsonNodes)
-	}
 	static customTrigger = () => {
 		return `<br> <button type="button" style="width:150px;"
 		class="btn btn-primary btn-block btnAddTrigger btn-lg">Text</button>`;
@@ -198,7 +186,7 @@ export class Helper {
 					div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", () => {
 						var doc = mxUtils.createXmlDocument();
 						let triggers = doc.createElement('triggers');
-						let initialMessage = cell.children.find(m => m.id == 'InitialMesssage');
+						let initialMessage = cell.children.find(m => m.id == 'InitialMesssage' + "_" + cell.id);
 						graph.removeCells([initialMessage], true);
 						var v2 = graph.insertVertex(cell, null, triggers, 100, 30, 135, 40, "resizable=0;constituent=1;movable=0;", null);
 						// div.getElementsByClassName('btnAppend')[0].prepend(v2);

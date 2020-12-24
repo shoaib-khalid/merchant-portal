@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Helper } from './helpers/graph-helper';
+import { JsonCodec } from './helpers/json-codec';
 declare var mxUtils: any;
 declare var mxGraphModel: any;
 declare var mxCodecRegistry: any;
@@ -7,6 +8,7 @@ declare var mxConstants: any;
 declare var mxGraphHandler: any;
 declare var mxEvent: any;
 declare var mxUndoManager: any;
+declare var mxOutline:any;
 
 
 @Component({
@@ -16,6 +18,8 @@ declare var mxUndoManager: any;
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('graphContainer') graphContainer: ElementRef;
+  @ViewChild('outlineContainer') outlineContainer: ElementRef;
+  
   public anchorPosition: boolean = true;
   graph: any;
   v1: any;
@@ -28,8 +32,9 @@ export class AppComponent implements AfterViewInit {
     var flag = false;
     //Callback functions
     this.addStep = () => {
+      debugger;
       this.v1 = this.graph.insertVertex(parent, null, obj, 230, 100, 330, 177, "rounded=1;whiteSpace=wrap ;autosize=1;resizable=0;", null);
-      this.graph.insertVertex(this.v1, 'InitialMesssage', initialMessage, 100, 30, 135, 40, "resizable=0;constituent=1;movable=0;", null);
+      this.graph.insertVertex(this.v1, 'InitialMesssage' + "_" + this.v1.id, initialMessage, 100, 30, 135, 40, "resizable=0;constituent=1;movable=0;", null);
       var port = this.graph.insertVertex(this.v1, null, 'Test', 0.98, 0.84, 16, 16,
         'port;image=../assets/circle.png;spacingLeft=18', true);
 
@@ -48,6 +53,10 @@ export class AppComponent implements AfterViewInit {
 
     //Graph configurations
     this.graph = new mxGraph(this.graphContainer.nativeElement);
+
+    var outln = new mxOutline(this.graph, this.outlineContainer.nativeElement);
+
+    var outline = document.getElementById('outlineContainer');
     mxGraphHandler.prototype.guidesEnabled = true;
     // Uses the port icon while connections are previewed
     this.graph.connectionHandler.getConnectImage = function (state) {
@@ -160,7 +169,13 @@ export class AppComponent implements AfterViewInit {
 
   }
   showJson() {
-    var json = Helper.getJsonModel(this.graph);
-    alert(json);
+    let json = JsonCodec.getJson(this.graph);
+    mxUtils.popup(json, true);
+  }
+  loadJson() {
+    let json = `{
+      "mxGraphModel":{"root":{"mxCell":[{"@id":"0"},{"@id":"1","@parent":"0"},{"@id":"3","@value":"Test","@style":"port;image=../assets/circle.png;spacingLeft=18","@vertex":"1","@parent":"2","mxGeometry":{"@x":"0.98","@y":"0.84","@width":"16","@height":"16","@relative":"1","@as":"geometry"}},{"@id":"4","@value":"Test","@style":"port;image=../assets/circle.png;spacingLeft=18","@vertex":"1","@parent":"2","mxGeometry":{"@x":"0.9","@y":"0.9","@width":"16","@height":"16","@relative":"1","@as":"geometry"}},{"@id":"6","@value":"Test","@style":"port;image=../assets/circle.png;spacingLeft=18","@vertex":"1","@parent":"5","mxGeometry":{"@x":"0.98","@y":"0.84","@width":"16","@height":"16","@relative":"1","@as":"geometry"}},{"@id":"7","@value":"Test","@style":"port;image=../assets/circle.png;spacingLeft=18","@vertex":"1","@parent":"5","mxGeometry":{"@x":"0.9","@y":"0.9","@width":"16","@height":"16","@relative":"1","@as":"geometry"}},{"@id":"8","@edge":"1","@parent":"1","@source":"3","@target":"5","mxGeometry":{"@relative":"1","@as":"geometry"}}],"UserObject":[{"@id":"2","mxCell":{"@style":"rounded=1;whiteSpace=wrap ;autosize=1;resizable=0;","@vertex":"1","@connectable":"0","@parent":"1","mxGeometry":{"@x":"20","@y":"50","@width":"330","@height":"177","@as":"geometry"}}},{"@id":"5","mxCell":{"@style":"rounded=1;whiteSpace=wrap ;autosize=1;resizable=0;","@vertex":"1","@parent":"1","mxGeometry":{"@x":"460","@y":"10","@width":"330","@height":"177","@as":"geometry"}}}],"triggers":[{"@id":"9","mxCell":{"@style":"resizable=0;constituent=1;movable=0;","@vertex":"1","@parent":"2","mxGeometry":{"@x":"100","@y":"30","@width":"135","@height":"40","@as":"geometry"}}},{"@id":"10","mxCell":{"@style":"resizable=0;constituent=1;movable=0;","@vertex":"1","@parent":"5","mxGeometry":{"@x":"100","@y":"30","@width":"135","@height":"40","@as":"geometry"}}}]}}
+      }`
+    JsonCodec.loadJson(this.graph, json)
   }
 }
