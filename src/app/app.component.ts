@@ -1,21 +1,19 @@
+import { ThisReceiver } from '@angular/compiler';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Helper } from './helpers/graph-helper';
 import { JsonCodec } from './helpers/json-codec';
 declare var mxUtils: any;
-declare var mxGraphModel: any;
-declare var mxCodecRegistry: any;
-declare var mxConstants: any;
 declare var mxGraphHandler: any;
 declare var mxEvent: any;
 declare var mxUndoManager: any;
 declare var mxOutline:any;
-
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent implements AfterViewInit {
   @ViewChild('graphContainer') graphContainer: ElementRef;
   @ViewChild('outlineContainer') outlineContainer: ElementRef;
@@ -28,8 +26,9 @@ export class AppComponent implements AfterViewInit {
   constructor() { }
 
   ngAfterViewInit() {
+
+    Helper.addAssets();
     this.redoPointer = 0;
-    var flag = false;
     //Callback functions
     this.addStep = () => {
       debugger;
@@ -38,14 +37,14 @@ export class AppComponent implements AfterViewInit {
       var port = this.graph.insertVertex(this.v1, null, 'Test', 0.98, 0.84, 16, 16,
         'port;image=../assets/circle.png;spacingLeft=18', true);
 
-      if (flag) {
-        this.v1.setConnectable(true);
-      } else {
-        this.v1.setConnectable(false);
-        flag = true;
-      }
-      var port = this.graph.insertVertex(this.v1, null, 'Test', 0.90, 0.90, 16, 16,
-        'port;image=../assets/circle.png;spacingLeft=18', true);
+      // if (flag) {
+      //   this.v1.setConnectable(true);
+      // } else {
+      //   this.v1.setConnectable(false);
+      //   flag = true;
+      // }
+      // var port = this.graph.insertVertex(this.v1, null, 'Test', 0.90, 0.90, 16, 16,
+      //   'port;image=../assets/circle.png;spacingLeft=18', true);
     }
     this.zoomOut = () => { this.graph.zoomOut(); }
     this.zoomIn = () => { this.graph.zoomIn(); }
@@ -58,13 +57,13 @@ export class AppComponent implements AfterViewInit {
 
     var outline = document.getElementById('outlineContainer');
     mxGraphHandler.prototype.guidesEnabled = true;
-    // Uses the port icon while connections are previewed
-    this.graph.connectionHandler.getConnectImage = function (state) {
-      return new mxImage(state.style[mxConstants.STYLE_IMAGE], 16, 16);
-    };
+    
     var undoManager = new mxUndoManager();
+    Helper.deleteEvent(this.graph,undoManager);
     var listener = (sender, evt) => {
+      // console.log(evt)
       this.redoPointer++;
+      console.log("Redo Pointer in listener: "+this.redoPointer)
       undoManager.undoableEditHappened(evt.getProperty('edit'));
     };
 
@@ -72,6 +71,9 @@ export class AppComponent implements AfterViewInit {
       if (this.redoPointer < 1) {
         return;
       }
+      
+
+      console.log("Redo Pointer before undo: "+this.redoPointer);
       try {
         if (undoManager.history[this.redoPointer - 1].changes[0].child.value === "Test") {
           undoManager.undo();
@@ -84,21 +86,20 @@ export class AppComponent implements AfterViewInit {
           undoManager.undo();
         }
 
-
       } catch (ex) {
         this.redoPointer--;
         undoManager.undo();
-
-
       }
-
+      console.log("After undo: ")
+      console.log(undoManager.history);
+      console.log("Redo Pointer after undo: "+this.redoPointer);
     }
     this.redo = () => {
       if (this.redoPointer < undoManager.history.length) {
 
         try {
 
-          if (undoManager.history[this.redoPointer].changes[0].child.value != "Test" && undoManager.history[this.redoPointer].changes[0].child.value != null) {
+          if (undoManager.history[this.redoPointer].changes[0].child.value.localName === "UserObject") {
             undoManager.redo();
             undoManager.redo();
             this.redoPointer++;
@@ -113,6 +114,9 @@ export class AppComponent implements AfterViewInit {
           this.redoPointer++;
           undoManager.redo();
         }
+        console.log("After redo: ")
+        console.log(undoManager.history)
+        console.log("Redo Pointer after redo: "+this.redoPointer)
       }
     }
 
@@ -130,43 +134,40 @@ export class AppComponent implements AfterViewInit {
     this.triggers = doc.createElement('triggers');
     var initialMessage = doc.createElement('InitialMessage');
     var cached = true;
-    if (cached) {
-      // Ignores cached label in codec
-      mxCodecRegistry.getCodec(mxCell).exclude.push('div');
+    // if (cached) {
+    //   // Ignores cached label in codec
+    //   mxCodecRegistry.getCodec(mxCell).exclude.push('div');
 
-      // Invalidates cached labels
-      this.graph.model.setValue = function (cell, value) {
-        cell.div = null;
-        mxGraphModel.prototype.setValue.apply(this, arguments);
-      };
-    }
+    //   // Invalidates cached labels
+    //   this.graph.model.setValue = function (cell, value) {
+    //     cell.div = null;
+    //     mxGraphModel.prototype.setValue.apply(this, arguments);
+    //   };
+    // }
     Helper.customVertex(this.graph);
 
-    // Overrides method to create the editing value
-    var getEditingValue = this.graph.getEditingValue;
-    this.graph.getEditingValue = function (cell) {
-      if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'userobject') {
-        return cell.getAttribute('label');
-      }
-    };
+    // Helper.customVertex(this.graph, this.addTrigger.bind(this))
     var parent = this.graph.getDefaultParent();
     Helper.setEdgeStyle(this.graph);
     new mxRubberband(this.graph);
     this.graph.getModel().beginUpdate();
+
     this.graph.foldingEnabled = false;
     this.graph.getModel().endUpdate();
     new mxHierarchicalLayout(this.graph).execute(this.graph.getDefaultParent());
+
   }
   addStep() { }
   zoomOut() { }
   zoomIn() { }
   addTrigger() {
   }
-  undo() {
+  undo() { }
+  redo() { }
 
-  }
-  redo() {
 
+  delete() {
+    this.graph.getModel().remove(this.v1);
   }
   showJson() {
     let json = JsonCodec.getJson(this.graph);

@@ -1,21 +1,47 @@
 import { Card } from '../helpers/custom-card';
+import { JsonCodec } from './json-codec'
 declare var mxConstants: any;
 declare var mxUtils: any;
+declare var mxCodec: any;
 declare var mxPerimeter: any;
 declare var mxMultiplicity: any;
-
-
+declare var mxClient: any;
 
 export class Helper {
+	static v1: any;
 	static verticalDistance: any = 100;
+
+	static addAssets() {
+		mxClient.link('stylesheet', '../assets/css/mxGraph.css');
+	}
+
+	static deleteEvent(graph,undoManager) {
+		document.addEventListener("click", (evt) => {
+			try {
+				if (evt.target.id === "delete") {
+					graph.getModel().remove(Helper.v1);
+					console.log("After delete command: ")
+					console.log(undoManager.history)
+				}
+			} catch (ex) { }
+		})
+	}
+
 	static connectPreview = (graph) => {
+
+		let previous_id = 0;
 		var doc = mxUtils.createXmlDocument();
 		var obj = doc.createElement('UserObject');
 
 		if (graph.connectionHandler.connectImage == null) {
 			graph.connectionHandler.isConnectableCell = function (cell) {
 				try {
-					if (cell.value == "Test") {
+					if (cell) {
+						Helper.v1 = cell;
+					}
+					if (previous_id - cell.id === 1 || cell.id === "2") {
+						return false;
+					} else {
 						return true;
 					}
 				} catch (ex) {
@@ -26,7 +52,19 @@ export class Helper {
 				return graph.connectionHandler.isConnectableCell(cell);
 			};
 		}
-
+		graph.addMouseListener(
+			{
+				mouseDown: function (sender, evt) {
+					try {
+						previous_id = evt.sourceState.cell.id;
+					} catch (ex) { }
+				},
+				mouseMove: function (sender, evt) {
+				},
+				mouseUp: function (sender, evt) {
+					previous_id = 0;
+				}
+			});
 		graph.setConnectable(true);
 		graph.setMultigraph(false);
 
@@ -36,32 +74,20 @@ export class Helper {
 			'Cannot connect without anchor points!',
 			''));
 
+		graph.multiplicities.push(new mxMultiplicity(
+			true, "Test", null, null, 1, 1, ['UserObject'],
+			'Cannot connect without anchor points!',
+			''));
 
-		// Target needs exactly one incoming connection from Source
 		graph.multiplicities.push(new mxMultiplicity(
 			false, 'Test', null, null, 0, 1, ['Source'],
 			'Target Must Have 1 Source',
 			'Wrong connection!'));
-		// Target needs exactly one incoming connection from Source
+
 		graph.multiplicities.push(new mxMultiplicity(
 			false, 'UserObject', null, null, 1, 1, ['Test'],
 			'Target Must Have 1 Source',
 			'Wrong connection!'));
-
-
-		// new mxCellTracker(graph);
-
-
-		// graph.getAllConnectionConstraints = function (terminal) {
-		// 	if (terminal != null && this.model.isVertex(terminal.cell)) {
-		// 		return [
-		// 		// new mxConnectionConstraint(new mxPoint(0, 0), true),
-		// 		// new mxConnectionConstraint(new mxPoint(1, 1), true)
-		// 	];
-		// 	}
-
-		// 	return null;
-		// };
 
 		return graph;
 
@@ -91,8 +117,6 @@ export class Helper {
 		mxConstants.VERTEX_SELECTION_COLOR = 'none'
 		mxConstants.TARGET_HIGHLIGHT_COLOR = 'none';
 		graph.getStylesheet().putDefaultVertexStyle(style1);
-
-
 
 		var style = new Object();
 		style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
@@ -227,13 +251,36 @@ export class Helper {
 		};
 	}
 
+	static loadXml(graph) {
+		var xml = `<root>
+		<UserObject id="2">
+		<mxCell style="rounded=1;whiteSpace=wrap ;autosize=1;resizable=0;" vertex="1" connectable="0" parent="1">
+		  <mxGeometry x="230" y="100" width="330" height="177" as="geometry" />
+		</mxCell>
+	  </UserObject>
+	  <mxCell id="3" value="Test" style="port;image=../assets/circle.png;spacingLeft=18" vertex="1" parent="0">
+		<mxGeometry x="0.98" y="0.84" width="16" height="16" relative="1" as="geometry" />
+	  </mxCell></root>`;
+		var doc = mxUtils.parseXml(xml);
+		var codec = new mxCodec(xml);
+		var elt = doc.documentElement.firstChild;
+		var cells = [];
+		while (elt != null) {
+			cells.push(codec.decodeCell(elt));
+			graph.refresh();
+			elt = elt.nextSibling;
+		}
+
+		// graph.addCells(cells);
+	}
+	static getJsonModel(graph: any) {
+		// debugger;
+		const encoder = new JsonCodec();
+		// const jsonModel = encoder.decode(graph.getModel());
+		var jsonNodes = {
+			// "graph": jsonModel
+		}
+		// return encoder.stringifyWithoutCircular(jsonNodes)
+	}
 
 }
-
-
-    // var node = document.createElement("SPAN");
-    // node.innerHTML = Helper.addTrigger() + node.innerHTML;
-    // mxUtils.br(node);
-    // div.getElementsByClassName('btnAppend')[0].prepend(node);
-    // var v2 = this.graph.insertVertex(this.v1, null, this.triggers, 60, this.verticalDistance, 135, 40, "resizable=0;constituent=1;movable=0;", null);
-    // this.verticalDistance = this.verticalDistance+50;

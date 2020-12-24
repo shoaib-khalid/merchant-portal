@@ -16,7 +16,14 @@
 </head>
 
 <body>
+    <a href="#" (click)="addStep()" class="float ml-1 p-3 rounded-circle shadow-lg mb-5 rounded"
+        style="z-index: 2;"><img src="../assets/plus.png" alt=""></a>
 
+    <a href="#" (click)="zoomIn()" class="zoom-in-float ml-1 p-2 rounded-circle shadow-lg  rounded"
+        style="z-index: 2;"><img src="../assets/zoom-in.png" alt=""></a>
+
+    <a href="#" (click)="zoomOut()" class="zoom-out-float ml-1 p-2 rounded-circle shadow-lg  rounded"
+        style="z-index: 2;"><img src="../assets/zoom-out.png" alt=""></a>
     <div class="container-fluid">
         <div class="row min-vh-100 flex-column flex-md-row">
             <aside class="col-md-2 bg-white flex-shrink-1 shadow-lg p-3 rounded">
@@ -25,21 +32,14 @@
                         <div class="container-fluid">
                             <div class="row p-4">
                                 <div class="col-1">
-                                    <a href="#" (click)="addStep()"
-                                        class="ml-1 p-3 bg-success rounded-circle shadow-lg mb-5 rounded"><img
-                                            src="../assets/plus.png" alt=""></a>
                                 </div>
                             </div>
                             <div class="row p-2 ml-1">
                                 <div class="col-1">
-                                    <a href="#" (click)="zoomIn()" class="p-0 text-white"><img
-                                            src="../assets/zoom-in.png" alt=""></a>
                                 </div>
                             </div>
                             <div class="row p-2 ml-1">
                                 <div class="col-1">
-                                    <a href="#" (click)="zoomOut()" class="p-0 text-white"><img
-                                            src="../assets/zoom-out.png" alt=""></a>
                                 </div>
                             </div>
                             <div class="row p-2 ml-1">

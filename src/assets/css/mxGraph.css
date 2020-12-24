@@ -1,0 +1,56 @@
+.tooltip-text{
+    visibility: hidden;
+    width: 55px;
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    border-radius: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 102%;
+    left: 50%;
+    margin-left: -30px;
+}
+
+
+#card:hover .tooltip-text{
+    visibility: visible;
+}
+
+#card{
+    position: relative;
+}
+
+#outer-tooltip{
+    background-color: aqua;
+    width: 100px;
+    height: 200px;
+}
+
+#outer-tooltip:hover .tooltip-text{
+    visibility: visible;
+}
+
+.img-icon:hover{
+
+    cursor: pointer;
+}
+
+#tooltip-parent{
+    visibility: visible;
+    width: 55px;
+    /* background-color: rgb(255, 255, 255); */
+    text-align: center;
+    border-radius: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -30px;
+    opacity:0px;
+}

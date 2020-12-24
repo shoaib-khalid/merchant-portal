@@ -1,6 +1,15 @@
 export class Card {
   static startingStep() {
-    return `  <div class='flow-start-container shadow-lg p-3 mb-5 bg-white' style='border-radius:30px'>
+    return `  <div id="card" class='flow-start-container shadow-lg p-3 mt-3 bg-white' style='border-radius:33px'>
+    <div id="tooltip-parent">  
+    </div>
+    <span class="tooltip-text">
+        <div class="d-inline img-icon mr-2">
+        <img id="delete"src="../assets/delete.png" />
+        </div>  
+        <img class="img-icon"src="../assets/copy.png"/>
+      </span>
+      
           <div class="card" style='border-radius:35px;border:0px;width:300px'>
             <div class="card-header" style='background-color:white;' >
               <img src="../assets/play.png" class="start-icon float-left" alt="..." >
