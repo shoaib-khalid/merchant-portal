@@ -5,17 +5,43 @@ declare var mxUtils: any;
 declare var mxCodec: any;
 declare var mxPerimeter: any;
 declare var mxMultiplicity: any;
+declare var mxClient: any;
 
 export class Helper {
+	static v1: any;
 	static verticalDistance: any = 100;
+
+	static addAssets() {
+		mxClient.link('stylesheet', '../assets/css/mxGraph.css');
+	}
+
+	static deleteEvent(graph,undoManager) {
+		document.addEventListener("click", (evt) => {
+			try {
+				// if (evt.target.id === "delete") {
+				// 	graph.getModel().remove(Helper.v1);
+				// 	console.log("After delete command: ")
+				// 	console.log(undoManager.history)
+				// }
+			} catch (ex) { }
+		})
+	}
+
 	static connectPreview = (graph) => {
+
+		let previous_id = 0;
 		var doc = mxUtils.createXmlDocument();
 		var obj = doc.createElement('UserObject');
 
 		if (graph.connectionHandler.connectImage == null) {
 			graph.connectionHandler.isConnectableCell = function (cell) {
 				try {
-					if (cell.value == "Test") {
+					if (cell) {
+						Helper.v1 = cell;
+					}
+					if (previous_id - cell.id === 1 || cell.id === "2") {
+						return false;
+					} else {
 						return true;
 					}
 				} catch (ex) {
@@ -26,7 +52,19 @@ export class Helper {
 				return graph.connectionHandler.isConnectableCell(cell);
 			};
 		}
-
+		graph.addMouseListener(
+			{
+				mouseDown: function (sender, evt) {
+					try {
+						previous_id = evt.sourceState.cell.id;
+					} catch (ex) { }
+				},
+				mouseMove: function (sender, evt) {
+				},
+				mouseUp: function (sender, evt) {
+					previous_id = 0;
+				}
+			});
 		graph.setConnectable(true);
 		graph.setMultigraph(false);
 
@@ -36,12 +74,16 @@ export class Helper {
 			'Cannot connect without anchor points!',
 			''));
 
-		// Target needs exactly one incoming connection from Source
+		graph.multiplicities.push(new mxMultiplicity(
+			true, "Test", null, null, 1, 1, ['UserObject'],
+			'Cannot connect without anchor points!',
+			''));
+
 		graph.multiplicities.push(new mxMultiplicity(
 			false, 'Test', null, null, 0, 1, ['Source'],
 			'Target Must Have 1 Source',
 			'Wrong connection!'));
-		// Target needs exactly one incoming connection from Source
+
 		graph.multiplicities.push(new mxMultiplicity(
 			false, 'UserObject', null, null, 1, 1, ['Test'],
 			'Target Must Have 1 Source',
