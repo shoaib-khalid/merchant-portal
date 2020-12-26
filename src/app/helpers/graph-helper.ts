@@ -15,10 +15,10 @@ export class Helper {
 		mxClient.link('stylesheet', '../assets/css/mxGraph.css');
 	}
 
-	static deleteEvent(graph,undoManager) {
-		document.addEventListener("click", (evt) => {
+	static deleteEvent(graph, undoManager) {
+		document.addEventListener("click", (evt: any) => {
 			try {
-				if (evt.target.id === "delete") {
+				if (evt.target.classList.contains("delete")) {
 					graph.getModel().remove(Helper.v1);
 					console.log("After delete command: ")
 					console.log(undoManager.history)
@@ -208,13 +208,33 @@ export class Helper {
 				}
 				if (div.getElementsByClassName('btnAddTrigger')[0]) {
 					div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", () => {
+						debugger;
 						var doc = mxUtils.createXmlDocument();
 						let triggers = doc.createElement('triggers');
 						let initialMessage = cell.children.find(m => m.id == 'InitialMesssage' + "_" + cell.id);
 						graph.removeCells([initialMessage], true);
-						var v2 = graph.insertVertex(cell, null, triggers, 100, 30, 135, 40, "resizable=0;constituent=1;movable=0;", null);
-						// div.getElementsByClassName('btnAppend')[0].prepend(v2);
-						//   this.verticalDistance = this.verticalDistance+50;
+						let childLength = cell.children.filter((m: any) => !m.style.includes('port')).length;
+						var yAxis = 100;
+						var childHegiht = 60;
+						if (childLength > 0) {
+							yAxis = yAxis + (childLength * childHegiht);
+						}
+						var v2 = graph.insertVertex(cell, null, triggers, 100, yAxis, 135, 40, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+						var current = cell.getGeometry();
+						current.height = current.height + childHegiht;
+						if (childLength > 0) {
+							graph.cellsResized([cell], [current], false);
+						}
+						let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
+						let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height')
+
+						if (flowStarTriggerListHeight) {
+							flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
+						} else {
+							flowStarTriggerListHeight = childHegiht;
+						}
+						flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
+						graph.refresh();
 					});
 				}
 				return div;

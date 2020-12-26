@@ -1,4 +1,4 @@
-.tooltip-text{
+.tooltip-text {
     visibility: hidden;
     width: 55px;
     background-color: rgb(255, 255, 255);
@@ -14,31 +14,29 @@
     margin-left: -30px;
 }
 
-
-#card:hover .tooltip-text{
+.custom-card:hover .tooltip-text {
     visibility: visible;
 }
-
-#card{
+.custom-card {
     position: relative;
+    margin-top: 15px
 }
 
-#outer-tooltip{
+#outer-tooltip {
     background-color: aqua;
     width: 100px;
     height: 200px;
 }
 
-#outer-tooltip:hover .tooltip-text{
+#outer-tooltip:hover .tooltip-text {
     visibility: visible;
 }
 
-.img-icon:hover{
-
+.img-icon:hover {
     cursor: pointer;
 }
 
-#tooltip-parent{
+.tooltip-parent {
     visibility: visible;
     width: 55px;
     /* background-color: rgb(255, 255, 255); */
@@ -52,5 +50,5 @@
     bottom: 100%;
     left: 50%;
     margin-left: -30px;
-    opacity:0px;
+    opacity: 0px;
 }

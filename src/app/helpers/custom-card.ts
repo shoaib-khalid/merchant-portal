@@ -1,11 +1,11 @@
 export class Card {
   static startingStep() {
-    return `  <div id="card" class='flow-start-container shadow-lg p-3 mt-3 bg-white' style='border-radius:33px'>
-    <div id="tooltip-parent">  
+    return `  <div class="custom-card" class='flow-start-container shadow-lg p-3 mt-3 bg-white' style='border-radius:33px'>
+    <div class="tooltip-parent">  
     </div>
     <span class="tooltip-text">
         <div class="d-inline img-icon mr-2">
-        <img id="delete"src="../assets/delete.png" />
+        <img class="delete"src="../assets/delete.png" />
         </div>  
         <img class="img-icon"src="../assets/copy.png"/>
       </span>
@@ -17,9 +17,7 @@ export class Card {
                 <h4>Starting Step</h4>
               </div>
             </div>
-            <div class="card-body max-h-150" id='flow-start-trigger-list'>
-       
-        </div>
+            <div class="card-body flow-start-trigger-list max-h-150"></div>
             <div class="card-footer" style='background-color:white;'>
               <div class="row">
                 <div class="col-md-12 btnAppend">
@@ -39,7 +37,7 @@ export class Card {
     </div>
   </div>`;
 
-  public static get InitialMesssage(): string { return ` <p id="flow-start-info"> Flow starts with the following step. </br> Click to add the triggers. </p>` };
+  public static get InitialMesssage(): string { return ` <p> Flow starts with the following step. </br> Click to add the triggers. </p>` };
 
   public static get TriggerButton(): string {
     return this._triggerButton;

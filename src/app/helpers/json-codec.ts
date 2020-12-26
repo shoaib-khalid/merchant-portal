@@ -20,19 +20,19 @@ export class JsonCodec {
 
         let codec = new mxCodec(doc);
         codec.decode(doc.documentElement, graph.getModel());
-        let elt = doc.documentElement.firstChild;
-        let cells = [];
-        while (elt != null) {
-            let cell = codec.decodeCell(elt)
-            if (cell != undefined) {
-                if (cell.id != undefined && cell.parent != undefined && (cell.id == cell.parent)) {
-                    elt = elt.nextSibling;
-                    continue;
-                }
-                cells.push(cell);
-            }
-            elt = elt.nextSibling;
-        }
-        graph.addCells(cells);
+        // let elt = doc.documentElement.firstChild;
+        // let cells = [];
+        // while (elt != null) {
+        //     let cell = codec.decodeCell(elt)
+        //     if (cell != undefined) {
+        //         if (cell.id != undefined && cell.parent != undefined && (cell.id == cell.parent)) {
+        //             elt = elt.nextSibling;
+        //             continue;
+        //         }
+        //         cells.push(cell);
+        //     }
+        //     elt = elt.nextSibling;
+        // }
+        // graph.addCells(cells);
     }
 }
