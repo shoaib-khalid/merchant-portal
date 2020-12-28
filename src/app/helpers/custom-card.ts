@@ -37,7 +37,7 @@ export class Card {
     </div>
   </div>`;
 
-  public static get InitialMesssage(): string { return ` <p> Flow starts with the following step. </br> Click to add the triggers. </p>` };
+  public static get InitialMesssage(): string { return ` <span> Flow starts with the following step. <br> Click to add the triggers. </span>` };
 
   public static get TriggerButton(): string {
     return this._triggerButton;

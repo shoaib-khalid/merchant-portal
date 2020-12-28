@@ -32,7 +32,7 @@ export class AppComponent implements AfterViewInit {
       //Callback functions
       this.addStep = () => {
          this.v1 = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, 230, 100, 330, 177, "rounded=1;whiteSpace=wrap;autosize=1;resizable=0;", null);
-         let initialMessageVertex = this.graph.insertVertex(this.v1, 'InitialMesssage' + "_" + this.v1.id, initialMessage, 100, 80, 135, 40, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+         let initialMessageVertex = this.graph.insertVertex(this.v1, 'InitialMesssage' + "_" + this.v1.id, initialMessage, 100, 70, 135, 40, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
          initialMessageVertex.setConnectable(false);
          var port = this.graph.insertVertex(this.v1, null, 'Test', 0.98, 0.84, 16, 16,
             'port;image=../assets/circle.png;spacingLeft=18', true);
