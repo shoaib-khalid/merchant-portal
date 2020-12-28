@@ -18,7 +18,7 @@ export class Helper {
 	static deleteEvent(graph, undoManager) {
 		document.addEventListener("click", (evt: any) => {
 			try {
-				if (evt.target.classList.contains("delete")) {
+				if (evt.target.id === "delete") {
 					graph.getModel().remove(Helper.v1);
 					console.log("After delete command: ")
 					console.log(undoManager.history)
@@ -255,7 +255,7 @@ export class Helper {
 			}
 			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'initialmessage') {
 				// Returns a DOM for the label
-				debugger;
+			
 				var div = document.createElement('div');
 				div.innerHTML = cell.getAttribute('label');
 				div.innerHTML = Card.InitialMesssage;
@@ -292,15 +292,6 @@ export class Helper {
 		}
 
 		// graph.addCells(cells);
-	}
-	static getJsonModel(graph: any) {
-		// debugger;
-		const encoder = new JsonCodec();
-		// const jsonModel = encoder.decode(graph.getModel());
-		var jsonNodes = {
-			// "graph": jsonModel
-		}
-		// return encoder.stringifyWithoutCircular(jsonNodes)
 	}
 
 }
