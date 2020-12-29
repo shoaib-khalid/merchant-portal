@@ -74,12 +74,22 @@ export class Helper {
 
 				},
 				mouseUp: function (sender, evt) {
-					console.log(Helper.v1)
+					console.log(evt)
 					try {
-
-
 						var t_id = evt.sourceState.cell.id;
 						if (!(t_id === Helper.v1.id) && (evt.sourceState.cell.value != "Test") && (Helper.v1.id < t_id)) {
+
+							
+					
+							// console.log("Origin edges")
+							// console.log(Helper.v1)
+							// console.log("Target")
+							// console.log(evt.sourceState.cell)
+							if(evt.sourceState.cell.edges){
+								if(evt.sourceState.cell.edges.length>0){
+									return;
+								}
+							}
 
 							if(Helper.v1.edges){
 								for (var i=0;i<Helper.v1.edges.length;i++){
@@ -87,6 +97,8 @@ export class Helper {
 									// Helper.v1.removeEdge(Helper.v1.edges[i]);
 								}
 							}
+							
+
 
 							if ((evt.sourceState.cell.value.localName === "InitialMessage")) {
 								evt.sourceState.cell = evt.sourceState.cell.parent;
