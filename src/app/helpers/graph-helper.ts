@@ -1,5 +1,5 @@
 import { Card } from '../helpers/custom-card';
-import { JsonCodec } from './json-codec'
+
 declare var mxConstants: any;
 declare var mxUtils: any;
 declare var mxCodec: any;
@@ -21,9 +21,9 @@ export class Helper {
 		// editor.graph = graph;
 		document.addEventListener("click", (evt: any) => {
 			try {
-				if (evt.target.id === "delete") {
+				if (evt.target.classList.contains("delete")) {
 					graph.getModel().remove(Helper.v1);
-				} else if (evt.target.id === "copy") {
+				} else if (evt.target.classList.contains("copy")) {
 					console.log("Inside copy")
 					// var cells = new Array();
 					// cells = graph.getSelectionCells();
@@ -229,10 +229,12 @@ export class Helper {
 
 
 	static customVertex(graph) {
+
 		var cached = true;
 		graph.convertValueToString = (cell) => {
 			if (cached && cell.div != null) {
 				// Uses cached label
+				Helper.bindCellEvents(cell.div, cell, graph);
 				return cell.div;
 			}
 			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'userobject') {
@@ -246,37 +248,7 @@ export class Helper {
 					// Caches label
 					cell.div = div;
 				}
-				if (div.getElementsByClassName('btnAddTrigger')[0]) {
-					div.getElementsByClassName('btnAddTrigger')[0].addEventListener("click", () => {
-						debugger;
-						var doc = mxUtils.createXmlDocument();
-						let triggers = doc.createElement('triggers');
-						let initialMessage = cell.children.find(m => m.id == 'InitialMesssage' + "_" + cell.id);
-						graph.removeCells([initialMessage], true);
-						let childLength = cell.children.filter((m: any) => !m.style.includes('port')).length;
-						var yAxis = 100;
-						var childHegiht = 60;
-						if (childLength > 0) {
-							yAxis = yAxis + (childLength * childHegiht);
-						}
-						var v2 = graph.insertVertex(cell, null, triggers, 100, yAxis, 135, 40, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
-						var current = cell.getGeometry();
-						current.height = current.height + childHegiht;
-						if (childLength > 0) {
-							graph.cellsResized([cell], [current], false);
-						}
-						let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
-						let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height')
-
-						if (flowStarTriggerListHeight) {
-							flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
-						} else {
-							flowStarTriggerListHeight = childHegiht;
-						}
-						flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
-						graph.refresh();
-					});
-				}
+				Helper.bindCellEvents(div, cell, graph);
 				return div;
 			}
 			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'triggers') {
@@ -309,6 +281,40 @@ export class Helper {
 			}
 			return '';
 		};
+	}
+
+	private static bindCellEvents(div: HTMLDivElement, cell: any, graph: any) {
+		if (div.getElementsByClassName('btnAddTrigger')[0]) {
+			(<any>div.getElementsByClassName('btnAddTrigger')[0]).onclick = (() => {
+				debugger;
+				var doc = mxUtils.createXmlDocument();
+				let triggers = doc.createElement('triggers');
+				let initialMessage = cell.children.find(m => m.id == 'InitialMesssage' + "_" + cell.id);
+				graph.removeCells([initialMessage], true);
+				let childLength = cell.children.filter((m: any) => !m.style.includes('port')).length;
+				var yAxis = 100;
+				var childHegiht = 60;
+				if (childLength > 0) {
+					yAxis = yAxis + (childLength * childHegiht);
+				}
+				var v2 = graph.insertVertex(cell, null, triggers, 100, yAxis, 135, 40, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+				var current = cell.getGeometry();
+				current.height = current.height + childHegiht;
+				if (childLength > 0) {
+					graph.cellsResized([cell], [current], false);
+				}
+				let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
+				let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
+
+				if (flowStarTriggerListHeight) {
+					flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
+				} else {
+					flowStarTriggerListHeight = childHegiht;
+				}
+				flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
+				graph.refresh();
+			});
+		}
 	}
 
 	static loadXml(graph) {

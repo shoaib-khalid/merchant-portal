@@ -5,9 +5,9 @@ export class Card {
     </div>
     <span class="tooltip-text">
         <div class="d-inline img-icon mr-2">
-        <img id="delete"src="../assets/delete.png" />
+        <img class="delete" src="../assets/delete.png" />
         </div>  
-        <img id="copy" class="img-icon"src="../assets/copy.png"/>
+        <img class="copy" class="img-icon"src="../assets/copy.png"/>
       </span>
       
           <div class="card" style='border-radius:35px;border:0px;width:300px'>
