@@ -76,41 +76,41 @@ export class Helper {
 				mouseUp: function (sender, evt) {
 					console.log(evt)
 					try {
-						var t_id = evt.sourceState.cell.id;
-						if (!(t_id === Helper.v1.id) && (evt.sourceState.cell.value != "Test") && (Helper.v1.id < t_id)) {
+						
+						var t_id = t_id = evt.sourceState.cell.id;
+						if (typeof (Helper.v1.id) === "string") {
+							Helper.v1.id = parseInt(Helper.v1.id.match(/\d/g)[0]);
+						}
+						if (typeof (t_id) === "string") {
+							t_id = parseInt(t_id.match(/\d/g)[0]);
+						}
 
+						
+						if ((t_id != Helper.v1.id) && (evt.sourceState.cell.value != "Test") && (t_id - Helper.v1.id != -1)) {
 							
-					
-							// console.log("Origin edges")
-							// console.log(Helper.v1)
-							// console.log("Target")
-							// console.log(evt.sourceState.cell)
-							if(evt.sourceState.cell.edges){
-								if(evt.sourceState.cell.edges.length>0){
-									return;
-								}
-							}
-
-							if(Helper.v1.edges){
-								for (var i=0;i<Helper.v1.edges.length;i++){
-									graph.getModel().remove(Helper.v1.edges[i]);
-									// Helper.v1.removeEdge(Helper.v1.edges[i]);
-								}
-							}
-							
-
-
 							if ((evt.sourceState.cell.value.localName === "InitialMessage")) {
 								evt.sourceState.cell = evt.sourceState.cell.parent;
 							}
 
-							if ((parseInt(t_id.match(/\d/g)[0]) > Helper.v1.id)) {
-								graph.insertEdge(graph.getDefaultParent(), null, '', Helper.v1, evt.sourceState.cell);
+
+							
+							if (evt.sourceState.cell.edges || evt.sourceState.cell.children[1].edges) {
+								console.log("edge ki id"+(evt.sourceState.cell.children[1].edges[0].id)	)
+								console.log("second: "+(Helper.v1.parent.id)	)
+
+								if (evt.sourceState.cell.children[1].edges[0].target.id===Helper.v1.parent.id) {
+									return;
+								}
 							}
 
-						
-	
-						
+							if (Helper.v1.edges) {
+								for (var i = 0; i < Helper.v1.edges.length; i++) {
+									graph.getModel().remove(Helper.v1.edges[i]);
+								}
+							}
+
+							graph.insertEdge(graph.getDefaultParent(), null, '', Helper.v1, evt.sourceState.cell);
+
 						}
 					} catch (ex) {
 
