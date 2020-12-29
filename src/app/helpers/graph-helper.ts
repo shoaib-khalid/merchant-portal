@@ -6,7 +6,8 @@ declare var mxCodec: any;
 declare var mxPerimeter: any;
 declare var mxMultiplicity: any;
 declare var mxClient: any;
-
+declare var mxEditor: any;
+declare var mxClipboard: any;
 export class Helper {
 	static v1: any;
 	static verticalDistance: any = 100;
@@ -15,13 +16,21 @@ export class Helper {
 		mxClient.link('stylesheet', '../assets/css/mxGraph.css');
 	}
 
-	static deleteEvent(graph, undoManager) {
+	static deleteEvent(graph) {
+		var editor = new mxEditor();
+		// editor.graph = graph;
 		document.addEventListener("click", (evt: any) => {
 			try {
 				if (evt.target.id === "delete") {
 					graph.getModel().remove(Helper.v1);
-					console.log("After delete command: ")
-					console.log(undoManager.history)
+				} else if (evt.target.id === "copy") {
+					console.log("Inside copy")
+					// var cells = new Array();
+					// cells = graph.getSelectionCells();
+					// // debugger;
+					// mxClipboard.copy(graph);
+					// mxClipboard.paste(graph);
+
 				}
 			} catch (ex) { }
 		})
@@ -36,17 +45,17 @@ export class Helper {
 		if (graph.connectionHandler.connectImage == null) {
 			graph.connectionHandler.isConnectableCell = function (cell) {
 				try {
-					if (cell) {
-						Helper.v1 = cell;
-					}
-					if (previous_id - cell.id === 1 || cell.id === "2") {
-						return false;
-					} else {
+
+
+					// console.log(cell)
+
+					if (cell.value === "Test") {
 						return true;
 					}
+
 				} catch (ex) {
 				}
-				return true;
+				return false;
 			};
 			mxEdgeHandler.prototype.isConnectableCell = function (cell) {
 				return graph.connectionHandler.isConnectableCell(cell);
@@ -55,39 +64,58 @@ export class Helper {
 		graph.addMouseListener(
 			{
 				mouseDown: function (sender, evt) {
+
 					try {
+						Helper.v1 = evt.sourceState.cell;
 						previous_id = evt.sourceState.cell.id;
 					} catch (ex) { }
 				},
 				mouseMove: function (sender, evt) {
+
 				},
 				mouseUp: function (sender, evt) {
+					console.log(Helper.v1)
+					try {
+
+
+						var t_id = evt.sourceState.cell.id;
+						if (!(t_id === Helper.v1.id) && (evt.sourceState.cell.value != "Test") && (Helper.v1.id < t_id)) {
+
+							if(Helper.v1.edges){
+								for (var i=0;i<Helper.v1.edges.length;i++){
+									graph.getModel().remove(Helper.v1.edges[i]);
+									// Helper.v1.removeEdge(Helper.v1.edges[i]);
+								}
+							}
+
+							if ((evt.sourceState.cell.value.localName === "InitialMessage")) {
+								evt.sourceState.cell = evt.sourceState.cell.parent;
+							}
+
+							if ((parseInt(t_id.match(/\d/g)[0]) > Helper.v1.id)) {
+								graph.insertEdge(graph.getDefaultParent(), null, '', Helper.v1, evt.sourceState.cell);
+							}
+
+						
+	
+						
+						}
+					} catch (ex) {
+
+					}
 					previous_id = 0;
+
 				}
 			});
 		graph.setConnectable(true);
 		graph.setMultigraph(false);
 
-		// Source nodes needs 1..2 connected Targets
-		graph.multiplicities.push(new mxMultiplicity(
-			true, "UserObject", null, null, 0, 0, ['Target'],
-			'Cannot connect without anchor points!',
-			''));
-
-		graph.multiplicities.push(new mxMultiplicity(
-			true, "Test", null, null, 1, 1, ['UserObject'],
-			'Cannot connect without anchor points!',
-			''));
 
 		graph.multiplicities.push(new mxMultiplicity(
 			false, 'Test', null, null, 0, 1, ['Source'],
 			'Target Must Have 1 Source',
 			'Wrong connection!'));
 
-		graph.multiplicities.push(new mxMultiplicity(
-			false, 'UserObject', null, null, 1, 1, ['Test'],
-			'Target Must Have 1 Source',
-			'Wrong connection!'));
 
 		return graph;
 
@@ -255,7 +283,7 @@ export class Helper {
 			}
 			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'initialmessage') {
 				// Returns a DOM for the label
-			
+
 				var div = document.createElement('div');
 				div.innerHTML = cell.getAttribute('label');
 				div.innerHTML = Card.InitialMesssage;

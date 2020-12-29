@@ -47,14 +47,15 @@ export class AppComponent implements AfterViewInit {
       mxGraphHandler.prototype.guidesEnabled = true;
 
       var undoManager = new mxUndoManager();
-      Helper.deleteEvent(this.graph, undoManager);
+      Helper.deleteEvent(this.graph);
       var listener = (sender, evt) => {
+         
          this.redoPointer++;
          undoManager.undoableEditHappened(evt.getProperty('edit'));
       };
 
       this.undo = () => {
-
+         console.log("Redo pointer before undo: "+this.redoPointer)
          if(this.redoPointer>undoManager.history.length){
             this.redoPointer = undoManager.history.length;
          }
@@ -83,7 +84,7 @@ export class AppComponent implements AfterViewInit {
          }
       }
       this.redo = () => {
-
+            console.log("Redo pointer before undo: "+this.redoPointer)
          if(this.redoPointer>undoManager.history.length){
             this.redoPointer = undoManager.history.length;
          }
