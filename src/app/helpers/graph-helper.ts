@@ -23,14 +23,11 @@ export class Helper {
 			try {
 				if (evt.target.classList.contains("delete")) {
 					graph.getModel().remove(Helper.v1);
-				} else if (evt.target.classList.contains("copy")) {
-					console.log("Inside copy")
-					// var cells = new Array();
-					// cells = graph.getSelectionCells();
-					// // debugger;
-					// mxClipboard.copy(graph);
-					// mxClipboard.paste(graph);
+				} else if (evt.target.id === "copy") {
+		
 
+				}else{
+					// console.log(evt.target)
 				}
 			} catch (ex) { }
 		})
@@ -45,9 +42,6 @@ export class Helper {
 		if (graph.connectionHandler.connectImage == null) {
 			graph.connectionHandler.isConnectableCell = function (cell) {
 				try {
-
-
-					// console.log(cell)
 
 					if (cell.value === "Test") {
 						return true;
@@ -74,9 +68,9 @@ export class Helper {
 
 				},
 				mouseUp: function (sender, evt) {
-					console.log(evt)
+
 					try {
-						
+						var v2 = evt.sourceState.cell;
 						var t_id = t_id = evt.sourceState.cell.id;
 						if (typeof (Helper.v1.id) === "string") {
 							Helper.v1.id = parseInt(Helper.v1.id.match(/\d/g)[0]);
@@ -85,23 +79,18 @@ export class Helper {
 							t_id = parseInt(t_id.match(/\d/g)[0]);
 						}
 
-						
-						if ((t_id != Helper.v1.id) && (evt.sourceState.cell.value != "Test") && (t_id - Helper.v1.id != -1)) {
-							
-							if ((evt.sourceState.cell.value.localName === "InitialMessage")) {
-								evt.sourceState.cell = evt.sourceState.cell.parent;
+						if ((t_id != Helper.v1.id) && (v2.value != "Test") && (t_id - Helper.v1.id != -1)) {
+
+							if ((v2.value.localName === "InitialMessage")) {
+								v2 = evt.sourceState.cell.parent;
 							}
 
+							// if (v2.edges || v2.children[1].edges) {
 
-							
-							if (evt.sourceState.cell.edges || evt.sourceState.cell.children[1].edges) {
-								console.log("edge ki id"+(evt.sourceState.cell.children[1].edges[0].id)	)
-								console.log("second: "+(Helper.v1.parent.id)	)
-
-								if (evt.sourceState.cell.children[1].edges[0].target.id===Helper.v1.parent.id) {
-									return;
-								}
-							}
+							// 	if (v2.children[1].edges[0].target.id === Helper.v1.parent.id) {
+							// 		return;
+							// 	}
+							// }
 
 							if (Helper.v1.edges) {
 								for (var i = 0; i < Helper.v1.edges.length; i++) {
@@ -109,7 +98,7 @@ export class Helper {
 								}
 							}
 
-							graph.insertEdge(graph.getDefaultParent(), null, '', Helper.v1, evt.sourceState.cell);
+							graph.insertEdge(graph.getDefaultParent(), null, '', Helper.v1, v2);
 
 						}
 					} catch (ex) {

@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Helper } from './helpers/graph-helper';
 import { JsonCodec } from './helpers/json-codec';
 import { saveAs } from 'file-saver';
-
+import {ConfigService} from "./config/config.service";
 declare var mxUtils: any;
 declare var mxGraphHandler: any;
 declare var mxEvent: any;
@@ -24,10 +24,10 @@ export class AppComponent implements AfterViewInit {
    triggers: any;
    redoPointer: any;
 
-   constructor() { }
+   constructor(private configService:ConfigService) { }
 
    ngAfterViewInit() {
-
+      // this.showData();
       Helper.addAssets();
       this.redoPointer = 0;
       //Callback functions
@@ -172,5 +172,14 @@ export class AppComponent implements AfterViewInit {
          };
       }
 
+   }
+
+
+   showData(){
+      this.configService.getData()
+      .subscribe(data=>{
+         console.log(data)
+      }
+      );
    }
 }
