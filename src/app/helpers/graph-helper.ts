@@ -132,7 +132,7 @@ export class Helper {
 		var style1 = [];
 		style1[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_RECTANGLE;
 		style1[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
-		style1[mxConstants.STYLE_STROKECOLOR] = 'gray';
+		style1[mxConstants.STYLE_STROKECOLOR] = 'none';
 		style1[mxConstants.STYLE_ROUNDED] = true;
 		style1[mxConstants.STYLE_FILLCOLOR] = 'white';
 		style1[mxConstants.STYLE_GRADIENTCOLOR] = 'white';
