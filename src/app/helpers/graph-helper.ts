@@ -11,26 +11,51 @@ declare var mxClipboard: any;
 export class Helper {
 	static v1: any;
 	static verticalDistance: any = 100;
-
+	static cardId: any = 0;
 	static addAssets() {
 		mxClient.link('stylesheet', '../assets/css/mxGraph.css');
+	}
+
+	static setColorToTransparent() {
+		var ele: any = document.getElementsByClassName('flow-start-container');
+		for (var i = 0; i < ele.length; i++) {
+			ele[i].style.borderColor = "transparent";
+		}
 	}
 
 	static deleteEvent(graph) {
 		var editor = new mxEditor();
 		// editor.graph = graph;
 		document.addEventListener("click", (evt: any) => {
+
 			try {
 				if (evt.target.classList.contains("delete")) {
 					graph.getModel().remove(Helper.v1);
 				} else if (evt.target.id === "copy") {
-		
 
-				}else{
-					// console.log(evt.target)
+
+				} else {
+					try {
+						var className = evt.target.className;
+						if (className.includes("custom-card") || className.includes("header") ||
+							className.includes("card-body") || className.includes("card-header")) {
+
+							if (evt.ctrlKey === false) {
+								this.setColorToTransparent();
+							}
+
+							document.getElementById("flow" + evt.target.id.match(/\d/g)[0]).style.borderColor = "#74fca1";
+
+						}
+
+					}
+					catch (ex) {
+						this.setColorToTransparent();
+					}
 				}
 			} catch (ex) { }
-		})
+		});
+
 	}
 
 	static connectPreview = (graph) => {
@@ -65,6 +90,29 @@ export class Helper {
 					} catch (ex) { }
 				},
 				mouseMove: function (sender, evt) {
+					evt = evt.evt;
+					var className = evt.target.className;
+					try {
+						var targetId = evt.target.id.match(/\d/g)[0];
+
+						if ((className.includes("custom-card") || className.includes("header") ||
+							className.includes("card-body") || className.includes("card-header"))
+							&& !(document.getElementById("flow" + targetId).style.borderColor === ("rgb(116, 252, 161)"))) {
+
+							document.getElementById("flow" + evt.target.id.match(/\d/g)[0]).style.borderColor = "blue";
+						} else {
+
+							this.setColorToTransparent();
+						}
+					} catch (ex) {
+						var ele: any = document.getElementsByClassName('flow-start-container');
+						for (var i = 0; i < ele.length; i++) {
+							if (ele[i].style.borderColor != "rgb(116, 252, 161)") {
+								ele[i].style.borderColor = "transparent";
+							}
+						}
+					}
+
 
 				},
 				mouseUp: function (sender, evt) {
@@ -230,7 +278,7 @@ export class Helper {
 				// Returns a DOM for the labelalert("Hello");
 				var div = document.createElement('div');
 				div.innerHTML = cell.getAttribute('label');
-				div.innerHTML = Card.startingStep();
+				div.innerHTML = Card.startingStep(this.cardId++);
 				mxUtils.br(div);
 
 				if (cached) {

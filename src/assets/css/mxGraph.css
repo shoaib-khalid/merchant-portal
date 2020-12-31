@@ -24,6 +24,9 @@
 .flow-start-container:hover{
     border: 3px solid #636EF3;
 }
+.flow-start-container{
+    border: 3px solid transparent;
+}
 #outer-tooltip {
     background-color: aqua;
     width: 100px;
