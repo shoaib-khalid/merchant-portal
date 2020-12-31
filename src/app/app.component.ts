@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Helper } from './helpers/graph-helper';
 import { JsonCodec } from './helpers/json-codec';
 import { saveAs } from 'file-saver';
-import {ConfigService} from "./config/config.service";
+import { ConfigService } from "./config/config.service";
 declare var mxUtils: any;
 declare var mxGraphHandler: any;
 declare var mxEvent: any;
@@ -24,13 +24,16 @@ export class AppComponent implements AfterViewInit {
    triggers: any;
    redoPointer: any;
 
-   constructor(private configService:ConfigService) { }
+   constructor(private configService: ConfigService) { }
 
    ngAfterViewInit() {
+
       // this.showData();
       Helper.addAssets();
       this.redoPointer = 0;
+
       //Callback functions
+      
       this.addStep = () => {
          let vertext = undefined;
          vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, 230, 100, 330, 177, "rounded=1;whiteSpace=wrap;autosize=1;resizable=0;", null);
@@ -39,10 +42,12 @@ export class AppComponent implements AfterViewInit {
          var port = this.graph.insertVertex(vertext, null, 'Test', 0.98, 0.84, 16, 16,
             'port;image=../assets/circle.png;spacingLeft=18', true);
       }
+
       this.zoomOut = () => { this.graph.zoomOut(); }
       this.zoomIn = () => { this.graph.zoomIn(); }
+      this.deleteMultipleVertices = (graph=this.graph) => {Helper.deleteMultipleVertices(graph);}
       //End callback functions
-
+      
       //Graph configurations
       this.graph = new mxGraph(this.graphContainer.nativeElement);
 
@@ -50,7 +55,7 @@ export class AppComponent implements AfterViewInit {
       mxGraphHandler.prototype.guidesEnabled = true;
 
       var undoManager = new mxUndoManager();
-      Helper.deleteEvent(this.graph);
+      Helper.actionOnEvents(this.graph);
       var listener = (sender, evt) => {
 
          this.redoPointer++;
@@ -149,7 +154,7 @@ export class AppComponent implements AfterViewInit {
       let json = JsonCodec.getJson(this.graph);
       const blob = new Blob([json], { type: 'application/json' });
       saveAs(blob, 'chatbot-diagram.json');
-      
+
       // mxUtils.popup(json, true);
    }
    loadJson(event) {
@@ -175,11 +180,16 @@ export class AppComponent implements AfterViewInit {
    }
 
 
-   showData(){
+   showData() {
       this.configService.getData()
-      .subscribe(data=>{
-         console.log(data)
-      }
-      );
+         .subscribe(data => {
+            console.log(data)
+         }
+         );
    }
+
+   deleteMultipleVertices() {
+
+   }
+
 }

@@ -59,6 +59,11 @@
                             </div>
                             <div class="row p-2 ml-1">
                                 <div class="col-1">
+                                    <a href="#" (click)="deleteMultipleVertices()" class="p-0">Delete Multiple Vertices</a>
+                                </div>
+                            </div>
+                            <div class="row p-2 ml-1">
+                                <div class="col-1">
                                     <a href="javascript:void(0);" class="p-0"><label for="file-jsonUpload">Load Json</label></a>
                                     <input id="file-jsonUpload" type="file" accept="application/JSON" name="jsonUpload"
                                     (change)="loadJson($event)"  hidden />

@@ -7,13 +7,23 @@ declare var mxPerimeter: any;
 declare var mxMultiplicity: any;
 declare var mxClient: any;
 declare var mxEditor: any;
-declare var mxClipboard: any;
 export class Helper {
 	static v1: any;
 	static verticalDistance: any = 100;
 	static cardId: any = 0;
+	static selectedVertices: any = [];
+
 	static addAssets() {
 		mxClient.link('stylesheet', '../assets/css/mxGraph.css');
+	}
+
+
+
+	static deleteMultipleVertices(graph) {
+		console.log("hi")
+		for (var i = 0; i < this.selectedVertices.length; i++) {
+			graph.getModel().remove(this.selectedVertices[i]);
+		}
 	}
 
 	static setColorToTransparent() {
@@ -23,7 +33,7 @@ export class Helper {
 		}
 	}
 
-	static deleteEvent(graph) {
+	static actionOnEvents(graph) {
 		var editor = new mxEditor();
 		// editor.graph = graph;
 		document.addEventListener("click", (evt: any) => {
@@ -41,7 +51,10 @@ export class Helper {
 							className.includes("card-body") || className.includes("card-header")) {
 
 							if (evt.ctrlKey === false) {
+								this.selectedVertices = [];
 								this.setColorToTransparent();
+							} else {
+								this.selectedVertices.push(Helper.v1)
 							}
 
 							document.getElementById("flow" + evt.target.id.match(/\d/g)[0]).style.borderColor = "#74fca1";
