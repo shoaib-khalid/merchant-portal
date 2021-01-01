@@ -339,7 +339,7 @@ export class Helper {
 				debugger;
 				var doc = mxUtils.createXmlDocument();
 				let triggers = doc.createElement('triggers');
-				let initialMessage = cell.children.find(m => m.id == 'InitialMesssage' + "_" + cell.id);
+				let initialMessage = cell.children.find(m => m.value.localName === "InitialMessage");
 				graph.removeCells([initialMessage], true);
 				let childLength = cell.children.filter((m: any) => !m.style.includes('port')).length;
 				var yAxis = 100;
