@@ -37,7 +37,7 @@ export class AppComponent implements AfterViewInit {
       this.addStep = () => {
          let vertext = undefined;
          vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, 230, 100, 330, 177, "rounded=1;whiteSpace=wrap;autosize=1;resizable=0;", null);
-         let initialMessageVertex = this.graph.insertVertex(vertext, null, initialMessage, 100, 70, 135, 40, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+         let initialMessageVertex = this.graph.insertVertex(vertext, 'InitialMesssage' + "_" + vertext.id, initialMessage, 100, 70, 135, 40, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
          initialMessageVertex.setConnectable(false);
          var port = this.graph.insertVertex(vertext, null, 'Test', 0.98, 0.84, 16, 16,
             'port;image=../assets/circle.png;spacingLeft=18', true);

@@ -13,6 +13,13 @@ export class JsonCodec {
         return xml2json(mxUtils.parseXml(mxUtils.getXml(node)), "");
 
     }
+
+    static getIndividualJson(vertex){
+        var encoder = new mxCodec();
+        var node = encoder.encode(vertex);
+        return xml2json(mxUtils.parseXml(mxUtils.getXml(node)), "");
+    }
+
     static loadJson(graph: any, json: any) {
 
         let xml2 = json2xml(JSON.parse(json), "");

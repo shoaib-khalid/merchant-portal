@@ -20,7 +20,6 @@ export class Helper {
 
 
 	static deleteMultipleVertices(graph) {
-		console.log("hi")
 		for (var i = 0; i < this.selectedVertices.length; i++) {
 			graph.getModel().remove(this.selectedVertices[i]);
 		}
@@ -41,9 +40,9 @@ export class Helper {
 			try {
 				if (evt.target.classList.contains("delete")) {
 					graph.getModel().remove(Helper.v1);
-				} else if (evt.target.id === "copy") {
-
-
+				} else if (evt.target.className === "copy") {
+						// console.log(graph.addCell(Helper.v1,graph.getDefaultParent()))
+						// graph.refresh();
 				} else {
 					try {
 						var className = evt.target.className;
@@ -58,7 +57,7 @@ export class Helper {
 							}
 
 							document.getElementById("flow" + evt.target.id.match(/\d/g)[0]).style.borderColor = "#74fca1";
-
+							this.selectedVertices.push(Helper.v1)
 						}
 
 					}
@@ -66,7 +65,11 @@ export class Helper {
 						this.setColorToTransparent();
 					}
 				}
-			} catch (ex) { }
+			} catch (ex) { 
+
+				console.log(ex)
+
+			}
 		});
 
 	}
