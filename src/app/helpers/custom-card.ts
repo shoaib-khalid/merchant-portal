@@ -1,5 +1,5 @@
 export class Card {
-  static startingStep(id) {
+  static startingStep(id,icon,title) {
     return `  <div id="flow` + id + `"class='custom-card flow-start-container shadow-lg bg-white' style='border-radius:33px'>
     <div class="tooltip-parent">  
     </div>
@@ -12,9 +12,9 @@ export class Card {
       
           <div class="card" style='border-radius:35px;border:0px;width:300px'>
             <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >
-              <img src="../assets/play.png" class="start-icon float-left" alt="..." >
+              <img src="../assets/`+icon+`" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
-                <h4 id="header`+ id + `"class="header">Starting Step</h4>
+                <h4 id="header`+ id + `"class="header">`+title+`</h4>
               </div>
             </div>
             <div id="card-body`+ id + `"class="card-body flow-start-trigger-list" style="height:63px">

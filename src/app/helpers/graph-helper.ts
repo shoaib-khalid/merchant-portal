@@ -204,7 +204,7 @@ export class Helper {
 		style[mxConstants.STYLE_STROKECOLOR] = 'gray';
 
 	}
-	
+
 	static setVertexStyle = (graph) => {
 		var style1 = [];
 		style1[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_RECTANGLE;
@@ -317,8 +317,11 @@ export class Helper {
 				// Returns a DOM for the labelalert("Hello");
 				var div = document.createElement('div');
 				div.innerHTML = cell.getAttribute('label');
-				div.innerHTML = Card.startingStep(this.cardId++);
-				mxUtils.br(div);
+				if (this.cardId <1) {
+					div.innerHTML = Card.startingStep(this.cardId++, 'play.png','Starting Step');
+				} else {
+					div.innerHTML = Card.startingStep(this.cardId++, 'messenger.svg',"New Message #"+(this.cardId-1));
+				} mxUtils.br(div);
 
 				if (cached) {
 					// Caches label

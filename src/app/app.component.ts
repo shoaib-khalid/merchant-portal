@@ -23,6 +23,7 @@ export class AppComponent implements AfterViewInit {
    graph: any;
    triggers: any;
    redoPointer: any;
+   opened: boolean;
 
    constructor(private configService: ConfigService) { }
 
@@ -149,6 +150,7 @@ export class AppComponent implements AfterViewInit {
 
    showJson() {
       let json = JsonCodec.getJson(this.graph);
+      console.log(json)
       const blob = new Blob([json], { type: 'application/json' });
       saveAs(blob, 'chatbot-diagram.json');
 
