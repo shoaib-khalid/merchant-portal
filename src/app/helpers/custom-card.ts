@@ -1,6 +1,6 @@
 export class Card {
   static startingStep(id) {
-    return `  <div id="flow`+id+`"class='custom-card flow-start-container shadow-lg p-3 mt-3 bg-white' style='border-radius:33px'>
+    return `  <div id="flow` + id + `"class='custom-card flow-start-container shadow-lg bg-white' style='border-radius:33px'>
     <div class="tooltip-parent">  
     </div>
     <span class="tooltip-text">
@@ -11,14 +11,16 @@ export class Card {
       </span>
       
           <div class="card" style='border-radius:35px;border:0px;width:300px'>
-            <div id="card-header`+id+`"class="card-header" style='background-color:white;' >
+            <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >
               <img src="../assets/play.png" class="start-icon float-left" alt="..." >
               <div style='margin-left:60px;margin-top:5px;'>
-                <h4 id="header`+id+`"class="header">Starting Step</h4>
+                <h4 id="header`+ id + `"class="header">Starting Step</h4>
               </div>
             </div>
-            <div id="card-body`+id+`"class="card-body flow-start-trigger-list max-h-150"></div>
-            <div class="card-footer" style='background-color:white;'>
+            <div id="card-body`+ id + `"class="card-body flow-start-trigger-list" style="height:63px">
+            <span class="initial-message" style="font-size: 1.1rem; position: absolute;left: 10px;right: 10px;top: 65px;font-weight: 500"> Flow starts with the following step. Click to add the triggers. </span>
+            </div>
+            <div class="card-footer" style='background-color:white;border-radius:35px;border:0px;'>
               <div class="row">
                 <div class="col-md-12 btnAppend">
                   <button type="button" class="btn btn-outline-secondary btn-block btnAddTrigger">Add Trigger</button>

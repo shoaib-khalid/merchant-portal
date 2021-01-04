@@ -19,14 +19,14 @@
 }
 .custom-card {
     position: relative;
-    margin-top: 15px
+    margin-top: 16px
 }
-.flow-start-container:hover{
+/* .flow-start-container:hover{
     border: 3px solid #636EF3;
 }
 .flow-start-container{
     border: 3px solid transparent;
-}
+} */
 #outer-tooltip {
     background-color: aqua;
     width: 100px;

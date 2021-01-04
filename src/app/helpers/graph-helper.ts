@@ -2,11 +2,14 @@ import { Card } from '../helpers/custom-card';
 
 declare var mxConstants: any;
 declare var mxUtils: any;
-declare var mxCodec: any;
 declare var mxPerimeter: any;
 declare var mxMultiplicity: any;
 declare var mxClient: any;
 declare var mxEditor: any;
+declare var mxConnectionHandler: any;
+declare var mxRectangle: any;
+declare var mxCellTracker: any;
+
 export class Helper {
 	static v1: any;
 	static verticalDistance: any = 100;
@@ -41,8 +44,8 @@ export class Helper {
 				if (evt.target.classList.contains("delete")) {
 					graph.getModel().remove(Helper.v1);
 				} else if (evt.target.className === "copy") {
-						// console.log(graph.addCell(Helper.v1,graph.getDefaultParent()))
-						// graph.refresh();
+					// console.log(graph.addCell(Helper.v1,graph.getDefaultParent()))
+					// graph.refresh();
 				} else {
 					try {
 						var className = evt.target.className;
@@ -65,7 +68,7 @@ export class Helper {
 						this.setColorToTransparent();
 					}
 				}
-			} catch (ex) { 
+			} catch (ex) {
 
 				console.log(ex)
 
@@ -80,22 +83,22 @@ export class Helper {
 		var doc = mxUtils.createXmlDocument();
 		var obj = doc.createElement('UserObject');
 
-		if (graph.connectionHandler.connectImage == null) {
-			graph.connectionHandler.isConnectableCell = function (cell) {
-				try {
+		// if (graph.connectionHandler.connectImage == null) {
+		// 	graph.connectionHandler.isConnectableCell = function (cell) {
+		// 		try {
 
-					if (cell.value === "Test") {
-						return true;
-					}
+		// 			if (cell.value === "Test") {
+		// 				return true;
+		// 			}
 
-				} catch (ex) {
-				}
-				return false;
-			};
-			mxEdgeHandler.prototype.isConnectableCell = function (cell) {
-				return graph.connectionHandler.isConnectableCell(cell);
-			};
-		}
+		// 		} catch (ex) {
+		// 		}
+		// 		return false;
+		// 	};
+		// 	mxEdgeHandler.prototype.isConnectableCell = function (cell) {
+		// 		return graph.connectionHandler.isConnectableCell(cell);
+		// 	};
+		// }
 		graph.addMouseListener(
 			{
 				mouseDown: function (sender, evt) {
@@ -143,28 +146,28 @@ export class Helper {
 							t_id = parseInt(t_id.match(/\d/g)[0]);
 						}
 
-						if ((t_id != Helper.v1.id) && (v2.value != "Test") && (t_id - Helper.v1.id != -1)) {
+						// if ((t_id != Helper.v1.id) && (v2.value != "Test") && (t_id - Helper.v1.id != -1)) {
 
-							if ((v2.value.localName === "InitialMessage")) {
-								v2 = evt.sourceState.cell.parent;
-							}
+						// 	if ((v2.value.localName === "InitialMessage")) {
+						// 		v2 = evt.sourceState.cell.parent;
+						// 	}
 
-							// if (v2.edges || v2.children[1].edges) {
+						// 	// if (v2.edges || v2.children[1].edges) {
 
-							// 	if (v2.children[1].edges[0].target.id === Helper.v1.parent.id) {
-							// 		return;
-							// 	}
-							// }
+						// 	// 	if (v2.children[1].edges[0].target.id === Helper.v1.parent.id) {
+						// 	// 		return;
+						// 	// 	}
+						// 	// }
 
-							if (Helper.v1.edges) {
-								for (var i = 0; i < Helper.v1.edges.length; i++) {
-									graph.getModel().remove(Helper.v1.edges[i]);
-								}
-							}
+						// 	if (Helper.v1.edges) {
+						// 		for (var i = 0; i < Helper.v1.edges.length; i++) {
+						// 			graph.getModel().remove(Helper.v1.edges[i]);
+						// 		}
+						// 	}
 
-							graph.insertEdge(graph.getDefaultParent(), null, '', Helper.v1, v2);
+						// 	graph.insertEdge(graph.getDefaultParent(), null, '', Helper.v1, v2);
 
-						}
+						// }
 					} catch (ex) {
 
 					}
@@ -189,9 +192,19 @@ export class Helper {
 	static setEdgeStyle = (graph) => {
 		var style = graph.getStylesheet().getDefaultEdgeStyle();
 		style[mxConstants.STYLE_EDGE] = mxEdgeStyle.EntityRelation;
-		style[mxConstants.STYLE_CURVED] = '1';
-	}
+		style[mxConstants.STYLE_CURVED] = true;
+		// style[mxConstants.STYLE_ROUNDED] = true;
+		style[mxConstants.STYLE_STROKEWIDTH] = 2;
+		// style[mxConstants.STYLE_EXIT_X] = 1; // center
+		// style[mxConstants.STYLE_EXIT_Y] = 0.8; // bottom
+		style[mxConstants.STYLE_EXIT_PERIMETER] = 0; // disabled
+		style[mxConstants.STYLE_ENTRY_X] = 0; // center
+		style[mxConstants.STYLE_ENTRY_Y] = 0; // top
+		// style[mxConstants.STYLE_ENTRY_PERIMETER] = 0; // disabled
+		style[mxConstants.STYLE_STROKECOLOR] = 'gray';
 
+	}
+	
 	static setVertexStyle = (graph) => {
 		var style1 = [];
 		style1[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_RECTANGLE;
@@ -260,14 +273,24 @@ export class Helper {
 
 			cellLabelChanged.apply(this, arguments);
 		};
+		mxRectangle.prototype.getCenterX = function () {
+			return this.x + this.width + 15;
+		};
+		mxRectangle.prototype.getCenterY = function () {
+			let y = this.y + this.height / 2;
+			if (this.view && this.view.graph && this.view.graph.isPart) {
+				if (!this.view.graph.isPart(this.cell)) {
+					y = this.y + this.height - 65;
+				}
+			}
+			return y;
+		};
+
+		var highlight = new mxCellTracker(graph, '#3bbdfe');
+		mxConnectionHandler.prototype.connectImage = new mxImage('../../assets/arrow-circle-right.svg', 25, 25);
 	}
 	static customTrigger = () => {
-		return `<br> <button type="button" style="width:150px;"
-		class="btn btn-primary btn-block btnAddTrigger btn-lg">Text</button>`;
-	}
-
-	static addTrigger() {
-		return `<br> <button type="button" class="btn btn-outline-primary btn-block btnAddTrigger">Text</button>`;
+		return `<button type="button" style="width:150px; margin-top:15px;" class="btn btn-primary btn-block btnAddTrigger btn-lg">Text</button>`;
 	}
 
 	static graphUpdate = (graph) => {
@@ -318,20 +341,20 @@ export class Helper {
 				}
 				return div;
 			}
-			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'initialmessage') {
-				// Returns a DOM for the label
+			// else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'initialmessage') {
+			// 	// Returns a DOM for the label
 
-				var div = document.createElement('div');
-				div.innerHTML = cell.getAttribute('label');
-				div.innerHTML = Card.InitialMesssage;
+			// 	var div = document.createElement('div');
+			// 	div.innerHTML = cell.getAttribute('label');
+			// 	div.innerHTML = Card.InitialMesssage;
 
-				mxUtils.br(div);
-				if (cached) {
-					// Caches label
-					cell.div = div;
-				}
-				return div;
-			}
+			// 	mxUtils.br(div);
+			// 	if (cached) {
+			// 		// Caches label
+			// 		cell.div = div;
+			// 	}
+			// 	return div;
+			// }
 			return '';
 		};
 	}
@@ -342,55 +365,32 @@ export class Helper {
 				debugger;
 				var doc = mxUtils.createXmlDocument();
 				let triggers = doc.createElement('triggers');
-				let initialMessage = cell.children.find(m => m.value.localName === "InitialMessage");
-				graph.removeCells([initialMessage], true);
-				let childLength = cell.children.filter((m: any) => !m.style.includes('port')).length;
-				var yAxis = 100;
-				var childHegiht = 60;
+
+				let initialMessage = cell.div.getElementsByClassName('initial-message');
+				if (initialMessage && initialMessage.length > 0) {
+					initialMessage[0].remove()
+					// cell.div.removeChild(initialMessage[0]);
+				}
+				let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
+				var yAxis = 70;
+				var childHegiht = 55;
+
 				if (childLength > 0) {
 					yAxis = yAxis + (childLength * childHegiht);
-				}
-				var v2 = graph.insertVertex(cell, null, triggers, 100, yAxis, 135, 40, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
-				var current = cell.getGeometry();
-				current.height = current.height + childHegiht;
-				if (childLength > 0) {
-					graph.cellsResized([cell], [current], false);
-				}
-				let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
-				let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
+					var current = cell.getGeometry();
+					current.height = current.height + childHegiht;
+					let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
+					let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
 
-				if (flowStarTriggerListHeight) {
 					flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
-				} else {
-					flowStarTriggerListHeight = childHegiht;
+					flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
+					graph.cellsResized([cell], [current], false);
+					graph.refresh();
 				}
-				flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
-				graph.refresh();
+				var trigger = graph.insertVertex(cell, null, triggers, 85, yAxis, 150, 48, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+
+
 			});
 		}
 	}
-
-	static loadXml(graph) {
-		var xml = `<root>
-		<UserObject id="2">
-		<mxCell style="rounded=1;whiteSpace=wrap ;autosize=1;resizable=0;" vertex="1" connectable="0" parent="1">
-		  <mxGeometry x="230" y="100" width="330" height="177" as="geometry" />
-		</mxCell>
-	  </UserObject>
-	  <mxCell id="3" value="Test" style="port;image=../assets/circle.png;spacingLeft=18" vertex="1" parent="0">
-		<mxGeometry x="0.98" y="0.84" width="16" height="16" relative="1" as="geometry" />
-	  </mxCell></root>`;
-		var doc = mxUtils.parseXml(xml);
-		var codec = new mxCodec(xml);
-		var elt = doc.documentElement.firstChild;
-		var cells = [];
-		while (elt != null) {
-			cells.push(codec.decodeCell(elt));
-			graph.refresh();
-			elt = elt.nextSibling;
-		}
-
-		// graph.addCells(cells);
-	}
-
 }
