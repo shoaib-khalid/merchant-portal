@@ -1,8 +1,14 @@
-<mat-sidenav-container class="example-container" >
-	<mat-sidenav #sidenav mode="side">
-		Sidenav content
+<mat-sidenav-container class="example-container">
+	<mat-sidenav #sidenav mode="side" class="sideNav" [(opened)]="opened">
+		<div class="header text-center w-100">
+			<h4>
+				<input type="text" value="Send" id="vertex-title">
+			</h4>
+		</div>
+
+		<div class="body" id="side-nav-body"> HI</div>
 	</mat-sidenav>
 	<mat-sidenav-content>
-		<p><button mat-button (click)="sidenav.toggle()">sidenav.toggle()</button></p>
+		<button mat-button (click)="toggle()" id="sideNavTest"></button>
 	</mat-sidenav-content>
 </mat-sidenav-container>

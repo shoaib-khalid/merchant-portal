@@ -1,5 +1,5 @@
 import { Card } from '../helpers/custom-card';
-
+import {SideNav} from '../components/side-nav/side-nav.component';
 declare var mxConstants: any;
 declare var mxUtils: any;
 declare var mxPerimeter: any;
@@ -46,7 +46,12 @@ export class Helper {
 				} else if (evt.target.className === "copy") {
 					// console.log(graph.addCell(Helper.v1,graph.getDefaultParent()))
 					// graph.refresh();
-				} else {
+
+				} else if (evt.target.id!="vertex-title" && evt.target.id) {
+					console.log(evt.target.id)
+					document.getElementById("sideNavTest").click();
+				}
+				else {
 					try {
 						var className = evt.target.className;
 						if (className.includes("custom-card") || className.includes("header") ||
@@ -317,10 +322,10 @@ export class Helper {
 				// Returns a DOM for the labelalert("Hello");
 				var div = document.createElement('div');
 				div.innerHTML = cell.getAttribute('label');
-				if (this.cardId <1) {
-					div.innerHTML = Card.startingStep(this.cardId++, 'play.png','Starting Step');
+				if (this.cardId < 1) {
+					div.innerHTML = Card.startingStep(this.cardId++, 'play.png', 'Starting Step');
 				} else {
-					div.innerHTML = Card.startingStep(this.cardId++, 'messenger.svg',"New Message #"+(this.cardId-1));
+					div.innerHTML = Card.startingStep(this.cardId++, 'messenger.svg', "New Message #" + (this.cardId - 1));
 				} mxUtils.br(div);
 
 				if (cached) {

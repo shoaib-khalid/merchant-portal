@@ -1,5 +1,4 @@
 <html>
-
 <head>
     <title>ChatBot</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -16,7 +15,6 @@
 </head>
 
 <body>
-    <!-- <side-nav></side-nav> -->
     <a href="#" (click)="addStep()" class="float ml-1 p-3 rounded-circle shadow-lg mb-5 rounded"
         style="z-index: 2;"><img src="../assets/plus.png" alt=""></a>
 
@@ -60,14 +58,16 @@
                             </div>
                             <div class="row p-2 ml-1">
                                 <div class="col-1">
-                                    <a href="#" (click)="deleteMultipleVertices()" class="p-0">Delete Multiple Vertices</a>
+                                    <a href="#" (click)="deleteMultipleVertices()" class="p-0">Delete Multiple
+                                        Vertices</a>
                                 </div>
                             </div>
                             <div class="row p-2 ml-1">
                                 <div class="col-1">
-                                    <a href="javascript:void(0);" class="p-0"><label for="file-jsonUpload">Load Json</label></a>
+                                    <a href="javascript:void(0);" class="p-0"><label for="file-jsonUpload">Load
+                                            Json</label></a>
                                     <input id="file-jsonUpload" type="file" accept="application/JSON" name="jsonUpload"
-                                    (change)="loadJson($event)"  hidden />
+                                        (change)="loadJson($event)" hidden />
                                 </div>
                             </div>
 
@@ -76,18 +76,20 @@
                 </nav>
             </aside>
             <main class="col bg-faded py-3 flex-grow-1">
+
                 <div class="header">
                     <h2 class="border-bottom border-dark">ChatBot</h2>
+
                 </div>
                 <div #outlineContainer
                     style="z-index:1;position:absolute;overflow:hidden;top:55px;right:0px;width:160px;height:120px;background:transparent;border-style:solid;border-color:lightgray;">
+
                 </div>
                 <div #graphContainer id="graphContainer">
+                    <side-nav></side-nav>
                 </div>
-
             </main>
         </div>
-
     </div>
 </body>
 

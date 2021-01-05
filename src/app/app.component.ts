@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Helper } from './helpers/graph-helper';
 import { JsonCodec } from './helpers/json-codec';
 import { saveAs } from 'file-saver';
+// import {SideNav} from './components/side-nav/side-nav.component';
 import { ConfigService } from "./config/config.service";
 declare var mxUtils: any;
 declare var mxGraphHandler: any;
