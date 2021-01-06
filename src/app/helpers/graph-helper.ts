@@ -50,8 +50,12 @@ export class Helper {
 					// graph.refresh();
 
 				} else if (evt.target.id != "vertex-title" && evt.target.id) {
-					console.log(evt.target.id)
+					var id = evt.target.id;
+					console.log(id)
+					var text = (<HTMLInputElement>document.getElementById("header0")).innerHTML;
+					(<HTMLInputElement>document.getElementById("vertex-title")).value=text;
 					document.getElementById("sideNavTest").click();
+					
 				}
 				else {
 					try {
@@ -85,7 +89,7 @@ export class Helper {
 	}
 
 	static connectPreview = (graph) => {
-		debugger;
+		
 		let previous_id = 0;
 		var doc = mxUtils.createXmlDocument();
 		var obj = doc.createElement('UserObject');
@@ -300,8 +304,8 @@ export class Helper {
 		// var highlight = new mxCellTracker(graph, '#3bbdfe');
 		// mxConnectionHandler.prototype.connectImage = new mxImage('../../assets/arrow-circle-right.svg', 25, 25);
 	}
-	static customTrigger = () => {
-		return `<button type="button" style="width:150px; margin-top:15px;" class="btn btn-primary btn-block btnAddTrigger btn-lg">Text</button>`;
+	static customTrigger = (text) => {
+		return `<button type="button" style="width:150px; margin-top:15px;" class="btn btn-primary btn-block btnAddTrigger btn-lg">`+text+`</button>`;
 	}
 
 	static graphUpdate = (graph) => {
@@ -346,7 +350,7 @@ export class Helper {
 
 				var div = document.createElement('div');
 				div.innerHTML = cell.getAttribute('label');
-				div.innerHTML = Helper.customTrigger();
+				div.innerHTML = Helper.customTrigger("test");
 
 				mxUtils.br(div);
 				if (cached) {

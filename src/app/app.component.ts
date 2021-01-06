@@ -29,6 +29,8 @@ export class AppComponent implements AfterViewInit {
    constructor(private configService: ConfigService) { }
 
    ngAfterViewInit() {
+      // this.postData();
+      this.retrieveJson();
       Helper.addAssets();
       this.redoPointer = 0;
 
@@ -179,6 +181,21 @@ export class AppComponent implements AfterViewInit {
             console.log(data)
          }
          );
+   }
+   postData(){
+      this.configService.postRawJson()
+      .subscribe(data => {
+         console.log(data)
+      }
+      );
+   }
+
+   retrieveJson(){
+      this.configService.retrieveJson()
+      .subscribe(data => {
+         console.log(data)
+      }
+      );
    }
 
    deleteMultipleVertices() {
