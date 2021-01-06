@@ -19,14 +19,14 @@
 }
 .custom-card {
     position: relative;
-    margin-top: 16px
+    margin-top: 16px;
 }
-/* .flow-start-container:hover{
-    border: 3px solid #636EF3;
+.flow-start-container:hover {
+    border: 3px solid #636ef3;
 }
-.flow-start-container{
+.flow-start-container {
     border: 3px solid transparent;
-} */
+}
 #outer-tooltip {
     background-color: aqua;
     width: 100px;
@@ -40,7 +40,13 @@
 .img-icon:hover {
     cursor: pointer;
 }
-
+.svg-icon:hover {
+    transform: scale(1.5);
+}
+.svg-icon {
+    transition: all 0.3s;
+    transform-origin: 50% 50%;
+}
 .tooltip-parent {
     visibility: visible;
     width: 55px;

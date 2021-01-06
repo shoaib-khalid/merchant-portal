@@ -1,5 +1,5 @@
 import { Card } from '../helpers/custom-card';
-import {SideNav} from '../components/side-nav/side-nav.component';
+import { SideNav } from '../components/side-nav/side-nav.component';
 declare var mxConstants: any;
 declare var mxUtils: any;
 declare var mxPerimeter: any;
@@ -8,7 +8,9 @@ declare var mxClient: any;
 declare var mxEditor: any;
 declare var mxConnectionHandler: any;
 declare var mxRectangle: any;
-declare var mxCellTracker: any;
+declare var mxCellMarker: any;
+declare var mxCellState: any;
+
 
 export class Helper {
 	static v1: any;
@@ -47,7 +49,7 @@ export class Helper {
 					// console.log(graph.addCell(Helper.v1,graph.getDefaultParent()))
 					// graph.refresh();
 
-				} else if (evt.target.id!="vertex-title" && evt.target.id) {
+				} else if (evt.target.id != "vertex-title" && evt.target.id) {
 					console.log(evt.target.id)
 					document.getElementById("sideNavTest").click();
 				}
@@ -83,27 +85,17 @@ export class Helper {
 	}
 
 	static connectPreview = (graph) => {
-
+		debugger;
 		let previous_id = 0;
 		var doc = mxUtils.createXmlDocument();
 		var obj = doc.createElement('UserObject');
 
-		// if (graph.connectionHandler.connectImage == null) {
-		// 	graph.connectionHandler.isConnectableCell = function (cell) {
-		// 		try {
-
-		// 			if (cell.value === "Test") {
-		// 				return true;
-		// 			}
-
-		// 		} catch (ex) {
-		// 		}
-		// 		return false;
-		// 	};
-		// 	mxEdgeHandler.prototype.isConnectableCell = function (cell) {
-		// 		return graph.connectionHandler.isConnectableCell(cell);
-		// 	};
-		// }
+		graph.connectionHandler.isConnectableCell = function (cell) {
+			return true;
+		};
+		mxEdgeHandler.prototype.isConnectableCell = function (cell) {
+			return graph.connectionHandler.isConnectableCell(cell);
+		};
 		graph.addMouseListener(
 			{
 				mouseDown: function (sender, evt) {
@@ -224,9 +216,13 @@ export class Helper {
 		style1[mxConstants.STYLE_FONTSIZE] = '13';
 		style1[mxConstants.STYLE_FONTSTYLE] = 1;
 		style1[mxConstants.STYLE_FONTFAMILY] = 'Calibri';
+		style1[mxConstants.STYLE_FONTFAMILY]
 
 		mxConstants.VERTEX_SELECTION_COLOR = 'none'
 		mxConstants.TARGET_HIGHLIGHT_COLOR = 'none';
+
+		mxConstants.VERTEX_SELECTION_STROKEWIDTH = '0';
+		style1[mxConstants.VERTEX_SELECTION_STROKEWIDTH] = '0';
 		graph.getStylesheet().putDefaultVertexStyle(style1);
 
 		var style = new Object();
@@ -279,7 +275,7 @@ export class Helper {
 			cellLabelChanged.apply(this, arguments);
 		};
 		mxRectangle.prototype.getCenterX = function () {
-			return this.x + this.width + 15;
+			return this.x + this.width;
 		};
 		mxRectangle.prototype.getCenterY = function () {
 			let y = this.y + this.height / 2;
@@ -291,8 +287,18 @@ export class Helper {
 			return y;
 		};
 
-		var highlight = new mxCellTracker(graph, '#3bbdfe');
-		mxConnectionHandler.prototype.connectImage = new mxImage('../../assets/arrow-circle-right.svg', 25, 25);
+		mxCellMarker.prototype.getMarkerColor = function (evt, state, isValid) { }
+		mxConnectionHandler.prototype.livePreview = true;
+		graph.connectionHandler.createEdgeState = function (me) {
+			var edge = graph.createEdge(null, null, null, null, null, 'edgeStyle=elbowEdgeStyle');
+			let style = this.graph.getCellStyle(edge);
+			style[mxConstants.STYLE_DASHED] = "false";
+			return new mxCellState(this.graph.view, edge, style);
+		}
+
+
+		// var highlight = new mxCellTracker(graph, '#3bbdfe');
+		// mxConnectionHandler.prototype.connectImage = new mxImage('../../assets/arrow-circle-right.svg', 25, 25);
 	}
 	static customTrigger = () => {
 		return `<button type="button" style="width:150px; margin-top:15px;" class="btn btn-primary btn-block btnAddTrigger btn-lg">Text</button>`;

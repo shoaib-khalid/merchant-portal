@@ -9,7 +9,9 @@ export class Card {
         </div>  
         <img class="copy" class="img-icon"src="../assets/copy.png"/>
       </span>
-      
+      <svg height="20" width="20" class="svg-icon" style="position: absolute;right: -11px;bottom: 53px;z-index: 990;">
+        <circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
+      </svg>
           <div class="card" style='border-radius:35px;border:0px;width:300px'>
             <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >
               <img src="../assets/`+icon+`" class="start-icon float-left" alt="..." style="width:35px;height=35px">
