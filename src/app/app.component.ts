@@ -30,7 +30,7 @@ export class AppComponent implements AfterViewInit {
 
    ngAfterViewInit() {
       // this.postData();
-      this.retrieveJson();
+      // this.retrieveJson();
       Helper.addAssets();
       this.redoPointer = 0;
 
@@ -195,8 +195,6 @@ export class AppComponent implements AfterViewInit {
          );
    }
 
-   deleteMultipleVertices() {
-
-   }
+   deleteMultipleVertices() {}
 
 }

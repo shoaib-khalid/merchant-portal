@@ -48,12 +48,18 @@
 #trigger-text:focus{
 outline: none;
 }
+#trigger-text:hover{
+  border: 2px solid rgb(66, 66, 245);
+}
 
 #add-button{
   width: 250px;
   height: 40px;
   border-radius: 0px 0px 15px 15px;
-  border: 2px dotted black;
+  border-left: 2px dotted rgb(173, 173, 173);
+  border-right: 2px dotted rgb(173, 173, 173);
+  border-bottom: 2px dotted rgb(173, 173, 173);
+
   background-color: rgb(255, 255, 255);
   text-align: center;
   margin: 0 auto;
@@ -62,4 +68,20 @@ outline: none;
 #add-button:hover{
 border: 2px dotted blue;
 color: blue;
+}
+
+
+.buttons{
+  height: 30px;
+  width: 250;
+  border: 2px solid rgb(218, 218, 218);
+  margin-left: 35px;
+  margin-right: 35px;
+  /* margin: 0 auto; */
+  cursor: pointer;
+  color: rgb(28, 125, 252);
+}
+
+.buttons:hover{
+  border: 2px solid rgb(28, 125, 252);
 }

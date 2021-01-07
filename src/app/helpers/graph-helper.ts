@@ -44,20 +44,26 @@ export class Helper {
 		document.addEventListener("click", (evt: any) => {
 
 			try {
+
+				if (evt.target.id.includes("card-header")) {
+
+					var id = evt.target.id;
+					var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
+					(<HTMLInputElement>document.getElementById("vertex-title")).value = text;
+					document.getElementById("sideNavTest").click();
+				}
+
+				if (evt.target.id === "add-button") {
+					(<any>document.getElementsByClassName('btnAddTrigger')[0]).click();
+				}
+
 				if (evt.target.classList.contains("delete")) {
 					graph.getModel().remove(Helper.v1);
 				} else if (evt.target.className === "copy") {
 					// console.log(graph.addCell(Helper.v1,graph.getDefaultParent()))
 					// graph.refresh();
-
-				} else if (evt.target.id != "vertex-title" && evt.target.id) {
-					var id = evt.target.id;
-					console.log(id)
-					var text = (<HTMLInputElement>document.getElementById("header0")).innerHTML;
-					(<HTMLInputElement>document.getElementById("vertex-title")).value = text;
-					document.getElementById("sideNavTest").click();
-
 				}
+
 				else {
 					try {
 						var className = evt.target.className;

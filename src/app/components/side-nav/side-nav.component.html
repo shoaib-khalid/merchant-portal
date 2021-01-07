@@ -5,16 +5,15 @@
 				<input type="text" value="Send" id="vertex-title">
 			</h4>
 		</div>
-
 		<div class="body" id="side-nav-body">
-
-			<div class="text-center pt-5">
+			<div class="text-center pt-5" id="buttons-list">
 				<input id="trigger-text" type="text" placeholder="Enter your text...">
-				<div id="add-button">Add Button</div>
+				<div *ngFor="let name of buttonsArray">
+					<div class="buttons">{{name}}</div>
+				</div>
+				<div id="add-button" (click)="insertButton()">Add Button</div>
 			</div>
-
 		</div>
-
 	</mat-sidenav>
 	<mat-sidenav-content>
 		<button mat-button (click)="toggle()" id="sideNavTest"></button>
