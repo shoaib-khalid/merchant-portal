@@ -35,20 +35,17 @@ export class AppComponent implements AfterViewInit {
       this.redoPointer = 0;
 
       //Callback functions
-      
+
       this.addStep = () => {
          let vertext = undefined;
-         vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, 230, 100, 300, 196, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;", null);
-         // let initialMessageVertex = this.graph.insertVertex(vertext, null, initialMessage, 100, 70, 135, 0, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
-         // initialMessageVertex.setConnectable(false);
-         // var port = this.graph.insertVertex(vertext, null, 'Test', 0.98, 0.84, 16, 16, 'port;image=../assets/circle.png;spacingLeft=18', true);
+         vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, 230, 100, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;", null);
       }
 
       this.zoomOut = () => { this.graph.zoomOut(); }
       this.zoomIn = () => { this.graph.zoomIn(); }
-      this.deleteMultipleVertices = (graph=this.graph) => {Helper.deleteMultipleVertices(graph);}
+      this.deleteMultipleVertices = (graph = this.graph) => { Helper.deleteMultipleVertices(graph); }
       //End callback functions
-      
+
       //Graph configurations
       this.graph = new mxGraph(this.graphContainer.nativeElement);
 
@@ -182,20 +179,20 @@ export class AppComponent implements AfterViewInit {
          }
          );
    }
-   postData(){
+   postData() {
       this.configService.postRawJson()
-      .subscribe(data => {
-         console.log(data)
-      }
-      );
+         .subscribe(data => {
+            console.log(data)
+         }
+         );
    }
 
-   retrieveJson(){
+   retrieveJson() {
       this.configService.retrieveJson()
-      .subscribe(data => {
-         console.log(data)
-      }
-      );
+         .subscribe(data => {
+            console.log(data)
+         }
+         );
    }
 
    deleteMultipleVertices() {

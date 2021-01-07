@@ -37,13 +37,11 @@
     visibility: visible;
 }
 
-.img-icon:hover {
+.connect-icon:hover {
+    transform: scale(1.5);
     cursor: pointer;
 }
-.svg-icon:hover {
-    transform: scale(1.5);
-}
-.svg-icon {
+.connect-icon {
     transition: all 0.3s;
     transform-origin: 50% 50%;
 }

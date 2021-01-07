@@ -1,5 +1,5 @@
 export class Card {
-  static startingStep(id,icon,title) {
+  static startingStep(id, icon, title) {
     return `  <div id="flow` + id + `"class='custom-card flow-start-container shadow-lg bg-white' style='border-radius:33px'>
     <div class="tooltip-parent">  
     </div>
@@ -9,14 +9,15 @@ export class Card {
         </div>  
         <img class="copy" class="img-icon"src="../assets/copy.png"/>
       </span>
-      <svg height="20" width="20" class="svg-icon" style="position: absolute;right: -11px;bottom: 53px;z-index: 990;">
-        <circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
-      </svg>
-          <div class="card" style='border-radius:35px;border:0px;width:300px'>
+      
+          <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
+          <svg height="20" width="20" class="connect-icon" style="position: absolute;right: -12px; top:80%;z-index: 990;">
+            <circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
+          </svg>
             <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >
-              <img src="../assets/`+icon+`" class="start-icon float-left" alt="..." style="width:35px;height=35px">
+              <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
-                <h4 id="header`+ id + `"class="header">`+title+`</h4>
+                <h4 id="header`+ id + `"class="header">` + title + `</h4>
               </div>
             </div>
             <div id="card-body`+ id + `"class="card-body flow-start-trigger-list" style="height:63px">

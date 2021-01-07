@@ -1,5 +1,4 @@
 import { Card } from '../helpers/custom-card';
-import { SideNav } from '../components/side-nav/side-nav.component';
 declare var mxConstants: any;
 declare var mxUtils: any;
 declare var mxPerimeter: any;
@@ -10,6 +9,8 @@ declare var mxConnectionHandler: any;
 declare var mxRectangle: any;
 declare var mxCellMarker: any;
 declare var mxCellState: any;
+declare var mxEvent: any;
+declare var mxLog: any;
 
 
 export class Helper {
@@ -53,9 +54,9 @@ export class Helper {
 					var id = evt.target.id;
 					console.log(id)
 					var text = (<HTMLInputElement>document.getElementById("header0")).innerHTML;
-					(<HTMLInputElement>document.getElementById("vertex-title")).value=text;
+					(<HTMLInputElement>document.getElementById("vertex-title")).value = text;
 					document.getElementById("sideNavTest").click();
-					
+
 				}
 				else {
 					try {
@@ -89,7 +90,7 @@ export class Helper {
 	}
 
 	static connectPreview = (graph) => {
-		
+
 		let previous_id = 0;
 		var doc = mxUtils.createXmlDocument();
 		var obj = doc.createElement('UserObject');
@@ -279,13 +280,20 @@ export class Helper {
 			cellLabelChanged.apply(this, arguments);
 		};
 		mxRectangle.prototype.getCenterX = function () {
-			return this.x + this.width;
+			let x = this.x + this.width + 10;
+			if (this.view && this.view.graph && this.view.graph.isPart) {
+				if (this.view.graph.isPart(this.cell)) {
+					x = this.x + this.width - 10;
+				}
+			}
+
+			return x;
 		};
 		mxRectangle.prototype.getCenterY = function () {
 			let y = this.y + this.height / 2;
 			if (this.view && this.view.graph && this.view.graph.isPart) {
 				if (!this.view.graph.isPart(this.cell)) {
-					y = this.y + this.height - 65;
+					y = this.y + this.height - (((this.height) * 0.2));
 				}
 			}
 			return y;
@@ -301,11 +309,54 @@ export class Helper {
 		}
 
 
+		graph.connectionHandler.addListener(mxEvent.START, function (sender, evt) {
+			var sourceState = evt.getProperty('state');
+			var source = sourceState.cell;
+			Helper.setConnectFillColor(source, "white");
+			if (source.edges && source.edges.length > 0) {
+				var sourceEdges = source.edges.filter(m => m.source.id == source.id);
+				if (sourceEdges && sourceEdges.length > 0) {
+					sourceEdges.forEach(sourceEdge => {
+						graph.getModel().remove(sourceEdge);
+					});
+				}
+			}
+		});
+
+		graph.connectionHandler.addListener(mxEvent.CONNECT, function (sender, evt) {
+			var edge = evt.getProperty('cell');
+			var source = graph.getModel().getTerminal(edge, true);
+			Helper.setConnectFillColor(source, "gray");
+
+			// var target = graph.getModel().getTerminal(edge, false);
+
+			// var style = graph.getCellStyle(edge);
+			// var sourcePortId = style[mxConstants.STYLE_SOURCE_PORT];
+			// var targetPortId = style[mxConstants.STYLE_TARGET_PORT];
+
+			// mxLog.show();
+			// mxLog.debug('connect', edge, source.id, target.id, sourcePortId, targetPortId);
+		});
+
 		// var highlight = new mxCellTracker(graph, '#3bbdfe');
 		// mxConnectionHandler.prototype.connectImage = new mxImage('../../assets/arrow-circle-right.svg', 25, 25);
+		// mxConnectionHandler.prototype.connectImage = new mxImage('', 25, 25);
 	}
 	static customTrigger = (text) => {
-		return `<button type="button" style="width:150px; margin-top:15px;" class="btn btn-primary btn-block btnAddTrigger btn-lg">`+text+`</button>`;
+		return `<div style="position: relative">		
+		<button type="button" style="width:150px; margin-top:15px;" class="btn btn-primary btn-block btnAddTrigger btn-lg">	` + text + `
+		
+		
+		
+		</button>
+		
+
+		<svg height="20" width="20" class="connect-icon" style="position: absolute;	right: .5em; top: 50%; transform: translate(0,-50%);" >
+		<circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
+	  </svg>
+		</div>
+		
+		`;
 	}
 
 	static graphUpdate = (graph) => {
@@ -318,6 +369,14 @@ export class Helper {
 		return graph
 	}
 
+
+	private static setConnectFillColor(source: any, color: string) {
+		let connectIcon = source.div.getElementsByClassName("connect-icon");
+		if (connectIcon && connectIcon.length > 0) {
+			connectIcon = connectIcon[0];
+			connectIcon.children[0].setAttribute("fill", color);
+		}
+	}
 
 	static customVertex(graph) {
 
@@ -405,7 +464,7 @@ export class Helper {
 					graph.cellsResized([cell], [current], false);
 					graph.refresh();
 				}
-				var trigger = graph.insertVertex(cell, null, triggers, 85, yAxis, 150, 48, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+				var trigger = graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
 
 
 			});
