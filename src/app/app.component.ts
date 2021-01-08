@@ -31,7 +31,6 @@ export class AppComponent implements AfterViewInit {
    ngAfterViewInit() {
       // this.postData();
       // this.retrieveJson();
-      Helper.addAssets();
       this.redoPointer = 0;
 
       //Callback functions
@@ -48,6 +47,7 @@ export class AppComponent implements AfterViewInit {
 
       //Graph configurations
       this.graph = new mxGraph(this.graphContainer.nativeElement);
+      Helper.addAssets(this.graph);
 
       new mxOutline(this.graph, this.outlineContainer.nativeElement);
       mxGraphHandler.prototype.guidesEnabled = true;
@@ -55,9 +55,16 @@ export class AppComponent implements AfterViewInit {
       var undoManager = new mxUndoManager();
       Helper.actionOnEvents(this.graph);
       var listener = (sender, evt) => {
-
+         // this.individualJson(undoManager.history);
          this.redoPointer++;
          undoManager.undoableEditHappened(evt.getProperty('edit'));
+         // console.log(undoManager.history[undoManager.history.length-1].changes[0].child)
+
+         try{
+         this.individualJson(undoManager.history[undoManager.history.length-1].changes[0].child);
+         }catch(ex){
+
+         }
       };
 
       this.undo = () => {
@@ -148,9 +155,15 @@ export class AppComponent implements AfterViewInit {
    undo() { }
    redo() { }
 
+
+   individualJson(vertex){
+     let json =  JsonCodec.getIndividualJson(vertex);
+   //   console.log(json);
+   }
+
    showJson() {
       let json = JsonCodec.getJson(this.graph);
-      console.log(json)
+      // console.log(json)
       const blob = new Blob([json], { type: 'application/json' });
       saveAs(blob, 'chatbot-diagram.json');
 
