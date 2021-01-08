@@ -15,17 +15,29 @@ export class SideNav {
 
   toggle() {
     if (this.opened) {
-      this.opened = false;
-      this.buttonsArray = [];
+      if (!Helper.isVertex) {
+        this.opened = false;
+
+      } else {
+        this.buttonsArray = [];
+        try {
+          for (var i = 0; i < Helper.v1.children.length; i++) {
+            this.buttonsArray.push("test")
+          }
+        } catch (ex) {
+          console.log(ex)
+        }
+      }
+
     } else {
       try {
         for (var i = 0; i < Helper.v1.children.length; i++) {
           this.buttonsArray.push("test")
         }
       } catch (ex) {
-
+        console.log(ex)
       }
-      console.log(this.buttonsArray)
+
       this.opened = true;
     }
   }
