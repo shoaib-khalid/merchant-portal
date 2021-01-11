@@ -18,9 +18,11 @@ export class Helper {
 	static verticalDistance: any = 100;
 	static cardId: any = 0;
 	static selectedVertices: any = [];
+	static graph:any;
 
-	static addAssets() {
+	static addAssets(graph) {
 		mxClient.link('stylesheet', '../assets/css/mxGraph.css');
+		this.graph=graph;
 	}
 
 
@@ -51,10 +53,7 @@ export class Helper {
 					var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
 					(<HTMLInputElement>document.getElementById("vertex-title")).value = text;
 					document.getElementById("sideNavTest").click();
-				}
-
-				if (evt.target.id === "add-button") {
-					(<any>document.getElementsByClassName('btnAddTrigger')[0]).click();
+					
 				}
 
 				if (evt.target.classList.contains("delete")) {
@@ -443,9 +442,8 @@ export class Helper {
 	}
 
 	private static bindCellEvents(div: HTMLDivElement, cell: any, graph: any) {
-		if (div.getElementsByClassName('btnAddTrigger')[0]) {
+		// if (div.getElementsByClassName('btnAddTrigger')[0]) {
 			(<any>div.getElementsByClassName('btnAddTrigger')[0]).onclick = (() => {
-				debugger;
 				var doc = mxUtils.createXmlDocument();
 				let triggers = doc.createElement('triggers');
 
@@ -475,5 +473,35 @@ export class Helper {
 
 			});
 		}
-	}
+
+
+		static addTriggerUsingSidePanel(cell=Helper.v1){
+			var doc = mxUtils.createXmlDocument();
+			let triggers = doc.createElement('triggers');
+
+			let initialMessage = cell.div.getElementsByClassName('initial-message');
+			if (initialMessage && initialMessage.length > 0) {
+				initialMessage[0].remove()
+				// cell.div.removeChild(initialMessage[0]);
+			}
+			let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
+			var yAxis = 70;
+			var childHegiht = 55;
+
+			if (childLength > 0) {
+				yAxis = yAxis + (childLength * childHegiht);
+				var current = cell.getGeometry();
+				current.height = current.height + childHegiht;
+				let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
+				let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
+
+				flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
+				flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
+				this.graph.cellsResized([cell], [current], false);
+				this.graph.refresh();
+			}
+			var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+
+		}
+	// }
 }

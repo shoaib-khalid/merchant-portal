@@ -31,7 +31,6 @@ export class AppComponent implements AfterViewInit {
    ngAfterViewInit() {
       // this.postData();
       // this.retrieveJson();
-      Helper.addAssets();
       this.redoPointer = 0;
 
       //Callback functions
@@ -48,6 +47,7 @@ export class AppComponent implements AfterViewInit {
 
       //Graph configurations
       this.graph = new mxGraph(this.graphContainer.nativeElement);
+      Helper.addAssets(this.graph);
 
       new mxOutline(this.graph, this.outlineContainer.nativeElement);
       mxGraphHandler.prototype.guidesEnabled = true;
