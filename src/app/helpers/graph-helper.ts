@@ -10,9 +10,7 @@ declare var mxRectangle: any;
 declare var mxCellMarker: any;
 declare var mxCellState: any;
 declare var mxEvent: any;
-declare var mxGraphHandler: any;
-declare var mxPolyline: any;
-
+declare var mxLog: any;
 
 
 export class Helper {
@@ -207,18 +205,12 @@ export class Helper {
 		style[mxConstants.STYLE_STROKEWIDTH] = 2;
 		// style[mxConstants.STYLE_EXIT_X] = 1; // center
 		// style[mxConstants.STYLE_EXIT_Y] = 0.8; // bottom
-
 		style[mxConstants.STYLE_EXIT_PERIMETER] = 0; // disabled
 		style[mxConstants.STYLE_ENTRY_X] = 0; // center
 		style[mxConstants.STYLE_ENTRY_Y] = 0; // top
 		// style[mxConstants.STYLE_ENTRY_PERIMETER] = 0; // disabled
 		style[mxConstants.STYLE_STROKECOLOR] = 'gray';
 
-
-
-		mxConstants.EDGE_SELECTION_STROKEWIDTH = 2;
-		mxConstants.EDGE_SELECTION_DASHED = false;
-		mxConstants.INVALID_COLOR = '#74fca1';
 	}
 
 	static setVertexStyle = (graph) => {
@@ -259,6 +251,7 @@ export class Helper {
 	}
 
 	static graphConfigurations = (graph) => {
+
 		graph.setPanning(true);
 		graph.panningHandler.useLeftButtonForPanning = true;
 		graph.setAllowDanglingEdges(false);
@@ -314,8 +307,6 @@ export class Helper {
 
 		mxCellMarker.prototype.getMarkerColor = function (evt, state, isValid) { }
 		mxConnectionHandler.prototype.livePreview = true;
-
-
 		graph.connectionHandler.createEdgeState = function (me) {
 			var edge = graph.createEdge(null, null, null, null, null, 'edgeStyle=elbowEdgeStyle');
 			let style = this.graph.getCellStyle(edge);
@@ -323,23 +314,6 @@ export class Helper {
 			return new mxCellState(this.graph.view, edge, style);
 		}
 
-		mxConnectionHandler.prototype.createShape = function () {
-			// Creates the edge preview
-			var shape = (this.livePreview && this.edgeState != null) ?
-				this.graph.cellRenderer.createShape(this.edgeState) :
-				new mxPolyline([], mxConstants.INVALID_COLOR);
-			shape.dialect = (this.graph.dialect != mxConstants.DIALECT_SVG) ?
-				mxConstants.DIALECT_VML : mxConstants.DIALECT_SVG;
-			shape.scale = this.graph.view.scale;
-			shape.pointerEvents = false;
-			shape.isDashed = true;
-			shape.init(this.graph.getView().getOverlayPane());
-			mxEvent.redirectMouseEvents(shape.node, this.graph, null);
-
-			return shape;
-		};
-
-		mxConnectionHandler.prototype.livePreview = true;
 
 		graph.connectionHandler.addListener(mxEvent.START, function (sender, evt) {
 			var sourceState = evt.getProperty('state');
@@ -359,19 +333,30 @@ export class Helper {
 			var edge = evt.getProperty('cell');
 			var source = graph.getModel().getTerminal(edge, true);
 			Helper.setConnectFillColor(source, "gray");
+
+			// var target = graph.getModel().getTerminal(edge, false);
+
+			// var style = graph.getCellStyle(edge);
+			// var sourcePortId = style[mxConstants.STYLE_SOURCE_PORT];
+			// var targetPortId = style[mxConstants.STYLE_TARGET_PORT];
+
+			// mxLog.show();
+			// mxLog.debug('connect', edge, source.id, target.id, sourcePortId, targetPortId);
 		});
 
-		mxGraphHandler.prototype.redrawHandles = function (states) {
-
-		}
 		// var highlight = new mxCellTracker(graph, '#3bbdfe');
 		// mxConnectionHandler.prototype.connectImage = new mxImage('../../assets/arrow-circle-right.svg', 25, 25);
 		// mxConnectionHandler.prototype.connectImage = new mxImage('', 25, 25);
 	}
 	static customTrigger = (text) => {
 		return `<div style="position: relative">		
-		<button type="button" style="width:150px; margin-top:15px;" class="btn btn-primary btn-block btn-lg">	` + text + `
+		<button type="button" style="width:150px; margin-top:15px;" class="btn btn-primary btn-block btnAddTrigger btn-lg">	` + text + `
+		
+		
+		
 		</button>
+		
+
 		<svg height="20" width="20" class="connect-icon" style="position: absolute;	right: .5em; top: 50%; transform: translate(0,-50%);" >
 		<circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
 	  </svg>
@@ -460,9 +445,10 @@ export class Helper {
 	private static bindCellEvents(div: HTMLDivElement, cell: any, graph: any) {
 		if (div.getElementsByClassName('btnAddTrigger')[0]) {
 			(<any>div.getElementsByClassName('btnAddTrigger')[0]).onclick = (() => {
+				debugger;
 				var doc = mxUtils.createXmlDocument();
 				let triggers = doc.createElement('triggers');
-				debugger
+
 				let initialMessage = cell.div.getElementsByClassName('initial-message');
 				if (initialMessage && initialMessage.length > 0) {
 					initialMessage[0].remove()
@@ -485,9 +471,7 @@ export class Helper {
 					graph.refresh();
 				}
 				var trigger = graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
-			
-				// mxGraph.prototype.cellsOrdered ;
-				// graph.orderCells(true, [trigger]);
+
 
 			});
 		}

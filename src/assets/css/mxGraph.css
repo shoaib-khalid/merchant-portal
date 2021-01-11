@@ -20,9 +20,7 @@
 .custom-card {
     position: relative;
     margin-top: 16px;
-    opacity: 0.9; 
 }
-
 .flow-start-container:hover {
     border: 3px solid #636ef3;
 }

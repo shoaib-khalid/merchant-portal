@@ -38,7 +38,7 @@ export class AppComponent implements AfterViewInit {
 
       this.addStep = () => {
          let vertext = undefined;
-         vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, 230, 100, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
+         vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, 230, 100, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;", null);
       }
 
       this.zoomOut = () => { this.graph.zoomOut(); }
