@@ -85,3 +85,11 @@ color: blue;
 .buttons:hover{
   border: 2px solid rgb(28, 125, 252);
 }
+
+#pin{
+  height: 15px;
+  width: 15px;
+  right: 18px;
+  position: absolute;
+  cursor: pointer;
+}

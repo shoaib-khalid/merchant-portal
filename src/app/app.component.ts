@@ -58,6 +58,9 @@ export class AppComponent implements AfterViewInit {
 
          this.redoPointer++;
          undoManager.undoableEditHappened(evt.getProperty('edit'));
+         try {
+            this.individualJson(undoManager.history[undoManager.history.length - 1].changes[0].child);
+         } catch (ex) {}
       };
 
       this.undo = () => {
@@ -148,9 +151,16 @@ export class AppComponent implements AfterViewInit {
    undo() { }
    redo() { }
 
+   individualJson(vertex) {
+      let json = JsonCodec.getIndividualJson(vertex);
+      // console.log(json)
+      
+   }
+
+
    showJson() {
       let json = JsonCodec.getJson(this.graph);
-      console.log(json)
+      
       const blob = new Blob([json], { type: 'application/json' });
       saveAs(blob, 'chatbot-diagram.json');
 
@@ -195,6 +205,6 @@ export class AppComponent implements AfterViewInit {
          );
    }
 
-   deleteMultipleVertices() {}
+   deleteMultipleVertices() { }
 
 }

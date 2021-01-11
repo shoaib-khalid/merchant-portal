@@ -10,19 +10,19 @@ declare var mxRectangle: any;
 declare var mxCellMarker: any;
 declare var mxCellState: any;
 declare var mxEvent: any;
-declare var mxLog: any;
+
 
 
 export class Helper {
 	static v1: any;
-	static verticalDistance: any = 100;
 	static cardId: any = 0;
 	static selectedVertices: any = [];
-	static graph:any;
+	static graph: any;
+	static isVertex: boolean;
 
 	static addAssets(graph) {
 		mxClient.link('stylesheet', '../assets/css/mxGraph.css');
-		this.graph=graph;
+		this.graph = graph;
 	}
 
 
@@ -52,8 +52,8 @@ export class Helper {
 					var id = evt.target.id;
 					var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
 					(<HTMLInputElement>document.getElementById("vertex-title")).value = text;
-					document.getElementById("sideNavTest").click();
-					
+					// document.getElementById("sideNavTest").click();
+
 				}
 
 				if (evt.target.classList.contains("delete")) {
@@ -112,8 +112,9 @@ export class Helper {
 
 					try {
 						Helper.v1 = evt.sourceState.cell;
+						Helper.isVertex = true;
 						previous_id = evt.sourceState.cell.id;
-					} catch (ex) { }
+					} catch (ex) { Helper.isVertex = false; }
 				},
 				mouseMove: function (sender, evt) {
 					evt = evt.evt;
@@ -389,7 +390,7 @@ export class Helper {
 		graph.convertValueToString = (cell) => {
 			if (cached && cell.div != null) {
 				// Uses cached label
-				Helper.bindCellEvents(cell.div, cell, graph);
+				// Helper.bindCellEvents(cell.div, cell, graph);
 				return cell.div;
 			}
 			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'userobject') {
@@ -443,39 +444,7 @@ export class Helper {
 
 	private static bindCellEvents(div: HTMLDivElement, cell: any, graph: any) {
 		// if (div.getElementsByClassName('btnAddTrigger')[0]) {
-			(<any>div.getElementsByClassName('btnAddTrigger')[0]).onclick = (() => {
-				var doc = mxUtils.createXmlDocument();
-				let triggers = doc.createElement('triggers');
-
-				let initialMessage = cell.div.getElementsByClassName('initial-message');
-				if (initialMessage && initialMessage.length > 0) {
-					initialMessage[0].remove()
-					// cell.div.removeChild(initialMessage[0]);
-				}
-				let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
-				var yAxis = 70;
-				var childHegiht = 55;
-
-				if (childLength > 0) {
-					yAxis = yAxis + (childLength * childHegiht);
-					var current = cell.getGeometry();
-					current.height = current.height + childHegiht;
-					let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
-					let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
-
-					flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
-					flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
-					graph.cellsResized([cell], [current], false);
-					graph.refresh();
-				}
-				var trigger = graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
-
-
-			});
-		}
-
-
-		static addTriggerUsingSidePanel(cell=Helper.v1){
+		(<any>div.getElementsByClassName('btnAddTrigger')[0]).onclick = (() => {
 			var doc = mxUtils.createXmlDocument();
 			let triggers = doc.createElement('triggers');
 
@@ -497,11 +466,43 @@ export class Helper {
 
 				flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
 				flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
-				this.graph.cellsResized([cell], [current], false);
-				this.graph.refresh();
+				graph.cellsResized([cell], [current], false);
+				graph.refresh();
 			}
-			var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+			var trigger = graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
 
+
+		});
+	}
+
+
+	static addTriggerUsingSidePanel(cell = Helper.v1) {
+		var doc = mxUtils.createXmlDocument();
+		let triggers = doc.createElement('triggers');
+
+		let initialMessage = cell.div.getElementsByClassName('initial-message');
+		if (initialMessage && initialMessage.length > 0) {
+			initialMessage[0].remove()
+			// cell.div.removeChild(initialMessage[0]);
 		}
+		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
+		var yAxis = 70;
+		var childHegiht = 55;
+
+		if (childLength > 0) {
+			yAxis = yAxis + (childLength * childHegiht);
+			var current = cell.getGeometry();
+			current.height = current.height + childHegiht;
+			let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
+			let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
+
+			flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
+			flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
+			this.graph.cellsResized([cell], [current], false);
+			this.graph.refresh();
+		}
+		var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+
+	}
 	// }
 }

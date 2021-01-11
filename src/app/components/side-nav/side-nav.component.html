@@ -1,5 +1,9 @@
+
+
 <mat-sidenav-container class="example-container">
 	<mat-sidenav #sidenav mode="side" class="sideNav" [(opened)]="opened">
+	<img id="pin" src="../../../assets/push-pin.svg" (click)="pin()">
+
 		<div class="header text-center w-100">
 			<h4>
 				<input type="text" value="Send" id="vertex-title">
@@ -12,6 +16,7 @@
 					<div class="buttons">{{name}}</div>
 				</div>
 				<div id="add-button" (click)="insertButton()">Add Button</div>
+				<button (document:click)="handleClick($event)" hidden></button>
 			</div>
 		</div>
 	</mat-sidenav>
