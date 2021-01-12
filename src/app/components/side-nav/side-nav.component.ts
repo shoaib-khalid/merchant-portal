@@ -54,7 +54,6 @@ export class SideNav {
         this.opened = false;
       }
     }
-
   }
 
 

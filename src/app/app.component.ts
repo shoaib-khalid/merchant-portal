@@ -2,8 +2,9 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Helper } from './helpers/graph-helper';
 import { JsonCodec } from './helpers/json-codec';
 import { saveAs } from 'file-saver';
-// import {SideNav} from './components/side-nav/side-nav.component';
 import { ConfigService } from "./config/config.service";
+import {FlowDialog} from './components/flow-dialog/flow-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 declare var mxUtils: any;
 declare var mxGraphHandler: any;
 declare var mxEvent: any;
@@ -19,6 +20,7 @@ declare var mxOutline: any;
 export class AppComponent implements AfterViewInit {
    @ViewChild('graphContainer') graphContainer: ElementRef;
    @ViewChild('outlineContainer') outlineContainer: ElementRef;
+   // @ViewChild(FlowDialog) private flowDialog:FlowDialog;
 
    public anchorPosition: boolean = true;
    graph: any;
@@ -26,7 +28,7 @@ export class AppComponent implements AfterViewInit {
    redoPointer: any;
    opened: boolean;
 
-   constructor(private configService: ConfigService) { }
+   constructor(private configService: ConfigService, public dialog: MatDialog) { }
 
    ngAfterViewInit() {
       // this.postData();
@@ -207,4 +209,17 @@ export class AppComponent implements AfterViewInit {
 
    deleteMultipleVertices() { }
 
+ 
+   createFlow(): void {
+      console.log("Dialog Opens")
+      const dialogRef = this.dialog.open(FlowDialog, {
+        width: '368px',
+        data: {title: "", description: ""}
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+      //   this.animal = result;
+      });
+    }
 }
