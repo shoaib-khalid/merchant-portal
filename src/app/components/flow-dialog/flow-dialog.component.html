@@ -2,15 +2,15 @@
 <div mat-dialog-content>
   <mat-form-field id="title">
     <mat-label>Title</mat-label>
-    <input matInput [(ngModel)]="data.title">
+    <input matInput [(ngModel)]="title">
   </mat-form-field>
   <mat-form-field id="description">
     <mat-label>Description</mat-label>
-    <input matInput [(ngModel)]="data.description">
+    <input matInput [(ngModel)]="description">
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.description" (click)="createFlow()" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="[description,title]" (click)="createFlow()" cdkFocusInitial>Ok</button>
 </div>
 

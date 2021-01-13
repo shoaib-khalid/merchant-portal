@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConfigService } from "../../config/config.service";
 export interface DialogData {
     title: string;
     description: string;
@@ -12,8 +13,9 @@ export interface DialogData {
 })
 
 export class FlowDialog {
-    
-    constructor(
+    title:any;
+    description:any;
+    constructor(private configService: ConfigService,
         public dialogRef: MatDialogRef<FlowDialog>,
         @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
@@ -21,6 +23,6 @@ export class FlowDialog {
         this.dialogRef.close();
     }
     createFlow(){
-        alert("Sent")
+        this.configService.getFlowId(this.title,this.description);
     }
 }
