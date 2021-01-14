@@ -113,6 +113,8 @@ export class Helper {
 
 					try {
 						Helper.v1 = evt.sourceState.cell;
+						console.log(Helper.v1)
+						
 						Helper.isVertex = true;
 						previous_id = evt.sourceState.cell.id;
 					} catch (ex) { Helper.isVertex = false; }
@@ -405,6 +407,9 @@ export class Helper {
 
 		var cached = true;
 		graph.convertValueToString = (cell) => {
+			
+			this.cardId=graph.getChildVertices(graph.getDefaultParent()).length-1;
+			
 			if (cached && cell.div != null) {
 				// Uses cached label
 				// Helper.bindCellEvents(cell.div, cell, graph);
