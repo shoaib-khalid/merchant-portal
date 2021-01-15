@@ -9,6 +9,7 @@ export class SideNav {
   opened: boolean;
   buttonsArray: any = [];
   pinned: boolean = false;
+  title: any;
 
   constructor() { }
 
@@ -56,5 +57,15 @@ export class SideNav {
     }
   }
 
+  titleChange(text) {
+    var strDigit;
+    if (Helper.v1.div.firstChild.id) {
+      strDigit = Helper.v1.div.firstChild.id;
+    } else {
+      strDigit = Helper.v1.div.firstChild.nextElementSibling.id;
+    }
 
+    const digit = Helper.digitFromString(strDigit);
+    document.getElementById("header" + digit).textContent = text;
+  }
 }

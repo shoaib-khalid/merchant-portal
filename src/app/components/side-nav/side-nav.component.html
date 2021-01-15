@@ -6,7 +6,7 @@
 
 		<div class="header text-center w-100">
 			<h4>
-				<input type="text" value="Send" id="vertex-title">
+				<input type="text" value="Send" (ngModelChange)="titleChange($event)" id="vertex-title" [(ngModel)]="title">
 			</h4>
 		</div>
 		<div class="body" id="side-nav-body">

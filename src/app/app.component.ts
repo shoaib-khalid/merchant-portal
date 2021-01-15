@@ -37,9 +37,10 @@ export class AppComponent implements AfterViewInit {
 
       //Callback functions
 
-      this.addStep = (x:any=50,y:any=0):any => {
+      this.addStep = (x: any = 50, y: any = 0): any => {
          let vertext = undefined;
          vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, x, y, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
+         this.configService.autoSaveAdd(JsonCodec.getIndividualJson(vertext))
          return vertext;
       }
 
@@ -51,7 +52,19 @@ export class AppComponent implements AfterViewInit {
       //Graph configurations
       this.graph = new mxGraph(this.graphContainer.nativeElement);
       Helper.addAssets(this.graph);
+      this.graph.addListener(mxEvent.CLICK, (sender, evt)=>
+            {
+               
+            var e = evt.getProperty('event'); // mouse event
+            var cell = evt.getProperty('cell'); // cell may be null
 
+            if (cell != null)
+            {
+               console.log(JsonCodec.getIndividualJson(cell))
+               // this.configService.autoSaveAdd(JsonCodec.getIndividualJson(cell))
+               evt.consume();
+            }
+            });
       new mxOutline(this.graph, this.outlineContainer.nativeElement);
       mxGraphHandler.prototype.guidesEnabled = true;
 
@@ -62,11 +75,16 @@ export class AppComponent implements AfterViewInit {
          this.redoPointer++;
          undoManager.undoableEditHappened(evt.getProperty('edit'));
          try {
-
+            // console.log(undoManager.history  )
             const objJson = this.individualJson(undoManager.history[undoManager.history.length - 1].changes[0].child);
-            // console.log(objJson)
-            // console.log(objJson.includes("delete"))
-            // this.configService.autoSaveAdd(objJson)
+            console.log(objJson)
+            if (objJson.includes(`@edge":"1"`)) {
+               this.configService.autoSaveAdd(objJson)
+            }
+            else if(objJson.includes(`"triggers":`)){
+               this.configService.autoSaveAdd(objJson)
+            }
+
          } catch (ex) { }
       };
 
@@ -151,7 +169,7 @@ export class AppComponent implements AfterViewInit {
       this.graph.getModel().endUpdate();
       new mxHierarchicalLayout(this.graph).execute(this.graph.getDefaultParent());
    }
-   addStep(x=50,y=0) { }
+   addStep(x = 50, y = 0) { }
    zoomOut() { }
    zoomIn() { }
    addTrigger() { }
@@ -171,7 +189,7 @@ export class AppComponent implements AfterViewInit {
 
    showJson() {
       let json = JsonCodec.getJson(this.graph);
-     
+
       const blob = new Blob([json], { type: 'application/json' });
       saveAs(blob, 'chatbot-diagram.json');
 
@@ -226,7 +244,7 @@ export class AppComponent implements AfterViewInit {
             this.graph.removeCells(this.graph.getChildVertices(this.graph.getDefaultParent()));
 
             var v1 = this.addStep();
-            var v2 = this.addStep(500,200);
+            var v2 = this.addStep(500, 200);
             this.graph.insertEdge(this.graph.getDefaultParent(), null, '', v1, v2);
          }
 
@@ -238,13 +256,13 @@ export class AppComponent implements AfterViewInit {
    async retrieveJsonEndpoint() {
       try {
          var data: any = await this.configService.retrieveGraph();
-        
+
       } catch (ex) {
          console.log(ex)
       }
       //   console.log(data.data.mxGraphModel)
       data = JSON.stringify({ mxGraphModel: data.data.mxGraphModel });
-      
+
       //   console.log(data)
       JsonCodec.loadJson(this.graph, data)
    }

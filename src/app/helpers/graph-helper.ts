@@ -1,4 +1,6 @@
 import { Card } from '../helpers/custom-card';
+import { ApiCallsService } from '../services/api-calls.service';
+import { JsonCodec } from './json-codec';
 declare var mxConstants: any;
 declare var mxUtils: any;
 declare var mxPerimeter: any;
@@ -20,6 +22,10 @@ export class Helper {
 	static selectedVertices: any = [];
 	static graph: any;
 	static isVertex: boolean;
+
+	constructor(apiCalls: ApiCallsService) {
+
+	}
 
 	static addAssets(graph) {
 		mxClient.link('stylesheet', '../assets/css/mxGraph.css');
@@ -59,9 +65,9 @@ export class Helper {
 
 				if (evt.target.classList.contains("delete")) {
 					graph.getModel().remove(Helper.v1);
+
 				} else if (evt.target.className === "copy") {
-					// console.log(graph.addCell(Helper.v1,graph.getDefaultParent()))
-					// graph.refresh();
+
 				}
 
 				else {
@@ -113,11 +119,10 @@ export class Helper {
 
 					try {
 						Helper.v1 = evt.sourceState.cell;
-						console.log(Helper.v1)
-						
 						Helper.isVertex = true;
 						previous_id = evt.sourceState.cell.id;
-					} catch (ex) { Helper.isVertex = false; }
+
+					} catch (ex) {console.log(ex); Helper.isVertex = false; }
 				},
 				mouseMove: function (sender, evt) {
 					evt = evt.evt;
@@ -146,9 +151,11 @@ export class Helper {
 
 				},
 				mouseUp: function (sender, evt) {
-
+					
 					try {
 						var v2 = evt.sourceState.cell;
+						JsonCodec.getIndividualJson(Helper.v1)
+
 						var t_id = t_id = evt.sourceState.cell.id;
 						if (typeof (Helper.v1.id) === "string") {
 							Helper.v1.id = parseInt(Helper.v1.id.match(/\d/g)[0]);
@@ -157,28 +164,7 @@ export class Helper {
 							t_id = parseInt(t_id.match(/\d/g)[0]);
 						}
 
-						// if ((t_id != Helper.v1.id) && (v2.value != "Test") && (t_id - Helper.v1.id != -1)) {
-
-						// 	if ((v2.value.localName === "InitialMessage")) {
-						// 		v2 = evt.sourceState.cell.parent;
-						// 	}
-
-						// 	// if (v2.edges || v2.children[1].edges) {
-
-						// 	// 	if (v2.children[1].edges[0].target.id === Helper.v1.parent.id) {
-						// 	// 		return;
-						// 	// 	}
-						// 	// }
-
-						// 	if (Helper.v1.edges) {
-						// 		for (var i = 0; i < Helper.v1.edges.length; i++) {
-						// 			graph.getModel().remove(Helper.v1.edges[i]);
-						// 		}
-						// 	}
-
-						// 	graph.insertEdge(graph.getDefaultParent(), null, '', Helper.v1, v2);
-
-						// }
+			
 					} catch (ex) {
 
 					}
@@ -335,7 +321,7 @@ export class Helper {
 
 			return shape;
 		};
-	
+
 
 		mxGraphHandler.prototype.redrawHandles = function (states) { }
 
@@ -358,19 +344,9 @@ export class Helper {
 			var source = graph.getModel().getTerminal(edge, true);
 			Helper.setConnectFillColor(source, "gray");
 
-			// var target = graph.getModel().getTerminal(edge, false);
-
-			// var style = graph.getCellStyle(edge);
-			// var sourcePortId = style[mxConstants.STYLE_SOURCE_PORT];
-			// var targetPortId = style[mxConstants.STYLE_TARGET_PORT];
-
-			// mxLog.show();
-			// mxLog.debug('connect', edge, source.id, target.id, sourcePortId, targetPortId);
 		});
 
-		// var highlight = new mxCellTracker(graph, '#3bbdfe');
-		// mxConnectionHandler.prototype.connectImage = new mxImage('../../assets/arrow-circle-right.svg', 25, 25);
-		// mxConnectionHandler.prototype.connectImage = new mxImage('', 25, 25);
+
 	}
 	static customTrigger = (text) => {
 		return `<div style="position: relative">		
@@ -407,9 +383,9 @@ export class Helper {
 
 		var cached = true;
 		graph.convertValueToString = (cell) => {
-			
-			this.cardId=graph.getChildVertices(graph.getDefaultParent()).length-1;
-			
+			const objJson = JsonCodec.getIndividualJson(cell);
+			this.cardId = graph.getChildVertices(graph.getDefaultParent()).length - 1;
+
 			if (cached && cell.div != null) {
 				// Uses cached label
 				// Helper.bindCellEvents(cell.div, cell, graph);
@@ -526,5 +502,12 @@ export class Helper {
 		var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
 
 	}
+
+
+	static digitFromString(str) {
+		const digit = parseInt(str.match(/\d/g)[0]);
+		return digit;
+	}
+
 	// }
 }

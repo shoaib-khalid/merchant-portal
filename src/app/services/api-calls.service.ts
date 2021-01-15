@@ -91,6 +91,7 @@ export class ApiCallsService {
 
 
   autoSaveDelete(object) {
+
     const httpOptions = this.getHttpOptions("asx");
     var body =object;
     this.http.patch<any>("http://209.58.160.20:3002/mxgraph/DELETE/"+this.flowId, body, httpOptions).toPromise
