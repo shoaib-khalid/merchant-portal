@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { JsonCodec } from 'src/app/helpers/json-codec';
 import { Helper } from '../../helpers/graph-helper';
 @Component({
   selector: 'side-nav',
@@ -10,6 +11,8 @@ export class SideNav {
   buttonsArray: any = [];
   pinned: boolean = false;
   title: any;
+  triggerText: any;
+
 
   constructor() { }
 
@@ -34,6 +37,7 @@ export class SideNav {
   insertButton() {
     this.buttonsArray.push("test");
     Helper.addTriggerUsingSidePanel();
+    // JsonCodec.loadJson(Helper.v1);
   }
 
   pin() {
@@ -58,6 +62,7 @@ export class SideNav {
   }
 
   titleChange(text) {
+
     var strDigit;
     if (Helper.v1.div.firstChild.id) {
       strDigit = Helper.v1.div.firstChild.id;
@@ -68,4 +73,14 @@ export class SideNav {
     const digit = Helper.digitFromString(strDigit);
     document.getElementById("header" + digit).textContent = text;
   }
+  triggerTextChange(event, index) {
+    // console.log(index)
+    // console.log(event.target.value);
+    // var arr = document.getElementsByClassName('btn btn-primary btn-block btn-lg')
+    // arr[index].textContent = " " + event.target.value;
+    Helper.v1.children[0].div.firstChild.outerText;
+    // console.log(arr.length)
+    // console.log(index)
+  }
+
 }

@@ -51,7 +51,7 @@ export class Helper {
 		var editor = new mxEditor();
 		// editor.graph = graph;
 		document.addEventListener("click", (evt: any) => {
-
+			
 			try {
 
 				if (evt.target.id.includes("card-header")) {
@@ -65,7 +65,8 @@ export class Helper {
 
 				if (evt.target.classList.contains("delete")) {
 					graph.getModel().remove(Helper.v1);
-
+					// console.log(Helper.v1)
+					
 				} else if (evt.target.className === "copy") {
 
 				}

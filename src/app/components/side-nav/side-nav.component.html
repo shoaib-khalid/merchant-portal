@@ -12,8 +12,8 @@
 		<div class="body" id="side-nav-body">
 			<div class="text-center pt-5" id="buttons-list">
 				<input id="trigger-text" type="text" placeholder="Enter your text...">
-				<div *ngFor="let name of buttonsArray">
-					<div class="buttons">{{name}}</div>
+				<div *ngFor="let name of buttonsArray;let i=index">
+					<input class="button-text"  type="text" value="{{name}}" (keyup)="triggerTextChange($event,i)" />
 				</div>
 				<div id="add-button" (click)="insertButton()">Add Button</div>
 				<button (document:click)="handleClick($event)" hidden></button>

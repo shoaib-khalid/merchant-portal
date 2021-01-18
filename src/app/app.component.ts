@@ -37,6 +37,7 @@ export class AppComponent implements AfterViewInit {
 
       //Callback functions
 
+
       this.addStep = (x: any = 50, y: any = 0): any => {
          let vertext = undefined;
          vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, x, y, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
@@ -52,19 +53,7 @@ export class AppComponent implements AfterViewInit {
       //Graph configurations
       this.graph = new mxGraph(this.graphContainer.nativeElement);
       Helper.addAssets(this.graph);
-      this.graph.addListener(mxEvent.CLICK, (sender, evt)=>
-            {
-               
-            var e = evt.getProperty('event'); // mouse event
-            var cell = evt.getProperty('cell'); // cell may be null
 
-            if (cell != null)
-            {
-               console.log(JsonCodec.getIndividualJson(cell))
-               // this.configService.autoSaveAdd(JsonCodec.getIndividualJson(cell))
-               evt.consume();
-            }
-            });
       new mxOutline(this.graph, this.outlineContainer.nativeElement);
       mxGraphHandler.prototype.guidesEnabled = true;
 
@@ -74,22 +63,44 @@ export class AppComponent implements AfterViewInit {
 
          this.redoPointer++;
          undoManager.undoableEditHappened(evt.getProperty('edit'));
+         console.log(undoManager.history[undoManager.history.length - 1])
+         // console.log(Helper.v1)
          try {
-            // console.log(undoManager.history  )
+
+
+            if (undoManager.history[undoManager.history.length - 1].changes[0].geometry) {
+               //On vertex move json will be posted
+               this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
+               console.log("INSIDE geometry")
+
+            }
+
+
+            else if (undoManager.history[undoManager.history.length - 1].changes[0].parent===null) {
+               this.configService.autoSaveDelete(JsonCodec.getIndividualJson(Helper.v1))
+               
+               console.log("Delete:")
+               console.log(Helper.v1)
+               
+               return
+            }
+
+        
             const objJson = this.individualJson(undoManager.history[undoManager.history.length - 1].changes[0].child);
-            console.log(objJson)
             if (objJson.includes(`@edge":"1"`)) {
                this.configService.autoSaveAdd(objJson)
+               console.log("edge deletion")
             }
-            else if(objJson.includes(`"triggers":`)){
+            else if (objJson.includes(`"triggers":`)) {
+               console.log("trigger json")
                this.configService.autoSaveAdd(objJson)
+               this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
             }
 
          } catch (ex) { }
       };
 
       this.undo = () => {
-         console.log("Redo pointer before undo: " + this.redoPointer)
          if (this.redoPointer > undoManager.history.length) {
             this.redoPointer = undoManager.history.length;
          }
@@ -118,7 +129,6 @@ export class AppComponent implements AfterViewInit {
          }
       }
       this.redo = () => {
-         console.log("Redo pointer before undo: " + this.redoPointer)
          if (this.redoPointer > undoManager.history.length) {
             this.redoPointer = undoManager.history.length;
          }
@@ -159,7 +169,6 @@ export class AppComponent implements AfterViewInit {
       var doc = mxUtils.createXmlDocument();
       var obj = doc.createElement('UserObject');
       this.triggers = doc.createElement('triggers');
-      var initialMessage = doc.createElement('InitialMessage');
       Helper.customVertex(this.graph);
 
       Helper.setEdgeStyle(this.graph);
@@ -179,7 +188,6 @@ export class AppComponent implements AfterViewInit {
    individualJson(vertex) {
       let json = JsonCodec.getIndividualJson(vertex);
       return json;
-      // console.log(json)
 
    }
 
@@ -193,7 +201,6 @@ export class AppComponent implements AfterViewInit {
       const blob = new Blob([json], { type: 'application/json' });
       saveAs(blob, 'chatbot-diagram.json');
 
-      // mxUtils.popup(json, true);
    }
 
    loadJson(event) {
@@ -260,10 +267,8 @@ export class AppComponent implements AfterViewInit {
       } catch (ex) {
          console.log(ex)
       }
-      //   console.log(data.data.mxGraphModel)
       data = JSON.stringify({ mxGraphModel: data.data.mxGraphModel });
 
-      //   console.log(data)
       JsonCodec.loadJson(this.graph, data)
    }
 }

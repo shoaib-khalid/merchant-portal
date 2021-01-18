@@ -24,7 +24,7 @@ export class ApiCallsService {
   }
 
   postNewFlowDefaultJson(json) {
-
+    
     const httpOptions = this.getHttpOptions("asx");
     const body: any = json;
     console.log("flow id when posting: " + this.flowId)
@@ -56,7 +56,7 @@ export class ApiCallsService {
 
     }
 
-    var data = await this.http.post<any>("http://209.58.160.20:3002/flow/draft", body, httpOptions).toPromise();
+    var data = await this.http.post<any>("http://209.58.160.20:3002/flow/", body, httpOptions).toPromise();
 
     this.flowId = data.data.id;
     
@@ -83,10 +83,12 @@ export class ApiCallsService {
   autoSaveAdd(object) {
     const httpOptions = this.getHttpOptions("asx");
     var body =object;
+    if(this.flowId){
     this.http.patch<any>("http://209.58.160.20:3002/mxgraph/ADD/"+this.flowId, body, httpOptions).toPromise
       ().then((data)=>{
         console.log(data)
       });
+    }
   }
 
 
@@ -100,5 +102,16 @@ export class ApiCallsService {
       });
   }
 
+  
+  autoSaveUpdate(object) {
+    const httpOptions = this.getHttpOptions("asx");
+    var body =object;
+    if(this.flowId){
+    this.http.patch<any>("http://209.58.160.20:3002/mxgraph/UPDATE/"+this.flowId, body, httpOptions).toPromise
+      ().then((data)=>{
+        console.log(data)
+      });
+    }
+  }
 
 }
