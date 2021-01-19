@@ -5,6 +5,7 @@ import { saveAs } from 'file-saver';
 import { ApiCallsService } from "./services/api-calls.service";
 import { FlowDialog } from './components/flow-dialog/flow-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatMenuTrigger } from '@angular/material/menu';
 declare var mxUtils: any;
 declare var mxGraphHandler: any;
 declare var mxEvent: any;
@@ -42,6 +43,8 @@ export class AppComponent implements AfterViewInit {
          let vertext = undefined;
          vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, x, y, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
          this.configService.autoSaveAdd(JsonCodec.getIndividualJson(vertext))
+         Helper.v1=vertext;
+
          return vertext;
       }
 
@@ -63,24 +66,18 @@ export class AppComponent implements AfterViewInit {
 
          this.redoPointer++;
          undoManager.undoableEditHappened(evt.getProperty('edit'));
-         console.log(undoManager.history[undoManager.history.length - 1])
-         // console.log(Helper.v1)
          try {
-
 
             if (undoManager.history[undoManager.history.length - 1].changes[0].geometry) {
                //On vertex move json will be posted
                this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
-               console.log("INSIDE geometry")
 
             }
 
 
             else if (undoManager.history[undoManager.history.length - 1].changes[0].parent===null) {
-               this.configService.autoSaveDelete(JsonCodec.getIndividualJson(Helper.v1))
                
-               console.log("Delete:")
-               console.log(Helper.v1)
+               this.configService.autoSaveDelete(JsonCodec.getIndividualJson(Helper.v1))
                
                return
             }
@@ -89,10 +86,8 @@ export class AppComponent implements AfterViewInit {
             const objJson = this.individualJson(undoManager.history[undoManager.history.length - 1].changes[0].child);
             if (objJson.includes(`@edge":"1"`)) {
                this.configService.autoSaveAdd(objJson)
-               console.log("edge deletion")
             }
             else if (objJson.includes(`"triggers":`)) {
-               console.log("trigger json")
                this.configService.autoSaveAdd(objJson)
                this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
             }
@@ -239,7 +234,6 @@ export class AppComponent implements AfterViewInit {
 
 
    createFlow(): void {
-
       const dialogRef = this.dialog.open(FlowDialog, {
          width: '368px',
          data: { title: "", description: "" }
@@ -270,5 +264,9 @@ export class AppComponent implements AfterViewInit {
       data = JSON.stringify({ mxGraphModel: data.data.mxGraphModel });
 
       JsonCodec.loadJson(this.graph, data)
+   }
+
+   publish(){
+      this.configService.publishmxGraph();
    }
 }

@@ -1,3 +1,4 @@
+import { conditionallyCreateMapObjectLiteral } from '@angular/compiler/src/render3/view/util';
 import { Card } from '../helpers/custom-card';
 import { ApiCallsService } from '../services/api-calls.service';
 import { JsonCodec } from './json-codec';
@@ -53,7 +54,6 @@ export class Helper {
 		// editor.graph = graph;
 		document.addEventListener("click", (evt: any) => {
 			try {
-
 				if (evt.target.id.includes("card-header")) {
 					var id = evt.target.id;
 					var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
@@ -109,7 +109,7 @@ export class Helper {
 				}
 			} catch (ex) {
 
-				console.log(ex)
+				// console.log(ex)
 
 			}
 		});
@@ -138,10 +138,13 @@ export class Helper {
 						Helper.isVertex = true;
 						previous_id = evt.sourceState.cell.id;
 
-					} catch (ex) {console.log(ex); Helper.isVertex = false; }
+					} catch (ex) { 
+						// console.log(ex);
+						 Helper.isVertex = false; }
 				},
 				mouseMove: function (sender, evt) {
 					evt = evt.evt;
+					
 					var className = evt.target.className;
 					try {
 						var targetId = evt.target.id.match(/\d/g)[0];
@@ -173,13 +176,12 @@ export class Helper {
 						JsonCodec.getIndividualJson(Helper.v1)
 
 						var t_id = t_id = evt.sourceState.cell.id;
-						if (typeof (Helper.v1.id) === "string") {
-							Helper.v1.id = parseInt(Helper.v1.id.match(/\d/g)[0]);
-						}
+						// if (typeof (Helper.v1.id) === "string") {
+						// 	Helper.v1.id = parseInt(Helper.v1.id.match(/\d/g)[0]);
+						// }
 						if (typeof (t_id) === "string") {
 							t_id = parseInt(t_id.match(/\d/g)[0]);
 						}
-
 
 					} catch (ex) {
 
@@ -341,7 +343,8 @@ export class Helper {
 
 		mxGraphHandler.prototype.redrawHandles = function (states) { }
 
-		graph.connectionHandler.addListener(mxEvent.START, function (sender, evt) {
+		graph.connectionHandler.addListener(mxEvent.DISCONNECT, function (sender, evt) {
+
 			var sourceState = evt.getProperty('state');
 			var source = sourceState.cell;
 			Helper.setConnectFillColor(source, "white");
@@ -359,14 +362,25 @@ export class Helper {
 			var edge = evt.getProperty('cell');
 			var source = graph.getModel().getTerminal(edge, true);
 			Helper.setConnectFillColor(source, "gray");
+			
 
 		});
 
 
 	}
 	static customTrigger = (text) => {
+
+		var strDigit;
+		if (Helper.v1.div.firstChild.id) {
+			strDigit = Helper.v1.div.firstChild.id;
+		} else {
+			strDigit = Helper.v1.div.firstChild.nextElementSibling.id;
+		}
+
+		const digit = Helper.digitFromString(strDigit);
+
 		return `<div style="position: relative">		
-		<button type="button" style="width:150px; margin-top:15px;" class="btn btn-primary btn-block btn-lg">	` + text + `
+		<button type="button" style="width:150px; margin-top:15px;" class="btn btn-primary btn-block btn-lg customTrigger`+ digit + `">	` + text + `
 		</button>
 		<svg height="20" width="20" class="connect-icon" style="position: absolute;	right: .5em; top: 50%; transform: translate(0,-50%);" >
 		<circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
@@ -396,7 +410,6 @@ export class Helper {
 	}
 
 	static customVertex(graph) {
-
 		var cached = true;
 		graph.convertValueToString = (cell) => {
 			const objJson = JsonCodec.getIndividualJson(cell);
@@ -426,10 +439,10 @@ export class Helper {
 			}
 			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'triggers') {
 				// Returns a DOM for the label
+				
 				var div = document.createElement('div');
 				div.innerHTML = cell.getAttribute('label');
-				div.innerHTML = Helper.customTrigger("test");
-
+				div.innerHTML = Helper.customTrigger("New Button");
 				mxUtils.br(div);
 				if (cached) {
 					// Caches label
@@ -476,19 +489,20 @@ export class Helper {
 
 
 	static addTriggerUsingSidePanel(cell = Helper.v1) {
+		
 		var doc = mxUtils.createXmlDocument();
 		let triggers = doc.createElement('triggers');
 
 		let initialMessage = cell.div.getElementsByClassName('initial-message');
 		if (initialMessage && initialMessage.length > 0) {
-			initialMessage[0].remove()
+			// initialMessage[0].remove()
 			// cell.div.removeChild(initialMessage[0]);
 		}
 		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
-		var yAxis = 70;
+		var yAxis = 130;
 		var childHegiht = 55;
 
-		if (childLength > 0) {
+		// if (childLength > 0) {
 			yAxis = yAxis + (childLength * childHegiht);
 			var current = cell.getGeometry();
 			current.height = current.height + childHegiht;
@@ -499,7 +513,7 @@ export class Helper {
 			flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
 			this.graph.cellsResized([cell], [current], false);
 			this.graph.refresh();
-		}
+		// }
 		var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
 
 	}
@@ -510,5 +524,5 @@ export class Helper {
 		return digit;
 	}
 
-	// }
+	
 }

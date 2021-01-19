@@ -6,14 +6,14 @@
 
 		<div class="header text-center w-100">
 			<h4>
-				<input type="text" value="Send" (ngModelChange)="titleChange($event)" id="vertex-title" [(ngModel)]="title">
+				<input type="text" value="Send" (ngModelChange)="titleChange($event)" id="vertex-title" (focusout)="titleFocusOut($event)" [(ngModel)]="title">
 			</h4>
 		</div>
 		<div class="body" id="side-nav-body">
 			<div class="text-center pt-5" id="buttons-list">
-				<input id="trigger-text" type="text" placeholder="Enter your text...">
+				<input id="trigger-text" type="text" (focusout)="descriptionFocusOut($event)"placeholder="Enter your text..." (keyup)="descriptionChange($event)">
 				<div *ngFor="let name of buttonsArray;let i=index">
-					<input class="button-text"  type="text" value="{{name}}" (keyup)="triggerTextChange($event,i)" />
+					<input class="button-text"  type="text" value="{{name}}" (keyup)="triggerTextChange($event,i)" (focusout)="triggerFocusOut($event,i)"/>
 				</div>
 				<div id="add-button" (click)="insertButton()">Add Button</div>
 				<button (document:click)="handleClick($event)" hidden></button>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { JsonCodec } from 'src/app/helpers/json-codec';
 import { Helper } from '../../helpers/graph-helper';
+import { ApiCallsService } from '../../services/api-calls.service'
 @Component({
   selector: 'side-nav',
   templateUrl: './side-nav.component.html',
@@ -14,7 +15,7 @@ export class SideNav {
   triggerText: any;
 
 
-  constructor() { }
+  constructor(private apiCalls: ApiCallsService) { }
 
   toggle() {
     if (this.opened) {
@@ -22,7 +23,7 @@ export class SideNav {
         this.buttonsArray = [];
         try {
           for (var i = 0; i < Helper.v1.children.length; i++) {
-            this.buttonsArray.push("test")
+            this.buttonsArray.push("New Button")
           }
         } catch (ex) {
           // console.log(ex)
@@ -35,7 +36,7 @@ export class SideNav {
   }
 
   insertButton() {
-    this.buttonsArray.push("test");
+    this.buttonsArray.push("New Button");
     Helper.addTriggerUsingSidePanel();
     // JsonCodec.loadJson(Helper.v1);
   }
@@ -63,24 +64,52 @@ export class SideNav {
 
   titleChange(text) {
 
-    var strDigit;
-    if (Helper.v1.div.firstChild.id) {
-      strDigit = Helper.v1.div.firstChild.id;
-    } else {
-      strDigit = Helper.v1.div.firstChild.nextElementSibling.id;
-    }
-
+    var strDigit = this.getStrDigit();
     const digit = Helper.digitFromString(strDigit);
     document.getElementById("header" + digit).textContent = text;
+
   }
   triggerTextChange(event, index) {
-    // console.log(index)
-    // console.log(event.target.value);
-    // var arr = document.getElementsByClassName('btn btn-primary btn-block btn-lg')
-    // arr[index].textContent = " " + event.target.value;
-    Helper.v1.children[0].div.firstChild.outerText;
-    // console.log(arr.length)
-    // console.log(index)
+    var strDigit = this.getStrDigit();
+    const digit = Helper.digitFromString(strDigit);
+    var arr = document.getElementsByClassName('customTrigger' + digit);
+    arr[index].textContent = " " + event.target.value;
+
+  }
+
+
+  getStrDigit() {
+    if (Helper.v1.div.firstChild.id) {
+      return Helper.v1.div.firstChild.id;
+    } else {
+      return Helper.v1.div.firstChild.nextElementSibling.id;
+    }
+
+
+  }
+
+  triggerFocusOut(event, i) {
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1.children[i]))
+
+
+  }
+
+  titleFocusOut(event) {
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
+
+  }
+
+  descriptionFocusOut(event) {
+
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
+ 
+
+  }
+
+  descriptionChange(event) {
+    var strDigit = this.getStrDigit();
+    const digit = Helper.digitFromString(strDigit);
+    document.getElementById("initial-message" + digit).textContent = event.target.value;
   }
 
 }

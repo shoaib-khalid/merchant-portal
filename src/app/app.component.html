@@ -18,7 +18,10 @@
 
 
     <a href="#" (click)="addStep()" id="addStep"class="float ml-1 p-3 rounded-circle shadow-lg mb-5 rounded"
-        style="z-index: 2;"><img id="addStepimg"src="../assets/plus.png" alt=""></a>
+        style="z-index: 2;">
+        <menu-options></menu-options>
+        
+        <img id="addStepimg"src="../assets/plus.png" alt=""></a>
 
     <a href="#" (click)="zoomIn()" class="zoom-in-float ml-1 p-2 rounded-circle shadow-lg  rounded"
         style="z-index: 2;"><img src="../assets/zoom-in.png" alt=""></a>
@@ -81,6 +84,12 @@
                                 </div>
                             </div>
                             <div class="row p-2 ml-1">
+
+                                <div class="col-1">
+                                    <button mat-raised-button (click)="publish()">Publish</button>
+                                </div>
+                            </div>
+                            <div class="row p-2 ml-1">
                                 <div class="col-1">
                                <span (click)="retrieveJsonEndpoint()" style="cursor: pointer;color:rgb(86, 86, 252);" class="p-0" >Load json using endpoint</span>
                                 </div>
@@ -100,7 +109,9 @@
 
                 </div>
                 <div #graphContainer id="graphContainer">
-                    <side-nav></side-nav>
+                    <side-nav>
+
+                    </side-nav>
                 </div>
             </main>
         </div>
