@@ -16,6 +16,7 @@ declare var mxPolyline: any;
 declare var mxGraphHandler: any;
 
 
+
 export class Helper {
 	static v1: any;
 	static cardId: any = 0;
@@ -51,26 +52,39 @@ export class Helper {
 		var editor = new mxEditor();
 		// editor.graph = graph;
 		document.addEventListener("click", (evt: any) => {
-			
 			try {
 
 				if (evt.target.id.includes("card-header")) {
-
 					var id = evt.target.id;
 					var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
 					(<HTMLInputElement>document.getElementById("vertex-title")).value = text;
-					// document.getElementById("sideNavTest").click();
-
 				}
 
 				if (evt.target.classList.contains("delete")) {
 					graph.getModel().remove(Helper.v1);
-					// console.log(Helper.v1)
-					
 				} else if (evt.target.className === "copy") {
-
+					let clone = Helper.v1.value.cloneNode(true);
+					let clonedvertex = graph.insertVertex(Helper.v1.getParent(), null, clone, (Helper.v1.geometry.x + 30), Helper.v1.geometry.y, Helper.v1.geometry.width, Helper.v1.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
+					if (Helper.v1.children && Helper.v1.children.length > 0) {
+						Helper.v1.children.forEach((child: any) => {
+							let clonedChild = child.value.cloneNode(true);
+							graph.insertVertex(clonedvertex, null, clonedChild, child.geometry.x, child.geometry.y, child.geometry.width, child.geometry.height, "resizable=0;constituent=1;movable=0;strokeColor=none;", null)
+						});
+						let initialMessage = clonedvertex.div.getElementsByClassName('initial-message');
+						if (initialMessage && initialMessage.length > 0) {
+							initialMessage[0].remove();
+						}
+						if (Helper.v1.children.length > 1) {
+							var childHegiht = 55;
+							let flowStarTriggerList = clonedvertex.div.querySelector('.flow-start-trigger-list');
+							if (flowStarTriggerList) {
+								let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
+								flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + (childHegiht * (Helper.v1.children.length - 1));
+								flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
+							}
+						}
+					}
 				}
-
 				else {
 					try {
 						var className = evt.target.className;
@@ -101,6 +115,7 @@ export class Helper {
 		});
 
 	}
+
 
 	static connectPreview = (graph) => {
 
@@ -152,7 +167,7 @@ export class Helper {
 
 				},
 				mouseUp: function (sender, evt) {
-					
+
 					try {
 						var v2 = evt.sourceState.cell;
 						JsonCodec.getIndividualJson(Helper.v1)
@@ -165,7 +180,7 @@ export class Helper {
 							t_id = parseInt(t_id.match(/\d/g)[0]);
 						}
 
-			
+
 					} catch (ex) {
 
 					}
@@ -411,7 +426,6 @@ export class Helper {
 			}
 			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'triggers') {
 				// Returns a DOM for the label
-
 				var div = document.createElement('div');
 				div.innerHTML = cell.getAttribute('label');
 				div.innerHTML = Helper.customTrigger("test");
@@ -423,20 +437,6 @@ export class Helper {
 				}
 				return div;
 			}
-			// else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'initialmessage') {
-			// 	// Returns a DOM for the label
-
-			// 	var div = document.createElement('div');
-			// 	div.innerHTML = cell.getAttribute('label');
-			// 	div.innerHTML = Card.InitialMesssage;
-
-			// 	mxUtils.br(div);
-			// 	if (cached) {
-			// 		// Caches label
-			// 		cell.div = div;
-			// 	}
-			// 	return div;
-			// }
 			return '';
 		};
 	}
