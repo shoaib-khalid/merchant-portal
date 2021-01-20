@@ -23,6 +23,7 @@ export class Helper {
 	static selectedVertices: any = [];
 	static graph: any;
 	static isVertex: boolean;
+	static copyAction:boolean;
 
 	constructor(apiCalls: ApiCallsService) {
 
@@ -34,8 +35,10 @@ export class Helper {
 	}
 	static deleteMultipleVertices(graph) {
 		for (var i = 0; i < this.selectedVertices.length; i++) {
-			graph.removeCells([this.selectedVertices[i]]);
+			Helper.v1=this.selectedVertices[i];
+			graph.removeCells([this.selectedVertices[i]])[0];
 		}
+		
 	}
 
 	static copyMultipleVertices(graph) {
@@ -84,7 +87,10 @@ export class Helper {
 							} else {
 								this.selectedVertices.push(Helper.v1);
 							}
+							
 							document.getElementById("flow" + evt.target.id.match(/\d/g)[0]).style.borderColor = "#74fca1";
+						}else{
+						this.setColorToTransparent();
 						}
 
 					}
@@ -395,6 +401,7 @@ export class Helper {
 
 
 	private static copyVertex(graph: any, vertex: any) {
+		Helper.copyAction=true;
 		let clone = vertex.value.cloneNode(true);
 		let clonedvertex = graph.insertVertex(vertex.getParent(), null, clone, (vertex.geometry.x + 30), vertex.geometry.y, vertex.geometry.width, vertex.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
 		if (vertex.children && vertex.children.length > 0) {

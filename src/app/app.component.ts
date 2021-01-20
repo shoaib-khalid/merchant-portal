@@ -5,7 +5,6 @@ import { saveAs } from 'file-saver';
 import { ApiCallsService } from "./services/api-calls.service";
 import { FlowDialog } from './components/flow-dialog/flow-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { MatMenuTrigger } from '@angular/material/menu';
 declare var mxUtils: any;
 declare var mxGraphHandler: any;
 declare var mxEvent: any;
@@ -21,6 +20,7 @@ declare var mxOutline: any;
 export class AppComponent implements AfterViewInit {
    @ViewChild('graphContainer') graphContainer: ElementRef;
    @ViewChild('outlineContainer') outlineContainer: ElementRef;
+
    // @ViewChild(FlowDialog) private flowDialog:FlowDialog;
 
    public anchorPosition: boolean = true;
@@ -30,6 +30,9 @@ export class AppComponent implements AfterViewInit {
    opened: boolean;
 
    constructor(private configService: ApiCallsService, public dialog: MatDialog) { }
+   showAlert(e) {
+      alert("sdf")
+   }
 
    ngAfterViewInit() {
       // this.postData();
@@ -40,6 +43,7 @@ export class AppComponent implements AfterViewInit {
 
 
       this.addStep = (x: any = 50, y: any = 0): any => {
+         alert("inside add step")
          let vertext = undefined;
          vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, x, y, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
          this.configService.autoSaveAdd(JsonCodec.getIndividualJson(vertext))
@@ -76,9 +80,7 @@ export class AppComponent implements AfterViewInit {
 
 
             else if (undoManager.history[undoManager.history.length - 1].changes[0].parent === null) {
-
                this.configService.autoSaveDelete(JsonCodec.getIndividualJson(Helper.v1))
-
                return
             }
 
@@ -91,6 +93,11 @@ export class AppComponent implements AfterViewInit {
                this.configService.autoSaveAdd(objJson)
                this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
             }
+            else if (Helper.copyAction) {
+               this.configService.autoSaveAdd(objJson)
+               Helper.copyAction = false;
+            }
+
 
          } catch (ex) { }
       };
@@ -174,6 +181,7 @@ export class AppComponent implements AfterViewInit {
       new mxHierarchicalLayout(this.graph).execute(this.graph.getDefaultParent());
    }
    addStep(x = 50, y = 0) { }
+
    zoomOut() { }
    zoomIn() { }
    addTrigger() { }

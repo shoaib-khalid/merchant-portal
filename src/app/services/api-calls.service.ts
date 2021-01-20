@@ -83,12 +83,10 @@ export class ApiCallsService {
   autoSaveAdd(object) {
     const httpOptions = this.getHttpOptions("asx");
     var body = object;
-    console.log("***AutoSaveADD***")
-    console.log(body)
     if (this.flowId) {
       this.http.patch<any>("http://209.58.160.20:3002/mxgraph/ADD/" + this.flowId, body, httpOptions).toPromise
         ().then((data) => {
-          console.log(data)
+          console.log("Flow updated after addition!")
         });
     }
   }
@@ -98,12 +96,10 @@ export class ApiCallsService {
 
     const httpOptions = this.getHttpOptions("asx");
     var body = object;
-    console.log("***DELETE***")
-    console.log(body)
     if (this.flowId) {
       this.http.patch<any>("http://209.58.160.20:3002/mxgraph/DELETE/" + this.flowId, body, httpOptions).toPromise
         ().then((data) => {
-          console.log(data)
+          console.log("Flow updated after deletion!")
         });
     }
   }
@@ -112,12 +108,10 @@ export class ApiCallsService {
   autoSaveUpdate(object) {
     const httpOptions = this.getHttpOptions("asx");
     var body = object;
-    console.log("***AutoSaveUpdate***")
-    console.log(body)
     if (this.flowId) {
       this.http.patch<any>("http://209.58.160.20:3002/mxgraph/UPDATE/" + this.flowId, body, httpOptions).toPromise
         ().then((data) => {
-          console.log(data)
+          console.log("Flow Updated after change!")
         });
     }
   }
@@ -132,7 +126,7 @@ export class ApiCallsService {
     if (this.flowId) {
       this.http.patch<any>("http://209.58.160.20:3002/mxgraph/publish/" + this.flowId, body, httpOptions).toPromise
         ().then((data) => {
-          console.log(data)
+          console.log("Flow Pusblished!")
         });
     }
   }
