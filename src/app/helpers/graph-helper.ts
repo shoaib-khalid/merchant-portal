@@ -15,8 +15,7 @@ declare var mxCellState: any;
 declare var mxEvent: any;
 declare var mxPolyline: any;
 declare var mxGraphHandler: any;
-
-
+declare var $: any;
 
 export class Helper {
 	static v1: any;
@@ -33,12 +32,15 @@ export class Helper {
 		mxClient.link('stylesheet', '../assets/css/mxGraph.css');
 		this.graph = graph;
 	}
-
-
-
 	static deleteMultipleVertices(graph) {
 		for (var i = 0; i < this.selectedVertices.length; i++) {
-			graph.getModel().remove(this.selectedVertices[i]);
+			graph.removeCells([this.selectedVertices[i]]);
+		}
+	}
+
+	static copyMultipleVertices(graph) {
+		for (var i = 0; i < this.selectedVertices.length; i++) {
+			Helper.copyVertex(graph, this.selectedVertices[i]);
 		}
 	}
 
@@ -61,45 +63,28 @@ export class Helper {
 				}
 
 				if (evt.target.classList.contains("delete")) {
-					graph.getModel().remove(Helper.v1);
+					graph.removeCells([Helper.v1]);
+
 				} else if (evt.target.className === "copy") {
-					let clone = Helper.v1.value.cloneNode(true);
-					let clonedvertex = graph.insertVertex(Helper.v1.getParent(), null, clone, (Helper.v1.geometry.x + 30), Helper.v1.geometry.y, Helper.v1.geometry.width, Helper.v1.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
-					if (Helper.v1.children && Helper.v1.children.length > 0) {
-						Helper.v1.children.forEach((child: any) => {
-							let clonedChild = child.value.cloneNode(true);
-							graph.insertVertex(clonedvertex, null, clonedChild, child.geometry.x, child.geometry.y, child.geometry.width, child.geometry.height, "resizable=0;constituent=1;movable=0;strokeColor=none;", null)
-						});
-						let initialMessage = clonedvertex.div.getElementsByClassName('initial-message');
-						if (initialMessage && initialMessage.length > 0) {
-							initialMessage[0].remove();
-						}
-						if (Helper.v1.children.length > 1) {
-							var childHegiht = 55;
-							let flowStarTriggerList = clonedvertex.div.querySelector('.flow-start-trigger-list');
-							if (flowStarTriggerList) {
-								let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
-								flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + (childHegiht * (Helper.v1.children.length - 1));
-								flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
-							}
-						}
-					}
+					Helper.copyVertex(graph, Helper.v1);
 				}
 				else {
 					try {
 						var className = evt.target.className;
-						if (className.includes("custom-card") || className.includes("header") ||
-							className.includes("card-body") || className.includes("card-header")) {
+						if (
+							$(evt.target).closest(".card").length
 
+							// className.includes("custom-card") || className.includes("header") ||
+							// 	className.includes("card-body") || className.includes("card-header")
+
+						) {
 							if (evt.ctrlKey === false) {
-								this.selectedVertices = [];
+								this.selectedVertices = [Helper.v1];
 								this.setColorToTransparent();
 							} else {
-								this.selectedVertices.push(Helper.v1)
+								this.selectedVertices.push(Helper.v1);
 							}
-
 							document.getElementById("flow" + evt.target.id.match(/\d/g)[0]).style.borderColor = "#74fca1";
-							this.selectedVertices.push(Helper.v1)
 						}
 
 					}
@@ -138,13 +123,14 @@ export class Helper {
 						Helper.isVertex = true;
 						previous_id = evt.sourceState.cell.id;
 
-					} catch (ex) { 
+					} catch (ex) {
 						// console.log(ex);
-						 Helper.isVertex = false; }
+						Helper.isVertex = false;
+					}
 				},
 				mouseMove: function (sender, evt) {
 					evt = evt.evt;
-					
+
 					var className = evt.target.className;
 					try {
 						var targetId = evt.target.id.match(/\d/g)[0];
@@ -342,8 +328,17 @@ export class Helper {
 
 
 		mxGraphHandler.prototype.redrawHandles = function (states) { }
-
-		graph.connectionHandler.addListener(mxEvent.DISCONNECT, function (sender, evt) {
+		graph.addListener(mxEvent.CELLS_REMOVED, function (sender, evt) {
+			if (evt.getProperty('cells')) {
+				let edges = evt.getProperty('cells').filter(m => m.edge);
+				if (edges) {
+					edges.forEach(edge => {
+						Helper.setConnectFillColor(edge.source, "white");
+					});
+				}
+			}
+		});
+		graph.connectionHandler.addListener(mxEvent.START, function (sender, evt) {
 
 			var sourceState = evt.getProperty('state');
 			var source = sourceState.cell;
@@ -362,8 +357,6 @@ export class Helper {
 			var edge = evt.getProperty('cell');
 			var source = graph.getModel().getTerminal(edge, true);
 			Helper.setConnectFillColor(source, "gray");
-			
-
 		});
 
 
@@ -400,6 +393,30 @@ export class Helper {
 		return graph
 	}
 
+
+	private static copyVertex(graph: any, vertex: any) {
+		let clone = vertex.value.cloneNode(true);
+		let clonedvertex = graph.insertVertex(vertex.getParent(), null, clone, (vertex.geometry.x + 30), vertex.geometry.y, vertex.geometry.width, vertex.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
+		if (vertex.children && vertex.children.length > 0) {
+			vertex.children.forEach((child: any) => {
+				let clonedChild = child.value.cloneNode(true);
+				graph.insertVertex(clonedvertex, null, clonedChild, child.geometry.x, child.geometry.y, child.geometry.width, child.geometry.height, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+			});
+			let initialMessage = clonedvertex.div.getElementsByClassName('initial-message');
+			if (initialMessage && initialMessage.length > 0) {
+				initialMessage[0].remove();
+			}
+			if (vertex.children.length > 1) {
+				var childHegiht = 55;
+				let flowStarTriggerList = clonedvertex.div.querySelector('.flow-start-trigger-list');
+				if (flowStarTriggerList) {
+					let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
+					flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + (childHegiht * (vertex.children.length - 1));
+					flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
+				}
+			}
+		}
+	}
 
 	private static setConnectFillColor(source: any, color: string) {
 		let connectIcon = source.div.getElementsByClassName("connect-icon");
@@ -439,7 +456,7 @@ export class Helper {
 			}
 			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'triggers') {
 				// Returns a DOM for the label
-				
+
 				var div = document.createElement('div');
 				div.innerHTML = cell.getAttribute('label');
 				div.innerHTML = Helper.customTrigger("New Button");
@@ -489,7 +506,7 @@ export class Helper {
 
 
 	static addTriggerUsingSidePanel(cell = Helper.v1) {
-		
+
 		var doc = mxUtils.createXmlDocument();
 		let triggers = doc.createElement('triggers');
 
@@ -503,16 +520,16 @@ export class Helper {
 		var childHegiht = 55;
 
 		// if (childLength > 0) {
-			yAxis = yAxis + (childLength * childHegiht);
-			var current = cell.getGeometry();
-			current.height = current.height + childHegiht;
-			let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
-			let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
+		yAxis = yAxis + (childLength * childHegiht);
+		var current = cell.getGeometry();
+		current.height = current.height + childHegiht;
+		let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
+		let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
 
-			flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
-			flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
-			this.graph.cellsResized([cell], [current], false);
-			this.graph.refresh();
+		flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
+		flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
+		this.graph.cellsResized([cell], [current], false);
+		this.graph.refresh();
 		// }
 		var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
 
@@ -524,5 +541,5 @@ export class Helper {
 		return digit;
 	}
 
-	
+
 }

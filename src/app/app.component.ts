@@ -43,7 +43,7 @@ export class AppComponent implements AfterViewInit {
          let vertext = undefined;
          vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, x, y, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
          this.configService.autoSaveAdd(JsonCodec.getIndividualJson(vertext))
-         Helper.v1=vertext;
+         Helper.v1 = vertext;
 
          return vertext;
       }
@@ -75,14 +75,14 @@ export class AppComponent implements AfterViewInit {
             }
 
 
-            else if (undoManager.history[undoManager.history.length - 1].changes[0].parent===null) {
-               
+            else if (undoManager.history[undoManager.history.length - 1].changes[0].parent === null) {
+
                this.configService.autoSaveDelete(JsonCodec.getIndividualJson(Helper.v1))
-               
+
                return
             }
 
-        
+
             const objJson = this.individualJson(undoManager.history[undoManager.history.length - 1].changes[0].child);
             if (objJson.includes(`@edge":"1"`)) {
                this.configService.autoSaveAdd(objJson)
@@ -232,6 +232,9 @@ export class AppComponent implements AfterViewInit {
 
    deleteMultipleVertices() { }
 
+   copyMultipleVertices() {
+      Helper.copyMultipleVertices(this.graph);
+   }
 
    createFlow(): void {
       const dialogRef = this.dialog.open(FlowDialog, {
@@ -266,7 +269,7 @@ export class AppComponent implements AfterViewInit {
       JsonCodec.loadJson(this.graph, data)
    }
 
-   publish(){
+   publish() {
       this.configService.publishmxGraph();
    }
 }

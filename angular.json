@@ -22,9 +22,21 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              { "glob": "**/*", "input": "src/assets/", "output": "/assets/" },
-              { "glob": "favicon.ico", "input": "/src", "output": "/" },
-              { "glob": "**/*", "input": "./node_modules/mxgraph/javascript/src", "output": "/assets/mxgraph" }
+              {
+                "glob": "**/*",
+                "input": "src/assets/",
+                "output": "/assets/"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "/src",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/mxgraph/javascript/src",
+                "output": "/assets/mxgraph"
+              }
             ],
             "styles": [
               "src/styles.css"
@@ -33,7 +45,8 @@
               "src/assets/js/mxgraph.conf.js",
               "node_modules/mxgraph/javascript/mxClient.js",
               "src/assets/js/json2xml.js",
-              "src/assets/js/xml2json.js"
+              "src/assets/js/xml2json.js",
+              "node_modules/jquery/dist/jquery.min.js"
             ]
           },
           "configurations": {
