@@ -10,9 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
-import {MatMenuModule} from '@angular/material/menu';
-import {MenuOptions} from './components/menu-options/menu-options.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
+import { MenuOptions } from './components/menu-options/menu-options.component';
 @NgModule({
   declarations: [
     SideNav,
@@ -30,8 +30,8 @@ import {MenuOptions} from './components/menu-options/menu-options.component';
     MatDialogModule,
     MatInputModule,
     MatMenuModule
-  ],entryComponents: [FlowDialog,MenuOptions],
-  providers: [ { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' }}],
-  bootstrap: [AppComponent,MenuOptions]
+  ], entryComponents: [FlowDialog],
+  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
