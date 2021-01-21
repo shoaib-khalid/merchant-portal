@@ -25,17 +25,16 @@ export class MenuOptions {
         this.menu.openMenu();
     }
     menuClicked() {
-        alert("Menu Clicked")
-        this.open.emit('open');
+        this.open.emit('MENU_MESSAGE');
     }
     actionClicked() {
-        alert("Action Clicked")
-        this.open.emit("event");
+        this.open.emit("ACTION");
 
     }
     conditionClicked() {
-        this.open.emit("event");
-
-        alert("Condition Clicked")
+        this.open.emit("CONDITION");
+    }
+    handOverClicked() {
+        this.open.emit("HANDOVER");
     }
 }

@@ -21,8 +21,6 @@ export class AppComponent implements AfterViewInit {
    @ViewChild('graphContainer') graphContainer: ElementRef;
    @ViewChild('outlineContainer') outlineContainer: ElementRef;
 
-   // @ViewChild(FlowDialog) private flowDialog:FlowDialog;
-
    public anchorPosition: boolean = true;
    graph: any;
    triggers: any;
@@ -30,32 +28,19 @@ export class AppComponent implements AfterViewInit {
    opened: boolean;
 
    constructor(private configService: ApiCallsService, public dialog: MatDialog) { }
-   showAlert(e) {
-      alert("sdf")
-   }
 
    ngAfterViewInit() {
-      // this.postData();
-      // this.retrieveJson();
+
       this.redoPointer = 0;
 
-      //Callback functions
-
-
+      //Callback function
       this.addStep = (x: any = 50, y: any = 0): any => {
-         alert("inside add step")
          let vertext = undefined;
          vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, x, y, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
-         this.configService.autoSaveAdd(JsonCodec.getIndividualJson(vertext))
          Helper.v1 = vertext;
-
          return vertext;
       }
-
-      this.zoomOut = () => { this.graph.zoomOut(); }
-      this.zoomIn = () => { this.graph.zoomIn(); }
-      this.deleteMultipleVertices = (graph = this.graph) => { Helper.deleteMultipleVertices(graph); }
-      //End callback functions
+      //End callback function
 
       //Graph configurations
       this.graph = new mxGraph(this.graphContainer.nativeElement);
@@ -78,12 +63,15 @@ export class AppComponent implements AfterViewInit {
 
             }
 
-
             else if (undoManager.history[undoManager.history.length - 1].changes[0].parent === null) {
                this.configService.autoSaveDelete(JsonCodec.getIndividualJson(Helper.v1))
+               this.configService.dataVariables.forEach((element, index) => {
+                  if (element.vertexId == Helper.v1.id) {
+                     this.configService.dataVariables.splice(index, 1)
+                  }
+               });
                return
             }
-
 
             const objJson = this.individualJson(undoManager.history[undoManager.history.length - 1].changes[0].child);
             if (objJson.includes(`@edge":"1"`)) {
@@ -95,6 +83,9 @@ export class AppComponent implements AfterViewInit {
             }
             else if (Helper.copyAction) {
                this.configService.autoSaveAdd(objJson)
+		debugger;
+		var s = Helper.v1;
+
                Helper.copyAction = false;
             }
 
@@ -182,8 +173,8 @@ export class AppComponent implements AfterViewInit {
    }
    addStep(x = 50, y = 0) { }
 
-   zoomOut() { }
-   zoomIn() { }
+   zoomOut() { this.graph.zoomOut(); }
+   zoomIn() { this.graph.zoomIn(); }
    addTrigger() { }
    undo() { }
    redo() { }
@@ -221,7 +212,6 @@ export class AppComponent implements AfterViewInit {
 
    }
 
-
    showData() {
       this.configService.getData()
          .subscribe(data => {
@@ -238,7 +228,7 @@ export class AppComponent implements AfterViewInit {
          );
    }
 
-   deleteMultipleVertices() { }
+   deleteMultipleVertices() { Helper.deleteMultipleVertices(this.graph); }
 
    copyMultipleVertices() {
       Helper.copyMultipleVertices(this.graph);
@@ -261,9 +251,7 @@ export class AppComponent implements AfterViewInit {
          }
 
       });
-
    }
-
 
    async retrieveJsonEndpoint() {
       try {
@@ -279,5 +267,28 @@ export class AppComponent implements AfterViewInit {
 
    publish() {
       this.configService.publishmxGraph();
+   }
+   addStepWithType(type) {
+      this.addStep();
+      const length = this.configService.dataVariables.length;
+      var lastId
+      if (length > 0) {
+         lastId = parseInt(this.configService.dataVariables[length - 1].dataVariables[0].id);
+      } else {
+         lastId = -1;
+      }
+      this.configService.dataVariables.push({
+         "type": type,
+         "vertexId": Helper.v1.id,
+         "dataVariables": [
+            {
+               "id": lastId + 1,
+               "dataVariable": "",
+               "path": "",
+               "optional": ""
+            }
+         ]
+      });
+      this.configService.autoSaveAdd(JsonCodec.getIndividualJson(Helper.v1))
    }
 }

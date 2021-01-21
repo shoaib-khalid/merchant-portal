@@ -13,11 +13,20 @@ export class SideNav {
   pinned: boolean = false;
   title: any;
   triggerText: any;
+  dataVariable: any = "";
 
 
   constructor(private apiCalls: ApiCallsService) { }
 
   toggle() {
+    console.log(this.apiCalls.dataVariables)
+    this.dataVariable = "";
+    this.apiCalls.dataVariables.forEach((element, index) => {
+      if (element.vertexId == Helper.v1.id) {
+        this.dataVariable = element.dataVariables[0].dataVariable;
+      }
+    });
+
     if (this.opened) {
       if (Helper.isVertex) {
         this.buttonsArray = [];
@@ -26,19 +35,18 @@ export class SideNav {
             this.buttonsArray.push("New Button")
           }
         } catch (ex) {
-          // console.log(ex)
         }
       }
 
     } else {
       this.opened = true;
     }
+
   }
 
   insertButton() {
     this.buttonsArray.push("New Button");
     Helper.addTriggerUsingSidePanel();
-    // JsonCodec.loadJson(Helper.v1);
   }
 
   pin() {
@@ -52,8 +60,10 @@ export class SideNav {
   }
 
   handleClick(event) {
-
-    if (event.target.id.includes("card-header")) {
+    if (event.target.id.includes("header") || event.target.id.includes("card")) {
+      var id = event.target.id;
+      var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
+      (<HTMLInputElement>document.getElementById("vertex-title")).value = text;
       this.toggle();
     } else if (event.target.localName === "svg") {
       if (this.pinned === false) {
@@ -102,7 +112,7 @@ export class SideNav {
   descriptionFocusOut(event) {
 
     this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
- 
+
 
   }
 
@@ -110,6 +120,44 @@ export class SideNav {
     var strDigit = this.getStrDigit();
     const digit = Helper.digitFromString(strDigit);
     document.getElementById("initial-message" + digit).textContent = event.target.value;
+  }
+
+  dataVariableChange(event) {
+
+  }
+
+  dataVariableFocusOut(event) {
+    const vertexId = Helper.v1.id;
+    const dataValue = event.target.value
+    const length = this.apiCalls.dataVariables.length;
+    var lastId;
+    if (length > 0) {
+      lastId = parseInt(this.apiCalls.dataVariables[length - 1].dataVariables[0].id);
+    }else{
+      lastId=-1;
+    }
+    var flag = false;
+    for (var i = 0; i < length; i++) {
+      if (this.apiCalls.dataVariables[i].vertexId === vertexId) {
+        this.apiCalls.dataVariables[i].dataVariables[0].dataVariable = dataValue;
+        flag = true;
+      }
+    }
+    if (!flag) {
+      this.apiCalls.dataVariables.push({
+        "vertexId": vertexId,
+        "dataVariables": [
+          {
+            "id": lastId + 1,
+            "dataVariable": dataValue,
+            "path": "",
+            "optional": ""
+          }
+        ]
+      })
+
+    }
+
   }
 
 }

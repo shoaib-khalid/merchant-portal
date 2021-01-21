@@ -1,6 +1,4 @@
-import { conditionallyCreateMapObjectLiteral } from '@angular/compiler/src/render3/view/util';
 import { Card } from '../helpers/custom-card';
-import { ApiCallsService } from '../services/api-calls.service';
 import { JsonCodec } from './json-codec';
 declare var mxConstants: any;
 declare var mxUtils: any;
@@ -23,9 +21,9 @@ export class Helper {
 	static selectedVertices: any = [];
 	static graph: any;
 	static isVertex: boolean;
-	static copyAction:boolean;
+	static copyAction: boolean;
 
-	constructor(apiCalls: ApiCallsService) {
+	constructor() {
 
 	}
 
@@ -35,10 +33,9 @@ export class Helper {
 	}
 	static deleteMultipleVertices(graph) {
 		for (var i = 0; i < this.selectedVertices.length; i++) {
-			Helper.v1=this.selectedVertices[i];
+			Helper.v1 = this.selectedVertices[i];
 			graph.removeCells([this.selectedVertices[i]])[0];
 		}
-		
 	}
 
 	static copyMultipleVertices(graph) {
@@ -59,11 +56,6 @@ export class Helper {
 		// editor.graph = graph;
 		document.addEventListener("click", (evt: any) => {
 			try {
-				if (evt.target.id.includes("card-header")) {
-					var id = evt.target.id;
-					var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
-					(<HTMLInputElement>document.getElementById("vertex-title")).value = text;
-				}
 
 				if (evt.target.classList.contains("delete")) {
 					graph.removeCells([Helper.v1]);
@@ -73,12 +65,8 @@ export class Helper {
 				}
 				else {
 					try {
-						var className = evt.target.className;
 						if (
 							$(evt.target).closest(".card").length
-
-							// className.includes("custom-card") || className.includes("header") ||
-							// 	className.includes("card-body") || className.includes("card-header")
 
 						) {
 							if (evt.ctrlKey === false) {
@@ -87,21 +75,17 @@ export class Helper {
 							} else {
 								this.selectedVertices.push(Helper.v1);
 							}
-							
-							document.getElementById("flow" + evt.target.id.match(/\d/g)[0]).style.borderColor = "#74fca1";
-						}else{
-						this.setColorToTransparent();
-						}
 
+							document.getElementById("flow" + evt.target.id.match(/\d/g)[0]).style.borderColor = "#74fca1";
+						} else {
+							this.setColorToTransparent();
+						}
 					}
 					catch (ex) {
 						this.setColorToTransparent();
 					}
 				}
 			} catch (ex) {
-
-				// console.log(ex)
-
 			}
 		});
 
@@ -401,7 +385,7 @@ export class Helper {
 
 
 	private static copyVertex(graph: any, vertex: any) {
-		Helper.copyAction=true;
+		Helper.copyAction = true;
 		let clone = vertex.value.cloneNode(true);
 		let clonedvertex = graph.insertVertex(vertex.getParent(), null, clone, (vertex.geometry.x + 30), vertex.geometry.y, vertex.geometry.width, vertex.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
 		if (vertex.children && vertex.children.length > 0) {
