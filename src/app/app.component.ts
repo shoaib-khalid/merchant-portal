@@ -83,8 +83,12 @@ export class AppComponent implements AfterViewInit {
             }
             else if (Helper.copyAction) {
                this.configService.autoSaveAdd(objJson)
-		debugger;
-		var s = Helper.v1;
+               this.configService.dataVariables.forEach((element, index) => {
+                  if (element.vertexId == Helper.v1.id) {
+                     // this.configService.dataVariables.
+                  }
+               });
+               var s = Helper.v1;
 
                Helper.copyAction = false;
             }
@@ -269,6 +273,7 @@ export class AppComponent implements AfterViewInit {
       this.configService.publishmxGraph();
    }
    addStepWithType(type) {
+      Helper.vertexType=type;
       this.addStep();
       const length = this.configService.dataVariables.length;
       var lastId

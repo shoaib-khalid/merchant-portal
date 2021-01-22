@@ -13,12 +13,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MenuOptions } from './components/menu-options/menu-options.component';
+import { SideNavAction } from "./components/side-nav-action/side-nav-action.component";
 @NgModule({
   declarations: [
     SideNav,
     FlowDialog,
     AppComponent,
-    MenuOptions
+    MenuOptions,
+    SideNavAction
   ],
   imports: [
     BrowserModule,

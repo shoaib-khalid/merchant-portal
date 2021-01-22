@@ -22,7 +22,7 @@ export class Helper {
 	static graph: any;
 	static isVertex: boolean;
 	static copyAction: boolean;
-
+	static vertexType: string;
 	constructor() {
 
 	}
@@ -435,7 +435,17 @@ export class Helper {
 				if (this.cardId < 1) {
 					div.innerHTML = Card.startingStep(this.cardId++, 'play.png', 'Starting Step');
 				} else {
-					div.innerHTML = Card.startingStep(this.cardId++, 'messenger.svg', "New Message #" + (this.cardId - 1));
+					switch (this.vertexType) {
+						case "MENU_MESSAGE":
+							div.innerHTML = Card.startingStep(this.cardId++, 'messenger.svg', "Message #" + (this.cardId - 1));
+							break;
+						case "ACTION":
+							div.innerHTML = Card.action(this.cardId++, 'action.svg', "Action #" + (this.cardId - 1));
+							break;
+						case "CONDITION":
+							break;
+						default:
+					}
 				} mxUtils.br(div);
 
 				if (cached) {
@@ -530,6 +540,11 @@ export class Helper {
 	static digitFromString(str) {
 		const digit = parseInt(str.match(/\d/g)[0]);
 		return digit;
+	}
+
+
+	static getVertexType() {
+
 	}
 
 
