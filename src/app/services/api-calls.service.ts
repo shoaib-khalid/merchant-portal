@@ -25,10 +25,8 @@ export class ApiCallsService {
   }
 
   postNewFlowDefaultJson(json) {
-
     const httpOptions = this.getHttpOptions("asx");
     const body: any = json;
-    console.log(json)
     console.log("flow id when posting: " + this.flowId)
     this.http.post<any>("http://209.58.160.20:3002/mxgraph/" + this.flowId, body, httpOptions).
       subscribe(data => {
@@ -110,10 +108,11 @@ export class ApiCallsService {
   }
 
 
-  autoSaveAdd(object) {
+  autoSaveAdd(object,type) { 
     const httpOptions = this.getHttpOptions("asx");
-    var body = { "dataVariable": this.dataVariables, UserObject: object };
-    console.log(body);
+    object=JSON.parse(object);
+    var body = { "dataVariable": this.dataVariables, object };
+    console.log(body)
     if (this.flowId) {
       this.http.patch<any>("http://209.58.160.20:3002/mxgraph/ADD/" + this.flowId, body, httpOptions).toPromise
         ().then((data) => {
@@ -126,7 +125,9 @@ export class ApiCallsService {
   autoSaveDelete(object) {
 
     const httpOptions = this.getHttpOptions("asx");
-    var body = object;
+    object = JSON.parse(object)
+    var body = {object};
+    console.log(body)
     if (this.flowId) {
       this.http.patch<any>("http://209.58.160.20:3002/mxgraph/DELETE/" + this.flowId, body, httpOptions).toPromise
         ().then((data) => {
@@ -138,7 +139,8 @@ export class ApiCallsService {
 
   autoSaveUpdate(object) {
     const httpOptions = this.getHttpOptions("asx");
-    var body = { "dataVariable": this.dataVariables, UserObject: object };
+    object=JSON.parse(object);
+    var body = { "dataVariable": this.dataVariables, object };
     if (this.flowId) {
       this.http.patch<any>("http://209.58.160.20:3002/mxgraph/UPDATE/" + this.flowId, body, httpOptions).toPromise
         ().then((data) => {

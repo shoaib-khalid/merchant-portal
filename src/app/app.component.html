@@ -18,10 +18,9 @@
 <body>
 
 
-<span class="float ml-1  rounded-circle shadow-lg  rounded"
-        style="z-index: 2;">
+    <span class="float ml-1  rounded-circle shadow-lg  rounded" style="z-index: 2;">
         <menu-options (open)="addStepWithType($event)"></menu-options>
-</span>
+    </span>
 
     <a href="#" (click)="zoomIn()" class="zoom-in-float ml-1 p-2 rounded-circle shadow-lg  rounded"
         style="z-index: 2;"><img src="../assets/zoom-in.png" alt=""></a>
@@ -119,9 +118,7 @@
 
                 </div>
                 <div #graphContainer id="graphContainer">
-                    <!-- <side-nav>
-
-                    </side-nav> -->
+                    <side-nav></side-nav>
                     <side-nav-action></side-nav-action>
                 </div>
             </main>

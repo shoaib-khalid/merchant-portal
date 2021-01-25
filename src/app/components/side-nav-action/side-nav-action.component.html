@@ -5,7 +5,7 @@
         <div class="header text-center w-100">
             <h4>
                 <input type="text" value="Send" (ngModelChange)="titleChange($event)" id="vertex-title"
-                    (focusout)="titleFocusOut($event)" [(ngModel)]="title">
+                    (focusout)="titleFocusOut($event)" value="Action "[(ngModel)]="title">
             </h4>
         </div>
         <div class="body" id="side-nav-body">
@@ -27,6 +27,6 @@
         </div>
     </mat-sidenav>
     <mat-sidenav-content>
-        <button mat-button (click)="toggle()" id="sideNavTest" hidden></button>
+        <button mat-button (click)="toggle()" id="sideNavAction" hidden></button>
     </mat-sidenav-content>
 </mat-sidenav-container>

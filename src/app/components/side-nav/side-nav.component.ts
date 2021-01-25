@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { JsonCodec } from 'src/app/helpers/json-codec';
 import { Helper } from '../../helpers/graph-helper';
 import { ApiCallsService } from '../../services/api-calls.service'
+import { HelperService } from '../../services/helper.service';
+
 @Component({
   selector: 'side-nav',
   templateUrl: './side-nav.component.html',
@@ -14,12 +16,12 @@ export class SideNav {
   title: any;
   triggerText: any;
   dataVariable: any = "";
+  description: any = "";
 
-
-  constructor(private apiCalls: ApiCallsService) { }
+  constructor(private apiCalls: ApiCallsService, private helperService: HelperService) { }
 
   toggle() {
-    console.log(this.apiCalls.dataVariables)
+    this.description = this.getDescriptionOfVertex();
     this.dataVariable = "";
     this.apiCalls.dataVariables.forEach((element, index) => {
       if (element.vertexId == Helper.v1.id) {
@@ -28,11 +30,12 @@ export class SideNav {
     });
 
     if (this.opened) {
+
       if (Helper.isVertex) {
         this.buttonsArray = [];
         try {
           for (var i = 0; i < Helper.v1.children.length; i++) {
-            this.buttonsArray.push("New Button")
+            this.buttonsArray.push(Helper.v1.children[i].div.innerText)
           }
         } catch (ex) {
         }
@@ -60,15 +63,19 @@ export class SideNav {
   }
 
   handleClick(event) {
-    if (event.target.id.includes("header") || event.target.id.includes("card")) {
-      var id = event.target.id;
-      var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
-      (<HTMLInputElement>document.getElementById("vertex-title")).value = text;
-      this.toggle();
-    } else if (event.target.localName === "svg") {
-      if (this.pinned === false) {
-        this.opened = false;
+    if (this.helperService.vertexClicked() === "MENU_MESSAGE") {
+      if (event.target.id.includes("header") || event.target.id.includes("card")) {
+        var id = event.target.id;
+        var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
+        (<HTMLInputElement>document.getElementById("vertex-title")).value = text;
+        this.toggle();
+      } else if (event.target.localName === "svg") {
+        if (this.pinned === false) {
+          this.opened = false;
+        }
       }
+    } else {
+      this.opened = false;
     }
   }
 
@@ -83,8 +90,13 @@ export class SideNav {
     var strDigit = this.getStrDigit();
     const digit = Helper.digitFromString(strDigit);
     var arr = document.getElementsByClassName('customTrigger' + digit);
-    arr[index].textContent = " " + event.target.value;
+    if (event.target.value === "") {
+      arr[index].textContent = "_"
 
+    } else {
+      arr[index].textContent = event.target.value;
+
+    }
   }
 
 
@@ -94,14 +106,10 @@ export class SideNav {
     } else {
       return Helper.v1.div.firstChild.nextElementSibling.id;
     }
-
-
   }
 
   triggerFocusOut(event, i) {
     this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1.children[i]))
-
-
   }
 
   titleFocusOut(event) {
@@ -110,9 +118,7 @@ export class SideNav {
   }
 
   descriptionFocusOut(event) {
-
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
-
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1));
 
   }
 
@@ -121,6 +127,8 @@ export class SideNav {
     const digit = Helper.digitFromString(strDigit);
     document.getElementById("initial-message" + digit).textContent = event.target.value;
   }
+
+
 
   dataVariableChange(event) {
 
@@ -133,8 +141,8 @@ export class SideNav {
     var lastId;
     if (length > 0) {
       lastId = parseInt(this.apiCalls.dataVariables[length - 1].dataVariables[0].id);
-    }else{
-      lastId=-1;
+    } else {
+      lastId = -1;
     }
     var flag = false;
     for (var i = 0; i < length; i++) {
@@ -157,7 +165,14 @@ export class SideNav {
       })
 
     }
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
 
+  }
+  getDescriptionOfVertex() {
+    var strDigit = this.getStrDigit();
+    const digit = Helper.digitFromString(strDigit);
+    console.log(document.getElementById("initial-message" + digit).textContent)
+    return document.getElementById("initial-message" + digit).textContent;
   }
 
 }

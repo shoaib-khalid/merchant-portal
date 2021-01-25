@@ -75,20 +75,19 @@ export class AppComponent implements AfterViewInit {
 
             const objJson = this.individualJson(undoManager.history[undoManager.history.length - 1].changes[0].child);
             if (objJson.includes(`@edge":"1"`)) {
-               this.configService.autoSaveAdd(objJson)
+               this.configService.autoSaveAdd(objJson,"")
             }
             else if (objJson.includes(`"triggers":`)) {
-               this.configService.autoSaveAdd(objJson)
+               this.configService.autoSaveAdd(objJson,"")
                this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
             }
             else if (Helper.copyAction) {
-               this.configService.autoSaveAdd(objJson)
+               this.configService.autoSaveAdd(objJson,"")
                this.configService.dataVariables.forEach((element, index) => {
                   if (element.vertexId == Helper.v1.id) {
                      // this.configService.dataVariables.
                   }
                });
-               var s = Helper.v1;
 
                Helper.copyAction = false;
             }
@@ -195,7 +194,6 @@ export class AppComponent implements AfterViewInit {
 
    showJson() {
       let json = JsonCodec.getJson(this.graph);
-
       const blob = new Blob([json], { type: 'application/json' });
       saveAs(blob, 'chatbot-diagram.json');
 
@@ -249,8 +247,8 @@ export class AppComponent implements AfterViewInit {
          if (result[0] && result[1]) {
             this.graph.removeCells(this.graph.getChildVertices(this.graph.getDefaultParent()));
 
-            var v1 = this.addStep();
-            var v2 = this.addStep(500, 200);
+            var v1 = this.addStepWithType("MENU_MESSAGE");
+            var v2 = this.addStepWithType("MENU_MESSAGE",500, 200);
             this.graph.insertEdge(this.graph.getDefaultParent(), null, '', v1, v2);
          }
 
@@ -272,9 +270,9 @@ export class AppComponent implements AfterViewInit {
    publish() {
       this.configService.publishmxGraph();
    }
-   addStepWithType(type) {
+   addStepWithType(type,x:any=50,y:any=0) {
       Helper.vertexType=type;
-      this.addStep();
+    const v1 =  this.addStep(x,y);
       const length = this.configService.dataVariables.length;
       var lastId
       if (length > 0) {
@@ -294,6 +292,7 @@ export class AppComponent implements AfterViewInit {
             }
          ]
       });
-      this.configService.autoSaveAdd(JsonCodec.getIndividualJson(Helper.v1))
+      this.configService.autoSaveAdd(JsonCodec.getIndividualJson(Helper.v1),type)
+      return v1;
    }
 }
