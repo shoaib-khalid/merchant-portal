@@ -21,13 +21,13 @@
     opacity: 0;
   }
 
-  #vertex-title{
+  #vertex-action-title{
     border:0px;
     width: 140px;
     height: 40px;
     background-color:  rgb(245, 242, 65);
   }
-#vertex-title:focus{
+#vertex-action-title:focus{
   outline: none;
   background-color: white;
 }

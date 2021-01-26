@@ -22,87 +22,76 @@
         <menu-options (open)="addStepWithType($event)"></menu-options>
     </span>
 
-    <a href="#" (click)="zoomIn()" class="zoom-in-float ml-1 p-2 rounded-circle shadow-lg  rounded"
+    <a  (click)="zoomIn()" class="zoom-in-float ml-1 p-2 rounded-circle shadow-lg  rounded"
         style="z-index: 2;"><img src="../assets/zoom-in.png" alt=""></a>
 
-    <a href="#" (click)="zoomOut()" class="zoom-out-float ml-1 p-2 rounded-circle shadow-lg  rounded"
+    <a  (click)="zoomOut()" class="zoom-out-float ml-1 p-2 rounded-circle shadow-lg  rounded"
         style="z-index: 2;"><img src="../assets/zoom-out.png" alt=""></a>
     <div class="container-fluid">
         <div class="row min-vh-100 flex-column flex-md-row">
-            <aside class="col-md-2 bg-white flex-shrink-1 shadow-lg p-3 rounded">
-                <nav class="navbar navbar-expand navbar-white bg-white flex-md-column flex-row align-items-start py-2">
+            <aside class="col-md-2 bg-white shadow-lg rounded">
+                <nav class="navbar navbar-expand navbar-white flex-md-column flex-row align-items-start">
                     <div class="collapse navbar-collapse ">
                         <div class="container-fluid">
-                            <div class="row p-4">
-                                <div class="col-1">
+                            <div class="row pb-3">
+                                    <span  >Menu Actions</span>
                                 </div>
+                            <div class="row">
+                                    <span (click)="undo()" class="p-0 ml-3">Undo</span>
                             </div>
-                            <div class="row p-2 ml-1">
-                                <div class="col-1">
-                                </div>
+                            <hr>
+                            <div class="row">
+                                    <span  (click)="redo()" class="p-0 ml-3">Redo</span>
                             </div>
-                            <div class="row p-2 ml-1">
-                                <div class="col-1">
-                                </div>
-                            </div>
-                            <div class="row p-2 ml-1">
-                                <div class="col-1">
-                                    <a href="#" (click)="undo()" class="p-0 ">Undo</a>
-                                </div>
-                            </div>
-                            <div class="row p-2 ml-1">
-                                <div class="col-1">
-                                    <a href="#" (click)="redo()" class="p-0">Redo</a>
-                                </div>
-                            </div>
-                            <div class="row p-2 ml-1">
-                                <div class="col-1">
-                                    <a href="#" (click)="showJson()" class="p-0">Download Json</a>
-                                </div>
-                            </div>
-                            <div class="row p-2 ml-1">
-                                <div class="col-1">
-                                    <a href="#" (click)="deleteMultipleVertices()" class="p-0">Delete Multiple
-                                        Vertices</a>
-                                </div>
-                            </div>
+                            <hr>
 
-                            <div class="row p-2 ml-1">
-                                <div class="col-1">
-                                    <a href="#" (click)="copyMultipleVertices()" class="p-0">Copy Multiple
-                                        Vertices</a>
-                                </div>
+                            <div class="row">
+                                    <span (click)="showJson()" class="p-0 ml-3">Download Json</span>
                             </div>
+                            <hr>
 
-                            <div class="row p-2 ml-1">
-                                <div class="col-1">
-                                    <a href="javascript:void(0);" class="p-0"><label for="file-jsonUpload">Load
+                            <div class="row">
+                                    <span (click)="deleteMultipleVertices()" class="p-0 ml-3">Delete Multiple
+                                        Vertices</span>
+                            </div>
+                            <hr>
+
+                            <div class="row">
+                                    <span (click)="copyMultipleVertices()" class="p-0 ml-3">Copy Multiple
+                                        Vertices</span>
+                            </div>
+                            <hr>
+
+                            <div class="row">
+                                    <a href="javascript:void(0);" class="p-0 ml-3"><label for="file-jsonUpload">Load
                                             Json</label></a>
                                     <input id="file-jsonUpload" type="file" accept="application/JSON" name="jsonUpload"
                                         (change)="loadJson($event)" hidden />
-                                </div>
                             </div>
+                            <hr>
 
 
-                            <div class="row p-2 ml-1">
+                            <div class="row">
 
                                 <div class="col-1">
                                     <button mat-raised-button (click)="createFlow()">Create Flow</button>
                                 </div>
                             </div>
-                            <div class="row p-2 ml-1">
+                            <hr>
+
+                            <div class="row">
 
                                 <div class="col-1">
                                     <button mat-raised-button (click)="publish()">Publish</button>
                                 </div>
                             </div>
-                            <div class="row p-2 ml-1">
-                                <div class="col-1">
+                            <hr>
+
+                            <div class="row">
                                     <span (click)="retrieveJsonEndpoint()"
-                                        style="cursor: pointer;color:rgb(86, 86, 252);" class="p-0">Load json using
+                                        class="p-0 ml-3">Load json using
                                         endpoint</span>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </nav>

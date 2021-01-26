@@ -408,7 +408,7 @@ export class Helper {
 		}
 	}
 
-	private static setConnectFillColor(source: any, color: string) {
+	 static setConnectFillColor(source: any, color: string) {
 		let connectIcon = source.div.getElementsByClassName("connect-icon");
 		if (connectIcon && connectIcon.length > 0) {
 			connectIcon = connectIcon[0];

@@ -30,19 +30,12 @@ export class SideNav {
     });
 
     if (this.opened) {
-
-      if (Helper.isVertex) {
-        this.buttonsArray = [];
-        try {
-          for (var i = 0; i < Helper.v1.children.length; i++) {
-            this.buttonsArray.push(Helper.v1.children[i].div.innerText)
-          }
-        } catch (ex) {
-        }
-      }
+      this.updateButtons();
 
     } else {
       this.opened = true;
+      this.updateButtons();
+
     }
 
   }
@@ -171,8 +164,19 @@ export class SideNav {
   getDescriptionOfVertex() {
     var strDigit = this.getStrDigit();
     const digit = Helper.digitFromString(strDigit);
-    console.log(document.getElementById("initial-message" + digit).textContent)
     return document.getElementById("initial-message" + digit).textContent;
+  }
+
+  updateButtons() {
+    if (Helper.isVertex) {
+      this.buttonsArray = [];
+      try {
+        for (var i = 0; i < Helper.v1.children.length; i++) {
+          this.buttonsArray.push(Helper.v1.children[i].div.innerText)
+        }
+      } catch (ex) {
+      }
+    }
   }
 
 }
