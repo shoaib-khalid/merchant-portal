@@ -63,7 +63,7 @@ export class ApiCallsService {
 
     this.dataVariables=[
       {
-        "type": "MENU_MESSAGE",
+        "type": "TEXT_MESSAGE",
         "vertexId": "2",
         "dataVariables": [
           {
@@ -75,7 +75,7 @@ export class ApiCallsService {
         ]
       },
       {
-        "type": "MENU_MESSAGE",
+        "type": "TEXT_MESSAGE",
         "vertexId": "3",
         "dataVariables": [
           {

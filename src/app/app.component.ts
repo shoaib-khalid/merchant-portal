@@ -1,10 +1,12 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild,OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Helper } from './helpers/graph-helper';
 import { JsonCodec } from './helpers/json-codec';
 import { saveAs } from 'file-saver';
 import { ApiCallsService } from "./services/api-calls.service";
 import { FlowDialog } from './components/flow-dialog/flow-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+
 declare var mxUtils: any;
 declare var mxGraphHandler: any;
 declare var mxEvent: any;
@@ -17,7 +19,7 @@ declare var mxOutline: any;
    styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit,AfterViewInit {
    @ViewChild('graphContainer') graphContainer: ElementRef;
    @ViewChild('outlineContainer') outlineContainer: ElementRef;
 
@@ -27,7 +29,18 @@ export class AppComponent implements AfterViewInit {
    redoPointer: any;
    opened: boolean;
 
-   constructor(private configService: ApiCallsService, public dialog: MatDialog) { }
+   constructor(private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) { }
+
+   ngOnInit() {
+      this.route.params.subscribe(params => {
+         //console.log(params["flowid"])
+         console.log(params)
+         if(params){
+            this.configService.flowId=params.id;
+            this.retrieveJsonEndpoint();
+         }
+      });
+   }
 
    ngAfterViewInit() {
 
@@ -35,6 +48,7 @@ export class AppComponent implements AfterViewInit {
 
       //Callback function
       this.addStep = (x: any = 50, y: any = 0): any => {
+
          let vertext = undefined;
          vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, x, y, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
          Helper.v1 = vertext;
@@ -75,14 +89,14 @@ export class AppComponent implements AfterViewInit {
 
             const objJson = this.individualJson(undoManager.history[undoManager.history.length - 1].changes[0].child);
             if (objJson.includes(`@edge":"1"`)) {
-               this.configService.autoSaveAdd(objJson,"")
+               this.configService.autoSaveAdd(objJson, "")
             }
             else if (objJson.includes(`"triggers":`)) {
-               this.configService.autoSaveAdd(objJson,"")
+               this.configService.autoSaveAdd(objJson, "")
                this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
             }
             else if (Helper.copyAction) {
-               this.configService.autoSaveAdd(objJson,"")
+               this.configService.autoSaveAdd(objJson, "")
                this.configService.dataVariables.forEach((element, index) => {
                   if (element.vertexId == Helper.v1.id) {
                      // this.configService.dataVariables.
@@ -135,11 +149,8 @@ export class AppComponent implements AfterViewInit {
 
                if (undoManager.history[this.redoPointer].changes[0].child.value.localName === "UserObject") {
                   undoManager.redo();
-                  undoManager.redo();
-                  undoManager.redo();
                   this.redoPointer++;
-                  this.redoPointer++;
-                  this.redoPointer++;
+
 
                } else {
                   undoManager.redo();
@@ -247,8 +258,8 @@ export class AppComponent implements AfterViewInit {
          if (result[0] && result[1]) {
             this.graph.removeCells(this.graph.getChildVertices(this.graph.getDefaultParent()));
 
-            var v1 = this.addStepWithType("MENU_MESSAGE");
-            var v2 = this.addStepWithType("MENU_MESSAGE",500, 200);
+            var v1 = this.addStepWithType("TEXT_MESSAGE");
+            var v2 = this.addStepWithType("TEXT_MESSAGE", 500, 200);
             this.graph.insertEdge(this.graph.getDefaultParent(), null, '', v1, v2);
          }
 
@@ -270,9 +281,9 @@ export class AppComponent implements AfterViewInit {
    publish() {
       this.configService.publishmxGraph();
    }
-   addStepWithType(type,x:any=50,y:any=0) {
-      Helper.vertexType=type;
-    const v1 =  this.addStep(x,y);
+   addStepWithType(type, x: any = 50, y: any = 0) {
+      Helper.vertexType = type;
+      const v1 = this.addStep(x, y);
       const length = this.configService.dataVariables.length;
       var lastId
       if (length > 0) {
@@ -292,7 +303,8 @@ export class AppComponent implements AfterViewInit {
             }
          ]
       });
-      this.configService.autoSaveAdd(JsonCodec.getIndividualJson(Helper.v1),type)
+
+      this.configService.autoSaveAdd(JsonCodec.getIndividualJson(Helper.v1), type)
       return v1;
    }
 }

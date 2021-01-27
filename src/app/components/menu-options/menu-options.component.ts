@@ -25,7 +25,7 @@ export class MenuOptions {
         this.menu.openMenu();
     }
     menuClicked() {
-        this.open.emit('MENU_MESSAGE');
+        this.open.emit('TEXT_MESSAGE');
     }
     actionClicked() {
         this.open.emit("ACTION");

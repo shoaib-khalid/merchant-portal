@@ -14,13 +14,14 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MenuOptions } from './components/menu-options/menu-options.component';
 import { SideNavAction } from "./components/side-nav-action/side-nav-action.component";
+import { AppRoutingModule } from './app-routing/app-routing.module';
 @NgModule({
   declarations: [
     SideNav,
     FlowDialog,
     AppComponent,
     MenuOptions,
-    SideNavAction
+    SideNavAction,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +32,8 @@ import { SideNavAction } from "./components/side-nav-action/side-nav-action.comp
     MatButtonModule,
     MatDialogModule,
     MatInputModule,
-    MatMenuModule
+    MatMenuModule,
+    AppRoutingModule
   ], entryComponents: [FlowDialog],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]

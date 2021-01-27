@@ -435,7 +435,7 @@ export class Helper {
 					div.innerHTML = Card.startingStep(this.cardId++, 'play.png', 'Starting Step');
 				} else {
 					switch (this.vertexType) {
-						case "MENU_MESSAGE":
+						case "TEXT_MESSAGE":
 							div.innerHTML = Card.startingStep(this.cardId++, 'messenger.svg', "Message #" + (this.cardId - 1));
 							break;
 						case "ACTION":
@@ -474,35 +474,35 @@ export class Helper {
 
 	private static bindCellEvents(div: HTMLDivElement, cell: any, graph: any) {
 		// if (div.getElementsByClassName('btnAddTrigger')[0]) {
-		(<any>div.getElementsByClassName('btnAddTrigger')[0]).onclick = (() => {
-			var doc = mxUtils.createXmlDocument();
-			let triggers = doc.createElement('triggers');
+		// (<any>div.getElementsByClassName('btnAddTrigger')[0]).onclick = (() => {
+		// 	var doc = mxUtils.createXmlDocument();
+		// 	let triggers = doc.createElement('triggers');
 
-			let initialMessage = cell.div.getElementsByClassName('initial-message');
-			if (initialMessage && initialMessage.length > 0) {
-				initialMessage[0].remove()
-				// cell.div.removeChild(initialMessage[0]);
-			}
-			let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
-			var yAxis = 70;
-			var childHegiht = 55;
+		// 	let initialMessage = cell.div.getElementsByClassName('initial-message');
+		// 	if (initialMessage && initialMessage.length > 0) {
+		// 		initialMessage[0].remove()
+		// 		// cell.div.removeChild(initialMessage[0]);
+		// 	}
+		// 	let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
+		// 	var yAxis = 70;
+		// 	var childHegiht = 55;
 
-			if (childLength > 0) {
-				yAxis = yAxis + (childLength * childHegiht);
-				var current = cell.getGeometry();
-				current.height = current.height + childHegiht;
-				let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
-				let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
+		// 	if (childLength > 0) {
+		// 		yAxis = yAxis + (childLength * childHegiht);
+		// 		var current = cell.getGeometry();
+		// 		current.height = current.height + childHegiht;
+		// 		let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
+		// 		let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
 
-				flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
-				flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
-				graph.cellsResized([cell], [current], false);
-				graph.refresh();
-			}
-			var trigger = graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+		// 		flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
+		// 		flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
+		// 		graph.cellsResized([cell], [current], false);
+		// 		graph.refresh();
+		// 	}
+		// 	var trigger = graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
 
 
-		});
+		// });
 	}
 
 

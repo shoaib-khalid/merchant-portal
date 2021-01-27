@@ -37,7 +37,12 @@
 #outer-tooltip:hover .tooltip-text {
     visibility: visible;
 }
-
+.delete{
+    cursor: pointer;
+}
+.copy{
+    cursor: pointer;
+}
 .connect-icon:hover {
     transform: scale(1.5);
     cursor: pointer;

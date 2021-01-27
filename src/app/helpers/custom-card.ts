@@ -23,13 +23,7 @@ export class Card {
             <div id="card-body`+ id + `"class="card-body flow-start-trigger-list" style="height:63px">
             <span id="initial-message`+id+`"class="initial-message" style="font-size: 1.1rem; position: absolute;left: 10px;right: 10px;top: 65px;font-weight: 500"> Flow starts with the following step. Click to add the triggers. </span>
             </div>
-            <div class="card-footer" style='background-color:white;border-radius:35px;border:0px;'>
-              <div class="row">
-                <div class="col-md-12 btnAppend">
-                  <button type="button" class="btn btn-outline-secondary btn-block btnAddTrigger">Add Trigger</button>
-                </div>
-              </div>      
-            </div>
+
           </div>
         </div>
           `;
@@ -61,13 +55,6 @@ export class Card {
                 <h4 class="actionBodyText"> Click to add an action </h4>
             </div>
             </div>
-            <div class="card-footer" style='background-color:white;border-radius:35px;border:0px;'>
-              <div class="row">
-                <div class="col-md-12 btnAppend">
-                  <button type="button" class="btn btn-outline-secondary btn-block btnAddTrigger">Add Trigger</button>
-                </div>
-              </div>      
-            </div>
           </div>
         </div>
           `;
@@ -98,13 +85,7 @@ export class Card {
                 <h4 class="actionBodyText"> Click to add an condition </h4>
             </div>
             </div>
-            <div class="card-footer" style='background-color:white;border-radius:35px;border:0px;'>
-              <div class="row">
-                <div class="col-md-12 btnAppend">
-                  <button type="button" class="btn btn-outline-secondary btn-block btnAddTrigger">Add Trigger</button>
-                </div>
-              </div>      
-            </div>
+          
           </div>
         </div>
           `;
