@@ -386,11 +386,25 @@ export class Helper {
 	private static copyVertex(graph: any, vertex: any) {
 		Helper.copyAction = true;
 		let clone = vertex.value.cloneNode(true);
+		let clonedDiv = null;
+		if (vertex.div) {
+			clonedDiv = $(vertex.div).clone(true)[0];
+		}
 		let clonedvertex = graph.insertVertex(vertex.getParent(), null, clone, (vertex.geometry.x + 30), vertex.geometry.y, vertex.geometry.width, vertex.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
+		if (clonedDiv) {
+			clonedvertex.div = clonedDiv;
+		}
 		if (vertex.children && vertex.children.length > 0) {
 			vertex.children.forEach((child: any) => {
-				let clonedChild = child.value.cloneNode(true);
-				graph.insertVertex(clonedvertex, null, clonedChild, child.geometry.x, child.geometry.y, child.geometry.width, child.geometry.height, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+				let clone = child.value.cloneNode(true);
+				let clonedChildDiv = null;
+				if (child.div) {
+					clonedChildDiv = $(child.div).clone(true)[0];
+				}
+				let clonedChild = graph.insertVertex(clonedvertex, null, clone, child.geometry.x, child.geometry.y, child.geometry.width, child.geometry.height, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+				if (clonedChildDiv) {
+					clonedChild.div = clonedChildDiv;
+				}
 			});
 			let initialMessage = clonedvertex.div.getElementsByClassName('initial-message');
 			if (initialMessage && initialMessage.length > 0) {
@@ -406,6 +420,7 @@ export class Helper {
 				}
 			}
 		}
+		graph.refresh();
 	}
 
 	 static setConnectFillColor(source: any, color: string) {
