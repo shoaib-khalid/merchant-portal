@@ -44,7 +44,7 @@ export class Card {
           <svg height="20" width="20" class="connect-icon" style="position: absolute;right: -12px; top:80%;z-index: 990;">
             <circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
           </svg>
-            <div id="card-header`+ id + `"class="card-header actionHeader" style="background-color: rgb(245, 242, 65);">
+            <div id="card-header`+ id + `"class="card-header actionHeader" style="background-color:white">
               <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
                 <h4 id="header`+ id + `"class="header">` + title + `</h4>

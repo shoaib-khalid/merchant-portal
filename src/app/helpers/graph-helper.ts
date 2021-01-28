@@ -384,11 +384,19 @@ export class Helper {
 
 
 	private static copyVertex(graph: any, vertex: any) {
+		var parent = graph.getDefaultParent();
+		var vertices = graph.getChildVertices(parent);
+		// console.log(vertices.length)
 		Helper.copyAction = true;
 		let clone = vertex.value.cloneNode(true);
 		let clonedDiv = null;
 		if (vertex.div) {
+			// console.log(vertex.div)
 			clonedDiv = $(vertex.div).clone(true)[0];
+			clonedDiv.childNodes[1].id = "flow"+vertices.length;
+			console.log(clonedDiv.childNodes[1].id);
+
+			
 		}
 		let clonedvertex = graph.insertVertex(vertex.getParent(), null, clone, (vertex.geometry.x + 30), vertex.geometry.y, vertex.geometry.width, vertex.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
 		if (clonedDiv) {
