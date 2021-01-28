@@ -1,7 +1,7 @@
-<!-- <html>
+<html>
 
 <head>
-    <title>ChatBot</title>
+    <title >Chatbot</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -22,11 +22,11 @@
         <menu-options (open)="addStepWithType($event)"></menu-options>
     </span>
 
-    <a  (click)="zoomIn()" class="zoom-in-float ml-1 p-2 rounded-circle shadow-lg  rounded"
-        style="z-index: 2;"><img src="../assets/zoom-in.png" alt=""></a>
+    <a (click)="zoomIn()" class="zoom-in-float ml-1 p-2 rounded-circle shadow-lg  rounded" style="z-index: 2;"><img
+            src="../assets/zoom-in.png" alt=""></a>
 
-    <a  (click)="zoomOut()" class="zoom-out-float ml-1 p-2 rounded-circle shadow-lg  rounded"
-        style="z-index: 2;"><img src="../assets/zoom-out.png" alt=""></a>
+    <a (click)="zoomOut()" class="zoom-out-float ml-1 p-2 rounded-circle shadow-lg  rounded" style="z-index: 2;"><img
+            src="../assets/zoom-out.png" alt=""></a>
     <div class="container-fluid">
         <div class="row min-vh-100 flex-column flex-md-row">
             <aside class="col-md-2 bg-white shadow-lg rounded">
@@ -34,39 +34,39 @@
                     <div class="collapse navbar-collapse ">
                         <div class="container-fluid">
                             <div class="row pb-3">
-                                    <h5 >Menu Actions</h5>
-                                </div>
+                                <h5 style="font-family:Arial, Helvetica, sans-serif;">Menu Actions</h5>
+                            </div>
                             <div class="row">
-                                    <span (click)="undo()" class="p-0 ml-3">Undo</span>
+                                <span (click)="undo()" class="p-0 ml-3">Undo</span>
                             </div>
                             <hr>
                             <div class="row">
-                                    <span  (click)="redo()" class="p-0 ml-3">Redo</span>
-                            </div>
-                            <hr>
-
-                            <div class="row">
-                                    <span (click)="showJson()" class="p-0 ml-3">Download Json</span>
+                                <span (click)="redo()" class="p-0 ml-3">Redo</span>
                             </div>
                             <hr>
 
                             <div class="row">
-                                    <span (click)="deleteMultipleVertices()" class="p-0 ml-3">Delete Multiple
-                                        Vertices</span>
+                                <span (click)="showJson()" class="p-0 ml-3">Download Json</span>
                             </div>
                             <hr>
 
                             <div class="row">
-                                    <span (click)="copyMultipleVertices()" class="p-0 ml-3">Copy Multiple
-                                        Vertices</span>
+                                <span (click)="deleteMultipleVertices()" class="p-0 ml-3">Delete Multiple
+                                    Vertices</span>
                             </div>
                             <hr>
 
                             <div class="row">
-                                    <a href="javascript:void(0);" class="p-0 ml-3"><label for="file-jsonUpload">Load
-                                            Json</label></a>
-                                    <input id="file-jsonUpload" type="file" accept="application/JSON" name="jsonUpload"
-                                        (change)="loadJson($event)" hidden />
+                                <span (click)="copyMultipleVertices()" class="p-0 ml-3">Copy Multiple
+                                    Vertices</span>
+                            </div>
+                            <hr>
+
+                            <div class="row">
+                                <a href="javascript:void(0);" class="p-0 ml-3"><label for="file-jsonUpload">Load
+                                        Json</label></a>
+                                <input id="file-jsonUpload" type="file" accept="application/JSON" name="jsonUpload"
+                                    (change)="loadJson($event)" hidden />
                             </div>
                             <hr>
 
@@ -88,10 +88,9 @@
                             <hr>
 
                             <div class="row">
-                                    <span (click)="retrieveJsonEndpoint()"
-                                        class="p-0 ml-3">Load json using
-                                        endpoint</span>
-                                </div>
+                                <span (click)="retrieveJsonEndpoint()" class="p-0 ml-3">Load json using
+                                    endpoint</span>
+                            </div>
                         </div>
                     </div>
                 </nav>
@@ -99,7 +98,7 @@
             <main class="col bg-faded py-3 flex-grow-1">
 
                 <div class="header">
-                    <h2 class="border-bottom border-dark">ChatBot</h2>
+                    <h2 class="border-bottom border-dark" id="title-top">Symplified.biz</h2>
 
                 </div>
                 <div #outlineContainer
@@ -115,6 +114,5 @@
     </div>
 
 </body>
-
-</html> -->
-<router-outlet></router-outlet>
+<app-footer></app-footer>
+</html>

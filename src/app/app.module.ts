@@ -15,6 +15,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MenuOptions } from './components/menu-options/menu-options.component';
 import { SideNavAction } from "./components/side-nav-action/side-nav-action.component";
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { MainComponent } from './main/main.component';
+import { FooterComponent } from './footer/footer.component';
 @NgModule({
   declarations: [
     SideNav,
@@ -22,6 +24,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     AppComponent,
     MenuOptions,
     SideNavAction,
+    MainComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

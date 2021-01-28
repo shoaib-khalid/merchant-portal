@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { AppComponent } from '../app.component';
+import { MainComponent } from '../main/main.component';
 const routes: Routes = [
 
   {
-    path: 'flow/:id',
-
-    component: AppComponent,
+    path: '',
+    component: MainComponent,
     children: []
   },
 
+  {
+    path: '**',
 
+    component: MainComponent,
+    children: []
+  },
 
 ];
 

@@ -459,6 +459,9 @@ export class Helper {
 						case "CONDITION":
 							div.innerHTML = Card.condition(this.cardId++, 'condition.svg', "Condition #" + (this.cardId - 1));
 							break;
+						case "IMMEDIATE_TEXT_MESSAGE":
+							div.innerHTML = Card.quickReply(this.cardId++, 'reply.svg', "Quick Reply #" + (this.cardId - 1));
+							break;
 						default:
 					}
 				} mxUtils.br(div);
@@ -532,7 +535,7 @@ export class Helper {
 			// cell.div.removeChild(initialMessage[0]);
 		}
 		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
-		var yAxis = 130;
+		var yAxis = 160;
 		var childHegiht = 55;
 
 		// if (childLength > 0) {

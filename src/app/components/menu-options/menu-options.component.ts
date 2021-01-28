@@ -34,6 +34,9 @@ export class MenuOptions {
     conditionClicked() {
         this.open.emit("CONDITION");
     }
+    quickReplyClicked() {
+        this.open.emit("IMMEDIATE_TEXT_MESSAGE");
+    }
     handOverClicked() {
         this.open.emit("HANDOVER");
     }
