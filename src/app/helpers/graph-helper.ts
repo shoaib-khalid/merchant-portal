@@ -21,7 +21,7 @@ export class Helper {
 	static selectedVertices: any = [];
 	static graph: any;
 	static isVertex: boolean;
-	static copyAction: boolean;
+	static copyAction: any;
 	static vertexType: string;
 	constructor() {
 
@@ -384,21 +384,22 @@ export class Helper {
 
 
 	private static copyVertex(graph: any, vertex: any) {
+		console.log(Helper.v1.id)
 		var parent = graph.getDefaultParent();
 		var vertices = graph.getChildVertices(parent);
-		// console.log(vertices.length)
 		Helper.copyAction = true;
 		let clone = vertex.value.cloneNode(true);
 		let clonedDiv = null;
 		if (vertex.div) {
-			// console.log(vertex.div)
 			clonedDiv = $(vertex.div).clone(true)[0];
-			clonedDiv.childNodes[1].id = "flow"+vertices.length;
-			console.log(clonedDiv.childNodes[1].id);
-
-			
+			const idNumber = vertices.length;
+			clonedDiv.childNodes[1].id = "flow" + idNumber;
+			clonedDiv.childNodes[1].childNodes[5].childNodes[5].id = 'card-body' + idNumber;
+			clonedDiv.childNodes[1].childNodes[5].childNodes[3].id = "card-header" + idNumber;
+			clonedDiv.childNodes[1].childNodes[5].childNodes[3].childNodes[3].childNodes[1].id = 'header' + idNumber;
+			clonedDiv.childNodes[1].childNodes[5].childNodes[5].childNodes[1].id = "initial-message" + idNumber;
 		}
-		let clonedvertex = graph.insertVertex(vertex.getParent(), null, clone, (vertex.geometry.x + 30), vertex.geometry.y, vertex.geometry.width, vertex.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
+		let clonedvertex = graph.insertVertex(vertex.getParent(), null, clone, (vertex.geometry.x), vertex.geometry.y, vertex.geometry.width, vertex.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
 		if (clonedDiv) {
 			clonedvertex.div = clonedDiv;
 		}
@@ -416,10 +417,10 @@ export class Helper {
 			});
 			let initialMessage = clonedvertex.div.getElementsByClassName('initial-message');
 			if (initialMessage && initialMessage.length > 0) {
-				initialMessage[0].remove();
+				// initialMessage[0].remove();
 			}
 			if (vertex.children.length > 1) {
-				var childHegiht = 55;
+				var childHegiht = 0;
 				let flowStarTriggerList = clonedvertex.div.querySelector('.flow-start-trigger-list');
 				if (flowStarTriggerList) {
 					let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
@@ -431,7 +432,7 @@ export class Helper {
 		graph.refresh();
 	}
 
-	 static setConnectFillColor(source: any, color: string) {
+	static setConnectFillColor(source: any, color: string) {
 		let connectIcon = source.div.getElementsByClassName("connect-icon");
 		if (connectIcon && connectIcon.length > 0) {
 			connectIcon = connectIcon[0];

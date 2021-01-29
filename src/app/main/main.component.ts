@@ -6,7 +6,7 @@ import { saveAs } from 'file-saver';
 import { ApiCallsService } from "../services/api-calls.service";
 import { FlowDialog } from '../components/flow-dialog/flow-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-
+import {HelperService} from '../services/helper.service';
 declare var mxUtils: any;
 declare var mxGraphHandler: any;
 declare var mxEvent: any;
@@ -29,7 +29,7 @@ export class MainComponent implements OnInit, AfterViewInit {
    redoPointer: any;
    opened: boolean;
 
-   constructor(private router: Router, private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) { }
+   constructor(private helperService:HelperService,private router: Router, private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) { }
 
    ngOnInit() {
       this.route.params.subscribe(params => {
@@ -97,7 +97,19 @@ export class MainComponent implements OnInit, AfterViewInit {
                this.configService.autoSaveAdd(objJson, "")
                this.configService.dataVariables.forEach((element, index) => {
                   if (element.vertexId == Helper.v1.id) {
-                     // this.configService.dataVariables.
+                     this.configService.dataVariables.push({
+                        "type": element.type,
+                        "vertexId": String((++Helper.v1.id)),
+                        "dataVariables": [
+                           {
+                              "id": this.helperService.getLastId(),
+                              "dataVariable": element.dataVariables[0].dataVariable,
+                              "path": "",
+                              "optional": ""
+                           }
+                        ]
+                     })
+                     console.log(this.configService.dataVariables)
                   }
                });
 
@@ -305,4 +317,6 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.configService.autoSaveAdd(JsonCodec.getIndividualJson(Helper.v1), type)
       return v1;
    }
+
+   
 }

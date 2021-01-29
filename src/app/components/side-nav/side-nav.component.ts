@@ -60,7 +60,6 @@ export class SideNav {
 
   handleClick(event) {
     if (this.helperService.vertexClicked() === "TEXT_MESSAGE"||this.helperService.vertexClicked() === "MENU_MESSAGE") {
-        console.log(this.apiCalls.dataVariables)
       if (event.target.id.includes("header") || event.target.id.includes("card")) {
         var id = event.target.id;
         var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
@@ -186,7 +185,6 @@ export class SideNav {
   updateDataVariableArray(){
     this.apiCalls.dataVariables.forEach((element, index) => {
       if (element.vertexId == Helper.v1.id) {
-        // console.log(element)
         element.type="MENU_MESSAGE";
       }
    });

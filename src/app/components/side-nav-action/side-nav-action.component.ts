@@ -44,17 +44,17 @@ export class SideNavAction {
 
     handleClick(event) {
 
-        if (this.helperService.vertexClicked() === "ACTION") {
-            if (event.target.id.includes("header") || event.target.id.includes("card")) {
+        // if (this.helperService.vertexClicked() === "ACTION") {
+        //     if (event.target.id.includes("header") || event.target.id.includes("card")) {
 
-                    this.opened = true;
+        //             this.opened = true;
                 
-            }else{
-                this.opened=false;
-            }
-        }else{
-            this.opened=false;
-        }
+        //     }else{
+        //         this.opened=false;
+        //     }
+        // }else{
+        //     this.opened=false;
+        // }
     }
 
     dataVariableFocusOut($event) {
