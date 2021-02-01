@@ -384,7 +384,6 @@ export class Helper {
 
 
 	private static copyVertex(graph: any, vertex: any) {
-		console.log(Helper.v1.id)
 		var parent = graph.getDefaultParent();
 		var vertices = graph.getChildVertices(parent);
 		Helper.copyAction = true;
@@ -413,6 +412,7 @@ export class Helper {
 				let clonedChild = graph.insertVertex(clonedvertex, null, clone, child.geometry.x, child.geometry.y, child.geometry.width, child.geometry.height, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
 				if (clonedChildDiv) {
 					clonedChild.div = clonedChildDiv;
+					clonedChildDiv.childNodes[0].childNodes[1].className = "btn btn-primary btn-block btn-lg customTrigger"+vertices.length;
 				}
 			});
 			let initialMessage = clonedvertex.div.getElementsByClassName('initial-message');

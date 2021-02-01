@@ -6,7 +6,7 @@ import { saveAs } from 'file-saver';
 import { ApiCallsService } from "../services/api-calls.service";
 import { FlowDialog } from '../components/flow-dialog/flow-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import {HelperService} from '../services/helper.service';
+import { HelperService } from '../services/helper.service';
 declare var mxUtils: any;
 declare var mxGraphHandler: any;
 declare var mxEvent: any;
@@ -29,7 +29,7 @@ export class MainComponent implements OnInit, AfterViewInit {
    redoPointer: any;
    opened: boolean;
 
-   constructor(private helperService:HelperService,private router: Router, private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) { }
+   constructor(private helperService: HelperService, private router: Router, private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) { }
 
    ngOnInit() {
       this.route.params.subscribe(params => {
@@ -63,7 +63,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
       var undoManager = new mxUndoManager();
       Helper.actionOnEvents(this.graph);
-      var listener = (sender, evt) => {
+      var listener = async (sender, evt) => {
 
          this.redoPointer++;
          undoManager.undoableEditHappened(evt.getProperty('edit'));
@@ -90,16 +90,22 @@ export class MainComponent implements OnInit, AfterViewInit {
                this.configService.autoSaveAdd(objJson, "")
             }
             else if (objJson.includes(`"triggers":`)) {
-               this.configService.autoSaveAdd(objJson, "")
+              await this.configService.autoSaveAdd(objJson, "")
                this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
             }
             else if (Helper.copyAction) {
                this.configService.autoSaveAdd(objJson, "")
                this.configService.dataVariables.forEach((element, index) => {
                   if (element.vertexId == Helper.v1.id) {
+                     var len=0;
+                     var parent = this.graph.getDefaultParent();
+                     var vertices = this.graph.getChildVertices(parent);
+                     for(var i=0;i<vertices.length;i++){
+                        len =len+(this.graph.getChildVertices(vertices[i])).length
+                     }
                      this.configService.dataVariables.push({
                         "type": element.type,
-                        "vertexId": String((++Helper.v1.id)),
+                        "vertexId": String(vertices.length+2+len),
                         "dataVariables": [
                            {
                               "id": this.helperService.getLastId(),
@@ -109,10 +115,9 @@ export class MainComponent implements OnInit, AfterViewInit {
                            }
                         ]
                      })
-                     console.log(this.configService.dataVariables)
+
                   }
                });
-
                Helper.copyAction = false;
             }
 
@@ -267,7 +272,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
          if (result[0] && result[1]) {
             this.graph.removeCells(this.graph.getChildVertices(this.graph.getDefaultParent()));
-
+            // this.router.navigateByUrl('');
             var v1 = this.addStepWithType("TEXT_MESSAGE");
             var v2 = this.addStepWithType("TEXT_MESSAGE", 500, 200);
             this.graph.insertEdge(this.graph.getDefaultParent(), null, '', v1, v2);
@@ -277,14 +282,16 @@ export class MainComponent implements OnInit, AfterViewInit {
    }
 
    async retrieveJsonEndpoint() {
+
       try {
          var data: any = await this.configService.retrieveGraph();
 
       } catch (ex) {
          console.log(ex)
       }
-      data = JSON.stringify({ mxGraphModel: data.data.mxGraphModel });
 
+      this.configService.dataVariables = data.data.dataVariable;
+      data = JSON.stringify({ mxGraphModel: data.data.mxGraphModel });
       JsonCodec.loadJson(this.graph, data)
    }
 
@@ -318,5 +325,5 @@ export class MainComponent implements OnInit, AfterViewInit {
       return v1;
    }
 
-   
+
 }

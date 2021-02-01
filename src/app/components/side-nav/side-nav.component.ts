@@ -41,7 +41,7 @@ export class SideNav {
   }
 
   insertButton() {
-    if(this.buttonsArray.length===0){
+    if (this.buttonsArray.length === 0) {
       this.updateDataVariableArray();
     }
     this.buttonsArray.push("New Button");
@@ -59,7 +59,7 @@ export class SideNav {
   }
 
   handleClick(event) {
-    if (this.helperService.vertexClicked() === "TEXT_MESSAGE"||this.helperService.vertexClicked() === "MENU_MESSAGE") {
+    if (this.helperService.vertexClicked() === "TEXT_MESSAGE" || this.helperService.vertexClicked() === "MENU_MESSAGE") {
       if (event.target.id.includes("header") || event.target.id.includes("card")) {
         var id = event.target.id;
         var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
@@ -90,6 +90,7 @@ export class SideNav {
       arr[index].textContent = "_"
 
     } else {
+
       arr[index].textContent = event.target.value;
 
     }
@@ -175,19 +176,21 @@ export class SideNav {
       this.buttonsArray = [];
       try {
         for (var i = 0; i < Helper.v1.children.length; i++) {
-          this.buttonsArray.push(Helper.v1.children[i].div.innerText)
+          this.buttonsArray.push(String(Helper.v1.children[i].div.innerText))
+          console.log(this.buttonsArray)
         }
       } catch (ex) {
+        console.log(ex)
       }
     }
   }
 
-  updateDataVariableArray(){
+  updateDataVariableArray() {
     this.apiCalls.dataVariables.forEach((element, index) => {
       if (element.vertexId == Helper.v1.id) {
-        element.type="MENU_MESSAGE";
+        element.type = "MENU_MESSAGE";
       }
-   });
+    });
   }
 
 }
