@@ -28,4 +28,14 @@ export class HelperService {
     }
     return lastId + 1;
   }
+
+  getVertexIndex(){
+  var index1;
+    this.apiCalls.dataVariables.forEach((element, index) => {
+      if (element.vertexId === Helper.v1.id) {
+        index1= index;
+      }
+    });
+  return index1;
+  }
 }

@@ -17,10 +17,17 @@ export class SideNav {
   triggerText: any;
   dataVariable: any = "";
   description: any = "";
+  show: any = false;
+  btnValues: any = []
+  btnIndex: any=0;
+  btnValue:any="";
+  placeholderValue="New Button";
+
 
   constructor(private apiCalls: ApiCallsService, private helperService: HelperService) { }
 
   toggle() {
+
     this.description = this.getDescriptionOfVertex();
     this.dataVariable = "";
     this.apiCalls.dataVariables.forEach((element, index) => {
@@ -31,20 +38,26 @@ export class SideNav {
 
     if (this.opened) {
       this.updateButtons();
-
+      this.updateButtonValues();
+      this.btnValue="";
     } else {
       this.opened = true;
       this.updateButtons();
+      this.btnValue="";
+      this.updateButtonValues();
 
     }
 
   }
 
   insertButton() {
+    this.show = true;
     if (this.buttonsArray.length === 0) {
       this.updateDataVariableArray();
     }
     this.buttonsArray.push("New Button");
+    this.btnValues.push({ btnTitle: "New Button" , btnValue: "" });
+    this.btnValue="";
     Helper.addTriggerUsingSidePanel();
   }
 
@@ -76,13 +89,14 @@ export class SideNav {
   }
 
   titleChange(text) {
-
+    
     var strDigit = this.getStrDigit();
     const digit = Helper.digitFromString(strDigit);
     document.getElementById("header" + digit).textContent = text;
 
   }
   triggerTextChange(event, index) {
+    this.btnValues[index].btnTitle=event.target.value;
     var strDigit = this.getStrDigit();
     const digit = Helper.digitFromString(strDigit);
     var arr = document.getElementsByClassName('customTrigger' + digit);
@@ -175,12 +189,12 @@ export class SideNav {
     if (Helper.isVertex) {
       this.buttonsArray = [];
       try {
+        // alert(Helper.v1.children.length)
         for (var i = 0; i < Helper.v1.children.length; i++) {
           this.buttonsArray.push(String(Helper.v1.children[i].div.innerText))
-          console.log(this.buttonsArray)
         }
       } catch (ex) {
-        console.log(ex)
+        // console.log(ex)
       }
     }
   }
@@ -191,6 +205,34 @@ export class SideNav {
         element.type = "MENU_MESSAGE";
       }
     });
+  }
+
+  showValue() {
+    this.show = true;
+  }
+
+  btnTitleFocus(event, i) {
+    this.btnIndex = i;
+    this.btnValue=this.btnValues[i].btnValue;
+    this.placeholderValue=this.btnValues[i].btnTitle+" Value";
+  }
+
+  btnValueChange(event) {
+    this.btnValues[this.btnIndex].btnValue=event.target.value;
+  }
+
+  btnValueMouseOut(){
+    // Send updated buttons array
+    var vertexIndex =this.helperService.getVertexIndex();
+    this.apiCalls.dataVariables[vertexIndex].buttons = this.btnValues;
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
+
+  }
+
+
+  updateButtonValues(){
+    var vertexIndex =this.helperService.getVertexIndex();
+    this.btnValues = this.apiCalls.dataVariables[vertexIndex].buttons;
   }
 
 }

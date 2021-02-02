@@ -17,6 +17,7 @@ import { SideNavAction } from "./components/side-nav-action/side-nav-action.comp
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { MainComponent } from './main/main.component';
 import { FooterComponent } from './footer/footer.component';
+import {SideNavHandOverComponent} from './components/side-nav-handover/side-nav-handover.component';
 @NgModule({
   declarations: [
     SideNav,
@@ -26,6 +27,7 @@ import { FooterComponent } from './footer/footer.component';
     SideNavAction,
     MainComponent,
     FooterComponent,
+    SideNavHandOverComponent
   ],
   imports: [
     BrowserModule,

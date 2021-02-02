@@ -398,7 +398,7 @@ export class Helper {
 			clonedDiv.childNodes[1].childNodes[5].childNodes[3].childNodes[3].childNodes[1].id = 'header' + idNumber;
 			clonedDiv.childNodes[1].childNodes[5].childNodes[5].childNodes[1].id = "initial-message" + idNumber;
 		}
-		let clonedvertex = graph.insertVertex(vertex.getParent(), null, clone, (vertex.geometry.x), vertex.geometry.y, vertex.geometry.width, vertex.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
+		let clonedvertex = graph.insertVertex(vertex.getParent(), null, clone, (vertex.geometry.x+30), vertex.geometry.y+50, vertex.geometry.width, vertex.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
 		if (clonedDiv) {
 			clonedvertex.div = clonedDiv;
 		}
@@ -470,6 +470,10 @@ export class Helper {
 							break;
 						case "IMMEDIATE_TEXT_MESSAGE":
 							div.innerHTML = Card.quickReply(this.cardId++, 'reply.svg', "Quick Reply #" + (this.cardId - 1));
+							break;
+						case "HANDOVER":
+							div.innerHTML = Card.handOver(this.cardId++, 'hand.svg', "Hand over #" + (this.cardId - 1));
+							
 							break;
 						default:
 					}

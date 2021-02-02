@@ -299,6 +299,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.configService.publishmxGraph();
    }
    addStepWithType(type, x: any = 50, y: any = 0) {
+      console.log(this.configService.dataVariables)
       Helper.vertexType = type;
       const v1 = this.addStep(x, y);
       const length = this.configService.dataVariables.length;
@@ -311,6 +312,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.configService.dataVariables.push({
          "type": type,
          "vertexId": Helper.v1.id,
+         "buttons":[],
          "dataVariables": [
             {
                "id": lastId + 1,

@@ -64,6 +64,7 @@ export class ApiCallsService {
       {
         "type": "TEXT_MESSAGE",
         "vertexId": "2",
+        "buttons":[],
         "dataVariables": [
           {
             "id": 0,
@@ -75,6 +76,7 @@ export class ApiCallsService {
       },
       {
         "type": "TEXT_MESSAGE",
+        "buttons":[],
         "vertexId": "3",
         "dataVariables": [
           {
@@ -138,6 +140,7 @@ export class ApiCallsService {
     const httpOptions = this.getHttpOptions("asx");
     object=JSON.parse(object);
     var body = { "dataVariable": this.dataVariables, object };
+    console.log(body)
     if (this.flowId) {
       this.http.patch<any>("http://209.58.160.20:3002/mxgraph/UPDATE/" + this.flowId, body, httpOptions).toPromise
         ().then((data) => {
