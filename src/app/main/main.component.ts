@@ -290,7 +290,7 @@ export class MainComponent implements OnInit, AfterViewInit {
          console.log(ex)
       }
 
-      this.configService.dataVariables = data.data.dataVariable;
+      this.configService.dataVariables = data.data.data;
       data = JSON.stringify({ mxGraphModel: data.data.mxGraphModel });
       JsonCodec.loadJson(this.graph, data)
    }

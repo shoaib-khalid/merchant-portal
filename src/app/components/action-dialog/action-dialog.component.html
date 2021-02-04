@@ -1,0 +1,72 @@
+<h1 mat-dialog-title>External Request</h1>
+<mat-dialog-content>
+
+  <span>
+    <mat-form-field appearance="fill" id="reqType">
+      <mat-label>Request Type</mat-label>
+      <select matNativeControl required>
+        <option value="post">POST</option>
+        <option value="get">GET</option>
+        <option value="put">PUT</option>
+        <option value="delete">DELETE</option>
+      </select>
+    </mat-form-field>
+  </span>
+  <span>
+
+    <mat-form-field id="reqUrl">
+      <mat-label>Request URL</mat-label>
+      <input matInput [(ngModel)]="url">
+    </mat-form-field>
+  </span>
+
+  <div>
+    <span id="headerText"class="elements" (click)="headers()">Headers</span>
+    <span id="bodyText"class="elements" (click)="body()">Body</span>
+    <span id="responseMappingText"class="elements" (click)="respMapping()">Response Mapping</span>
+  </div>
+  <hr>
+
+  <div *ngIf="vheader" class="selectable">
+    <div *ngFor="let reqHeader of reqheaders;let i=index;">
+      <input type="text" placeholder="key" value="{{reqHeader.key}}" (keyup)="keyChange($event, i)"
+        class="headerElements">
+      <input type="text" placeholder="value" value="{{reqHeader.value}}" (keyup)="valueChange($event,i)"
+        class="headerElements">
+    </div>
+    <div id="addheaderbtn" (click)="addReqHeader()">Add Request Header</div>
+
+  </div>
+
+  <div *ngIf="vbody" class="selectable"><textarea name="" id="bodyArea" [(ngModel)]="bodyText"
+      placeholder="Enter Request Body" cols="30" rows="10"></textarea></div>
+  <div *ngIf="vrespMapping" class="selectable">
+
+    <div *ngFor="let reqMap of reqMapping;let i=index">
+
+      <input type="text" name="" value="{{reqMap.jsonPath}}"(keyup)="jsonPathChange($event,i)" placeholder="Enter JSON path" id="jsonPath"
+        class="mappingElements">
+      <input type="text" name="" value="{{reqMap.customField}}"(keyup)="customFieldChange($event,i)" placeholder="Enter Custom field name" id=""
+        class="mappingElements">
+      <span>
+        <mat-form-field appearance="fill" id="reqType" class="mappingElements">
+          <mat-label>Optional</mat-label>
+          <select matNativeControl required>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+        </mat-form-field>
+      </span>
+    </div>
+
+
+    <div id="addMapping" (click)="addRequestMapping()">Add</div>
+
+  </div>
+
+
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="[url,title]" (click)="openExternalRequestForm()" cdkFocusInitial>Ok</button>
+</div>

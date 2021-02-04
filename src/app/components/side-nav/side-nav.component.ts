@@ -40,8 +40,10 @@ export class SideNav {
       this.updateButtons();
       this.updateButtonValues();
       this.btnValue="";
+      this.show=false;
     } else {
       this.opened = true;
+      this.show=false;
       this.updateButtons();
       this.btnValue="";
       this.updateButtonValues();
@@ -51,13 +53,14 @@ export class SideNav {
   }
 
   insertButton() {
-    this.show = true;
+    // this.show = true;
     if (this.buttonsArray.length === 0) {
       this.updateDataVariableArray();
     }
     this.buttonsArray.push("New Button");
     this.btnValues.push({ btnTitle: "New Button" , btnValue: "" });
     this.btnValue="";
+    this.btnIndex = this.buttonsArray.length-1;
     Helper.addTriggerUsingSidePanel();
   }
 
@@ -81,10 +84,12 @@ export class SideNav {
       } else if (event.target.localName === "svg") {
         if (this.pinned === false) {
           this.opened = false;
+          this.show=false;
         }
       }
     } else {
       this.opened = false;
+      this.show=false;
     }
   }
 
@@ -215,6 +220,7 @@ export class SideNav {
     this.btnIndex = i;
     this.btnValue=this.btnValues[i].btnValue;
     this.placeholderValue=this.btnValues[i].btnTitle+" Value";
+    this.show=true;
   }
 
   btnValueChange(event) {

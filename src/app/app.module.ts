@@ -16,8 +16,10 @@ import { MenuOptions } from './components/menu-options/menu-options.component';
 import { SideNavAction } from "./components/side-nav-action/side-nav-action.component";
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { MainComponent } from './main/main.component';
-import { FooterComponent } from './footer/footer.component';
+import { FooterComponent } from './components/footer/footer.component';
 import {SideNavHandOverComponent} from './components/side-nav-handover/side-nav-handover.component';
+import {ActionDialog} from './components/action-dialog/action-dialog.component';
+import {MatSelectModule} from '@angular/material/select';
 @NgModule({
   declarations: [
     SideNav,
@@ -27,7 +29,8 @@ import {SideNavHandOverComponent} from './components/side-nav-handover/side-nav-
     SideNavAction,
     MainComponent,
     FooterComponent,
-    SideNavHandOverComponent
+    SideNavHandOverComponent,
+    ActionDialog
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,8 @@ import {SideNavHandOverComponent} from './components/side-nav-handover/side-nav-
     MatDialogModule,
     MatInputModule,
     MatMenuModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatSelectModule
   ], entryComponents: [FlowDialog],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { JsonCodec } from 'src/app/helpers/json-codec';
+import { MatDialog } from '@angular/material/dialog';
 import { Helper } from '../../helpers/graph-helper';
 import { ApiCallsService } from '../../services/api-calls.service'
 import { HelperService } from '../../services/helper.service'
+import { ActionDialog } from '../action-dialog/action-dialog.component';
 
 @Component({
     selector: 'side-nav-action',
@@ -17,8 +19,8 @@ export class SideNavAction {
     title: any;
     triggerText: any;
     dataVariable: any = "";
-    constructor(private apiCalls: ApiCallsService, private helperService: HelperService) {
-     }
+    constructor(private apiCalls: ApiCallsService, private helperService: HelperService, public dialog: MatDialog) {
+    }
 
     titleChange(text) {
         var strDigit = this.getStrDigit();
@@ -47,14 +49,15 @@ export class SideNavAction {
 
         if (this.helperService.vertexClicked() === "ACTION") {
             if (event.target.id.includes("header") || event.target.id.includes("card")) {
-
-                    this.opened = true;
-                
-            }else{
-                this.opened=false;
+                this.opened = true;
+                console.log(event.target.id)
+            } else if (event.target.localName === "svg") {
+                if (this.pinned === false) {
+                    this.opened = false;
+                }
             }
-        }else{
-            this.opened=false;
+        } else {
+            this.opened = false;
         }
     }
 
@@ -78,9 +81,19 @@ export class SideNavAction {
     }
     getStrDigit() {
         if (Helper.v1.div.firstChild.id) {
-          return Helper.v1.div.firstChild.id;
+            return Helper.v1.div.firstChild.id;
         } else {
-          return Helper.v1.div.firstChild.nextElementSibling.id;
+            return Helper.v1.div.firstChild.nextElementSibling.id;
         }
-      }
+    }
+
+    openActionDialog(event, i) {
+        const dialogRef = this.dialog.open(ActionDialog, {
+            data: { title: "", description: "" }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+
+        });
+    }
 }
