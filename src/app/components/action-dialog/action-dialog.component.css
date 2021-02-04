@@ -37,19 +37,20 @@
 background-color: rgb(232, 255, 253);
 }
 
-#bodyArea{
-    border: none;
+.bodyArea{
+    border: 1px solid black;
     width: 800px;
     height: 180px;
+
 }
-#bodyArea:focus{
+.bodyArea:focus{
     outline: none;
 }
 .mappingElements{
 margin-left: 10px;
 }
 
-#jsonPath{
+.jsonPath{
     width: 400px;
 }
 

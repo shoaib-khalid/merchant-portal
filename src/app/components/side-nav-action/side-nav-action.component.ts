@@ -19,6 +19,9 @@ export class SideNavAction {
     title: any;
     triggerText: any;
     dataVariable: any = "";
+    externalRequests: any = [];
+
+
     constructor(private apiCalls: ApiCallsService, private helperService: HelperService, public dialog: MatDialog) {
     }
 
@@ -27,30 +30,16 @@ export class SideNavAction {
         const digit = Helper.digitFromString(strDigit);
         document.getElementById("header" + digit).textContent = text;
     }
-    descriptionFocusOut($event) {
 
-    }
-    descriptionChange($event) {
-
-    }
-    triggerTextChange($event, i) {
-
-    }
-
-    triggerFocusOut($event, i) {
-
-    }
-
-    insertButton() {
-
-    }
 
     handleClick(event) {
 
         if (this.helperService.vertexClicked() === "ACTION") {
             if (event.target.id.includes("header") || event.target.id.includes("card")) {
+                var id = event.target.id;
+                var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
+                (<HTMLInputElement>document.getElementById("vertex-action-title")).value = text;
                 this.opened = true;
-                console.log(event.target.id)
             } else if (event.target.localName === "svg") {
                 if (this.pinned === false) {
                     this.opened = false;
@@ -78,6 +67,7 @@ export class SideNavAction {
 
     addRequest() {
         this.requestsArray.push("Add your request")
+        this.insertIntoExternalRequests()
     }
     getStrDigit() {
         if (Helper.v1.div.firstChild.id) {
@@ -88,12 +78,105 @@ export class SideNavAction {
     }
 
     openActionDialog(event, i) {
+        var data;
+        if (this.externalRequests[i]) {
+            data = this.requestParameters(true, i);
+        } else {
+            data = this.requestParameters(false, i);
+        }
         const dialogRef = this.dialog.open(ActionDialog, {
-            data: { title: "", description: "" }
+            data: data
+
         });
 
         dialogRef.afterClosed().subscribe(result => {
+            if (result != null) {
+                this.requestsArray[i] = result[1];
+
+                this.externalRequests[i] = {
+                    type: "EXTERNAL_REQUEST",
+                    externalRequest: {
+                        url: result[1],
+                        headers: result[2]
+                        ,
+                        httpMethod: result[0],
+                        body: {
+                            format: result[3],
+                            payload: result[4]
+                        },
+                        response: {
+                            format: result[6],
+                            mapping: result[5]
+                        },
+                        errorStep: {
+                            actionType: "vertex",
+                            targetId: {
+                                "$oid": "5fec54f9964cb3407cb3b918"
+                            }
+                        }
+                    }
+                }
+
+            }
 
         });
+
+    }
+
+    requestParameters(flag, i) {
+        var data;
+        if (flag) {
+            data = {
+                reqType: this.externalRequests[i].externalRequest.httpMethod,
+                url: this.externalRequests[i].externalRequest.url,
+                reqheaders: this.externalRequests[i].externalRequest.headers,
+                bodyFormat: this.externalRequests[i].externalRequest.body.format,
+                bodyText: this.externalRequests[i].externalRequest.body.payload,
+                reqMapping: this.externalRequests[i].externalRequest.response.mapping,
+                responseMappingFormat: this.externalRequests[i].externalRequest.response.format
+            }
+        } else {
+            data = {
+                reqType: "",
+                url: "",
+                reqheaders: [{ key: "", value: "" }],
+                bodyFormat: "",
+                bodyText: "",
+                reqMapping: [{ jsonPath: "", customField: "", optional: "" }],
+                responseMappingFormat: ""
+            }
+        }
+        return data;
+    }
+
+    insertIntoExternalRequests() {
+
+        this.externalRequests.push({
+            type: "EXTERNAL_REQUEST",
+            externalRequest: {
+                url: "",
+                headers: [{ key: "", value: "" }]
+                ,
+                httpMethod: "",
+                body: {
+                    format: "",
+                    payload: ""
+                },
+                response: {
+                    format: "",
+                    mapping: [{ jsonPath: "", customField: "", optional: "" }]
+                },
+                errorStep: {
+                    actionType: "vertex",
+                    targetId: {
+                        "$oid": "5fec54f9964cb3407cb3b918"
+                    }
+                }
+            }
+        })
+    }
+
+    updateSidePanelWithButtons() {
+        
     }
 }

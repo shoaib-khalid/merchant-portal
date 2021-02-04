@@ -90,22 +90,22 @@ export class MainComponent implements OnInit, AfterViewInit {
                this.configService.autoSaveAdd(objJson, "")
             }
             else if (objJson.includes(`"triggers":`)) {
-              await this.configService.autoSaveAdd(objJson, "")
+               await this.configService.autoSaveAdd(objJson, "")
                this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
             }
             else if (Helper.copyAction) {
                this.configService.autoSaveAdd(objJson, "")
                this.configService.dataVariables.forEach((element, index) => {
                   if (element.vertexId == Helper.v1.id) {
-                     var len=0;
+                     var len = 0;
                      var parent = this.graph.getDefaultParent();
                      var vertices = this.graph.getChildVertices(parent);
-                     for(var i=0;i<vertices.length;i++){
-                        len =len+(this.graph.getChildVertices(vertices[i])).length
+                     for (var i = 0; i < vertices.length; i++) {
+                        len = len + (this.graph.getChildVertices(vertices[i])).length
                      }
                      this.configService.dataVariables.push({
                         "type": element.type,
-                        "vertexId": String(vertices.length+2+len),
+                        "vertexId": String(vertices.length + 2 + len),
                         "dataVariables": [
                            {
                               "id": this.helperService.getLastId(),
@@ -269,15 +269,15 @@ export class MainComponent implements OnInit, AfterViewInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-
-         if (result[0] && result[1]) {
-            this.graph.removeCells(this.graph.getChildVertices(this.graph.getDefaultParent()));
-            // this.router.navigateByUrl('');
-            var v1 = this.addStepWithType("TEXT_MESSAGE");
-            var v2 = this.addStepWithType("TEXT_MESSAGE", 500, 200);
-            this.graph.insertEdge(this.graph.getDefaultParent(), null, '', v1, v2);
+         if (result) {
+            if (result[0] && result[1]) {
+               this.graph.removeCells(this.graph.getChildVertices(this.graph.getDefaultParent()));
+               // this.router.navigateByUrl('');
+               var v1 = this.addStepWithType("TEXT_MESSAGE");
+               var v2 = this.addStepWithType("TEXT_MESSAGE", 500, 200);
+               this.graph.insertEdge(this.graph.getDefaultParent(), null, '', v1, v2);
+            }
          }
-
       });
    }
 
@@ -309,20 +309,35 @@ export class MainComponent implements OnInit, AfterViewInit {
       } else {
          lastId = -1;
       }
-      this.configService.dataVariables.push({
-         "type": type,
-         "vertexId": Helper.v1.id,
-         "buttons":[],
-         "dataVariables": [
-            {
-               "id": lastId + 1,
-               "dataVariable": "",
-               "path": "",
-               "optional": ""
-            }
-         ]
-      });
-
+      if (type === "ACTION") {
+         this.configService.dataVariables.push({
+            "type": type,
+            "vertexId": Helper.v1.id,
+            "externalRequests": [],
+            "dataVariables": [
+               {
+                  "id": lastId + 1,
+                  "dataVariable": "",
+                  "path": "",
+                  "optional": ""
+               }
+            ]
+         });
+      } else {
+         this.configService.dataVariables.push({
+            "type": type,
+            "vertexId": Helper.v1.id,
+            "buttons": [],
+            "dataVariables": [
+               {
+                  "id": lastId + 1,
+                  "dataVariable": "",
+                  "path": "",
+                  "optional": ""
+               }
+            ]
+         });
+      }
       this.configService.autoSaveAdd(JsonCodec.getIndividualJson(Helper.v1), type)
       return v1;
    }

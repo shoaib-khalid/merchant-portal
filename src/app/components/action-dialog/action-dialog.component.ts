@@ -15,17 +15,38 @@ export interface DialogData {
 export class ActionDialog {
     title: any;
     url: any;
+    reqType: any = ""
     vheader: boolean = true;
     vbody: boolean = false;
     vresponse: boolean = false;
     vrespMapping: boolean = false;
     reqheaders: any = [{ key: "", value: "" }];
     bodyText: any = ""
-    reqMapping: any = [{ jsonPath: "", customField: "", option: "" }]
+    reqMapping: any = [{ jsonPath: "", customField: "", optional: "" }]
+    bodyFormat: any = "json";
+    responseMappingFormat: any = "json";
 
     constructor(private configService: ApiCallsService,
         public dialogRef: MatDialogRef<ActionDialog>,
-        @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+        @Inject(MAT_DIALOG_DATA) public data: {
+                reqType: any,
+                url: any,
+                reqheaders:any,
+                bodyFormat:any,
+                bodyText: any,
+                reqMapping: any,
+                responseMappingFormat: any
+
+            }
+            ) {
+            this.reqType=data.reqType;
+            this.url=data.url;
+            this.reqheaders=data.reqheaders;
+            this.bodyFormat=data.bodyFormat;
+            this.bodyText=data.bodyText;
+            this.reqMapping=data.reqMapping;
+            this.responseMappingFormat=data.responseMappingFormat;
+         }
 
     onNoClick(): void {
         this.dialogRef.close();
@@ -68,7 +89,7 @@ export class ActionDialog {
         this.vrespMapping = false;
     }
     addReqHeader() {
-        this.reqheaders.push([{ key: "", value: "" }])
+        this.reqheaders.push({ key: "", value: "" })
     }
     keyChange(event, i) {
         this.reqheaders[i].key = event.target.value;
@@ -78,7 +99,7 @@ export class ActionDialog {
 
     }
     addRequestMapping() {
-        this.reqMapping.push({ jsonPath: "", customField: "", option: "" })
+        this.reqMapping.push({ jsonPath: "", customField: "", optional: "" })
     }
     jsonPathChange(event, i) {
         this.reqMapping[i].jsonPath = event.target.value;
@@ -95,4 +116,11 @@ export class ActionDialog {
             text[i].style.color = "black";
         }
     }
+
+    updatedOptional(event, i) {
+
+        this.reqMapping[i].optional = event.target.value;
+
+    }
+
 }
