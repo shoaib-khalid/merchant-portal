@@ -313,7 +313,7 @@ export class MainComponent implements OnInit, AfterViewInit {
          this.configService.dataVariables.push({
             "type": type,
             "vertexId": this.helper.v1.id,
-            "externalRequests": [],
+            "actions": [],
             "dataVariables": [
                {
                   "id": lastId + 1,

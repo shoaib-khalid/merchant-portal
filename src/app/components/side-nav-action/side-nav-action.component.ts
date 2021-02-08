@@ -19,10 +19,9 @@ export class SideNavAction {
     title: any;
     triggerText: any;
     dataVariable: any = "";
-    externalRequests: any = [];
 
 
-    constructor(private apiCalls: ApiCallsService,private helper:Helper, private helperService: HelperService, public dialog: MatDialog) {
+    constructor(private apiCalls: ApiCallsService, private helper: Helper, private helperService: HelperService, public dialog: MatDialog) {
     }
 
     titleChange(text) {
@@ -31,6 +30,12 @@ export class SideNavAction {
         document.getElementById("header" + digit).textContent = text;
     }
 
+    removeRequest(i) {
+        this.helperService.fetchExternalRequests().splice(i, 1);
+        this.requestsArray.splice(i, 1);
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+
+    }
 
     handleClick(event) {
 
@@ -40,6 +45,7 @@ export class SideNavAction {
                 var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
                 (<HTMLInputElement>document.getElementById("vertex-action-title")).value = text;
                 this.opened = true;
+                this.updateSidePanelWithButtons();
             } else if (event.target.localName === "svg") {
                 if (this.pinned === false) {
                     this.opened = false;
@@ -50,24 +56,29 @@ export class SideNavAction {
         }
     }
 
-    dataVariableFocusOut($event) {
-
-    }
 
     toggle() {
 
     }
 
     pin() {
-
+        if (this.pinned) {
+            this.pinned = false;
+            alert("Unpinned")
+        } else {
+            this.pinned = true;
+            alert("Pinned")
+        }
     }
     titleFocusOut($event) {
-
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
     }
 
     addRequest() {
-        this.requestsArray.push("Add your request")
-        this.insertIntoExternalRequests()
+        this.requestsArray.push("Add your request");
+        this.insertIntoExternalRequests();
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+
     }
     getStrDigit() {
         if (this.helper.v1.div.firstChild.id) {
@@ -79,7 +90,7 @@ export class SideNavAction {
 
     openActionDialog(event, i) {
         var data;
-        if (this.externalRequests[i]) {
+        if (this.helperService.fetchExternalRequests()[i]) {
             data = this.requestParameters(true, i);
         } else {
             data = this.requestParameters(false, i);
@@ -92,9 +103,8 @@ export class SideNavAction {
         dialogRef.afterClosed().subscribe(result => {
             if (result != null) {
                 this.requestsArray[i] = result[1];
-
-                this.externalRequests[i] = {
-                    type: "EXTERNAL_REQUEST",
+                this.helperService.setExternalRequest({
+                
                     externalRequest: {
                         url: result[1],
                         headers: result[2]
@@ -115,7 +125,9 @@ export class SideNavAction {
                             }
                         }
                     }
-                }
+                }, i)
+                this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+
 
             }
 
@@ -125,15 +137,17 @@ export class SideNavAction {
 
     requestParameters(flag, i) {
         var data;
+        const externalRequests = this.helperService.fetchExternalRequests();
+
         if (flag) {
             data = {
-                reqType: this.externalRequests[i].externalRequest.httpMethod,
-                url: this.externalRequests[i].externalRequest.url,
-                reqheaders: this.externalRequests[i].externalRequest.headers,
-                bodyFormat: this.externalRequests[i].externalRequest.body.format,
-                bodyText: this.externalRequests[i].externalRequest.body.payload,
-                reqMapping: this.externalRequests[i].externalRequest.response.mapping,
-                responseMappingFormat: this.externalRequests[i].externalRequest.response.format
+                reqType: externalRequests[i].externalRequest.httpMethod,
+                url: externalRequests[i].externalRequest.url,
+                reqheaders: externalRequests[i].externalRequest.headers,
+                bodyFormat: externalRequests[i].externalRequest.body.format,
+                bodyText: externalRequests[i].externalRequest.body.payload,
+                reqMapping: externalRequests[i].externalRequest.response.mapping,
+                responseMappingFormat: externalRequests[i].externalRequest.response.format
             }
         } else {
             data = {
@@ -151,8 +165,7 @@ export class SideNavAction {
 
     insertIntoExternalRequests() {
 
-        this.externalRequests.push({
-            type: "EXTERNAL_REQUEST",
+        this.helperService.insertExternalRequest({
             externalRequest: {
                 url: "",
                 headers: [{ key: "", value: "" }]
@@ -174,9 +187,19 @@ export class SideNavAction {
                 }
             }
         })
+
     }
 
     updateSidePanelWithButtons() {
-        
+        const externalRequests = this.helperService.fetchExternalRequests();
+        this.requestsArray = [];
+
+        for (var i = 0; i < externalRequests.length; i++) {
+            if (this.requestsArray[i]) {
+                this.requestsArray[i] = externalRequests[i].externalRequest.url;
+            } else {
+                this.requestsArray.push(externalRequests[i].externalRequest.url)
+            }
+        }
     }
 }

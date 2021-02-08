@@ -18,6 +18,7 @@ export class ActionDialog {
     reqType: any = ""
     vheader: boolean = true;
     vbody: boolean = false;
+    bodyEnabled = false;
     vresponse: boolean = false;
     vrespMapping: boolean = false;
     reqheaders: any = [{ key: "", value: "" }];
@@ -29,24 +30,27 @@ export class ActionDialog {
     constructor(private configService: ApiCallsService,
         public dialogRef: MatDialogRef<ActionDialog>,
         @Inject(MAT_DIALOG_DATA) public data: {
-                reqType: any,
-                url: any,
-                reqheaders:any,
-                bodyFormat:any,
-                bodyText: any,
-                reqMapping: any,
-                responseMappingFormat: any
+            reqType: any,
+            url: any,
+            reqheaders: any,
+            bodyFormat: any,
+            bodyText: any,
+            reqMapping: any,
+            responseMappingFormat: any
 
-            }
-            ) {
-            this.reqType=data.reqType;
-            this.url=data.url;
-            this.reqheaders=data.reqheaders;
-            this.bodyFormat=data.bodyFormat;
-            this.bodyText=data.bodyText;
-            this.reqMapping=data.reqMapping;
-            this.responseMappingFormat=data.responseMappingFormat;
-         }
+        }
+    ) {
+        this.reqType = data.reqType;
+        this.url = data.url;
+        this.reqheaders = data.reqheaders;
+        this.bodyFormat = data.bodyFormat;
+        this.bodyText = data.bodyText;
+        this.reqMapping = data.reqMapping;
+        this.responseMappingFormat = data.responseMappingFormat;
+        if (this.reqType === "post") {
+            this.bodyEnabled = true;
+        }
+    }
 
     onNoClick(): void {
         this.dialogRef.close();
@@ -59,14 +63,16 @@ export class ActionDialog {
         this.setTopTextColorToBlack();
         this.setAlltoFalse();
         this.vheader = true;
-        document.getElementById("headerText").style.color = "blue";
+        document.getElementById("headText").style.color = "blue";
 
     }
 
     body() {
         this.setTopTextColorToBlack();
         this.setAlltoFalse();
-        this.vbody = true;
+        if (this.bodyEnabled) {
+            this.vbody = true;
+        }
         document.getElementById("bodyText").style.color = "blue";
     }
 
@@ -121,6 +127,19 @@ export class ActionDialog {
 
         this.reqMapping[i].optional = event.target.value;
 
+    }
+
+    requestMethodChange() {
+        if ((this.reqType === "POST") || (this.reqType === "PUT")) {
+            this.bodyEnabled = true;
+            if (this.vheader === false && this.vrespMapping === false) {
+                this.vbody = true;
+            }
+        } else {
+            this.bodyEnabled = false;
+            this.vbody = false;
+
+        }
     }
 
 }

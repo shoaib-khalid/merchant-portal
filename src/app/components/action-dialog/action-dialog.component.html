@@ -4,11 +4,11 @@
   <span>
     <mat-form-field appearance="fill" id="reqType">
       <mat-label>Request Type</mat-label>
-      <select matNativeControl required [(ngModel)]="reqType">
-        <option value="post">POST</option>
-        <option value="get">GET</option>
-        <option value="put">PUT</option>
-        <option value="delete">DELETE</option>
+      <select matNativeControl required [(ngModel)]="reqType" (change)="requestMethodChange()">
+        <option value="POST">POST</option>
+        <option value="GET">GET</option>
+        <option value="PUT">PUT</option>
+        <option value="DELETE">DELETE</option>
       </select>
     </mat-form-field>
   </span>
@@ -21,7 +21,7 @@
   </span>
 
   <div>
-    <span id="headerText" class="elements" (click)="headers()">Headers</span>
+    <span id="headText" class="elements" (click)="headers()">Headers</span>
     <span id="bodyText" class="elements" (click)="body()">Body</span>
     <span id="responseMappingText" class="elements" (click)="respMapping()">Response Mapping</span>
   </div>
@@ -42,8 +42,8 @@
     <mat-form-field>
       <mat-label>Format</mat-label>
       <select matNativeControl [(ngModel)]="bodyFormat" required>
-        <option value="json"> JSON</option>
-        <option value="xml"> XML</option>
+        <option value="JSON"> JSON</option>
+        <option value="XML"> XML</option>
       </select>
     </mat-form-field>
     <br>
@@ -56,15 +56,15 @@
     <mat-form-field>
       <mat-label>Format</mat-label>
       <select matNativeControl required [(ngModel)]="responseMappingFormat">
-        <option value="json">JSON</option>
-        <option value="xml">XML</option>
+        <option value="JSON">JSON</option>
+        <option value="XML">XML</option>
       </select>
     </mat-form-field>
 
     <div *ngFor="let reqMap of reqMapping;let i=index">
 
       <input type="text" name="" value="{{reqMap.jsonPath}}" (keyup)="jsonPathChange($event,i)"
-        placeholder="Enter JSON path" class="mappingElements ">
+        placeholder="Enter {{responseMappingFormat}} path" class="mappingElements ">
       <input type="text" name="" value="{{reqMap.customField}}" (keyup)="customFieldChange($event,i)"
         placeholder="Enter Custom field name"  class="mappingElements">
       <span>

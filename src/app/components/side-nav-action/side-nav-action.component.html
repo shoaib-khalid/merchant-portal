@@ -5,15 +5,16 @@
         <div class="header text-center w-100">
             <h4>
                 <input type="text" value="Send" (ngModelChange)="titleChange($event)" id="vertex-action-title"
-                    (focusout)="titleFocusOut($event)" value="Action " [(ngModel)]="title">
+                    (focusout)="titleFocusOut($event)" value="Action" [(ngModel)]="title">
             </h4>
         </div>
         <div class="body" id="side-nav-body">
             <div class="text-center pt-5 pl-4" id="buttons-list">
                 <div class="external-requests-list" *ngFor="let req of requestsArray;let i =index;">
-                    <div (click)="openActionDialog($event,i)">
-                        <div class="inside-external-heading">External Request</div>
-                        <div class="actual-req">{{req}}</div>
+                    <div >
+                        <div class="inside-external-heading" (click)="openActionDialog($event,i)">External Request</div>
+                        <div class="actual-req" (click)="openActionDialog($event,i)">{{req}}</div>
+                        <img src="../../../assets/cross.svg" alt="" height="10px" width="10px" (click)="removeRequest(i)">
                     </div>
                     <hr class="line">
                 </div>

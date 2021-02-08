@@ -1,25 +1,30 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { JsonCodec } from 'src/app/helpers/json-codec';
 import { Helper } from '../../helpers/graph-helper';
 import { ApiCallsService } from '../../services/api-calls.service'
 import { HelperService } from '../../services/helper.service';
 
 @Component({
-    selector: 'side-nav-handover',
-    templateUrl: './side-nav-handover.component.html',
-    styleUrls: ['./side-nav-handover.component.css']
+    selector: 'side-nav-condition',
+    templateUrl: './side-nav-condition.component.html',
+    styleUrls: ['./side-nav-condition.component.css']
 })
-export class SideNavHandOverComponent {
+export class SideNavConditionComponent implements OnInit {
     opened: boolean;
     pinned: boolean = false;
     title: any;
     dataVariable: any = "";
     description: any = "";
 
-    constructor(private apiCalls: ApiCallsService,private helper:Helper, 
+    constructor(private apiCalls: ApiCallsService, private helper: Helper,
         private helperService: HelperService) {
-     }
-
+    }
+    ngOnInit() {
+        this.helper.conditionObs$.subscribe(message=>{
+            alert("ssadsa");
+            // this.handleClick("");
+        })
+    }
 
     toggle() {
 
@@ -59,11 +64,12 @@ export class SideNavHandOverComponent {
 
 
     handleClick(event) {
-        if (this.helperService.vertexClicked() === "HANDOVER") {
+        alert("condition")
+        if (this.helperService.vertexClicked() === "CONDITION") {
             if (event.target.id.includes("header") || event.target.id.includes("card")) {
                 var id = event.target.id;
                 var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
-                (<HTMLInputElement>document.getElementById("handover-title")).value = text;
+                (<HTMLInputElement>document.getElementById("condition-title")).value = text;
                 this.toggle();
             } else if (event.target.localName === "svg") {
                 if (this.pinned === false) {
@@ -136,6 +142,6 @@ export class SideNavHandOverComponent {
     }
     titleFocusOut(event) {
         this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
-    
-      }
+
+    }
 }

@@ -38,4 +38,31 @@ export class HelperService {
     });
     return index1;
   }
+
+  insertExternalRequest(externalRequest) {
+    this.apiCalls.dataVariables.forEach((element, index) => {
+      if (element.vertexId === this.helper.v1.id) {
+        element.actions.push(externalRequest);
+      }
+    });
+  }
+
+  fetchExternalRequests() {
+    var externalRequests;
+    this.apiCalls.dataVariables.forEach((element, index) => {
+      if (element.vertexId === this.helper.v1.id) {
+        externalRequests = element.actions;
+      }
+
+    });
+    return externalRequests;
+  }
+
+  setExternalRequest(externalRequest, i) {
+    this.apiCalls.dataVariables.forEach((element, index) => {
+      if (element.vertexId === this.helper.v1.id) {
+        element.actions[i] = externalRequest;
+      }
+    });
+  }
 }

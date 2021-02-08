@@ -21,6 +21,7 @@ import { SideNavHandOverComponent } from './components/side-nav-handover/side-na
 import { ActionDialog } from './components/action-dialog/action-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
 import { Helper } from './helpers/graph-helper';
+import { SideNavConditionComponent } from './components/side-nav-condition/side-nav-condition.component';
 @NgModule({
   declarations: [
     SideNav,
@@ -31,7 +32,8 @@ import { Helper } from './helpers/graph-helper';
     MainComponent,
     FooterComponent,
     SideNavHandOverComponent,
-    ActionDialog
+    SideNavConditionComponent,
+    ActionDialog,
   ],
   imports: [
     BrowserModule,

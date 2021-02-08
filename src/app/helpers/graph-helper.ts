@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Card } from '../helpers/custom-card';
 import { JsonCodec } from './json-codec';
+import { Subject } from 'rxjs';
 declare var mxConstants: any;
 declare var mxUtils: any;
 declare var mxPerimeter: any;
@@ -25,6 +26,8 @@ export class Helper {
 	isVertex: boolean;
 	copyAction: any;
 	vertexType: string;
+	private conditionSubject = new Subject<string>();
+	conditionObs$ = this.conditionSubject.asObservable();
 	constructor() {
 
 	}
@@ -114,7 +117,7 @@ export class Helper {
 						this.v1 = evt.sourceState.cell;
 						this.isVertex = true;
 						previous_id = evt.sourceState.cell.id;
-
+						this.conditionSubject.next("sa")
 					} catch (ex) {
 						this.isVertex = false;
 					}
@@ -392,7 +395,7 @@ export class Helper {
 			clonedDiv.childNodes[1].childNodes[5].childNodes[3].childNodes[3].childNodes[1].id = 'header' + idNumber;
 			clonedDiv.childNodes[1].childNodes[5].childNodes[5].childNodes[1].id = "initial-message" + idNumber;
 		}
-		let clonedvertex = graph.insertVertex(vertex.getParent(), null, clone, (vertex.geometry.x+30), vertex.geometry.y+50, vertex.geometry.width, vertex.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
+		let clonedvertex = graph.insertVertex(vertex.getParent(), null, clone, (vertex.geometry.x + 30), vertex.geometry.y + 50, vertex.geometry.width, vertex.geometry.height, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
 		if (clonedDiv) {
 			clonedvertex.div = clonedDiv;
 		}
@@ -406,7 +409,7 @@ export class Helper {
 				let clonedChild = graph.insertVertex(clonedvertex, null, clone, child.geometry.x, child.geometry.y, child.geometry.width, child.geometry.height, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
 				if (clonedChildDiv) {
 					clonedChild.div = clonedChildDiv;
-					clonedChildDiv.childNodes[0].childNodes[1].className = "btn btn-primary btn-block btn-lg customTrigger"+vertices.length;
+					clonedChildDiv.childNodes[0].childNodes[1].className = "btn btn-primary btn-block btn-lg customTrigger" + vertices.length;
 				}
 			});
 			let initialMessage = clonedvertex.div.getElementsByClassName('initial-message');
