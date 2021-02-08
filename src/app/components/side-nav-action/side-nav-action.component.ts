@@ -22,12 +22,12 @@ export class SideNavAction {
     externalRequests: any = [];
 
 
-    constructor(private apiCalls: ApiCallsService, private helperService: HelperService, public dialog: MatDialog) {
+    constructor(private apiCalls: ApiCallsService,private helper:Helper, private helperService: HelperService, public dialog: MatDialog) {
     }
 
     titleChange(text) {
         var strDigit = this.getStrDigit();
-        const digit = Helper.digitFromString(strDigit);
+        const digit = this.helper.digitFromString(strDigit);
         document.getElementById("header" + digit).textContent = text;
     }
 
@@ -70,10 +70,10 @@ export class SideNavAction {
         this.insertIntoExternalRequests()
     }
     getStrDigit() {
-        if (Helper.v1.div.firstChild.id) {
-            return Helper.v1.div.firstChild.id;
+        if (this.helper.v1.div.firstChild.id) {
+            return this.helper.v1.div.firstChild.id;
         } else {
-            return Helper.v1.div.firstChild.nextElementSibling.id;
+            return this.helper.v1.div.firstChild.nextElementSibling.id;
         }
     }
 

@@ -6,12 +6,12 @@ import { Helper } from '../helpers/graph-helper';
 })
 export class HelperService {
 
-  constructor(private apiCalls: ApiCallsService) { }
+  constructor(private apiCalls: ApiCallsService, private helper: Helper) { }
 
   vertexClicked() {
     var vertextType;
     this.apiCalls.dataVariables.forEach((element, index) => {
-      if (element.vertexId === Helper.v1.id) {
+      if (element.vertexId === this.helper.v1.id) {
         vertextType = element.type;
       }
     });
@@ -29,13 +29,13 @@ export class HelperService {
     return lastId + 1;
   }
 
-  getVertexIndex(){
-  var index1;
+  getVertexIndex() {
+    var index1;
     this.apiCalls.dataVariables.forEach((element, index) => {
-      if (element.vertexId === Helper.v1.id) {
-        index1= index;
+      if (element.vertexId === this.helper.v1.id) {
+        index1 = index;
       }
     });
-  return index1;
+    return index1;
   }
 }

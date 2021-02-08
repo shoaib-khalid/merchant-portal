@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { Card } from '../helpers/custom-card';
 import { JsonCodec } from './json-codec';
 declare var mxConstants: any;
@@ -15,53 +16,54 @@ declare var mxPolyline: any;
 declare var mxGraphHandler: any;
 declare var $: any;
 
+@Injectable()
 export class Helper {
-	static v1: any;
-	static cardId: any = 0;
-	static selectedVertices: any = [];
-	static graph: any;
-	static isVertex: boolean;
-	static copyAction: any;
-	static vertexType: string;
+	v1: any;
+	cardId: any = 0;
+	selectedVertices: any = [];
+	graph: any;
+	isVertex: boolean;
+	copyAction: any;
+	vertexType: string;
 	constructor() {
 
 	}
 
-	static addAssets(graph) {
+	addAssets(graph) {
 		mxClient.link('stylesheet', '../assets/css/mxGraph.css');
 		this.graph = graph;
 	}
-	static deleteMultipleVertices(graph) {
+	deleteMultipleVertices(graph) {
 		for (var i = 0; i < this.selectedVertices.length; i++) {
-			Helper.v1 = this.selectedVertices[i];
+			this.v1 = this.selectedVertices[i];
 			graph.removeCells([this.selectedVertices[i]])[0];
 		}
 	}
 
-	static copyMultipleVertices(graph) {
+	copyMultipleVertices(graph) {
 		for (var i = 0; i < this.selectedVertices.length; i++) {
-			Helper.copyVertex(graph, this.selectedVertices[i]);
+			this.copyVertex(graph, this.selectedVertices[i]);
 		}
 	}
 
-	static setColorToTransparent() {
+	setColorToTransparent() {
 		var ele: any = document.getElementsByClassName('flow-start-container');
 		for (var i = 0; i < ele.length; i++) {
 			ele[i].style.borderColor = "transparent";
 		}
 	}
 
-	static actionOnEvents(graph) {
+	actionOnEvents(graph) {
 		var editor = new mxEditor();
 		// editor.graph = graph;
 		document.addEventListener("click", (evt: any) => {
 			try {
 
 				if (evt.target.classList.contains("delete")) {
-					graph.removeCells([Helper.v1]);
+					graph.removeCells([this.v1]);
 
 				} else if (evt.target.className === "copy") {
-					Helper.copyVertex(graph, Helper.v1);
+					this.copyVertex(graph, this.v1);
 				}
 				else {
 					try {
@@ -70,10 +72,10 @@ export class Helper {
 
 						) {
 							if (evt.ctrlKey === false) {
-								this.selectedVertices = [Helper.v1];
+								this.selectedVertices = [this.v1];
 								this.setColorToTransparent();
 							} else {
-								this.selectedVertices.push(Helper.v1);
+								this.selectedVertices.push(this.v1);
 							}
 
 							document.getElementById("flow" + evt.target.id.match(/\d/g)[0]).style.borderColor = "#74fca1";
@@ -92,34 +94,33 @@ export class Helper {
 	}
 
 
-	static connectPreview = (graph) => {
+	connectPreview = (graph) => {
 
 		let previous_id = 0;
 		var doc = mxUtils.createXmlDocument();
 		var obj = doc.createElement('UserObject');
 
-		graph.connectionHandler.isConnectableCell = function (cell) {
+		graph.connectionHandler.isConnectableCell = (cell) => {
 			return true;
 		};
-		mxEdgeHandler.prototype.isConnectableCell = function (cell) {
+		mxEdgeHandler.prototype.isConnectableCell = (cell) => {
 			return graph.connectionHandler.isConnectableCell(cell);
 		};
 		graph.addMouseListener(
 			{
-				mouseDown: function (sender, evt) {
+				mouseDown: (sender, evt) => {
 
 					try {
-						Helper.v1 = evt.sourceState.cell;
-						Helper.isVertex = true;
+						this.v1 = evt.sourceState.cell;
+						this.isVertex = true;
 						previous_id = evt.sourceState.cell.id;
 
 					} catch (ex) {
-						Helper.isVertex = false;
+						this.isVertex = false;
 					}
 				},
-				mouseMove: function (sender, evt) {
+				mouseMove: (sender, evt) => {
 					evt = evt.evt;
-
 					var className = evt.target.className;
 					try {
 						var targetId = evt.target.id.match(/\d/g)[0];
@@ -130,7 +131,6 @@ export class Helper {
 
 							document.getElementById("flow" + evt.target.id.match(/\d/g)[0]).style.borderColor = "blue";
 						} else {
-
 							this.setColorToTransparent();
 						}
 					} catch (ex) {
@@ -141,18 +141,16 @@ export class Helper {
 							}
 						}
 					}
-
-
 				},
-				mouseUp: function (sender, evt) {
+				mouseUp: (sender, evt) => {
 
 					try {
 						var v2 = evt.sourceState.cell;
-						JsonCodec.getIndividualJson(Helper.v1)
+						JsonCodec.getIndividualJson(this.v1)
 
 						var t_id = t_id = evt.sourceState.cell.id;
-						// if (typeof (Helper.v1.id) === "string") {
-						// 	Helper.v1.id = parseInt(Helper.v1.id.match(/\d/g)[0]);
+						// if (typeof (this.v1.id) === "string") {
+						// 	this.v1.id = parseInt(this.v1.id.match(/\d/g)[0]);
 						// }
 						if (typeof (t_id) === "string") {
 							t_id = parseInt(t_id.match(/\d/g)[0]);
@@ -179,7 +177,7 @@ export class Helper {
 
 	}
 
-	static setEdgeStyle = (graph) => {
+	setEdgeStyle = (graph) => {
 		var style = graph.getStylesheet().getDefaultEdgeStyle();
 		style[mxConstants.STYLE_EDGE] = mxEdgeStyle.EntityRelation;
 		style[mxConstants.STYLE_CURVED] = true;
@@ -199,7 +197,7 @@ export class Helper {
 
 	}
 
-	static setVertexStyle = (graph) => {
+	setVertexStyle = (graph) => {
 		var style1 = [];
 		style1[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_RECTANGLE;
 		style1[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
@@ -236,7 +234,7 @@ export class Helper {
 		graph.getStylesheet().putCellStyle('port', style);
 	}
 
-	static graphConfigurations = (graph) => {
+	graphConfigurations = (graph) => {
 		graph.setPanning(true);
 		graph.panningHandler.useLeftButtonForPanning = true;
 		graph.setAllowDanglingEdges(false);
@@ -254,7 +252,6 @@ export class Helper {
 			if (this.isPart(cell)) {
 				cell = this.model.getParent(cell);
 			}
-
 			mxGraph.prototype.selectCellForEvent.apply(this, arguments);
 		};
 
@@ -267,7 +264,6 @@ export class Helper {
 				elt.setAttribute('label', newValue);
 				newValue = elt;
 			}
-
 			cellLabelChanged.apply(this, arguments);
 		};
 		mxRectangle.prototype.getCenterX = function () {
@@ -293,7 +289,7 @@ export class Helper {
 		mxCellMarker.prototype.getMarkerColor = function (evt, state, isValid) { }
 		mxConnectionHandler.prototype.livePreview = true;
 
-		graph.connectionHandler.createEdgeState = function (me) {
+		graph.connectionHandler.createEdgeState = (me) => {
 			var edge = graph.createEdge(null, null, null, null, null, 'edgeStyle=elbowEdgeStyle');
 			let style = this.graph.getCellStyle(edge);
 			style[mxConstants.STYLE_DASHED] = "false";
@@ -317,21 +313,21 @@ export class Helper {
 
 
 		mxGraphHandler.prototype.redrawHandles = function (states) { }
-		graph.addListener(mxEvent.CELLS_REMOVED, function (sender, evt) {
+		graph.addListener(mxEvent.CELLS_REMOVED, (sender, evt) => {
 			if (evt.getProperty('cells')) {
 				let edges = evt.getProperty('cells').filter(m => m.edge);
 				if (edges) {
 					edges.forEach(edge => {
-						Helper.setConnectFillColor(edge.source, "white");
+						this.setConnectFillColor(edge.source, "white");
 					});
 				}
 			}
 		});
-		graph.connectionHandler.addListener(mxEvent.START, function (sender, evt) {
+		graph.connectionHandler.addListener(mxEvent.START, (sender, evt) => {
 
 			var sourceState = evt.getProperty('state');
 			var source = sourceState.cell;
-			Helper.setConnectFillColor(source, "white");
+			this.setConnectFillColor(source, "white");
 			if (source.edges && source.edges.length > 0) {
 				var sourceEdges = source.edges.filter(m => m.source.id == source.id);
 				if (sourceEdges && sourceEdges.length > 0) {
@@ -342,24 +338,22 @@ export class Helper {
 			}
 		});
 
-		graph.connectionHandler.addListener(mxEvent.CONNECT, function (sender, evt) {
+		graph.connectionHandler.addListener(mxEvent.CONNECT, (sender, evt) => {
 			var edge = evt.getProperty('cell');
 			var source = graph.getModel().getTerminal(edge, true);
-			Helper.setConnectFillColor(source, "gray");
+			this.setConnectFillColor(source, "gray");
 		});
 
 
 	}
-	static customTrigger = (text) => {
-
+	customTrigger = (text) => {
 		var strDigit;
-		if (Helper.v1.div.firstChild.id) {
-			strDigit = Helper.v1.div.firstChild.id;
+		if (this.v1.div.firstChild.id) {
+			strDigit = this.v1.div.firstChild.id;
 		} else {
-			strDigit = Helper.v1.div.firstChild.nextElementSibling.id;
+			strDigit = this.v1.div.firstChild.nextElementSibling.id;
 		}
-
-		const digit = Helper.digitFromString(strDigit);
+		const digit = this.digitFromString(strDigit);
 
 		return `<div style="position: relative">		
 		<button type="button" style="width:200px; overflow: hidden;text-overflow: ellipsis;margin-top:15px;" class="btn btn-primary btn-block btn-lg customTrigger`+ digit + `">	` + text + `
@@ -372,8 +366,8 @@ export class Helper {
 		`;
 	}
 
-	static graphUpdate = (graph) => {
-		Helper.setEdgeStyle(graph);
+	graphUpdate = (graph) => {
+		this.setEdgeStyle(graph);
 		new mxRubberband(graph);
 		graph.getModel().beginUpdate();
 		graph.foldingEnabled = false;
@@ -383,10 +377,10 @@ export class Helper {
 	}
 
 
-	private static copyVertex(graph: any, vertex: any) {
+	private copyVertex(graph: any, vertex: any) {
 		var parent = graph.getDefaultParent();
 		var vertices = graph.getChildVertices(parent);
-		Helper.copyAction = true;
+		this.copyAction = true;
 		let clone = vertex.value.cloneNode(true);
 		let clonedDiv = null;
 		if (vertex.div) {
@@ -432,7 +426,7 @@ export class Helper {
 		graph.refresh();
 	}
 
-	static setConnectFillColor(source: any, color: string) {
+	setConnectFillColor(source: any, color: string) {
 		let connectIcon = source.div.getElementsByClassName("connect-icon");
 		if (connectIcon && connectIcon.length > 0) {
 			connectIcon = connectIcon[0];
@@ -440,7 +434,7 @@ export class Helper {
 		}
 	}
 
-	static customVertex(graph) {
+	customVertex(graph) {
 		var cached = true;
 		graph.convertValueToString = (cell) => {
 			const objJson = JsonCodec.getIndividualJson(cell);
@@ -448,7 +442,7 @@ export class Helper {
 
 			if (cached && cell.div != null) {
 				// Uses cached label
-				// Helper.bindCellEvents(cell.div, cell, graph);
+				// this.bindCellEvents(cell.div, cell, graph);
 				return cell.div;
 			}
 			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'userobject') {
@@ -473,7 +467,7 @@ export class Helper {
 							break;
 						case "HANDOVER":
 							div.innerHTML = Card.handOver(this.cardId++, 'hand.svg', "Hand over #" + (this.cardId - 1));
-							
+
 							break;
 						default:
 					}
@@ -483,7 +477,7 @@ export class Helper {
 					// Caches label
 					cell.div = div;
 				}
-				Helper.bindCellEvents(div, cell, graph);
+				this.bindCellEvents(div, cell, graph);
 				return div;
 			}
 			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'triggers') {
@@ -491,7 +485,7 @@ export class Helper {
 
 				var div = document.createElement('div');
 				div.innerHTML = cell.getAttribute('label');
-				div.innerHTML = Helper.customTrigger("New Button");
+				div.innerHTML = this.customTrigger("New Button");
 				mxUtils.br(div);
 				if (cached) {
 					// Caches label
@@ -503,7 +497,7 @@ export class Helper {
 		};
 	}
 
-	private static bindCellEvents(div: HTMLDivElement, cell: any, graph: any) {
+	private bindCellEvents(div: HTMLDivElement, cell: any, graph: any) {
 		// if (div.getElementsByClassName('btnAddTrigger')[0]) {
 		// (<any>div.getElementsByClassName('btnAddTrigger')[0]).onclick = (() => {
 		// 	var doc = mxUtils.createXmlDocument();
@@ -537,7 +531,7 @@ export class Helper {
 	}
 
 
-	static addTriggerUsingSidePanel(cell = Helper.v1) {
+	addTriggerUsingSidePanel(cell = this.v1) {
 
 		var doc = mxUtils.createXmlDocument();
 		let triggers = doc.createElement('triggers');
@@ -568,13 +562,13 @@ export class Helper {
 	}
 
 
-	static digitFromString(str) {
+	digitFromString(str) {
 		const digit = parseInt(str.match(/\d/g)[0]);
 		return digit;
 	}
 
 
-	static getVertexType() {
+	getVertexType() {
 
 	}
 

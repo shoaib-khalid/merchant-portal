@@ -16,7 +16,8 @@ export class SideNavHandOverComponent {
     dataVariable: any = "";
     description: any = "";
 
-    constructor(private apiCalls: ApiCallsService, private helperService: HelperService) {
+    constructor(private apiCalls: ApiCallsService,private helper:Helper, 
+        private helperService: HelperService) {
      }
 
 
@@ -25,7 +26,7 @@ export class SideNavHandOverComponent {
         this.description = this.getDescriptionOfVertex();
         this.dataVariable = "";
         this.apiCalls.dataVariables.forEach((element, index) => {
-            if (element.vertexId == Helper.v1.id) {
+            if (element.vertexId == this.helper.v1.id) {
                 this.dataVariable = element.dataVariables[0].dataVariable;
             }
         });
@@ -50,7 +51,7 @@ export class SideNavHandOverComponent {
     titleChange(text) {
 
         var strDigit = this.getStrDigit();
-        const digit = Helper.digitFromString(strDigit);
+        const digit = this.helper.digitFromString(strDigit);
         document.getElementById("header" + digit).textContent = text;
 
     }
@@ -76,32 +77,32 @@ export class SideNavHandOverComponent {
     }
 
     descriptionFocusOut(event) {
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1));
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
 
     }
 
     descriptionChange(event) {
         var strDigit = this.getStrDigit();
-        const digit = Helper.digitFromString(strDigit);
+        const digit = this.helper.digitFromString(strDigit);
         document.getElementById("initial-message" + digit).textContent = event.target.value;
     }
 
     getStrDigit() {
-        if (Helper.v1.div.firstChild.id) {
-            return Helper.v1.div.firstChild.id;
+        if (this.helper.v1.div.firstChild.id) {
+            return this.helper.v1.div.firstChild.id;
         } else {
-            return Helper.v1.div.firstChild.nextElementSibling.id;
+            return this.helper.v1.div.firstChild.nextElementSibling.id;
         }
     }
     getDescriptionOfVertex() {
         var strDigit = this.getStrDigit();
-        const digit = Helper.digitFromString(strDigit);
+        const digit = this.helper.digitFromString(strDigit);
         return document.getElementById("initial-message" + digit).textContent;
     }
 
 
     dataVariableFocusOut(event) {
-        const vertexId = Helper.v1.id;
+        const vertexId = this.helper.v1.id;
         const dataValue = event.target.value
         const length = this.apiCalls.dataVariables.length;
         var lastId;
@@ -131,11 +132,11 @@ export class SideNavHandOverComponent {
             })
 
         }
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
     }
     titleFocusOut(event) {
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
     
       }
 }

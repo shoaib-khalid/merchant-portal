@@ -29,7 +29,7 @@ export class MainComponent implements OnInit, AfterViewInit {
    redoPointer: any;
    opened: boolean;
 
-   constructor(private helperService: HelperService, private router: Router, private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) { }
+   constructor(private helperService: HelperService, private helper:Helper, private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) { }
 
    ngOnInit() {
       this.route.params.subscribe(params => {
@@ -49,20 +49,20 @@ export class MainComponent implements OnInit, AfterViewInit {
 
          let vertext = undefined;
          vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, x, y, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
-         Helper.v1 = vertext;
+         this.helper.v1 = vertext;
          return vertext;
       }
       //End callback function
 
       //Graph configurations
       this.graph = new mxGraph(this.graphContainer.nativeElement);
-      Helper.addAssets(this.graph);
+      this.helper.addAssets(this.graph);
 
       new mxOutline(this.graph, this.outlineContainer.nativeElement);
       mxGraphHandler.prototype.guidesEnabled = true;
 
       var undoManager = new mxUndoManager();
-      Helper.actionOnEvents(this.graph);
+      this.helper.actionOnEvents(this.graph);
       var listener = async (sender, evt) => {
 
          this.redoPointer++;
@@ -71,14 +71,14 @@ export class MainComponent implements OnInit, AfterViewInit {
 
             if (undoManager.history[undoManager.history.length - 1].changes[0].geometry) {
                //On vertex move json will be posted
-               this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
+               this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
             }
 
             else if (undoManager.history[undoManager.history.length - 1].changes[0].parent === null) {
-               this.configService.autoSaveDelete(JsonCodec.getIndividualJson(Helper.v1))
+               this.configService.autoSaveDelete(JsonCodec.getIndividualJson(this.helper.v1))
                this.configService.dataVariables.forEach((element, index) => {
-                  if (element.vertexId == Helper.v1.id) {
+                  if (element.vertexId == this.helper.v1.id) {
                      this.configService.dataVariables.splice(index, 1)
                   }
                });
@@ -91,12 +91,12 @@ export class MainComponent implements OnInit, AfterViewInit {
             }
             else if (objJson.includes(`"triggers":`)) {
                await this.configService.autoSaveAdd(objJson, "")
-               this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
+               this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
             }
-            else if (Helper.copyAction) {
+            else if (this.helper.copyAction) {
                this.configService.autoSaveAdd(objJson, "")
                this.configService.dataVariables.forEach((element, index) => {
-                  if (element.vertexId == Helper.v1.id) {
+                  if (element.vertexId == this.helper.v1.id) {
                      var len = 0;
                      var parent = this.graph.getDefaultParent();
                      var vertices = this.graph.getChildVertices(parent);
@@ -118,7 +118,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
                   }
                });
-               Helper.copyAction = false;
+               this.helper.copyAction = false;
             }
 
 
@@ -182,18 +182,18 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.graph.getModel().addListener(mxEvent.UNDO, listener);
       this.graph.getView().addListener(mxEvent.UNDO, listener);
       this.graph.connectionHandler.targetConnectImage = true;
-      Helper.graphConfigurations(this.graph);
-      Helper.setVertexStyle(this.graph);
+      this.helper.graphConfigurations(this.graph);
+      this.helper.setVertexStyle(this.graph);
 
       //For edge connections
-      this.graph = Helper.connectPreview(this.graph);
+      this.graph = this.helper.connectPreview(this.graph);
 
       var doc = mxUtils.createXmlDocument();
       var obj = doc.createElement('UserObject');
       this.triggers = doc.createElement('triggers');
-      Helper.customVertex(this.graph);
+      this.helper.customVertex(this.graph);
 
-      Helper.setEdgeStyle(this.graph);
+      this.helper.setEdgeStyle(this.graph);
       new mxRubberband(this.graph);
       this.graph.getModel().beginUpdate();
       this.graph.foldingEnabled = false;
@@ -256,10 +256,10 @@ export class MainComponent implements OnInit, AfterViewInit {
          );
    }
 
-   deleteMultipleVertices() { Helper.deleteMultipleVertices(this.graph); }
+   deleteMultipleVertices() { this.helper.deleteMultipleVertices(this.graph); }
 
    copyMultipleVertices() {
-      Helper.copyMultipleVertices(this.graph);
+      this.helper.copyMultipleVertices(this.graph);
    }
 
    createFlow(): void {
@@ -300,7 +300,7 @@ export class MainComponent implements OnInit, AfterViewInit {
    }
    addStepWithType(type, x: any = 50, y: any = 0) {
       console.log(this.configService.dataVariables)
-      Helper.vertexType = type;
+      this.helper.vertexType = type;
       const v1 = this.addStep(x, y);
       const length = this.configService.dataVariables.length;
       var lastId
@@ -312,7 +312,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       if (type === "ACTION") {
          this.configService.dataVariables.push({
             "type": type,
-            "vertexId": Helper.v1.id,
+            "vertexId": this.helper.v1.id,
             "externalRequests": [],
             "dataVariables": [
                {
@@ -326,7 +326,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       } else {
          this.configService.dataVariables.push({
             "type": type,
-            "vertexId": Helper.v1.id,
+            "vertexId": this.helper.v1.id,
             "buttons": [],
             "dataVariables": [
                {
@@ -338,7 +338,7 @@ export class MainComponent implements OnInit, AfterViewInit {
             ]
          });
       }
-      this.configService.autoSaveAdd(JsonCodec.getIndividualJson(Helper.v1), type)
+      this.configService.autoSaveAdd(JsonCodec.getIndividualJson(this.helper.v1), type)
       return v1;
    }
 

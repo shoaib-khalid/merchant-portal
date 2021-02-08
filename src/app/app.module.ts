@@ -17,9 +17,10 @@ import { SideNavAction } from "./components/side-nav-action/side-nav-action.comp
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { MainComponent } from './main/main.component';
 import { FooterComponent } from './components/footer/footer.component';
-import {SideNavHandOverComponent} from './components/side-nav-handover/side-nav-handover.component';
-import {ActionDialog} from './components/action-dialog/action-dialog.component';
-import {MatSelectModule} from '@angular/material/select';
+import { SideNavHandOverComponent } from './components/side-nav-handover/side-nav-handover.component';
+import { ActionDialog } from './components/action-dialog/action-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
+import { Helper } from './helpers/graph-helper';
 @NgModule({
   declarations: [
     SideNav,
@@ -45,7 +46,7 @@ import {MatSelectModule} from '@angular/material/select';
     AppRoutingModule,
     MatSelectModule
   ], entryComponents: [FlowDialog],
-  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
+  providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

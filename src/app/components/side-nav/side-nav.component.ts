@@ -24,14 +24,14 @@ export class SideNav {
   placeholderValue="New Button";
 
 
-  constructor(private apiCalls: ApiCallsService, private helperService: HelperService) { }
+  constructor(private apiCalls: ApiCallsService, private helper:Helper,private helperService: HelperService) { }
 
   toggle() {
 
     this.description = this.getDescriptionOfVertex();
     this.dataVariable = "";
     this.apiCalls.dataVariables.forEach((element, index) => {
-      if (element.vertexId == Helper.v1.id) {
+      if (element.vertexId == this.helper.v1.id) {
         this.dataVariable = element.dataVariables[0].dataVariable;
       }
     });
@@ -61,7 +61,7 @@ export class SideNav {
     this.btnValues.push({ btnTitle: "New Button" , btnValue: "" });
     this.btnValue="";
     this.btnIndex = this.buttonsArray.length-1;
-    Helper.addTriggerUsingSidePanel();
+    this.helper.addTriggerUsingSidePanel();
   }
 
   pin() {
@@ -96,14 +96,14 @@ export class SideNav {
   titleChange(text) {
     
     var strDigit = this.getStrDigit();
-    const digit = Helper.digitFromString(strDigit);
+    const digit = this.helper.digitFromString(strDigit);
     document.getElementById("header" + digit).textContent = text;
 
   }
   triggerTextChange(event, index) {
     this.btnValues[index].btnTitle=event.target.value;
     var strDigit = this.getStrDigit();
-    const digit = Helper.digitFromString(strDigit);
+    const digit = this.helper.digitFromString(strDigit);
     var arr = document.getElementsByClassName('customTrigger' + digit);
     if (event.target.value === "") {
       arr[index].textContent = "_"
@@ -117,30 +117,30 @@ export class SideNav {
 
 
   getStrDigit() {
-    if (Helper.v1.div.firstChild.id) {
-      return Helper.v1.div.firstChild.id;
+    if (this.helper.v1.div.firstChild.id) {
+      return this.helper.v1.div.firstChild.id;
     } else {
-      return Helper.v1.div.firstChild.nextElementSibling.id;
+      return this.helper.v1.div.firstChild.nextElementSibling.id;
     }
   }
 
   triggerFocusOut(event, i) {
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1.children[i]))
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1.children[i]))
   }
 
   titleFocusOut(event) {
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
   }
 
   descriptionFocusOut(event) {
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1));
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
 
   }
 
   descriptionChange(event) {
     var strDigit = this.getStrDigit();
-    const digit = Helper.digitFromString(strDigit);
+    const digit = this.helper.digitFromString(strDigit);
     document.getElementById("initial-message" + digit).textContent = event.target.value;
   }
 
@@ -151,7 +151,7 @@ export class SideNav {
   }
 
   dataVariableFocusOut(event) {
-    const vertexId = Helper.v1.id;
+    const vertexId = this.helper.v1.id;
     const dataValue = event.target.value
     const length = this.apiCalls.dataVariables.length;
     var lastId;
@@ -181,22 +181,22 @@ export class SideNav {
       })
 
     }
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
   }
   getDescriptionOfVertex() {
     var strDigit = this.getStrDigit();
-    const digit = Helper.digitFromString(strDigit);
+    const digit = this.helper.digitFromString(strDigit);
     return document.getElementById("initial-message" + digit).textContent;
   }
 
   updateButtons() {
-    if (Helper.isVertex) {
+    if (this.helper.isVertex) {
       this.buttonsArray = [];
       try {
-        // alert(Helper.v1.children.length)
-        for (var i = 0; i < Helper.v1.children.length; i++) {
-          this.buttonsArray.push(String(Helper.v1.children[i].div.innerText))
+        // alert(this.helper.v1.children.length)
+        for (var i = 0; i < this.helper.v1.children.length; i++) {
+          this.buttonsArray.push(String(this.helper.v1.children[i].div.innerText))
         }
       } catch (ex) {
         // console.log(ex)
@@ -206,7 +206,7 @@ export class SideNav {
 
   updateDataVariableArray() {
     this.apiCalls.dataVariables.forEach((element, index) => {
-      if (element.vertexId == Helper.v1.id) {
+      if (element.vertexId == this.helper.v1.id) {
         element.type = "MENU_MESSAGE";
       }
     });
@@ -231,7 +231,7 @@ export class SideNav {
     // Send updated buttons array
     var vertexIndex =this.helperService.getVertexIndex();
     this.apiCalls.dataVariables[vertexIndex].buttons = this.btnValues;
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(Helper.v1))
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
   }
 
