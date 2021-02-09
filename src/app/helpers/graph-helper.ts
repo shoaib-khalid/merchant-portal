@@ -26,8 +26,6 @@ export class Helper {
 	isVertex: boolean;
 	copyAction: any;
 	vertexType: string;
-	private conditionSubject = new Subject<string>();
-	conditionObs$ = this.conditionSubject.asObservable();
 	constructor() {
 
 	}
@@ -117,7 +115,6 @@ export class Helper {
 						this.v1 = evt.sourceState.cell;
 						this.isVertex = true;
 						previous_id = evt.sourceState.cell.id;
-						this.conditionSubject.next("sa")
 					} catch (ex) {
 						this.isVertex = false;
 					}
@@ -327,6 +324,7 @@ export class Helper {
 			}
 		});
 		graph.connectionHandler.addListener(mxEvent.START, (sender, evt) => {
+			console.log(evt)
 
 			var sourceState = evt.getProperty('state');
 			var source = sourceState.cell;
@@ -495,6 +493,18 @@ export class Helper {
 					cell.div = div;
 				}
 				return div;
+			} else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'conditions') {
+				// Returns a DOM for the label
+
+				var div = document.createElement('div');
+				div.innerHTML = cell.getAttribute('label');
+				div.innerHTML = Card.conditionLine;
+				mxUtils.br(div);
+				if (cached) {
+					// Caches label
+					cell.div = div;
+				}
+				return div;
 			}
 			return '';
 		};
@@ -548,6 +558,29 @@ export class Helper {
 		var yAxis = 160;
 		var childHegiht = 55;
 
+		yAxis = yAxis + (childLength * childHegiht);
+		var current = cell.getGeometry();
+		current.height = current.height + childHegiht;
+		let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
+		let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
+
+		flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
+		flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
+		this.graph.cellsResized([cell], [current], false);
+		this.graph.refresh();
+		var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+
+	}
+
+
+	addConditionUsingSidePanel(cell = this.v1) {
+		var doc = mxUtils.createXmlDocument();
+		let triggers = doc.createElement('conditions');
+
+		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
+		var yAxis = 160;
+		var childHegiht = 30;
+
 		// if (childLength > 0) {
 		yAxis = yAxis + (childLength * childHegiht);
 		var current = cell.getGeometry();
@@ -571,9 +604,7 @@ export class Helper {
 	}
 
 
-	getVertexType() {
 
-	}
 
 
 }

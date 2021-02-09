@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { JsonCodec } from 'src/app/helpers/json-codec';
 import { Helper } from '../../helpers/graph-helper';
 import { ApiCallsService } from '../../services/api-calls.service'
@@ -9,38 +9,29 @@ import { HelperService } from '../../services/helper.service';
     templateUrl: './side-nav-condition.component.html',
     styleUrls: ['./side-nav-condition.component.css']
 })
-export class SideNavConditionComponent implements OnInit {
+export class SideNavConditionComponent {
     opened: boolean;
     pinned: boolean = false;
     title: any;
-    dataVariable: any = "";
-    description: any = "";
+    groups: any = [];
+    conditions: any = {
+        conditions: [
+        ]
+    };
+    operator: any = "AND";
+    match: any = "is"
+
 
     constructor(private apiCalls: ApiCallsService, private helper: Helper,
         private helperService: HelperService) {
     }
-    ngOnInit() {
-        this.helper.conditionObs$.subscribe(message=>{
-            alert("ssadsa");
-            // this.handleClick("");
-        })
-    }
 
     toggle() {
-
-        this.description = this.getDescriptionOfVertex();
-        this.dataVariable = "";
-        this.apiCalls.dataVariables.forEach((element, index) => {
-            if (element.vertexId == this.helper.v1.id) {
-                this.dataVariable = element.dataVariables[0].dataVariable;
-            }
-        });
 
         if (this.opened) {
 
         } else {
             this.opened = true;
-
         }
 
     }
@@ -58,13 +49,9 @@ export class SideNavConditionComponent implements OnInit {
         var strDigit = this.getStrDigit();
         const digit = this.helper.digitFromString(strDigit);
         document.getElementById("header" + digit).textContent = text;
-
     }
 
-
-
     handleClick(event) {
-        alert("condition")
         if (this.helperService.vertexClicked() === "CONDITION") {
             if (event.target.id.includes("header") || event.target.id.includes("card")) {
                 var id = event.target.id;
@@ -81,17 +68,6 @@ export class SideNavConditionComponent implements OnInit {
         }
     }
 
-    descriptionFocusOut(event) {
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
-
-    }
-
-    descriptionChange(event) {
-        var strDigit = this.getStrDigit();
-        const digit = this.helper.digitFromString(strDigit);
-        document.getElementById("initial-message" + digit).textContent = event.target.value;
-    }
-
     getStrDigit() {
         if (this.helper.v1.div.firstChild.id) {
             return this.helper.v1.div.firstChild.id;
@@ -99,49 +75,40 @@ export class SideNavConditionComponent implements OnInit {
             return this.helper.v1.div.firstChild.nextElementSibling.id;
         }
     }
-    getDescriptionOfVertex() {
-        var strDigit = this.getStrDigit();
-        const digit = this.helper.digitFromString(strDigit);
-        return document.getElementById("initial-message" + digit).textContent;
-    }
 
 
-    dataVariableFocusOut(event) {
-        const vertexId = this.helper.v1.id;
-        const dataValue = event.target.value
-        const length = this.apiCalls.dataVariables.length;
-        var lastId;
-        if (length > 0) {
-            lastId = parseInt(this.apiCalls.dataVariables[length - 1].dataVariables[0].id);
-        } else {
-            lastId = -1;
-        }
-        var flag = false;
-        for (var i = 0; i < length; i++) {
-            if (this.apiCalls.dataVariables[i].vertexId === vertexId) {
-                this.apiCalls.dataVariables[i].dataVariables[0].dataVariable = dataValue;
-                flag = true;
-            }
-        }
-        if (!flag) {
-            this.apiCalls.dataVariables.push({
-                "vertexId": vertexId,
-                "dataVariables": [
-                    {
-                        "id": lastId + 1,
-                        "dataVariable": dataValue,
-                        "path": "",
-                        "optional": ""
-                    }
-                ]
-            })
-
-        }
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
-
-    }
     titleFocusOut(event) {
         this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
+    }
+
+    addGroup(j) {
+        this.conditions.conditions[j].groups.push({
+            "field": "",
+            "match": "is",
+            "caseSensitive": true,
+            "value": ""
+        })
+    }
+    addCondition() {
+        this.conditions.conditions.push({ operator:"AND",groups: [] })
+        this.helper.addConditionUsingSidePanel();
+        console.log(this.conditions.conditions)
+    }
+
+    fieldNameChange(event, j, i) {
+        this.conditions.conditions[j].groups[i].field=event.target.value;
+    }
+
+    valueChange(event, j, i) {
+        this.conditions.conditions[j].groups[i].value=event.target.value;
+
+    }
+    conditionChanged(j,i){
+        this.conditions.conditions[j].groups[i].match=this.match;
+    }
+
+    operatorChange(j){
+        this.conditions.conditions[j].operator=this.operator;
     }
 }

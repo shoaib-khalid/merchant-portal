@@ -104,7 +104,7 @@ export class SideNavAction {
             if (result != null) {
                 this.requestsArray[i] = result[1];
                 this.helperService.setExternalRequest({
-                
+                type:"EXTERNAL_REQUEST",
                     externalRequest: {
                         url: result[1],
                         headers: result[2]
@@ -166,6 +166,7 @@ export class SideNavAction {
     insertIntoExternalRequests() {
 
         this.helperService.insertExternalRequest({
+            type:"EXTERNAL_REQUEST",
             externalRequest: {
                 url: "",
                 headers: [{ key: "", value: "" }]

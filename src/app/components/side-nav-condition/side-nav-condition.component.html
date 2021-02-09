@@ -9,15 +9,36 @@
 			</h4>
 		</div>
 		<div class="body" id="side-nav-body">
-			<div class="text-center pt-5" id="buttons-list">
-				<input id="description-text" type="text" [(ngModel)]="description" (focusout)="descriptionFocusOut($event)"
-					placeholder="Enter your text..." (keyup)="descriptionChange($event)">
+			<div class="text-center pt-5" id="conditions-list">
+				<div class="condition" *ngFor="let condition of conditions.conditions; let j= index;">
+					<select name="operator" style = "margin-bottom:10px;" [(ngModel)]="operator" (change)="operatorChange(j)">
+						<option value="AND">AND</option>
+						<option value="OR">OR</option>
+					</select>
+					<br>
+					<div class="groups" *ngFor="let group of condition.groups;let i= index">
+						<input class="condition-inputs" type="text" placeholder="Field Name" (keyup)="fieldNameChange($event,j,i)">
+						<select name="condition" class="condition-dropdown" [(ngModel)]="match" (change)="conditionChanged(j,i)">
+							<option value="is">is</option>
+							<option value="is not">is not</option>
+							<option value="starts with">starts with</option>
+							<option value="ends with">ends with</option>
+							<option value="greater than">greater than</option>
+							<option value="smaller than">smaller than</option>
+						</select>
+						<input class="condition-inputs" type="text" placeholder="Value" (keyup)="valueChange($event,j,i)">
+						<br>
+					</div>
+						
+					<button id="add-group" (click)="addGroup(j)">+ Add Group</button>
+				</div>
+
 				<button (document:click)="handleClick($event)" hidden></button>
-
-				<input [(ngModel)]="dataVariable" id="dataVariablehandover" type="text"
-					(mouseout)="dataVariableFocusOut($event)" placeholder="Custom Variable">
-
+				<div id="addCondition" (click)="addCondition()">
+					<h5 style="color: blue;">+Condition</h5>
+				</div>
 			</div>
+
 		</div>
 	</mat-sidenav>
 	<mat-sidenav-content>

@@ -29,7 +29,7 @@ export class MainComponent implements OnInit, AfterViewInit {
    redoPointer: any;
    opened: boolean;
 
-   constructor(private helperService: HelperService, private helper:Helper, private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) { }
+   constructor(private helperService: HelperService, private helper: Helper, private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) { }
 
    ngOnInit() {
       this.route.params.subscribe(params => {
@@ -323,7 +323,22 @@ export class MainComponent implements OnInit, AfterViewInit {
                }
             ]
          });
-      } else {
+      } else if (type === "CONDITION") {
+         this.configService.dataVariables.push({
+            "type": type,
+            "vertexId": this.helper.v1.id,
+            "conditions": [],
+            "dataVariables": [
+               {
+                  "id": lastId + 1,
+                  "dataVariable": "",
+                  "path": "",
+                  "optional": ""
+               }
+            ]
+         });
+      }
+      else {
          this.configService.dataVariables.push({
             "type": type,
             "vertexId": this.helper.v1.id,

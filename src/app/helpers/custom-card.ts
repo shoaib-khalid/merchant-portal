@@ -74,16 +74,15 @@ export class Card {
           <svg height="20" width="20" class="connect-icon" style="position: absolute;right: -12px; top:80%;z-index: 990;">
             <circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
           </svg>
-            <div id="card-header`+ id + `"class="card-header actionHeader" style="background-color: #63E6F3">
+            <div id="card-header`+ id + `"class="card-header actionHeader" style="background-color: white">
               <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
                 <h4 id="header`+ id + `"class="header">` + title + `</h4>
               </div>
             </div>
             <div id="card-body`+ id + `"class="card-body flow-start-trigger-list" style="height:63px">
-            <div class="actionBody">
-                <h4 class="actionBodyText"> Click to add an condition </h4>
-            </div>
+            <span class="conditions-vertex-list"></span>
+
             </div>
           
           </div>
@@ -162,6 +161,17 @@ export class Card {
   </div>`;
 
   public static get InitialMesssage(): string { return ` <span> Flow starts with the following step. <br> Click to add the triggers. </span>` };
+
+  public static get conditionLine():string{
+    return`
+    <div style="position: relative;border-bottom:1px solid black;">
+    <span class="single-condition"> condition </span>
+    <svg height="20" width="20" class="connect-icon" style="position: absolute;	right: .5em; top: 50%; transform: translate(0,-50%);" >
+		<circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
+	  </svg>
+    </div>
+    `;
+  }
 
   public static get TriggerButton(): string {
     return this._triggerButton;

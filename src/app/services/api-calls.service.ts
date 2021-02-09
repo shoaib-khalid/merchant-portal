@@ -10,16 +10,17 @@ export class ApiCallsService {
   retrievedJson: any;
   dataVariables: any = [];
   vertextType:any;
+  pathVariable:string="http://209.58.160.20:3002";
   constructor(private http: HttpClient) { }
 
   getData() {
     const httpOptions = this.getHttpOptions("asx");
-    return this.http.get("http://209.58.160.20:3002/vertex/", httpOptions);
+    return this.http.get(this.pathVariable+"/vertex/", httpOptions);
   }
 
   async retrieveGraph() {
     const httpOptions = this.getHttpOptions("asx");
-    return await this.http.get("http://209.58.160.20:3002/mxgraph/" + this.flowId, httpOptions)
+    return await this.http.get(this.pathVariable+"/mxgraph/" + this.flowId, httpOptions)
       .toPromise();
 
   }
@@ -28,7 +29,7 @@ export class ApiCallsService {
     const httpOptions = this.getHttpOptions("asx");
     const body: any = json;
     console.log("flow id when posting: " + this.flowId)
-    this.http.post<any>("http://209.58.160.20:3002/mxgraph/" + this.flowId, body, httpOptions).
+    this.http.post<any>(this.pathVariable+"/mxgraph/" + this.flowId, body, httpOptions).
       subscribe(data => {
         console.log("Starting json posted successfully");
       });
@@ -41,7 +42,7 @@ export class ApiCallsService {
         Authorization: 'asd'
       })
     };
-    return this.http.get("http://209.58.160.20:3002/mxgraph/5ff56c587efe1d4649d6e191", httpOptions);
+    return this.http.get(this.pathVariable+"/mxgraph/5ff56c587efe1d4649d6e191", httpOptions);
   }
 
 
@@ -56,7 +57,7 @@ export class ApiCallsService {
 
     }
 
-    var data = await this.http.post<any>("http://209.58.160.20:3002/flow/", body, httpOptions).toPromise();
+    var data = await this.http.post<any>(this.pathVariable+"/flow/", body, httpOptions).toPromise();
 
     this.flowId = data.data.id;
 
@@ -116,7 +117,7 @@ export class ApiCallsService {
     var body = { "data": this.dataVariables, object };
     if (this.flowId) {
       console.log("Updating after addition")
-      return await this.http.patch<any>("http://209.58.160.20:3002/mxgraph/ADD/" + this.flowId, body, httpOptions).toPromise
+      return await this.http.patch<any>(this.pathVariable+"/mxgraph/ADD/" + this.flowId, body, httpOptions).toPromise
         ();
     }
   }
@@ -128,7 +129,7 @@ export class ApiCallsService {
     object = JSON.parse(object)
     var body = {object};
     if (this.flowId) {
-      this.http.patch<any>("http://209.58.160.20:3002/mxgraph/DELETE/" + this.flowId, body, httpOptions).toPromise
+      this.http.patch<any>(this.pathVariable+"/mxgraph/DELETE/" + this.flowId, body, httpOptions).toPromise
         ().then((data) => {
           console.log("Flow updated after deletion!")
         });
@@ -142,7 +143,7 @@ export class ApiCallsService {
     var body = { "data": this.dataVariables, object };
     console.log(body)
     if (this.flowId) {
-      this.http.patch<any>("http://209.58.160.20:3002/mxgraph/UPDATE/" + this.flowId, body, httpOptions).toPromise
+      this.http.patch<any>(this.pathVariable+"/mxgraph/UPDATE/" + this.flowId, body, httpOptions).toPromise
         ().then((data) => {
           console.log("Flow Updated after change!")
         });
@@ -157,7 +158,7 @@ export class ApiCallsService {
     }
 
     if (this.flowId) {
-      this.http.patch<any>("http://209.58.160.20:3002/mxgraph/publish/" + this.flowId, body, httpOptions).toPromise
+      this.http.patch<any>(this.pathVariable+"/mxgraph/publish/" + this.flowId, body, httpOptions).toPromise
         ().then((data) => {
           console.log("Flow Pusblished!")
         });

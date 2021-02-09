@@ -24,7 +24,8 @@ export class SideNav {
   placeholderValue="New Button";
 
 
-  constructor(private apiCalls: ApiCallsService, private helper:Helper,private helperService: HelperService) { }
+  constructor(private apiCalls: ApiCallsService, private helper:Helper,private helperService: HelperService) {
+  }
 
   toggle() {
 
