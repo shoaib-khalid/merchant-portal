@@ -31,7 +31,7 @@ export class SideNav {
 
     this.description = this.getDescriptionOfVertex();
     this.dataVariable = "";
-    this.apiCalls.dataVariables.forEach((element, index) => {
+    this.apiCalls.data.forEach((element, index) => {
       if (element.vertexId == this.helper.v1.id) {
         this.dataVariable = element.dataVariables[0].dataVariable;
       }
@@ -154,22 +154,22 @@ export class SideNav {
   dataVariableFocusOut(event) {
     const vertexId = this.helper.v1.id;
     const dataValue = event.target.value
-    const length = this.apiCalls.dataVariables.length;
+    const length = this.apiCalls.data.length;
     var lastId;
     if (length > 0) {
-      lastId = parseInt(this.apiCalls.dataVariables[length - 1].dataVariables[0].id);
+      lastId = parseInt(this.apiCalls.data[length - 1].dataVariables[0].id);
     } else {
       lastId = -1;
     }
     var flag = false;
     for (var i = 0; i < length; i++) {
-      if (this.apiCalls.dataVariables[i].vertexId === vertexId) {
-        this.apiCalls.dataVariables[i].dataVariables[0].dataVariable = dataValue;
+      if (this.apiCalls.data[i].vertexId === vertexId) {
+        this.apiCalls.data[i].dataVariables[0].dataVariable = dataValue;
         flag = true;
       }
     }
     if (!flag) {
-      this.apiCalls.dataVariables.push({
+      this.apiCalls.data.push({
         "vertexId": vertexId,
         "dataVariables": [
           {
@@ -206,7 +206,7 @@ export class SideNav {
   }
 
   updateDataVariableArray() {
-    this.apiCalls.dataVariables.forEach((element, index) => {
+    this.apiCalls.data.forEach((element, index) => {
       if (element.vertexId == this.helper.v1.id) {
         element.type = "MENU_MESSAGE";
       }
@@ -231,7 +231,7 @@ export class SideNav {
   btnValueMouseOut(){
     // Send updated buttons array
     var vertexIndex =this.helperService.getVertexIndex();
-    this.apiCalls.dataVariables[vertexIndex].buttons = this.btnValues;
+    this.apiCalls.data[vertexIndex].buttons = this.btnValues;
     this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
   }
@@ -239,7 +239,7 @@ export class SideNav {
 
   updateButtonValues(){
     var vertexIndex =this.helperService.getVertexIndex();
-    this.btnValues = this.apiCalls.dataVariables[vertexIndex].buttons;
+    this.btnValues = this.apiCalls.data[vertexIndex].buttons;
   }
 
 }

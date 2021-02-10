@@ -1,5 +1,5 @@
 export class Card {
- static startingStep(id, icon, title) {
+  static startingStep(id, icon, title) {
     return `  <div id="flow` + id + `"class='custom-card flow-start-container shadow-lg bg-white' style='border-radius:33px'>
     <div class="tooltip-parent">  
     </div>
@@ -21,14 +21,14 @@ export class Card {
               </div>
             </div>
             <div id="card-body`+ id + `"class="card-body flow-start-trigger-list" style="height:63px">
-            <span id="initial-message`+id+`"class="initial-message" style="font-size: 1.1rem; position: absolute;left: 10px;right: 10px;top: 65px;font-weight: 500"> Flow starts with the following step. Click to add the triggers. </span>
+            <span id="initial-message`+ id + `"class="initial-message" style="font-size: 1.1rem; position: absolute;left: 10px;right: 10px;top: 65px;font-weight: 500"> Flow starts with the following step. Click to add the triggers. </span>
             </div>
 
           </div>
         </div>
           `;
   }
- 
+
   static action(id, icon, title) {
     return `  <div id="flow` + id + `"class='custom-card flow-start-container shadow-lg bg-white' style='border-radius:33px'>
     <div class="tooltip-parent">  
@@ -81,6 +81,8 @@ export class Card {
               </div>
             </div>
             <div id="card-body`+ id + `"class="card-body flow-start-trigger-list" style="height:63px">
+            <span id="initial-message`+ id + `"class="initial-message" style="font-size: 1.1rem; position: absolute;left: 10px;right: 10px;top: 65px;font-weight: 500"> Click to edit description for condition </span>
+ 
             <span class="conditions-vertex-list"></span>
 
             </div>
@@ -112,7 +114,7 @@ export class Card {
               </div>
             </div>
             <div id="card-body`+ id + `"class="card-body flow-start-trigger-list" style="height:63px">
-            <span id="initial-message`+id+`"class="initial-message" style="font-size: 1.1rem; position: absolute;left: 10px;right: 10px;top: 65px;font-weight: 500"> Flow starts with the following step. Click to add the triggers. </span>
+            <span id="initial-message`+ id + `"class="initial-message" style="font-size: 1.1rem; position: absolute;left: 10px;right: 10px;top: 65px;font-weight: 500"> Flow starts with the following step. Click to add the triggers. </span>
             </div>
 
           </div>
@@ -142,7 +144,7 @@ export class Card {
               </div>
             </div>
             <div id="card-body`+ id + `"class="card-body flow-start-trigger-list" style="height:63px">
-            <span id="initial-message`+id+`"class="initial-message" style="font-size: 1.1rem; position: absolute;left: 10px;right: 10px;top: 65px;font-weight: 500"> Flow starts with the following step. Click to add the triggers. </span>
+            <span id="initial-message`+ id + `"class="initial-message" style="font-size: 1.1rem; position: absolute;left: 10px;right: 10px;top: 65px;font-weight: 500"> Flow starts with the following step. Click to add the triggers. </span>
             </div>
 
           </div>
@@ -162,8 +164,8 @@ export class Card {
 
   public static get InitialMesssage(): string { return ` <span> Flow starts with the following step. <br> Click to add the triggers. </span>` };
 
-  public static get conditionLine():string{
-    return`
+  public static get conditionLine(): string {
+    return `
     <div style="position: relative;border-bottom:1px solid black;">
     <span class="single-condition"> condition </span>
     <svg height="20" width="20" class="connect-icon" style="position: absolute;	right: .5em; top: 50%; transform: translate(0,-50%);" >

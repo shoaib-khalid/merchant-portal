@@ -77,9 +77,9 @@ export class MainComponent implements OnInit, AfterViewInit {
 
             else if (undoManager.history[undoManager.history.length - 1].changes[0].parent === null) {
                this.configService.autoSaveDelete(JsonCodec.getIndividualJson(this.helper.v1))
-               this.configService.dataVariables.forEach((element, index) => {
+               this.configService.data.forEach((element, index) => {
                   if (element.vertexId == this.helper.v1.id) {
-                     this.configService.dataVariables.splice(index, 1)
+                     this.configService.data.splice(index, 1)
                   }
                });
                return
@@ -95,7 +95,7 @@ export class MainComponent implements OnInit, AfterViewInit {
             }
             else if (this.helper.copyAction) {
                this.configService.autoSaveAdd(objJson, "")
-               this.configService.dataVariables.forEach((element, index) => {
+               this.configService.data.forEach((element, index) => {
                   if (element.vertexId == this.helper.v1.id) {
                      var len = 0;
                      var parent = this.graph.getDefaultParent();
@@ -103,7 +103,7 @@ export class MainComponent implements OnInit, AfterViewInit {
                      for (var i = 0; i < vertices.length; i++) {
                         len = len + (this.graph.getChildVertices(vertices[i])).length
                      }
-                     this.configService.dataVariables.push({
+                     this.configService.data.push({
                         "type": element.type,
                         "vertexId": String(vertices.length + 2 + len),
                         "dataVariables": [
@@ -290,7 +290,7 @@ export class MainComponent implements OnInit, AfterViewInit {
          console.log(ex)
       }
 
-      this.configService.dataVariables = data.data.data;
+      this.configService.data = data.data.data;
       data = JSON.stringify({ mxGraphModel: data.data.mxGraphModel });
       JsonCodec.loadJson(this.graph, data)
    }
@@ -299,18 +299,18 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.configService.publishmxGraph();
    }
    addStepWithType(type, x: any = 50, y: any = 0) {
-      console.log(this.configService.dataVariables)
+      console.log(this.configService.data)
       this.helper.vertexType = type;
       const v1 = this.addStep(x, y);
-      const length = this.configService.dataVariables.length;
+      const length = this.configService.data.length;
       var lastId
       if (length > 0) {
-         lastId = parseInt(this.configService.dataVariables[length - 1].dataVariables[0].id);
+         lastId = parseInt(this.configService.data[length - 1].dataVariables[0].id);
       } else {
          lastId = -1;
       }
       if (type === "ACTION") {
-         this.configService.dataVariables.push({
+         this.configService.data.push({
             "type": type,
             "vertexId": this.helper.v1.id,
             "actions": [],
@@ -324,7 +324,7 @@ export class MainComponent implements OnInit, AfterViewInit {
             ]
          });
       } else if (type === "CONDITION") {
-         this.configService.dataVariables.push({
+         this.configService.data.push({
             "type": type,
             "vertexId": this.helper.v1.id,
             "conditions": [],
@@ -339,7 +339,7 @@ export class MainComponent implements OnInit, AfterViewInit {
          });
       }
       else {
-         this.configService.dataVariables.push({
+         this.configService.data.push({
             "type": type,
             "vertexId": this.helper.v1.id,
             "buttons": [],

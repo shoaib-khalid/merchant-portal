@@ -18,18 +18,17 @@ export class SideNavConditionComponent {
         conditions: [
         ]
     };
-    operator: any = "AND";
-    match: any = "is"
-
-
+    description: any;
+    fieldNames: any;
+    operator:any;
     constructor(private apiCalls: ApiCallsService, private helper: Helper,
         private helperService: HelperService) {
     }
 
     toggle() {
-
+        this.fieldNames = this.helperService.getAllDataVariables();
+        console.log(this.fieldNames)
         if (this.opened) {
-
         } else {
             this.opened = true;
         }
@@ -91,24 +90,32 @@ export class SideNavConditionComponent {
         })
     }
     addCondition() {
-        this.conditions.conditions.push({ operator:"AND",groups: [] })
+        this.conditions.conditions.push({ operator: "AND", groups: [] })
         this.helper.addConditionUsingSidePanel();
         console.log(this.conditions.conditions)
     }
 
-    fieldNameChange(event, j, i) {
-        this.conditions.conditions[j].groups[i].field=event.target.value;
+    fieldNameChange(event,j, i) {
+        this.conditions.conditions[j].groups[i].field = event.target.value;
     }
 
     valueChange(event, j, i) {
-        this.conditions.conditions[j].groups[i].value=event.target.value;
+        this.conditions.conditions[j].groups[i].value = event.target.value;
 
     }
-    conditionChanged(j,i){
-        this.conditions.conditions[j].groups[i].match=this.match;
+    conditionChanged(event,j, i) {
+        this.conditions.conditions[j].groups[i].match = event.target.value;
     }
 
-    operatorChange(j){
-        this.conditions.conditions[j].operator=this.operator;
+    operatorChange(event,j) {
+        this.conditions.conditions[j].operator = event.target.value;
+    }
+    descriptionFocusOut($event) {
+
+    }
+    descriptionChange(event) {
+        var strDigit = this.getStrDigit();
+        const digit = this.helper.digitFromString(strDigit);
+        document.getElementById("initial-message" + digit).textContent = event.target.value;
     }
 }

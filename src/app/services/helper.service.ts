@@ -10,7 +10,7 @@ export class HelperService {
 
   vertexClicked() {
     var vertextType;
-    this.apiCalls.dataVariables.forEach((element, index) => {
+    this.apiCalls.data.forEach((element, index) => {
       if (element.vertexId === this.helper.v1.id) {
         vertextType = element.type;
       }
@@ -20,9 +20,9 @@ export class HelperService {
 
   getLastId() {
     var lastId;
-    const length = this.apiCalls.dataVariables.length;
+    const length = this.apiCalls.data.length;
     if (length > 0) {
-      lastId = parseInt(this.apiCalls.dataVariables[length - 1].dataVariables[0].id);
+      lastId = parseInt(this.apiCalls.data[length - 1].dataVariables[0].id);
     } else {
       lastId = -1;
     }
@@ -31,7 +31,7 @@ export class HelperService {
 
   getVertexIndex() {
     var index1;
-    this.apiCalls.dataVariables.forEach((element, index) => {
+    this.apiCalls.data.forEach((element, index) => {
       if (element.vertexId === this.helper.v1.id) {
         index1 = index;
       }
@@ -40,7 +40,7 @@ export class HelperService {
   }
 
   insertExternalRequest(externalRequest) {
-    this.apiCalls.dataVariables.forEach((element, index) => {
+    this.apiCalls.data.forEach((element, index) => {
       if (element.vertexId === this.helper.v1.id) {
         element.actions.push(externalRequest);
       }
@@ -49,7 +49,7 @@ export class HelperService {
 
   fetchExternalRequests() {
     var externalRequests;
-    this.apiCalls.dataVariables.forEach((element, index) => {
+    this.apiCalls.data.forEach((element, index) => {
       if (element.vertexId === this.helper.v1.id) {
         externalRequests = element.actions;
       }
@@ -59,10 +59,35 @@ export class HelperService {
   }
 
   setExternalRequest(externalRequest, i) {
-    this.apiCalls.dataVariables.forEach((element, index) => {
+    this.apiCalls.data.forEach((element, index) => {
       if (element.vertexId === this.helper.v1.id) {
         element.actions[i] = externalRequest;
       }
     });
+  }
+
+  getAllDataVariables() {
+    var dataVariableNames = [];
+    this.apiCalls.data.forEach(element => {
+
+      if (element.type === "ACTION") {
+        for (var j = 0; j < element.actions.length; j++) {
+          for (var k = 0; k < element.actions[j].externalRequest.response.mapping.length; k++) {
+            dataVariableNames.push(element.actions[j].externalRequest.response.mapping[k].customField)
+          }
+        }
+
+      } else {
+        for (var i = 0; i < element.dataVariables.length; i++) {
+          const dataVariableName = element.dataVariables[i].dataVariable;
+          if (dataVariableName) {
+            dataVariableNames.push(dataVariableName)
+          }
+        }
+      }
+
+
+    });
+    return dataVariableNames;
   }
 }
