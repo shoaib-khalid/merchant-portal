@@ -44,7 +44,7 @@
     cursor: pointer;
 }
 .connect-icon:hover {
-    transform: scale(1.5);
+    transform: scale(1.5) !important;
     cursor: pointer;
 }
 .connect-icon {

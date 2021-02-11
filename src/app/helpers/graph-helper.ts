@@ -568,7 +568,7 @@ export class Helper {
 		flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
 		this.graph.cellsResized([cell], [current], false);
 		this.graph.refresh();
-		var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+		var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
 
 	}
 
@@ -593,7 +593,7 @@ export class Helper {
 		this.graph.cellsResized([cell], [current], false);
 		this.graph.refresh();
 		// }
-		var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+		var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 70, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
 
 	}
 

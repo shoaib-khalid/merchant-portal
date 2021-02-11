@@ -166,9 +166,9 @@ export class Card {
 
   public static get conditionLine(): string {
     return `
-    <div style="position: relative;border-bottom:1px solid black;">
+    <div style="position: relative;border-bottom:1px solid black;top:8px">
     <span class="single-condition"> condition </span>
-    <svg height="20" width="20" class="connect-icon" style="position: absolute;	right: .5em; top: 50%; transform: translate(0,-50%);" >
+    <svg height="20" width="20" class="connect-icon" style="position: absolute;	right: .5em;" >
 		<circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
 	  </svg>
     </div>
