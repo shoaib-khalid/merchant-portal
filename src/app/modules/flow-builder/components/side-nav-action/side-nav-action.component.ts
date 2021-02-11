@@ -89,12 +89,8 @@ export class SideNavAction {
     }
 
     openActionDialog(event, i) {
-        var data;
-        if (this.helperService.fetchExternalRequests()[i]) {
-            data = this.requestParameters(true, i);
-        } else {
-            data = this.requestParameters(false, i);
-        }
+
+        var data = this.requestParameters(i);
         const dialogRef = this.dialog.open(ActionDialog, {
             data: data
 
@@ -102,12 +98,13 @@ export class SideNavAction {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result != null) {
+                const headers = this.convertHeadersToJson(result[2])
                 this.requestsArray[i] = result[1];
                 this.helperService.setExternalRequest({
-                type:"EXTERNAL_REQUEST",
+                    type: "EXTERNAL_REQUEST",
                     externalRequest: {
                         url: result[1],
-                        headers: result[2]
+                        headers: headers
                         ,
                         httpMethod: result[0],
                         body: {
@@ -135,38 +132,27 @@ export class SideNavAction {
 
     }
 
-    requestParameters(flag, i) {
+    requestParameters(i) {
         var data;
         const externalRequests = this.helperService.fetchExternalRequests();
-
-        if (flag) {
-            data = {
-                reqType: externalRequests[i].externalRequest.httpMethod,
-                url: externalRequests[i].externalRequest.url,
-                reqheaders: externalRequests[i].externalRequest.headers,
-                bodyFormat: externalRequests[i].externalRequest.body.format,
-                bodyText: externalRequests[i].externalRequest.body.payload,
-                reqMapping: externalRequests[i].externalRequest.response.mapping,
-                responseMappingFormat: externalRequests[i].externalRequest.response.format
-            }
-        } else {
-            data = {
-                reqType: "",
-                url: "",
-                reqheaders: [{ key: "", value: "" }],
-                bodyFormat: "",
-                bodyText: "",
-                reqMapping: [{ jsonPath: "", customField: "", optional: "" }],
-                responseMappingFormat: ""
-            }
+        const oldHeaders = this.convertJsontoHeadersArray(externalRequests[i].externalRequest.headers);
+        data = {
+            reqType: externalRequests[i].externalRequest.httpMethod,
+            url: externalRequests[i].externalRequest.url,
+            reqheaders: oldHeaders,
+            bodyFormat: externalRequests[i].externalRequest.body.format,
+            bodyText: externalRequests[i].externalRequest.body.payload,
+            reqMapping: externalRequests[i].externalRequest.response.mapping,
+            responseMappingFormat: externalRequests[i].externalRequest.response.format
         }
+
         return data;
     }
 
     insertIntoExternalRequests() {
 
         this.helperService.insertExternalRequest({
-            type:"EXTERNAL_REQUEST",
+            type: "EXTERNAL_REQUEST",
             externalRequest: {
                 url: "",
                 headers: [{ key: "", value: "" }]
@@ -178,7 +164,7 @@ export class SideNavAction {
                 },
                 response: {
                     format: "",
-                    mapping: [{ jsonPath: "", customField: "", optional: "" }]
+                    mapping: [{ path: "", dataVariable: "", optional: "" }]
                 },
                 errorStep: {
                     actionType: "vertex",
@@ -201,6 +187,29 @@ export class SideNavAction {
             } else {
                 this.requestsArray.push(externalRequests[i].externalRequest.url)
             }
+        }
+    }
+
+    convertHeadersToJson(reqHeaders) {
+        var newHeaders = {};
+        for (var i = 0; i < reqHeaders.length; i++) {
+            newHeaders[reqHeaders[i].key] = reqHeaders[i].value;
+        }
+        return newHeaders;
+    }
+    convertJsontoHeadersArray(newHeaders) {
+        var oldHeaders = [];
+        const keys = Object.keys(newHeaders);
+        const values = Object.values(newHeaders);
+        if (keys[0] === "0") {
+            return [{ key: "", value: "" }]
+        } else {
+
+            for (var i = 0; i < keys.length; i++) {
+                oldHeaders.push({ key: keys[i], value: values[i] })
+            }
+
+            return oldHeaders;
         }
     }
 }

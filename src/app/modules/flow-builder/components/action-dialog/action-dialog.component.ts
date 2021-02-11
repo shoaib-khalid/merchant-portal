@@ -23,7 +23,7 @@ export class ActionDialog {
     vrespMapping: boolean = false;
     reqheaders: any = [{ key: "", value: "" }];
     bodyText: any = ""
-    reqMapping: any = [{ jsonPath: "", customField: "", optional: "" }]
+    reqMapping: any = [{ path: "", dataVariable: "", optional: "" }]
     bodyFormat: any = "json";
     responseMappingFormat: any = "json";
 
@@ -47,7 +47,7 @@ export class ActionDialog {
         this.bodyText = data.bodyText;
         this.reqMapping = data.reqMapping;
         this.responseMappingFormat = data.responseMappingFormat;
-        if (this.reqType === "post") {
+        if (this.reqType === "POST") {
             this.bodyEnabled = true;
         }
     }
@@ -105,14 +105,14 @@ export class ActionDialog {
 
     }
     addRequestMapping() {
-        this.reqMapping.push({ jsonPath: "", customField: "", optional: "" })
+        this.reqMapping.push({ path: "", dataVariable: "", optional: "" })
     }
     jsonPathChange(event, i) {
-        this.reqMapping[i].jsonPath = event.target.value;
+        this.reqMapping[i].path = event.target.value;
 
     }
     customFieldChange(event, i) {
-        this.reqMapping[i].customField = event.target.value;
+        this.reqMapping[i].dataVariable = event.target.value;
 
     }
 

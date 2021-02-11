@@ -39,7 +39,12 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/vendor/css/line-awesome.css",
+              "src/assets/vendor/css/swiper.min.css",
+              "src/assets/css/bootstrap-custom.css",
+              "src/assets/css/custom.css"
+
             ],
             "scripts": [
               "src/assets/js/mxgraph.conf.js",
