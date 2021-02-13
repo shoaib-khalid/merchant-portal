@@ -233,6 +233,11 @@ export class MainComponent implements OnInit, AfterViewInit {
 
          reader.onload = () => {
             JsonCodec.loadJson(this.graph, reader.result);
+            var parent = this.graph.getDefaultParent();
+            var edges = this.graph.getChildEdges(parent);
+            if (edges) {
+               this.graph.orderCells(false, edges) 
+            }
             // need to run CD since file load runs outside of zone
             // this.cd.markForCheck();
          };
