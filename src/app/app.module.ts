@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { FlowBuilderModule } from './modules/flow-builder/flow-builder.module';
 import { UserOnboardingModule } from './modules/user-onboarding/user-onboarding.module';
 import {ProductManagementModule} from './modules/product-management/product-management.module';
+import { HomeModule } from './modules/home/home.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {ProductManagementModule} from './modules/product-management/product-mana
     FlowBuilderModule,
     AppRoutingModule,
     UserOnboardingModule,
-    ProductManagementModule
+    ProductManagementModule,
+    HomeModule
   ], entryComponents: [FlowDialog],
   providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]

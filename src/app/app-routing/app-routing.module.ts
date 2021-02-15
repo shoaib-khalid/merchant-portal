@@ -5,7 +5,7 @@ import { MainComponent } from '../modules/flow-builder/components/main/main.comp
 import { SignUpComponent } from 'src/app/modules/user-onboarding/components/sign-up/sign-up.component';
 import { SignInComponent } from 'src/app/modules/user-onboarding/components/sign-in/sign-in.component';
 import {AddProductComponent} from 'src/app/modules/product-management/components/add-product/add-product.component'
-import {ProductsComponent} from 'src/app/modules/product-management/components/products/products.component';
+import {LandingPageComponent} from 'src/app/modules/home/components/landing-page/landing-page.component';
 const routes: Routes = [
 
   {
@@ -24,12 +24,17 @@ const routes: Routes = [
     children:[]
   },
   {
-    path:"product/add",
+    path:"products/add",
     component:AddProductComponent,
     children:[]
   },
   {
-    path: '**',
+    path:'home',
+    component:LandingPageComponent,
+    children:[]
+  },
+  {
+    path: 'flowbuilder',
 
     component: MainComponent,
     children: []
