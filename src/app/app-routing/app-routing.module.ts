@@ -4,8 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from '../modules/flow-builder/components/main/main.component';
 import { SignUpComponent } from 'src/app/modules/user-onboarding/components/sign-up/sign-up.component';
 import { SignInComponent } from 'src/app/modules/user-onboarding/components/sign-in/sign-in.component';
-import {AddProductComponent} from 'src/app/modules/product-management/components/add-product/add-product.component'
-import {LandingPageComponent} from 'src/app/modules/home/components/landing-page/landing-page.component';
+import { AddProductComponent } from 'src/app/modules/product-management/components/add-product/add-product.component'
+import { LandingPageComponent } from 'src/app/modules/home/components/landing-page/landing-page.component';
+import { ChooseVerticleComponent } from 'src/app/modules/product-management/components/choose-verticle/choose-verticle.component';
+
 const routes: Routes = [
 
   {
@@ -14,24 +16,29 @@ const routes: Routes = [
     children: []
   },
   {
+    path: 'chooseverticle',
+    component: ChooseVerticleComponent,
+    children: []
+  },
+  {
     path: 'signup',
     component: SignUpComponent,
     children: []
   },
   {
-    path:"signin",
-    component:SignInComponent,
-    children:[]
+    path: "signin",
+    component: SignInComponent,
+    children: []
   },
   {
-    path:"products/add",
-    component:AddProductComponent,
-    children:[]
+    path: "products/add",
+    component: AddProductComponent,
+    children: []
   },
   {
-    path:'home',
-    component:LandingPageComponent,
-    children:[]
+    path: 'home',
+    component: LandingPageComponent,
+    children: []
   },
   {
     path: 'flowbuilder',

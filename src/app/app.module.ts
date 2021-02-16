@@ -22,7 +22,7 @@ import { HomeModule } from './modules/home/home.module';
     AppRoutingModule,
     UserOnboardingModule,
     ProductManagementModule,
-    HomeModule
+    HomeModule,
   ], entryComponents: [FlowDialog],
   providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]

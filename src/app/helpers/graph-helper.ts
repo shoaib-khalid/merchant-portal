@@ -357,7 +357,7 @@ export class Helper {
 		const digit = this.digitFromString(strDigit);
 
 		return `<div style="position: relative">		
-		<button type="button" style="width:200px; overflow: hidden;text-overflow: ellipsis;margin-top:15px;" class="btn btn-primary btn-block btn-lg customTrigger`+ digit + `">	` + text + `
+		<button type="button" style="width:200px; height:50px;text-overflow: ellipsis;" class="btn btn-primary btn-block customTrigger`+ digit + `">	` + text + `
 		</button>
 		<svg height="20" width="20" class="connect-icon" style="position: absolute;	right: .5em; top: 50%; transform: translate(0,-50%);" >
 		<circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
