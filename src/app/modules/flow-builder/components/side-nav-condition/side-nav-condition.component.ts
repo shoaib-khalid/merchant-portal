@@ -20,17 +20,27 @@ export class SideNavConditionComponent {
     };
     description: any;
     fieldNames: any;
-    operator:any;
+    operator: any;
+    currentVertexIndex: any;
+
+
     constructor(private apiCalls: ApiCallsService, private helper: Helper,
         private helperService: HelperService) {
     }
 
     toggle() {
         this.fieldNames = this.helperService.getAllDataVariables();
-        console.log(this.fieldNames)
         if (this.opened) {
+            this.description = this.getDescriptionOfVertex();
+            this.currentVertexIndex = this.helperService.getVertexIndex();
+            this.conditions.conditions = this.apiCalls.data[this.currentVertexIndex].conditions;
+
         } else {
+            this.description = this.getDescriptionOfVertex();
+            this.currentVertexIndex = this.helperService.getVertexIndex();
             this.opened = true;
+            this.conditions.conditions = this.apiCalls.data[this.currentVertexIndex].conditions;
+
         }
 
     }
@@ -80,7 +90,10 @@ export class SideNavConditionComponent {
         this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
     }
-
+    valueFocusOut(event) {
+        this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+    }
     addGroup(j) {
         this.conditions.conditions[j].groups.push({
             "field": "",
@@ -88,34 +101,54 @@ export class SideNavConditionComponent {
             "caseSensitive": true,
             "value": ""
         })
+        this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+
     }
     addCondition() {
         this.conditions.conditions.push({ operator: "AND", groups: [] })
         this.helper.addConditionUsingSidePanel();
-        console.log(this.conditions.conditions)
+        this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+
     }
 
-    fieldNameChange(event,j, i) {
+    fieldNameChange(event, j, i) {
         this.conditions.conditions[j].groups[i].field = event.target.value;
+        this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+
     }
 
     valueChange(event, j, i) {
         this.conditions.conditions[j].groups[i].value = event.target.value;
-
     }
-    conditionChanged(event,j, i) {
+    
+    conditionChanged(event, j, i) {
         this.conditions.conditions[j].groups[i].match = event.target.value;
+        this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+
     }
 
-    operatorChange(event,j) {
+    operatorChange(event, j) {
         this.conditions.conditions[j].operator = event.target.value;
+        this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+
     }
     descriptionFocusOut($event) {
-
+        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
     }
     descriptionChange(event) {
         var strDigit = this.getStrDigit();
         const digit = this.helper.digitFromString(strDigit);
         document.getElementById("initial-message" + digit).textContent = event.target.value;
     }
+    getDescriptionOfVertex() {
+        var strDigit = this.getStrDigit();
+        const digit = this.helper.digitFromString(strDigit);
+        return document.getElementById("initial-message" + digit).textContent;
+    }
+
 }

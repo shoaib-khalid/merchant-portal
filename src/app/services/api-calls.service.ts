@@ -36,15 +36,6 @@ export class ApiCallsService {
 
   }
 
-  retrieveJson() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: 'asd'
-      })
-    };
-    return this.http.get(this.pathVariable+"/mxgraph/5ff56c587efe1d4649d6e191", httpOptions);
-  }
-
 
   async getFlowId(title, description) {
     const httpOptions = this.getHttpOptions("asx");

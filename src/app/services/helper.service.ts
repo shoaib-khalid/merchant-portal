@@ -11,9 +11,14 @@ export class HelperService {
   vertexClicked() {
     var vertextType;
     this.apiCalls.data.forEach((element, index) => {
-      if (element.vertexId === this.helper.v1.id) {
-        vertextType = element.type;
+      try {
+        if (element.vertexId === this.helper.v1.id) {
+          vertextType = element.type;
+        }
+      } catch (ex) {
+return "";
       }
+     
     });
     return vertextType;
   }
@@ -32,8 +37,12 @@ export class HelperService {
   getVertexIndex() {
     var index1;
     this.apiCalls.data.forEach((element, index) => {
-      if (element.vertexId === this.helper.v1.id) {
-        index1 = index;
+      try {
+        if (element.vertexId === this.helper.v1.id) {
+          index1 = index;
+        }
+      } catch (ex) {
+        return null;
       }
     });
     return index1;

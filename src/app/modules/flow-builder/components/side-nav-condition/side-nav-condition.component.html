@@ -37,7 +37,7 @@
 							<option value="smaller than">smaller than</option>
 						</select>
 						<input class="condition-inputs" type="text" placeholder="Value"
-							(keyup)="valueChange($event,j,i)">
+						(focusout)="valueFocusOut($event)" (keyup)="valueChange($event,j,i)">
 						<br>
 
 						<span *ngIf="i<(conditions.conditions[j].groups.length-1)"class="text-muted">{{conditions.conditions[j].operator}}</span>
