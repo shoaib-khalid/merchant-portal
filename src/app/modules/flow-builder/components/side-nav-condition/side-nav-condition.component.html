@@ -15,7 +15,7 @@
 					(keyup)="descriptionChange($event)">
 				<div class="condition shadow-sm" *ngFor="let condition of conditions.conditions; let j= index;">
 
-					<select name="operator" style="margin-bottom:10px;" (change)="operatorChange($event,j)">
+					<select [(ngModel)]="condition.operator" name="operator" style="margin-bottom:10px;" (change)="operatorChange($event,j)">
 						<option value="AND">AND</option>
 						<option value="OR">OR</option>
 					</select>
@@ -23,12 +23,12 @@
 
 					<div class="groups" *ngFor="let group of condition.groups;let i= index">
 
-						<select class="fieldNames" (change)="fieldNameChange($event,j,i)">
+						<select [(ngModel)]="group.field" class="fieldNames" (change)="fieldNameChange($event,j,i)">
 							<option value="not selected">Field Name</option>
 							<option value="{{field}}" *ngFor="let field of fieldNames;">{{field}}</option>
 						</select>
 
-						<select name="condition" class="condition-dropdown" (change)="conditionChanged($event,j,i)">
+						<select [(ngModel)]="group.match" name="condition" class="condition-dropdown" (change)="conditionChanged($event,j,i)">
 							<option value="is">is</option>
 							<option value="is not">is not</option>
 							<option value="starts with">starts with</option>
@@ -36,7 +36,7 @@
 							<option value="greater than">greater than</option>
 							<option value="smaller than">smaller than</option>
 						</select>
-						<input class="condition-inputs" type="text" placeholder="Value"
+						<input class="condition-inputs" type="text" placeholder="Value" value="{{group.value}}"
 						(focusout)="valueFocusOut($event)" (keyup)="valueChange($event,j,i)">
 						<br>
 

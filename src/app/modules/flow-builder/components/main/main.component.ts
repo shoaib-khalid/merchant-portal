@@ -86,6 +86,7 @@ export class MainComponent implements OnInit, AfterViewInit {
             }
 
             const objJson = this.individualJson(undoManager.history[undoManager.history.length - 1].changes[0].child);
+            console.log(objJson)
             if (objJson.includes(`@edge":"1"`)) {
                this.configService.autoSaveAdd(objJson, "")
             }
@@ -119,7 +120,7 @@ export class MainComponent implements OnInit, AfterViewInit {
                   }
                });
                this.helper.copyAction = false;
-            } else if (objJson.includes(`conditions":{"@id")`)) {
+            } else if (objJson.includes(`"conditions":{"@id"`)) {
                await this.configService.autoSaveAdd(objJson, "")
                this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 

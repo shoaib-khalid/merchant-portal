@@ -34,7 +34,6 @@ export class SideNavConditionComponent {
             this.description = this.getDescriptionOfVertex();
             this.currentVertexIndex = this.helperService.getVertexIndex();
             this.conditions.conditions = this.apiCalls.data[this.currentVertexIndex].conditions;
-
         } else {
             this.description = this.getDescriptionOfVertex();
             this.currentVertexIndex = this.helperService.getVertexIndex();
@@ -96,7 +95,7 @@ export class SideNavConditionComponent {
     }
     addGroup(j) {
         this.conditions.conditions[j].groups.push({
-            "field": "",
+            "field": "not selected",
             "match": "is",
             "caseSensitive": true,
             "value": ""
@@ -123,7 +122,7 @@ export class SideNavConditionComponent {
     valueChange(event, j, i) {
         this.conditions.conditions[j].groups[i].value = event.target.value;
     }
-    
+
     conditionChanged(event, j, i) {
         this.conditions.conditions[j].groups[i].match = event.target.value;
         this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;

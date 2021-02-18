@@ -7,7 +7,7 @@ import { SignInComponent } from 'src/app/modules/user-onboarding/components/sign
 import { AddProductComponent } from 'src/app/modules/product-management/components/add-product/add-product.component'
 import { LandingPageComponent } from 'src/app/modules/home/components/landing-page/landing-page.component';
 import { ChooseVerticleComponent } from 'src/app/modules/product-management/components/choose-verticle/choose-verticle.component';
-
+import {PageNotFoundComponent} from 'src/app/modules/user-onboarding/components/page-not-found/page-not-found.component';
 const routes: Routes = [
 
   {
@@ -45,7 +45,11 @@ const routes: Routes = [
 
     component: MainComponent,
     children: []
-  },
+  },{
+    path: '**',
+    component:PageNotFoundComponent,
+    children:[]
+  }
 
 ];
 
