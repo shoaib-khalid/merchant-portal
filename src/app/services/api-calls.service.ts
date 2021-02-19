@@ -157,4 +157,17 @@ export class ApiCallsService {
     }
   }
 
+
+  registerClient(signUpData){
+    this.http.post<any>("http://209.58.160.20:20921/clients/register", signUpData, this.getHttpOptions("asx")).
+    subscribe(data => {
+      console.log(data);
+    });
+  }
+  authenticateClient(logInData){
+    this.http.post<any>("http://209.58.160.20:20921/clients/authenticate", logInData, this.getHttpOptions("asx")).
+    subscribe(data => {
+      console.log(data);
+    });
+  }
 }

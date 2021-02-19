@@ -78,13 +78,13 @@
                                 </div>
                                 <form action="#">
                                     <div class="form-group mb-3">
-                                        <label for="emailaddress">Email address</label>
-                                        <input class="form-control" type="email" id="emailaddress" required=""
-                                            placeholder="Enter your email">
+                                        <label for="emailaddress">Username</label>
+                                        <input class="form-control" name ="username"type="username" [(ngModel)]="username" id="emailaddress" required=""
+                                            placeholder="Enter your username">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="password">Password</label>
-                                        <input class="form-control" type="password" required="" id="password"
+                                        <input class="form-control" name="password" type="password" required="" [(ngModel)]="password"id="password"
                                             placeholder="Enter your password">
                                     </div>
                                     <div class="form-group mb-3">
@@ -96,7 +96,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group mb-0 text-center">
-                                        <a class="btn btn-primary btn-block" href="products/add"> 
+                                        <a class="btn btn-primary btn-block" (click)="authenticateClient()"> 
                                                 Log In </a>
                                     </div>
                                 </form>
