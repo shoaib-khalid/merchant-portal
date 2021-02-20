@@ -46,9 +46,23 @@ export class MainComponent implements OnInit, AfterViewInit {
 
       //Callback function
       this.addStep = (x: any = 50, y: any = 0): any => {
+         let vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, x, y, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
+         vertext.setConnectable(false);
+         var doc = mxUtils.createXmlDocument();
+         var ConnectionStart = doc.createElement('ConnectionStart');
+         var v11 = this.graph.insertVertex(vertext, null, ConnectionStart, 1, 1, 15, 15, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
+         v11.geometry.offset = new mxPoint(-7, -45);
+         v11.geometry.relative = true;
+         v11.setConnectable(true);
 
-         let vertext = undefined;
-         vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, x, y, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
+         var ConnectionStart = doc.createElement('ConnectionEnd');
+         var v11 = this.graph.insertVertex(vertext, null, ConnectionStart, 0, 0, 20, 20, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
+         v11.geometry.offset = new mxPoint(0, 45);
+         v11.geometry.relative = true;
+         v11.setConnectable(true);
+
+         this.graph.refresh();
+
          this.helper.v1 = vertext;
          return vertext;
       }

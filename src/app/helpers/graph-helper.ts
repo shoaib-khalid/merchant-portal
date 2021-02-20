@@ -107,6 +107,27 @@ export class Helper {
 		mxEdgeHandler.prototype.isConnectableCell = (cell) => {
 			return graph.connectionHandler.isConnectableCell(cell);
 		};
+		var connectionHandlerMouseUp = graph.connectionHandler.mouseUp;
+		graph.connectionHandler.mouseUp = function (sender, me) {
+			if (me.sourceState) {
+				var v2 = me.sourceState.cell;
+				if (v2 && v2.children) {
+					var target = v2.children.find((m: any) => {
+						if (m.value && m.value.nodeName) {
+							return m.value.nodeName.toLowerCase() == 'connectionend';
+						} else {
+							return false;
+						}
+					});
+					if (target && this.previous && this.previous.cell && this.previous.cell.isVertex && this.previous.cell.isVertex()) {
+						var source = this.previous.cell;
+						this.connect(source, target, me.getEvent(), me.getCell());
+					}
+				}
+			}
+			connectionHandlerMouseUp.apply(this, arguments);
+		};
+
 		graph.addMouseListener(
 			{
 				mouseDown: (sender, evt) => {
@@ -143,11 +164,9 @@ export class Helper {
 					}
 				},
 				mouseUp: (sender, evt) => {
-
 					try {
 						var v2 = evt.sourceState.cell;
-						JsonCodec.getIndividualJson(this.v1)
-
+						JsonCodec.getIndividualJson(this.v1);
 						var t_id = t_id = evt.sourceState.cell.id;
 						// if (typeof (this.v1.id) === "string") {
 						// 	this.v1.id = parseInt(this.v1.id.match(/\d/g)[0]);
@@ -157,7 +176,6 @@ export class Helper {
 						}
 
 					} catch (ex) {
-
 					}
 					previous_id = 0;
 
@@ -166,13 +184,10 @@ export class Helper {
 		graph.setConnectable(true);
 		graph.setMultigraph(false);
 
-
 		graph.multiplicities.push(new mxMultiplicity(
 			false, 'Test', null, null, 0, 1, ['Source'],
 			'Target Must Have 1 Source',
 			'Wrong connection!'));
-
-
 		return graph;
 
 	}
@@ -290,7 +305,8 @@ export class Helper {
 		mxConnectionHandler.prototype.livePreview = true;
 
 		graph.connectionHandler.createEdgeState = (me) => {
-			var edge = graph.createEdge(null, null, null, null, null, 'edgeStyle=elbowEdgeStyle');
+			// 'edgeStyle=elbowEdgeStyle'
+			var edge = graph.createEdge(null, null, null, null, null, null);
 			let style = this.graph.getCellStyle(edge);
 			style[mxConstants.STYLE_DASHED] = "false";
 			return new mxCellState(this.graph.view, edge, style);
@@ -359,9 +375,6 @@ export class Helper {
 		return `<div style="position: relative">		
 		<button type="button" style="width:200px; height:50px;text-overflow: ellipsis;" class="btn btn-primary btn-block customTrigger`+ digit + `">	` + text + `
 		</button>
-		<svg height="20" width="20" class="connect-icon" style="position: absolute;	right: .5em; top: 50%; transform: translate(0,-50%);" >
-		<circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
-	  </svg>
 		</div>
 		
 		`;
@@ -495,10 +508,27 @@ export class Helper {
 				return div;
 			} else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'conditions') {
 				// Returns a DOM for the label
-
 				var div = document.createElement('div');
 				div.innerHTML = cell.getAttribute('label');
 				div.innerHTML = Card.conditionLine;
+				mxUtils.br(div);
+				if (cached) {
+					// Caches label
+					cell.div = div;
+				}
+				return div;
+			} else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'connectionstart') {
+				var div = document.createElement('div');
+				div.innerHTML = Card.ConnectioStart;
+				mxUtils.br(div);
+				if (cached) {
+					// Caches label
+					cell.div = div;
+				}
+				return div;
+			} else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'connectionend') {
+				var div = document.createElement('div');
+				div.innerHTML = Card.ConnectioEnd;
 				mxUtils.br(div);
 				if (cached) {
 					// Caches label
@@ -555,30 +585,31 @@ export class Helper {
 			// cell.div.removeChild(initialMessage[0]);
 		}
 		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
-		var yAxis = 160;
+		var yAxis = 60;
 		var childHegiht = 55;
-
 		yAxis = yAxis + (childLength * childHegiht);
 		var current = cell.getGeometry();
 		current.height = current.height + childHegiht;
 		let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
 		let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
-
 		flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
 		flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
 		this.graph.cellsResized([cell], [current], false);
 		this.graph.refresh();
 		var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
-
+		trigger.setConnectable(false);
+		var ConnectionStart = doc.createElement('ConnectionStart');
+		var ConnectionStart = this.graph.insertVertex(trigger, null, ConnectionStart, 140, 10, 20, 20, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
+		this.graph.refresh();
 	}
 
 
 	addConditionUsingSidePanel(cell = this.v1) {
 		var doc = mxUtils.createXmlDocument();
-		let triggers = doc.createElement('conditions');
+		let conditions = doc.createElement('conditions');
 
 		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
-		var yAxis = 160;
+		var yAxis = 60;
 		var childHegiht = 30;
 
 		// if (childLength > 0) {
@@ -591,10 +622,12 @@ export class Helper {
 		flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
 		flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
 		this.graph.cellsResized([cell], [current], false);
-		this.graph.refresh();
-		// }
-		var trigger = this.graph.insertVertex(cell, null, triggers, 85, yAxis, 70, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
 
+		let conditionLine = this.graph.insertVertex(cell, null, conditions, 85, yAxis, 70, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
+		conditionLine.setConnectable(false);
+		var ConnectionStart = doc.createElement('ConnectionStart');
+		var ConnectionStart = this.graph.insertVertex(conditionLine, null, ConnectionStart, 60, 7, 20, 20, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
+		this.graph.refresh();
 	}
 
 

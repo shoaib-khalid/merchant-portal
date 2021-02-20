@@ -8,12 +8,8 @@ export class Card {
         <img class="delete" src="../assets/delete.png" />
         </div>  
         <img class="copy" class="img-icon"src="../assets/copy.png"/>
-      </span>
-      
+      </span>      
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
-          <svg height="20" width="20" class="connect-icon" style="position: absolute;right: -12px; top:80%;z-index: 990;">
-            <circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
-          </svg>
             <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >
               <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
@@ -41,9 +37,6 @@ export class Card {
       </span>
       
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
-          <svg height="20" width="20" class="connect-icon" style="position: absolute;right: -12px; top:80%;z-index: 990;">
-            <circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
-          </svg>
             <div id="card-header`+ id + `"class="card-header actionHeader" style="background-color:white">
               <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
@@ -71,9 +64,6 @@ export class Card {
       </span>
       
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
-          <svg height="20" width="20" class="connect-icon" style="position: absolute;right: -12px; top:80%;z-index: 990;">
-            <circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
-          </svg>
             <div id="card-header`+ id + `"class="card-header actionHeader" style="background-color: white">
               <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
@@ -102,11 +92,7 @@ export class Card {
         </div>  
         <img class="copy" class="img-icon"src="../assets/copy.png"/>
       </span>
-      
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
-          <svg height="20" width="20" class="connect-icon" style="position: absolute;right: -12px; top:80%;z-index: 990;">
-            <circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
-          </svg>
             <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >
               <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
@@ -132,11 +118,7 @@ export class Card {
         </div>  
         <img class="copy" class="img-icon"src="../assets/copy.png"/>
       </span>
-      
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
-          <svg height="20" width="20" class="connect-icon" style="position: absolute;right: -12px; top:80%;z-index: 990;">
-            <circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
-          </svg>
             <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >
               <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
@@ -168,11 +150,17 @@ export class Card {
     return `
     <div style="position: relative;border-bottom:1px solid black;top:8px">
     <span class="single-condition"> condition </span>
-    <svg height="20" width="20" class="connect-icon" style="position: absolute;	right: .5em;" >
-		<circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
-	  </svg>
     </div>
     `;
+  } public static get ConnectioStart(): string {
+    return `<svg height="20" width="20" class="connect-icon">
+              <circle cx="10" cy="10" r="8" stroke="gray" stroke-width="2" fill="white"></circle>
+            </svg>`;
+  }
+  public static get ConnectioEnd(): string {
+    return `<svg height="20" width="20">
+                  <circle cx="10" cy="10" r="8" stroke="white" stroke-width="2" fill="white"></circle>
+                </svg>`;
   }
 
   public static get TriggerButton(): string {
