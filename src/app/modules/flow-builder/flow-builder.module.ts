@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
+import { RouterModule } from '@angular/router';
 
 
 //user-defined components
@@ -46,7 +47,8 @@ import { SideNavConditionComponent } from './components/side-nav-condition/side-
     MatInputModule,
     MatSidenavModule,
     MatMenuModule,
-    MatSelectModule
+    MatSelectModule,
+    RouterModule
 
   ]
 })

@@ -10,7 +10,7 @@
     <header class="nav-wrap bg-dark fixed-top">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-dark px-lg-0">
-                <a class="navbar-brand mr-3 swap-link" href="">Symplified<span
+                <a class="navbar-brand mr-3 swap-link" [routerLink]="['']">Symplified<span
                         class="text-light font-weight-bold">.biz</span></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,7 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item swap-link"> <a href="" class="nav-link">Home</a> </li>
+                        <li class="nav-item swap-link"> <a [routerLink]="['']" class="nav-link">Home</a> </li>
                         
                     </ul>
                     <ul class="navbar-nav">
@@ -50,7 +50,7 @@
                         </li>
                         <li class="nav-item d-flex align-items-center">
                         <li class="nav-item dropdown">
-                            <a class="nav-link  no-arrow btn btn-primary swap-link text-white" href="/signin"
+                            <a class="nav-link  no-arrow btn btn-primary swap-link text-white" [routerLink]="['/signin']"
                                 role="button" data-toggle="dropdown" aria-expanded="false">Log in</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item swap-link" href="signup.html">Signup</a>
@@ -70,7 +70,7 @@
                     <div class="col-md-8 col-lg-6 col-xl-5">
                         <div class="card hover-box-shadow">
                             <div class="card-body px-auto">
-                                <h4 class="card-title mt-3 text-center" href="products/add">Create Account</h4>
+                                <h4 class="card-title mt-3 text-center">Create Account</h4>
                                 <p class="text-center">Get started with your free account</p>
 
                                 <!-- end:Social logins-->
@@ -108,10 +108,10 @@
                                     </div>
                                     <div class="form-group">
                                             
-                                            <a  class="btn btn-primary btn-block" (click)="createAccount($event)">Create Account</a>
+                                            <a  class="btn btn-primary btn-block" (click)="createAccount($event)" >Create Account</a>
                                     </div>
                                     <p class="text-center">Have an account?
-                                        <a href="/signin">Log In</a>
+                                        <a [routerLink]="['/signin']">Log In</a>
                                     </p>
                                 </form>
                             </div>
@@ -131,7 +131,7 @@
     </main>
     <footer class="footer footer-alt text-center bg-dark text-white">
         <div class="container">
-            2019 - 2020 © MarketSpot theme by <a href="" class="text-muted">Codenpixel</a>
+            2019 - 2020 © MarketSpot theme by <a [routerLink]="['']" class="text-muted">Codenpixel</a>
         </div>
     </footer> <!-- build:js -->
     <script src="assets/vendor/js/jquery.js"></script>

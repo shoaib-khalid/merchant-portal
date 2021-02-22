@@ -54,12 +54,16 @@ export class MainComponent implements OnInit, AfterViewInit {
          v11.geometry.offset = new mxPoint(-7, -45);
          v11.geometry.relative = true;
          v11.setConnectable(true);
+         console.log(JsonCodec.getIndividualJson(v11))
+         this.configService.autoSaveAdd(JsonCodec.getIndividualJson(v11), "")
 
          var ConnectionStart = doc.createElement('ConnectionEnd');
          var v11 = this.graph.insertVertex(vertext, null, ConnectionStart, 0, 0, 20, 20, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
          v11.geometry.offset = new mxPoint(0, 45);
          v11.geometry.relative = true;
          v11.setConnectable(true);
+         this.configService.autoSaveAdd(JsonCodec.getIndividualJson(v11), "")
+         console.log(JsonCodec.getIndividualJson(v11))
 
          this.graph.refresh();
 
@@ -98,9 +102,8 @@ export class MainComponent implements OnInit, AfterViewInit {
                });
                return
             }
-
+            
             const objJson = this.individualJson(undoManager.history[undoManager.history.length - 1].changes[0].child);
-            console.log(objJson)
             if (objJson.includes(`@edge":"1"`)) {
                this.configService.autoSaveAdd(objJson, "")
             }
@@ -315,7 +318,6 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.configService.publishmxGraph();
    }
    addStepWithType(type, x: any = 50, y: any = 0) {
-      console.log(this.configService.data)
       this.helper.vertexType = type;
       const v1 = this.addStep(x, y);
       const length = this.configService.data.length;

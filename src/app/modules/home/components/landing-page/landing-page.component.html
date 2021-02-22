@@ -25,7 +25,7 @@
     <header class="nav-wrap bg-dark fixed-top">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-dark px-lg-0">
-                <a class="navbar-brand mr-3 swap-link" href="">Symplified<span
+                <a class="navbar-brand mr-3 swap-link" [routerLink]="['']">Symplified<span
                         class="text-light font-weight-bold">.biz</span></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,8 +33,8 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item swap-link"> <a href="" class="nav-link" style="color: white;">Home</a> </li>
-                        <li class="nav-item swap-link"> <a href="/flowbuilder" class="nav-link" >Flow builder</a> </li>
+                        <li class="nav-item swap-link"> <a [routerLink]="['']" class="nav-link" style="color: white;">Home</a> </li>
+                        <li class="nav-item swap-link"> <a [routerLink]="['flowbuilder']" class="nav-link" >Flow builder</a> </li>
                         
                     </ul>
                     <ul class="navbar-nav">
@@ -66,12 +66,12 @@
                         </li>
                         <li class="nav-item d-flex align-items-center">
                             <li class="nav-item dropdown">
-                                <a class="nav-link  no-arrow btn btn-primary swap-link text-white" href="/signin"
+                                <a class="nav-link  no-arrow btn btn-primary swap-link text-white" [routerLink]="['/signin']"
                                     role="button">Log in</a>
                             
                             </li>
                         <li class="nav-item dropdown ml-2">
-                            <a class="nav-link  no-arrow btn btn-primary swap-link text-white" href="/signup"
+                            <a class="nav-link  no-arrow btn btn-primary swap-link text-white" [routerLink]="['/signup']"
                                 role="button">Sign up</a>
                         </li>
 

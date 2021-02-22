@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
+import {Router} from '@angular/router';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -7,7 +8,7 @@ import { ApiCallsService } from 'src/app/services/api-calls.service';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor(private apiCalls: ApiCallsService) { }
+  constructor(private apiCalls: ApiCallsService,private router:Router) { }
   name: string = '';
   username: string = '';
   email: string = '';
@@ -28,11 +29,10 @@ export class SignUpComponent implements OnInit {
       storeName: this.storeName,
       roleId: "STORE_OWNER"
     }
-    console.log(
-      data
-    )
+ 
     if (data.name && data.username && data.email && data.password && data.storeName && data.roleId) {
-      this.apiCalls.registerClient(data)
+      this.router.navigateByUrl('/products/add');
+      // this.apiCalls.registerClient(data)
     } else {
       alert("please enter all details")
     }

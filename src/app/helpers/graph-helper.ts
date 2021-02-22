@@ -340,8 +340,7 @@ export class Helper {
 			}
 		});
 		graph.connectionHandler.addListener(mxEvent.START, (sender, evt) => {
-			console.log(evt)
-
+			
 			var sourceState = evt.getProperty('state');
 			var source = sourceState.cell;
 			this.setConnectFillColor(source, "white");
