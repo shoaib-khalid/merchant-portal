@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FlowDialog } from 'src/app/modules/flow-builder/components/flow-dialog/flow-dialog.component';
-
+import { HttpConfigInterceptor } from 'src/app/services/httpconfig.interceptor';
 import { Helper } from './helpers/graph-helper';
 
 import { AppComponent } from './app.component';
@@ -24,7 +24,8 @@ import { HomeModule } from './modules/home/home.module';
     ProductManagementModule,
     HomeModule,
   ], entryComponents: [FlowDialog],
-  providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
+  providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+  { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

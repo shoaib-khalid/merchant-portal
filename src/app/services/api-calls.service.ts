@@ -167,7 +167,8 @@ export class ApiCallsService {
   authenticateClient(logInData){
     this.http.post<any>("http://209.58.160.20:20921/clients/authenticate", logInData, this.getHttpOptions("asx")).
     subscribe(data => {
-      console.log(data);
+      console.log(data.data);
+      localStorage.setItem('accessToken',data.data.session.accessToken)
     });
   }
 }
