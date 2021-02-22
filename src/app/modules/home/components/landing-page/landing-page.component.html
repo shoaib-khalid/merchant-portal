@@ -527,9 +527,7 @@
                                                                     </div>
                                                                     <p
                                                                         class="ui-illustration-admin-summary__total gutter-bottom--reset">
-                                                                        $218</p><img loading="lazy"
-                                                                        class="ui-illustration-admin-summary__image ui-illustration-admin-summary__image--overflow-top"
-                                                                        src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/summary-sales-d189a935ed9ba5270c6bcdf4bce11525f3a159d75cfb2f927f89f7ad71621f7a.svg">
+                                                                        $218</p>
                                                                 </div>
                                                                 <div class="ui-illustration-admin-summary__footer">
                                                                     <p
@@ -1493,81 +1491,7 @@
 
     </div>
 
-    <script
-        src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/bugsnag.v7.4.0.min.js.download"
-        crossorigin=""></script>
-    <script>
-        window.bugsnagClient = Bugsnag.start({
-            apiKey: '60139b6e163bd4168eaeb409f6e80e98',
-            onError: function (event) {
-                var error = event.errors[0];
-                var nonShopifyDomain = /:\/\/(?![^/]*shopify)/;
-
-                if (error.stacktrace.length === 0 || nonShopifyDomain.test(event.request.url)) {
-                    return false;
-                }
-
-                var nonAppCode = /(native|global) code/;
-                var appStacktrace = error.stacktrace.filter((frame) => !nonAppCode.test(frame.file));
-                if (appStacktrace.length === 0) {
-                    return false;
-                }
-
-                var cdnDomain = new RegExp("cdn.shopify.com/shopifycloud/brochure/assets".replace(/[\.\/]/g, '\\$&'));
-                if (!cdnDomain.test(appStacktrace[0].file)) {
-                    return false;
-                }
-
-                event.updateMetadata('debugStacktrace', {
-                    files: error.stacktrace.map(
-                        (frame) => frame.file + ":" + frame.lineNumber + ":" + frame.columnNumber
-                    )
-                });
-
-                return true;
-            },
-            enabledReleaseStages: ['production', 'staging'],
-            releaseStage: 'production',
-            trackInlineScripts: false,
-        });
-    </script>
-
-    <script>
-        window.App = window.App || {};
-        window.App.config = { signupHost: "accounts.shopify.com", railsEnv: "production" };
-    </script>
-
-    <script>
-        //<![CDATA[
-        window.I18n = window.I18n || {}; window.I18n.data = { "modal": { "home": "Home", "close": "Close" }, "signup": { "header": "Start your free %{trial_length}-day trial of Shopify", "create_now": "Create your store", "labels": { "email": "Email address", "password": "Password", "shop_name": "Your store name", "subdomain": "Store URL" }, "subtitles": { "shop_name": "This can be changed later.", "subdomain": "This will be the default domain for your store, but you can add different domains later. You'll also use your Store URL to log in." }, "placeholders": { "password": "Minimum 5 characters" }, "success_messages": { "email": "Got it", "password": "Looks great", "shop_name": "That name is available!", "subdomain": "You‘ll use this to log in to your store" }, "store_address_suffix": ".myshopify.com", "hint_messages": { "email_typo_html": "Did you mean \u003cbutton type=\"button\" data-bind-event-click=\"%{on_click}\"\u003e%{suggestion}\u003c/button\u003e?" } }, "forms": { "errors": { "throttled": "Too many requests from this IP, try again later.", "global": { "invalid": "Please enter a valid email address", "required": "This field is required.", "generic": "Sorry, something went wrong. Please try again later.", "throttled": "Too many requests from this IP, try again later." }, "shop_name": { "empty": "Please enter a store name", "minlength": "Your store name must be at least 4 characters", "maxlength": "Your store name can’t be longer than 60 characters", "existingAdmin": "A store with that name already exists. If you are the owner you can \u003ca href=\"https://%{err}/admin\"\u003elog in here\u003c/a\u003e", "message": "%{err}", "matchesPassword": "Your store name can’t be the same as your password", "disallowed": "Your store name can’t contain the word \u003cstrong\u003e%{err}\u003c/strong\u003e. Try another." }, "email": { "empty": "Please enter an email address", "invalid": "Please enter a valid email address", "member_exists": "You are already subscribed to this list", "generic": "Sorry, something went wrong. Please try again later." }, "password": { "empty": "Please enter a password", "minlength": "Password must be at least 5 characters", "spaces": "Password cannot start or end with a space" }, "subdomain": { "empty": "Please enter a subdomain", "minlength": "Your subdomain must be at least 4 characters", "multiple": "Multiple subdomains are associated with this email", "suggest": "Did you mean %{err}?", "invalid": "Please enter a valid subdomain", "existingAdmin": "A store with that subdomain already exists. If you are the owner you can \u003ca href=\"https://%{err}/admin\"\u003elog in here\u003c/a\u003e", "disallowed": "Your subdomain can’t contain the word \u003cstrong\u003e%{err}\u003c/strong\u003e. Try another.", "message": "%{err}" }, "partner_info[details]": { "length": "Responses cannot be longer than 1,500 characters. Shorten your response and submit again." } } }, "carousel": { "play": "Play carousel", "pause": "Pause carousel", "carousel_aria_roledescription": "Carousel", "slide_nav_aria_label": "Choose slide", "slide_aria_roledescription": "Slide", "slide_aria_label": "%{currentSlide} of %{totalSlide}" } }; window.I18n.globals = { "total_blog_subscribers": "446,005", "trial_length": 14, "total_remote_employees": 1400, "current_year": "2021", "supported_languages": "50", "total_active_users": "2,100,000", "total_apps": "4,100", "total_buyers": 300000000, "total_buyers_shop_pay": 35000000, "total_countries": "175", "total_countries_partners": 50, "total_domain_extensions": 50, "total_data_processed_pb": 1200000, "total_employees": "5,000", "total_experts": "780", "total_gateways": "100", "total_gmv_billions": "200", "total_orders": 2500000000, "total_stores": "1,000,000", "total_themes": "70", "uptime": 99.98, "hiring_2021": 2021, "current_domain": "www.shopify.com", "lowest_swipe_rate": "2.4% + 0¢ USD", "minimum_monthly_price": "$9", "minimum_non_lite_monthly_price": "$29" };
-//]]>
-    </script>
-
-
-    <script
-        src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/runtime-2420b2e3faf5e7cd446073d4ef183a2e2ef820fdabc55dc6f1a7834f192647d4.js.download"></script>
-    <script
-        src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/vendor-d564aeceaefb3aea065f0bb6f695b31e9309c520fec9f3336c46293c6cdc9c32.js.download"></script>
-    <script
-        src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/home-277d91046ed91bbccbb8983fa5ddef4b7d6297705cc4399ea9fb5d78880a8747.js.download"></script>
-
-
-    <img alt="" src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/ipv"
-        style="display: none;"><img alt=""
-        src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/u" style="display: none;">
-    <div style="width:0px; height:0px; display:none; visibility:hidden;" id="batBeacon748339611879"><img
-            style="width:0px; height:0px; display:none; visibility:hidden;" id="batBeacon493887951580" width="0"
-            height="0" alt="" src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/0"></div>
-    <script type="application/javascript" id="ywa-1613378458571-965213" class="ywa-10000" defer=""
-        src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/sp.pl.download"></script><iframe
-        height="0" width="0" style="display: none; visibility: hidden;"
-        src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/activityi.html"></iframe><img
-        alt="" src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/muc"
-        style="display: none;">
-    <script>_taq.push({ event_type: "Browse", event_pixel_id: "6857488332033720325", event_pixel_code: "BSLBLMOQH7P7CAP6MG40", advertiser_id: "6813708112101376005", data_type: 4 })</script>
-    <script src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/adsct"
-        type="text/javascript"></script><iframe id="utag_15_iframe" height="1" width="1" style="display:none"
-        src="./Start a Business, Grow Your Business - Shopify 14-Day Free Trial_files/activityi(1).html"></iframe>
+ 
 </body>
 
 </html>

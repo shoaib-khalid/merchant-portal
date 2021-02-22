@@ -31,7 +31,7 @@ export class Helper {
 	}
 
 	addAssets(graph) {
-		mxClient.link('stylesheet', '../assets/css/mxGraph.css');
+		mxClient.link('stylesheet', 'assets/css/mxGraph.css');
 		this.graph = graph;
 	}
 	deleteMultipleVertices(graph) {

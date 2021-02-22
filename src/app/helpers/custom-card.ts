@@ -5,13 +5,13 @@ export class Card {
     </div>
     <span class="tooltip-text">
         <div class="d-inline img-icon mr-2">
-        <img class="delete" src="../assets/delete.png" />
+        <img class="delete" src="assets/delete.png" />
         </div>  
-        <img class="copy" class="img-icon"src="../assets/copy.png"/>
+        <img class="copy" class="img-icon"src="assets/copy.png"/>
       </span>      
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
             <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >
-              <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
+              <img src="assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
                 <h4 id="header`+ id + `"class="header">` + title + `</h4>
               </div>
@@ -31,14 +31,14 @@ export class Card {
     </div>
     <span class="tooltip-text">
         <div class="d-inline img-icon mr-2">
-        <img class="delete" src="../assets/delete.png" />
+        <img class="delete" src="assets/delete.png" />
         </div>  
-        <img class="copy" class="img-icon"src="../assets/copy.png"/>
+        <img class="copy" class="img-icon"src="assets/copy.png"/>
       </span>
       
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
-            <div id="card-header`+ id + `"class="card-header actionHeader" style="background-color:white">
-              <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
+            <div id="card-header`+ id + `"class="card-header actionHeader" style="background-color:white;border-radius:35px;border:0px;'">
+              <img src="assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
                 <h4 id="header`+ id + `"class="header">` + title + `</h4>
               </div>
@@ -58,14 +58,14 @@ export class Card {
     </div>
     <span class="tooltip-text">
         <div class="d-inline img-icon mr-2">
-        <img class="delete" src="../assets/delete.png" />
+        <img class="delete" src="assets/delete.png" />
         </div>  
-        <img class="copy" class="img-icon"src="../assets/copy.png"/>
+        <img class="copy" class="img-icon"src="assets/copy.png"/>
       </span>
       
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
-            <div id="card-header`+ id + `"class="card-header actionHeader" style="background-color: white">
-              <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
+            <div id="card-header`+ id + `"class="card-header actionHeader" style="background-color: white;border-radius:35px;border:0px;">
+              <img src="assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
                 <h4 id="header`+ id + `"class="header">` + title + `</h4>
               </div>
@@ -88,13 +88,13 @@ export class Card {
     </div>
     <span class="tooltip-text">
         <div class="d-inline img-icon mr-2">
-        <img class="delete" src="../assets/delete.png" />
+        <img class="delete" src="assets/delete.png" />
         </div>  
-        <img class="copy" class="img-icon"src="../assets/copy.png"/>
+        <img class="copy" class="img-icon"src="assets/copy.png"/>
       </span>
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
             <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >
-              <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
+              <img src="assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
                 <h4 id="header`+ id + `"class="header">` + title + `</h4>
               </div>
@@ -114,13 +114,13 @@ export class Card {
     </div>
     <span class="tooltip-text">
         <div class="d-inline img-icon mr-2">
-        <img class="delete" src="../assets/delete.png" />
+        <img class="delete" src="assets/delete.png" />
         </div>  
-        <img class="copy" class="img-icon"src="../assets/copy.png"/>
+        <img class="copy" class="img-icon"src="assets/copy.png"/>
       </span>
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
             <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >
-              <img src="../assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
+              <img src="assets/`+ icon + `" class="start-icon float-left" alt="..." style="width:35px;height=35px">
               <div style='margin-left:60px;margin-top:5px;'>
                 <h4 id="header`+ id + `"class="header">` + title + `</h4>
               </div>
