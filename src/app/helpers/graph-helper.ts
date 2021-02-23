@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Card } from '../helpers/custom-card';
 import { JsonCodec } from './json-codec';
-import { Subject } from 'rxjs';
+import { ApiCallsService} from 'src/app/services/api-calls.service';
+
+
 declare var mxConstants: any;
 declare var mxUtils: any;
 declare var mxPerimeter: any;
@@ -26,7 +28,7 @@ export class Helper {
 	isVertex: boolean;
 	copyAction: any;
 	vertexType: string;
-	constructor() {
+	constructor(private apiCalls:ApiCallsService) {
 
 	}
 
@@ -599,6 +601,7 @@ export class Helper {
 		trigger.setConnectable(false);
 		var ConnectionStart = doc.createElement('ConnectionStart');
 		var ConnectionStart = this.graph.insertVertex(trigger, null, ConnectionStart, 140, 10, 20, 20, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
+		this.apiCalls.autoSaveAdd(JsonCodec.getIndividualJson(ConnectionStart), "")
 		this.graph.refresh();
 	}
 

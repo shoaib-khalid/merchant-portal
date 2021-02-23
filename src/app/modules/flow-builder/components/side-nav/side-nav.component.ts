@@ -195,12 +195,11 @@ export class SideNav {
     if (this.helper.isVertex) {
       this.buttonsArray = [];
       try {
-        // alert(this.helper.v1.children.length)
-        for (var i = 0; i < this.helper.v1.children.length; i++) {
+        console.log(this.helper.v1.children)
+        for (var i = 2; i < this.helper.v1.children.length; i++) {
           this.buttonsArray.push(String(this.helper.v1.children[i].div.innerText))
         }
       } catch (ex) {
-        // console.log(ex)
       }
     }
   }

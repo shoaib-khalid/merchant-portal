@@ -54,7 +54,6 @@ export class MainComponent implements OnInit, AfterViewInit {
          v11.geometry.offset = new mxPoint(-7, -45);
          v11.geometry.relative = true;
          v11.setConnectable(true);
-         console.log(JsonCodec.getIndividualJson(v11))
          this.configService.autoSaveAdd(JsonCodec.getIndividualJson(v11), "")
 
          var ConnectionStart = doc.createElement('ConnectionEnd');
@@ -63,7 +62,6 @@ export class MainComponent implements OnInit, AfterViewInit {
          v11.geometry.relative = true;
          v11.setConnectable(true);
          this.configService.autoSaveAdd(JsonCodec.getIndividualJson(v11), "")
-         console.log(JsonCodec.getIndividualJson(v11))
 
          this.graph.refresh();
 
