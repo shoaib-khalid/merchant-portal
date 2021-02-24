@@ -46,18 +46,18 @@ export class MainComponent implements OnInit, AfterViewInit {
 
       //Callback function
       this.addStep = (x: any = 50, y: any = 0): any => {
-         let vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, x, y, 300, 230, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
+         let vertext = this.graph.insertVertex(this.graph.getDefaultParent(), null, obj, x, y, 300, 200, "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", null);
          vertext.setConnectable(false);
          var doc = mxUtils.createXmlDocument();
          var ConnectionStart = doc.createElement('ConnectionStart');
-         var v11 = this.graph.insertVertex(vertext, null, ConnectionStart, 1, 1, 15, 15, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
+         var v11 = this.graph.insertVertex(vertext, null, ConnectionStart, 1, 1, 15, 15, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;port=1;", null);
          v11.geometry.offset = new mxPoint(-7, -45);
          v11.geometry.relative = true;
          v11.setConnectable(true);
          this.configService.autoSaveAdd(JsonCodec.getIndividualJson(v11), "")
 
          var ConnectionStart = doc.createElement('ConnectionEnd');
-         var v11 = this.graph.insertVertex(vertext, null, ConnectionStart, 0, 0, 20, 20, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
+         var v11 = this.graph.insertVertex(vertext, null, ConnectionStart, 0, 0, 20, 20, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;port=1;", null);
          v11.geometry.offset = new mxPoint(0, 45);
          v11.geometry.relative = true;
          v11.setConnectable(true);
@@ -100,7 +100,7 @@ export class MainComponent implements OnInit, AfterViewInit {
                });
                return
             }
-            
+
             const objJson = this.individualJson(undoManager.history[undoManager.history.length - 1].changes[0].child);
             if (objJson.includes(`@edge":"1"`)) {
                this.configService.autoSaveAdd(objJson, "")

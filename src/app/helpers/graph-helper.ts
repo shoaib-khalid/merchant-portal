@@ -342,7 +342,7 @@ export class Helper {
 			}
 		});
 		graph.connectionHandler.addListener(mxEvent.START, (sender, evt) => {
-			
+
 			var sourceState = evt.getProperty('state');
 			var source = sourceState.cell;
 			this.setConnectFillColor(source, "white");
@@ -492,7 +492,7 @@ export class Helper {
 					// Caches label
 					cell.div = div;
 				}
-				this.bindCellEvents(div, cell, graph);
+				// this.bindCellEvents(div, cell, graph);
 				return div;
 			}
 			else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'triggers') {
@@ -576,7 +576,6 @@ export class Helper {
 
 
 	addTriggerUsingSidePanel(cell = this.v1) {
-
 		var doc = mxUtils.createXmlDocument();
 		let triggers = doc.createElement('triggers');
 
@@ -586,11 +585,13 @@ export class Helper {
 			// cell.div.removeChild(initialMessage[0]);
 		}
 		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
-		var yAxis = 60;
+		var yAxis =120;
 		var childHegiht = 55;
 		yAxis = yAxis + (childLength * childHegiht);
 		var current = cell.getGeometry();
-		current.height = current.height + childHegiht;
+		if (childLength > 0) {
+			current.height = current.height + childHegiht;
+		}
 		let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
 		let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
 		flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
