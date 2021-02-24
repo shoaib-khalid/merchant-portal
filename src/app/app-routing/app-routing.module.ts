@@ -8,6 +8,9 @@ import { AddProductComponent } from 'src/app/modules/product-management/componen
 import { LandingPageComponent } from 'src/app/modules/home/components/landing-page/landing-page.component';
 import { ChooseVerticleComponent } from 'src/app/modules/product-management/components/choose-verticle/choose-verticle.component';
 import {PageNotFoundComponent} from 'src/app/modules/user-onboarding/components/page-not-found/page-not-found.component';
+import {AuthGuardService} from 'src/app/services/auth-guard.service.ts.service';
+
+
 const routes: Routes = [
 
   {
@@ -44,6 +47,7 @@ const routes: Routes = [
     path: 'flowbuilder',
 
     component: MainComponent,
+    canActivate:[AuthGuardService],
     children: []
   },{
     path: '**',

@@ -31,11 +31,21 @@ export class SignUpComponent implements OnInit {
     }
  
     if (data.name && data.username && data.email && data.password && data.storeName && data.roleId) {
+      if(this.validateEmail(this.email)){
       this.router.navigateByUrl('/products/add');
-      // this.apiCalls.registerClient(data)
+      this.apiCalls.registerClient(data)
+      }else{
+        alert("Wrong email format")
+      }
     } else {
       alert("please enter all details")
     }
   }
+
+  validateEmail(email) 
+    {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
 
 }

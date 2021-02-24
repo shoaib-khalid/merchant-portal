@@ -16,7 +16,7 @@ export class HelperService {
           vertextType = element.type;
         }
       } catch (ex) {
-return "";
+          return "";
       }
      
     });

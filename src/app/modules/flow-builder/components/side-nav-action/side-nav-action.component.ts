@@ -42,8 +42,14 @@ export class SideNavAction {
         if (this.helperService.vertexClicked() === "ACTION") {
             if (event.target.id.includes("header") || event.target.id.includes("card")) {
                 var id = event.target.id;
+                try{
+
+                
                 var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
                 (<HTMLInputElement>document.getElementById("vertex-action-title")).value = text;
+            }catch(ex){
+                
+            }
                 this.opened = true;
                 this.updateSidePanelWithButtons();
             } else if (event.target.localName === "svg") {
