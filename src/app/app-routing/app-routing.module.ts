@@ -9,18 +9,23 @@ import { LandingPageComponent } from 'src/app/modules/home/components/landing-pa
 import { ChooseVerticleComponent } from 'src/app/modules/product-management/components/choose-verticle/choose-verticle.component';
 import {PageNotFoundComponent} from 'src/app/modules/user-onboarding/components/page-not-found/page-not-found.component';
 import {AuthGuardService} from 'src/app/services/auth-guard.service.ts.service';
-
+import {FlowsComponent} from 'src/app/modules/home/components/flows/flows.component';
 
 const routes: Routes = [
 
   {
-    path: 'flow/:id',
+    path: 'flows/:id',
     component: MainComponent,
     children: []
   },
   {
     path: 'chooseverticle',
     component: ChooseVerticleComponent,
+    children: []
+  },
+  {
+    path: 'flows',
+    component: FlowsComponent,
     children: []
   },
   {

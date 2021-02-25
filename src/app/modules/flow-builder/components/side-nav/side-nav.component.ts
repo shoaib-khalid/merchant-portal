@@ -196,7 +196,7 @@ export class SideNav {
       this.buttonsArray = [];
       try {
         console.log(this.helper.v1.children)
-        for (var i = 2; i < this.helper.v1.children.length; i++) {
+        for (var i = 1; i < (this.helper.v1.children.length-1); i++) {
           this.buttonsArray.push(String(this.helper.v1.children[i].div.innerText))
         }
       } catch (ex) {
