@@ -7,8 +7,14 @@ export class AuthGuardService implements CanActivate {
 
   constructor(public router: Router) { }
   canActivate(): boolean {
-    // this.router.navigate(['/signin']);
-    return true;
+    if(localStorage.getItem("accessToken")){
+      return true;
+
+    }else{
+      this.router.navigate(["/signin"]);
+      return false;
+    }
+
 
   }
 }

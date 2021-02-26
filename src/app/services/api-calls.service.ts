@@ -20,7 +20,7 @@ export class ApiCallsService {
   }
 
 
- async getAllflows() {
+  async getAllflows() {
     const httpOptions = this.getHttpOptions("asx");
     return await this.http.get(this.pathVariable + "/flow/getall/" + localStorage.getItem("ownerId"), httpOptions).toPromise();
   }
@@ -225,12 +225,18 @@ export class ApiCallsService {
       });
   }
   authenticateClient(logInData) {
-    this.http.post<any>("http://209.58.160.20:20921/clients/authenticate", logInData, this.getHttpOptions("asx")).
-      subscribe(data => {
-        console.log(data);
-        localStorage.setItem('accessToken', data.data.session.accessToken)
-        localStorage.setItem('ownerId', data.data.session.ownerId)
-      });
+
+
+      return this.http.post<any>("http://209.58.160.20:20921/clients/authenticate", logInData, this.getHttpOptions("asx")).
+        subscribe(data => {
+          
+          localStorage.setItem('accessToken', data.data.session.accessToken)
+          localStorage.setItem('ownerId', data.data.session.ownerId)
+          if(data.status==202){
+            this.router.navigate(["/flows"]);
+          }
+        },error => alert(error.status));
+    
   }
 
 

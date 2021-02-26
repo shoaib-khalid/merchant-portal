@@ -16,16 +16,19 @@ const routes: Routes = [
   {
     path: 'flows/:id',
     component: MainComponent,
+    canActivate:[AuthGuardService],
     children: []
   },
   {
     path: 'chooseverticle',
     component: ChooseVerticleComponent,
+    canActivate:[AuthGuardService],
     children: []
   },
   {
     path: 'flows',
     component: FlowsComponent,
+    canActivate:[AuthGuardService],
     children: []
   },
   {
@@ -41,6 +44,7 @@ const routes: Routes = [
   {
     path: "products/add",
     component: AddProductComponent,
+    canActivate:[AuthGuardService],
     children: []
   },
   {
