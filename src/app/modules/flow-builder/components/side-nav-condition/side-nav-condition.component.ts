@@ -30,6 +30,7 @@ export class SideNavConditionComponent {
 
     toggle() {
         this.fieldNames = this.helperService.getAllDataVariables();
+        console.log(this.fieldNames)
         if (this.opened) {
             this.description = this.getDescriptionOfVertex();
             this.currentVertexIndex = this.helperService.getVertexIndex();

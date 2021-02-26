@@ -16,9 +16,9 @@ export class HelperService {
           vertextType = element.type;
         }
       } catch (ex) {
-          return "";
+        return "";
       }
-     
+
     });
     return vertextType;
   }
@@ -77,15 +77,17 @@ export class HelperService {
 
   getAllDataVariables() {
     var dataVariableNames = [];
+    console.log(this.apiCalls.data)
     this.apiCalls.data.forEach(element => {
 
       if (element.type === "ACTION") {
         for (var j = 0; j < element.actions.length; j++) {
           for (var k = 0; k < element.actions[j].externalRequest.response.mapping.length; k++) {
-            dataVariableNames.push(element.actions[j].externalRequest.response.mapping[k].customField)
+            if (element.actions[j].externalRequest.response.mapping[k].dataVariable) {
+              dataVariableNames.push(element.actions[j].externalRequest.response.mapping[k].dataVariable)
+            }
           }
         }
-
       } else {
         for (var i = 0; i < element.dataVariables.length; i++) {
           const dataVariableName = element.dataVariables[i].dataVariable;
@@ -94,8 +96,6 @@ export class HelperService {
           }
         }
       }
-
-
     });
     return dataVariableNames;
   }

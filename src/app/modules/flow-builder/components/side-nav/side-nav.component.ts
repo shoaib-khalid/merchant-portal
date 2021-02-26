@@ -126,7 +126,7 @@ export class SideNav {
   }
 
   triggerFocusOut(event, i) {
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1.children[i]))
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1.children[i+1]))
   }
 
   titleFocusOut(event) {

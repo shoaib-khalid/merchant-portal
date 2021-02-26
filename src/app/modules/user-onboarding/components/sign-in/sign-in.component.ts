@@ -20,7 +20,6 @@ export class SignInComponent implements OnInit {
       username: this.username,
       password: this.password
     }
-    console.log(data)
 
     if (this.username && this.password) {
       this.apiCalls.authenticateClient(data);

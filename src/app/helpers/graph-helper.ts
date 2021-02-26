@@ -612,8 +612,8 @@ export class Helper {
 		let conditions = doc.createElement('conditions');
 
 		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
-		var yAxis = 60;
-		var childHegiht = 30;
+		var yAxis = 120;
+		var childHegiht = 50;
 
 		// if (childLength > 0) {
 		yAxis = yAxis + (childLength * childHegiht);
