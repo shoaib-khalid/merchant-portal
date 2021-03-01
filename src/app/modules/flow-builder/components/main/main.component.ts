@@ -279,25 +279,6 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.helper.copyMultipleVertices(this.graph);
    }
 
-   createFlow(): void {
-      const dialogRef = this.dialog.open(FlowDialog, {
-         width: '368px',
-         data: { title: "", description: "" }
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-         if (result) {
-            if (result[0] && result[1]) {
-               alert("ds")
-               this.graph.removeCells(this.graph.getChildVertices(this.graph.getDefaultParent()));
-               var v1 = this.addStepWithType("TEXT_MESSAGE");
-               var v2 = this.addStepWithType("TEXT_MESSAGE", 500, 200);
-               this.graph.insertEdge(this.graph.getDefaultParent(), null, '', v1, v2);
-            }
-         }
-      });
-   }
-
    async retrieveJsonEndpoint() {
 
       try {
