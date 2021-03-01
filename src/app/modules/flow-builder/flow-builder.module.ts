@@ -11,6 +11,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 //user-defined components
@@ -23,6 +24,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { SideNavHandOverComponent } from './components/side-nav-handover/side-nav-handover.component';
 import { ActionDialog } from './components/action-dialog/action-dialog.component';
 import { SideNavConditionComponent } from './components/side-nav-condition/side-nav-condition.component';
+import { BotSelectionDialogComponent } from './components/bot-selection-dialog/bot-selection-dialog.component';
 
 
 
@@ -37,6 +39,7 @@ import { SideNavConditionComponent } from './components/side-nav-condition/side-
     SideNavHandOverComponent,
     SideNavConditionComponent,
     ActionDialog,
+    BotSelectionDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +51,7 @@ import { SideNavConditionComponent } from './components/side-nav-condition/side-
     MatSidenavModule,
     MatMenuModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     RouterModule
 
   ]

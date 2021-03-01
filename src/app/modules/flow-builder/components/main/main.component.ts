@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { BotSelectionDialogComponent } from 'src/app/modules/flow-builder/components/bot-selection-dialog/bot-selection-dialog.component';
 import { Helper } from 'src/app/helpers/graph-helper';
 import { JsonCodec } from 'src/app/helpers/json-codec';
 import { saveAs } from 'file-saver';
 import { ApiCallsService } from "src/app/services/api-calls.service";
-import { FlowDialog } from '../flow-dialog/flow-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { HelperService } from 'src/app/services/helper.service';
 declare var mxUtils: any;
@@ -262,15 +262,6 @@ export class MainComponent implements OnInit, AfterViewInit {
             // this.cd.markForCheck();
          };
       }
-
-   }
-
-   showData() {
-      this.configService.getData()
-         .subscribe(data => {
-            console.log(data)
-         }
-         );
    }
 
    deleteMultipleVertices() { this.helper.deleteMultipleVertices(this.graph); }
@@ -294,7 +285,10 @@ export class MainComponent implements OnInit, AfterViewInit {
    }
 
    publish() {
-      this.configService.publishmxGraph();
+      const dialogRef = this.dialog.open(BotSelectionDialogComponent, {
+         width: '300px',
+         data: {}
+      });
    }
    addStepWithType(type, x: any = 50, y: any = 0) {
       this.helper.vertexType = type;

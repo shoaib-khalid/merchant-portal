@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -13,11 +13,6 @@ export class ApiCallsService {
   vertextType: any;
   pathVariable: string = "http://209.58.160.20:3002";
   constructor(private http: HttpClient, private router: Router) { }
-
-  getData() {
-    const httpOptions = this.getHttpOptions("asx");
-    return this.http.get(this.pathVariable + "/vertex/", httpOptions);
-  }
 
 
   async getAllflows() {
@@ -112,20 +107,21 @@ export class ApiCallsService {
     this.postNewFlowDefaultJson(json);
 
   }
-  retrieveFlowId() {
-    return this.flowId;
-  }
 
   getHttpOptions(authorization) {
     return {
       headers: new HttpHeaders({
         Authorization: authorization
-      })
+      }),
+      params: {
+        "userId": localStorage.getItem("ownerId")
+      }
     };
   }
 
 
   async autoSaveAdd(object, type) {
+
     const httpOptions = this.getHttpOptions("asx");
     object = JSON.parse(object);
     var body = { "data": this.data, object };
@@ -226,22 +222,23 @@ export class ApiCallsService {
   authenticateClient(logInData) {
 
 
-      return this.http.post<any>("http://209.58.160.20:20921/clients/authenticate", logInData, this.getHttpOptions("asx")).
-        subscribe(data => {
-          
-          localStorage.setItem('accessToken', data.data.session.accessToken)
-          localStorage.setItem('ownerId', data.data.session.ownerId)
-          if(data.status==202){
-            this.router.navigate(["/flows"]);
-          }
-        },error => alert(error.status));
-    
+    return this.http.post<any>("http://209.58.160.20:20921/clients/authenticate", logInData, this.getHttpOptions("asx")).
+      subscribe(data => {
+        localStorage.setItem('accessToken', data.data.session.accessToken)
+        localStorage.setItem('ownerId', data.data.session.ownerId)
+        if (data.status == 202) {
+          this.router.navigate(["/flows"]);
+        }
+      }, error => alert(error.status));
   }
 
+  async getUserChannels() {
+    const httpOptions = this.getHttpOptions("asx");
+    return await this.http.get("http://209.58.160.20:20921"+ "/userChannels", httpOptions).toPromise();
+  }
 
   status401() {
     this.router.navigateByUrl('/signin');
-
   }
 
   status403() {
