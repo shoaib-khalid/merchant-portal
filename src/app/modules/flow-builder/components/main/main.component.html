@@ -84,7 +84,13 @@
                                 <span (click)="redo()" class="p-0 ml-3">Redo</span>
                             </div>
                             <hr>
+                            <div class="row">
 
+                                <div class="col-1">
+                                    <button mat-raised-button (click)="publish()">Publish</button>
+                                </div>
+                            </div>
+                            <hr>
                             <div class="row">
                                 <span (click)="showJson()" class="p-0 ml-3">Download Json</span>
                             </div>
@@ -107,29 +113,6 @@
                                         Json</label></a>
                                 <input id="file-jsonUpload" type="file" accept="application/JSON" name="jsonUpload"
                                     (change)="loadJson($event)" hidden />
-                            </div>
-                            <hr>
-
-
-                            <div class="row">
-
-                                <div class="col-1">
-                                    <button mat-raised-button (click)="createFlow()">Create Flow</button>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="row">
-
-                                <div class="col-1">
-                                    <button mat-raised-button (click)="publish()">Publish</button>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="row">
-                                <span (click)="retrieveJsonEndpoint()" class="p-0 ml-3">Load json using
-                                    endpoint</span>
                             </div>
                         </div>
                     </div>

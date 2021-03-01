@@ -51,13 +51,6 @@ const routes: Routes = [
     path: '',
     component: LandingPageComponent,
     children: []
-  },
-  {
-    path: 'flowbuilder',
-
-    component: MainComponent,
-    canActivate:[AuthGuardService],
-    children: []
   },{
     path: '**',
     component:PageNotFoundComponent,

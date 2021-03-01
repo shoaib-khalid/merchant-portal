@@ -175,7 +175,6 @@ export class ApiCallsService {
     const httpOptions = this.getHttpOptions("asx");
     object = JSON.parse(object);
     var body = { "data": this.data, object };
-    console.log(body)
     if (this.flowId) {
       try {
         this.http.patch<any>(this.pathVariable + "/mxgraph/UPDATE/" + this.flowId, body, httpOptions).toPromise
