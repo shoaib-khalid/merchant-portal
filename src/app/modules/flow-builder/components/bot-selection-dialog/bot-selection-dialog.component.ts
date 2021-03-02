@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { $ } from 'protractor';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 
 @Component({
@@ -12,7 +13,9 @@ export class BotSelectionDialogComponent implements OnInit {
 
   bots: any = [];
   loading: boolean = true;
-  
+  checked: any = false;
+  botIds: any = [];
+
   constructor(public dialogRef: MatDialogRef<BotSelectionDialogComponent>, private apiCalls: ApiCallsService) {
     this.loadPublishButtons();
   }
@@ -20,9 +23,10 @@ export class BotSelectionDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  createFlow() {
+  select(event) {
+    console.log(event.target.id)
+    document.getElementById("" + event.target.id).style.border = "3px solid black";
   }
-
 
   async loadPublishButtons() {
     this.loading = true;
@@ -33,6 +37,20 @@ export class BotSelectionDialogComponent implements OnInit {
       this.bots.push({ channelName: content[i].channelName, refId: content[i].refId })
     }
     this.loading = false;
+  }
+
+  publish() {
+        this.apiCalls.publishmxGraph(this.botIds)
+        this.dialogRef.close();
+
+  }
+
+  setAll(event, i) {
+    if (event.checked) {
+      this.botIds[i] = event.source.id
+    } else {
+      this.botIds.splice(i, 1);
+    }
   }
 
 }

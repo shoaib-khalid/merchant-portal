@@ -188,11 +188,11 @@ export class ApiCallsService {
     }
   }
 
-  publishmxGraph() {
+  publishmxGraph(botIds) {
 
     const httpOptions = this.getHttpOptions("asx")
     const body = {
-
+      "botIds": botIds
     }
 
     if (this.flowId) {
@@ -214,10 +214,22 @@ export class ApiCallsService {
 
 
   registerClient(signUpData) {
-    this.http.post<any>("http://209.58.160.20:20921/clients/register", signUpData, this.getHttpOptions("asx")).
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+    this.http.post<any>("http://209.58.160.20:20921/clients/register", signUpData,httpOptions).
       subscribe(data => {
         console.log(data);
+        this.router.navigateByUrl('/signin')
+      },error=>{
+        if(error.status=="409"){
+          alert("User already exists")
+        }
       });
+      
   }
   authenticateClient(logInData) {
 
@@ -234,7 +246,7 @@ export class ApiCallsService {
 
   async getUserChannels() {
     const httpOptions = this.getHttpOptions("asx");
-    return await this.http.get("http://209.58.160.20:20921"+ "/userChannels", httpOptions).toPromise();
+    return await this.http.get("http://209.58.160.20:20921" + "/userChannels", httpOptions).toPromise();
   }
 
   status401() {

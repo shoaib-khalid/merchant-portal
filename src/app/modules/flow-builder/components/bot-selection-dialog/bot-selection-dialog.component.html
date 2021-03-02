@@ -1,10 +1,14 @@
-<h1 mat-dialog-title>Select bot type</h1>
+<h1 mat-dialog-title>Select bot types</h1>
 <div mat-dialog-content>
     <div id="buttons-div">
         <div *ngIf="loading">
             <mat-spinner [diameter]="30" id="loading-spinner"></mat-spinner>
         </div>
-        <button mat-raised-button class="bot-buttons" *ngFor="let bot of bots;index as i;">{{bot.channelName}} <span
-                class="text-muted">{{bot.refId}}</span></button>
+        <mat-checkbox id="{{bot.refId}}"  (change)="setAll($event,i)" *ngFor="let bot of bots;index as i;">{{bot.channelName}} <span
+                class="text-muted">{{bot.refId}}</span></mat-checkbox>
+
     </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="publish()">Publish</button>
 </div>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { RouterModule } from '@angular/router';
 import { FlowsComponent } from './components/flows/flows.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
@@ -10,7 +11,8 @@ import { FlowsComponent } from './components/flows/flows.component';
   declarations: [LandingPageComponent, FlowsComponent],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    MatProgressSpinnerModule
   ]
 })
 export class HomeModule { }

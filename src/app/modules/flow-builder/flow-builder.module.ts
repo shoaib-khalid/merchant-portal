@@ -12,7 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 //user-defined components
 import { SideNav } from "./components/side-nav/side-nav.component";
@@ -52,8 +52,8 @@ import { BotSelectionDialogComponent } from './components/bot-selection-dialog/b
     MatMenuModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    RouterModule
-
+    RouterModule,
+    MatCheckboxModule
   ]
 })
 export class FlowBuilderModule { }

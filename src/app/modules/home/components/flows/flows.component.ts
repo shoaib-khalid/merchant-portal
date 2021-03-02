@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./flows.component.css']
 })
 export class FlowsComponent implements OnInit {
-
+  loading:boolean=true;
   flows: any = [];
   constructor(private apiCallsService: ApiCallsService,private router:Router,private dialog:MatDialog) { }
 
@@ -19,8 +19,10 @@ export class FlowsComponent implements OnInit {
   }
 
   async getAllFlows() {
+    this.loading=true;
     this.flows = await this.apiCallsService.getAllflows();
     this.flows = this.flows.data;
+    this.loading=false;
   }
 
   openFlow(event) {

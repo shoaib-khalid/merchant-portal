@@ -15,8 +15,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item swap-link"> <a [routerLink]="['']" class="nav-link">Home</a> </li>
-                        <li class="nav-item swap-link"> <a class="nav-link"
-                                style="color: white;">Flows</a> </li>
+                        <li class="nav-item swap-link"> <a class="nav-link" style="color: white;">Flows</a> </li>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown megamenu">
@@ -52,7 +51,10 @@
     </header>
     <h3 id="select-text">Please select a flow...</h3>
     <div class="flow-card" (click)="createNewFlow()">
-        <div class="flow-title" style="color: blue;" >+ Create New Flow</div>
+        <div class="flow-title" style="color: blue;">+ Create New Flow</div>
+    </div>
+    <div *ngIf="loading">
+        <mat-spinner [diameter]="70" style="margin:auto;margin-top: 100px;"></mat-spinner>
     </div>
     <div *ngFor="let flow of flows;index as i;">
         <div class="flow-card" id="{{flow.id}}" (click)="openFlow($event)">
