@@ -236,9 +236,11 @@ export class ApiCallsService {
 
     return this.http.post<any>("http://209.58.160.20:20921/clients/authenticate", logInData, this.getHttpOptions("asx")).
       subscribe(data => {
-        localStorage.setItem('accessToken', data.data.session.accessToken)
-        localStorage.setItem('ownerId', data.data.session.ownerId)
+
         if (data.status == 202) {
+          localStorage.setItem('accessToken', data.data.session.accessToken)
+          localStorage.setItem('ownerId', data.data.session.ownerId)
+          localStorage.setItem('username',data.data.session.username)
           this.router.navigate(["/flows"]);
         }
       }, error => alert(error.status));

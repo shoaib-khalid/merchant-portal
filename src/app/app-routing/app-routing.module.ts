@@ -10,7 +10,7 @@ import { ChooseVerticleComponent } from 'src/app/modules/product-management/comp
 import {PageNotFoundComponent} from 'src/app/modules/user-onboarding/components/page-not-found/page-not-found.component';
 import {AuthGuardService} from 'src/app/services/auth-guard.service.ts.service';
 import {FlowsComponent} from 'src/app/modules/home/components/flows/flows.component';
-
+import {SharedHeaderComponent} from 'src/app/modules/home/components/shared-header/shared-header.component';
 const routes: Routes = [
 
   {
@@ -51,12 +51,18 @@ const routes: Routes = [
     path: '',
     component: LandingPageComponent,
     children: []
-  },{
+  },
+    {
+    path:'header',
+    component:SharedHeaderComponent,
+    children:[]
+  },
+  {
     path: '**',
     component:PageNotFoundComponent,
     children:[]
   }
-
+  
 ];
 
 @NgModule({

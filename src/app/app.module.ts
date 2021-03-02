@@ -11,7 +11,6 @@ import { FlowBuilderModule } from './modules/flow-builder/flow-builder.module';
 import { UserOnboardingModule } from './modules/user-onboarding/user-onboarding.module';
 import {ProductManagementModule} from './modules/product-management/product-management.module';
 import { HomeModule } from './modules/home/home.module';
-
 @NgModule({
   declarations: [
     AppComponent,

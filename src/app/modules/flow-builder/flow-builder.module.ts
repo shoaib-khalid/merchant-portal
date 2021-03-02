@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
-//user-defined components
+//user-defined components/modules
 import { SideNav } from "./components/side-nav/side-nav.component";
 import { FlowDialog } from './components/flow-dialog/flow-dialog.component';
 import { MenuOptions } from './components/menu-options/menu-options.component';
@@ -25,7 +25,7 @@ import { SideNavHandOverComponent } from './components/side-nav-handover/side-na
 import { ActionDialog } from './components/action-dialog/action-dialog.component';
 import { SideNavConditionComponent } from './components/side-nav-condition/side-nav-condition.component';
 import { BotSelectionDialogComponent } from './components/bot-selection-dialog/bot-selection-dialog.component';
-
+import {HomeModule} from 'src/app/modules/home/home.module';
 
 
 @NgModule({
@@ -53,7 +53,8 @@ import { BotSelectionDialogComponent } from './components/bot-selection-dialog/b
     MatSelectModule,
     MatProgressSpinnerModule,
     RouterModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    HomeModule
   ]
 })
 export class FlowBuilderModule { }

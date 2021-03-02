@@ -3,16 +3,18 @@ import { CommonModule } from '@angular/common';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { RouterModule } from '@angular/router';
 import { FlowsComponent } from './components/flows/flows.component';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SharedHeaderComponent } from './components/shared-header/shared-header.component';
 
 
 
 @NgModule({
-  declarations: [LandingPageComponent, FlowsComponent],
+  declarations: [LandingPageComponent, FlowsComponent, SharedHeaderComponent],
   imports: [
     CommonModule,
     RouterModule,
     MatProgressSpinnerModule
-  ]
+  ],
+  exports: [SharedHeaderComponent]
 })
 export class HomeModule { }
