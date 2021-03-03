@@ -2,62 +2,13 @@
 <html lang="en">
 
 <head>
-    <script>Alert("sd")</script>
     <script src="https://cdn.tiny.cloud/1/zyqfrxe18ts30xcytjqswmq1g0holn2pfin7iz1qur7h2s81/tinymce/5/tinymce.min.js"
         referrerpolicy="origin"></script>
 </head>
 
 <body>
 
-    <header class="nav-wrap bg-dark fixed-top">
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-dark px-lg-0">
-                <a class="navbar-brand mr-3 swap-link" [routerLink]="['']">Symplified<span
-                        class="text-light font-weight-bold">.biz</span></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item swap-link"> <a [routerLink]="['']" class="nav-link">Home</a> </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown megamenu">
-                            <a class="nav-link dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown"
-                                aria-expanded="false"><i class="las la-user mr-2" style="font-size:22px;"></i></a>
-                            <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                <a class="dropdown-item font-weight-bold swap-link" href="dashboard.html"><i
-                                        class="las la-user bg-info-alt p-1 rounded text-info"></i> Profile</a>
-                                <a class="dropdown-item swap-link" href="dash-settings.html"><i
-                                        class="las la-sign-out-alt bg-warning-alt text-warning p-1 rounded"></i>
-                                    Settings</a>
-                                <a class="dropdown-item swap-link" href="dash-downloads.html"><i
-                                        class="las la-cloud-download-alt bg-success-alt text-success p-1 rounded"></i>
-                                    Downloads</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item swap-link" href="dashboard.html"><i class="dropdown-icon"></i>
-                                    Dashboard</a>
-                                <a class="dropdown-item swap-link" href="dash-my-items.html"><i
-                                        class="dropdown-icon"></i> My Items</a>
-                                <a class="dropdown-item swap-link" href="dash-settings.html"><i
-                                        class="dropdown-icon"></i> Settings
-                                    <span class="badge badge-soft-success ml-2">25 New</span></a>
-                                <a class="dropdown-item swap-link" href="dash-invoice.html"><i
-                                        class="dropdown-icon"></i> Invoice</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item swap-link" href="javascript:void(0)"><i
-                                        class="las la-sign-out-alt bg-danger-alt text-danger p-1 rounded"></i>
-                                    Logout</a>
-                            </div>
-                        </li>
-                        <li class="nav-item d-flex align-items-center">
-                       
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </header>
+    <app-shared-header></app-shared-header>
     <main role="main">
         <div class="wrapper">
 
@@ -447,8 +398,9 @@
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" value=""
-                                                                    id="flexCheckDefault">
+                                                                <input class="form-check-input"
+                                                                    [(ngModel)]="variantChecked"  (change)="variantChanged($event)" type="checkbox"
+                                                                    value="" id="flexCheckDefault">
                                                                 <label class="form-check-label" for="flexCheckDefault">
 
                                                                     This product has multiple options, like different
@@ -458,6 +410,45 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        Options
+                                                    </div>
+                                                </div>
+                                                
+                                                <div *ngIf ="variantChecked">
+                                                    <div *ngFor="let option of options; index as i;">
+                                                        <div class="row">
+                                                            <div class="col-lg-6" style="font-weight: lighter;">
+                                                                Option {{i+1}}
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="row">
+                                                            <div class="col-lg-3" style="font-weight: lighter;">
+                                                                <div class="form-group">
+                                                                    <input type="text" value="{{option.field1}}"
+                                                                        class="form-control" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6" style="font-weight: lighter;">
+                                                                <div class="form-group">
+                                                                    <input type="text"
+                                                                        placeholder="Seperate Options with a comma"
+                                                                        value="{{option.field2}}" class="form-control" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                    <div class="row">
+                                                        <div class="add-option" (click)="addAnotherOption()">Add another
+                                                            option</div>
+                                                    </div>
+                                              
+
                                                 <h4 class="text-black mb-3">Search engine listing preview
                                                 </h4>
                                                 <div class="row">
@@ -652,16 +643,7 @@
     <script src="assets/js/custom.js"></script>
 
     <!-- endbuild -->
-    <script>
-        tinymce.init({
-            selector: 'textarea',
-            plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-            toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
-            toolbar_mode: 'floating',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Author name',
-        });
-    </script>
+
 </body>
 
 </html>

@@ -223,7 +223,10 @@ export class ApiCallsService {
     this.http.post<any>("http://209.58.160.20:20921/clients/register", signUpData,httpOptions).
       subscribe(data => {
         console.log(data);
-        this.router.navigateByUrl('/signin')
+        // localStorage.setItem('accessToken', data.data.session.accessToken)
+        localStorage.setItem('ownerId', data.data.id)
+        localStorage.setItem('username',data.data.username)
+        this.router.navigateByUrl('/chooseverticle')
       },error=>{
         if(error.status=="409"){
           alert("User already exists")

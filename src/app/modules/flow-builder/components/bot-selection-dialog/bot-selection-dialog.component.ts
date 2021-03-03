@@ -24,7 +24,7 @@ export class BotSelectionDialogComponent implements OnInit {
   }
 
   select(event) {
-    console.log(event.target.id)
+   
     document.getElementById("" + event.target.id).style.border = "3px solid black";
   }
 

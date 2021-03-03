@@ -8,3 +8,14 @@
     height: 580px;
     border-radius: 20px;
 }
+.add-option{
+    border: 1px solid rgb(223, 222, 222);
+    padding: 4px;
+    border-radius: 5px;
+    margin-left: 10px; 
+    cursor: pointer;
+}
+
+.add-option:hover{
+    background-color: gainsboro;
+}

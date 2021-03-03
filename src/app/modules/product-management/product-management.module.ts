@@ -4,6 +4,9 @@ import { AddProductComponent } from './components/add-product/add-product.compon
 import { ProductsComponent } from './components/products/products.component';
 import { ChooseVerticleComponent } from './components/choose-verticle/choose-verticle.component';
 import {RouterModule } from '@angular/router';
+import {HomeModule} from 'src/app/modules/home/home.module';
+import { FormsModule } from '@angular/forms';
+
 
 
 
@@ -11,7 +14,9 @@ import {RouterModule } from '@angular/router';
   declarations: [AddProductComponent, ProductsComponent, ChooseVerticleComponent],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    HomeModule,
+    FormsModule
   ]
 })
 export class ProductManagementModule { }

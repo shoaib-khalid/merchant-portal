@@ -16,7 +16,10 @@ export class SharedHeaderComponent implements OnInit {
     signIn: [{ heading: 'Home', link: '', bold: false }, { heading: 'Sign In', link: '/signin', bold: true }],
     flows: [{ heading: 'Home', link: '', bold: false }, { heading: 'flows', link: '/flows', bold: true }],
     flowbuilder: [{ heading: "Home", link: '', bold: false }, { heading: "Flow Builder", link: '/flows/', bold: true }],
-    home: [{ heading: "Home", link: '', bold: true }, { heading: "Flow Builder", link: '/flows', bold: false }]
+    home: [{ heading: "Home", link: '', bold: true }, { heading: "Flow Builder", link: '/flows', bold: false }],
+    chooseVerticle: [{ heading: "Home", link: '', bold: false }, { heading: "Choose Verticle", link: '/chooseverticle', bold: true }],
+    addProduct: [{ heading: "Home", link: '', bold: false }, { heading: "Add Product", link: '/products/add', bold: true }],
+    products: [{ heading: "Home", link: '', bold: false }, { heading: "Products", link: '/products', bold: true }]
   }
   navHeadings: any = [];
 
@@ -37,6 +40,13 @@ export class SharedHeaderComponent implements OnInit {
     }
     else if (this.router.url == "/signin") {
       this.navHeadings = this.navOptionalHeadings.signIn;
+    } else if (this.router.url == "/chooseverticle") {
+      this.navHeadings = this.navOptionalHeadings.chooseVerticle;
+    } else if (this.router.url == "/products/add") {
+      this.navHeadings = this.navOptionalHeadings.addProduct;
+    }
+    else if (this.router.url == "/products") {
+      this.navHeadings = this.navOptionalHeadings.products;
     }
 
     const ownerId = localStorage.getItem("ownerId");

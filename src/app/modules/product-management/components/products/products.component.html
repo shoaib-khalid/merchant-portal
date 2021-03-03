@@ -1,2 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
 
-<p>products works!</p>
+<head>
+</head>
+
+<body>
+    <app-shared-header></app-shared-header>
+    <main role="main">
+        <div class="wrapper">
+
+            <div class="breadcrumb-wrap">
+                <div class="container py-3">
+                    <div class="row d-flex justify-content-md-between justify-content-sm-center">
+                        <div class="col-md-4">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item mr-1 font-weight-bold"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item ml-1 font-weight-bold active" aria-current="page">
+                                        Library
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-ghost grey-dark font-weight-bold">
+                                <i class="las la-share-alt"></i>
+                                <span>Share</span>
+                            </button>
+                            <button class="btn btn-ghost grey-dark like-button font-weight-bold">
+                                <i class="las la-hand-holding-heart"></i>
+                                <span>150 Likes</span>
+                            </button>
+                            <button class="btn btn-ghost grey-dark font-weight-bold">
+                                <i class="las la-bookmark"></i>
+                                <span><span>Save for Later</span></span>
+                            </button>
+
+                            <!---->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container">
+                <div class="row">
+                    <aside class="col-lg-3 pt-4 pt-lg-0">
+                        <div class="row">
+                            <div class="col-md-12 grid-margin stretch-card">
+                                <div class="card mb-4">
+                                    <div class="card-body px-3 py-2">
+                                        <div
+                                            class="d-sm-flex flex-row flex-wrap text-center text-sm-left align-items-center">
+                                            <img src="assets/img/100x100.png" class="img-lg rounded-circle"
+                                                alt="profile image">
+                                            <div class="ml-sm-3 ml-md-0 ml-xl-3 mt-2 mt-sm-0 mt-md-2 mt-xl-0">
+                                                <h6 class="mb-0">Seller Profile</h6>
+                                                <p class="text-muted mb-1">shoot@gmail.com</p>
+                                                <p class="mb-0 text-primary font-weight-bold small">Seller Profile</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <ul class="nav flex-column dash-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link active d-flex justify-content-between align-items-center"
+                                        aria-current="page" href="dashboard.html">
+                                        <div><i class="las la-arrow-right"></i>Dashboard</div>
+                                        <div class="d-flex  align-items-center">
+                                            <p class="mb-0 text-small text-success">
+                                                Profile Verified
+                                            </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active d-flex justify-content-between align-items-center"
+                                        aria-current="page" href="dash-downloads.html">
+                                        <div><i class="las la-cloud-download-alt"></i>Downloads</div>
+                                        <div class="d-flex  align-items-center">
+                                            <p class="mb-0 text-small">6 downloads</p>
+                                        </div>
+                                    </a>
+                                <li class="nav-item">
+                                    <a class="nav-link active d-flex justify-content-between align-items-center"
+                                        aria-current="page" href="dash-my-items.html">
+                                        <div><i class="las la-file"></i>My items</div>
+                                        <div class="d-flex  align-items-center">
+                                            <p class="mb-0 text-small text-danger">2 Pending</p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active d-flex justify-content-between align-items-center"
+                                        aria-current="page" href="dash-add-item.html">
+                                        <div><i class="las la-plus"></i>Add item</div>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active d-flex justify-content-between align-items-center"
+                                        aria-current="page" href="dash-settings.html">
+                                        <div><i class="las la-cog"></i>Settings</div>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active d-flex justify-content-between align-items-center"
+                                        aria-current="page" href="dash-invoice.html">
+                                        <div><i class="las la-receipt"></i>Invoice</div>
+                                        <div class="d-flex  align-items-center">
+                                            <p class="mb-0 text-small text-success">
+
+                                            </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active d-flex justify-content-between align-items-center text-danger"
+                                        aria-current="page" href="#">
+                                        <div><i class="las la-sign-out-alt"></i>Logout</div>
+
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <h6
+                                class="sidebar-heading d-flex justify-content-between align-items-center mt-lg-6 mt-sm-3 mb-1 text-muted">
+                                <span>Help center</span>
+                                <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-plus-circle">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="12" y1="8" x2="12" y2="16"></line>
+                                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                                    </svg>
+                                </a>
+                            </h6>
+                            <ul class="nav flex-column dash-nav">
+
+                                <li class="nav-item">
+                                    <a class="nav-link active d-flex justify-content-between align-items-center text-small"
+                                        aria-current="page" href="#">
+
+                                        Faq
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active d-flex justify-content-between align-items-center text-small"
+                                        aria-current="page" href="#">
+                                        Support
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active d-flex justify-content-between align-items-center text-small"
+                                        aria-current="page" href="#">
+                                        Contact
+
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </aside>
+                    <div class="col-lg-9">
+
+
+                        <div class="row">
+                            <div class="col">
+                                <!-- my items table -->
+                                <div class="card product_item_list mb-4">
+                                    <div class="card-header py-3 border-bottom">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <h6 class="card-title mb-0">Products</h6>
+                                            </div>
+                                            <div id="add-product" [routerLink]="['/products/add']"> Add Product</div>
+                                        </div>  
+                                    </div>
+                                    <div class="card-body pt-4">
+                                        <div class="table-responsive">
+                                            <div style="display: flex;">
+                                                <div>
+                                                    <input type="text" placeholder="Filter Products"
+                                                        class="form-control" style="width:140px; margin-right: 10px;" name="" id="">
+                                                </div>
+                                                <div>
+                                                    <select class="mr-2 form-control" style="width:170px">
+                                                        <option>Product Vendor</option>
+                                                        <option>Trending</option>
+                                                        <option>Most Popular</option>
+                                                        <option>Cheapest</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <select class="mr-2 form-control" style="width:150px">
+                                                        <option> Tagged With</option>
+                                                        <option>Trending</option>
+                                                        <option>Most Popular</option>
+                                                        <option>Cheapest</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <table class="table table-hover m-b-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="border-0"><input type="checkbox"></th>
+
+                                                        <th class="border-0">Product</th>
+                                                        <th class="border-0">Status</th>
+                                                        <th class="border-0" data-breakpoints="sm xs">Inventory</th>
+                                                        <th class="border-0" data-breakpoints="xs">Type</th>
+
+                                                        <th class="border-0" data-breakpoints="sm xs md">Vendor</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="checkbox"></td>
+                                                        <td class="product"><img src="assets/img/100x100.png"
+                                                                alt="Product img" class="img-lg rounded"> Hand made
+                                                            Jersy</td>
+                                                        <td>
+                                                            <div class="status">Active</div>
+                                                        </td>
+                                                        <td>
+
+                                                            <div>0 in Stock</div>
+                                                        </td>
+                                                        <td>Shirt</td>
+
+                                                        <td>
+                                                            Nike
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="checkbox"></td>
+                                                        <td class="product"><img src="assets/img/100x100.png"
+                                                                alt="Product img" class="img-lg rounded"> Hand made
+                                                            Jersy</td>
+                                                        <td>
+                                                            <div class="draft">Draft</div>
+                                                        </td>
+                                                        <td>
+
+                                                            <div>0 in Stock</div>
+                                                        </td>
+                                                        <td>Shirt</td>
+
+                                                        <td>
+                                                            Nike
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="checkbox"></td>
+                                                        <td class="product"><img src="assets/img/100x100.png"
+                                                                alt="Product img" class="img-lg rounded"> Hand made
+                                                            Jersy</td>
+                                                        <td>
+                                                            <div class="status">Active</div>
+                                                        </td>
+                                                        <td>
+
+                                                            <div>0 in Stock</div>
+                                                        </td>
+                                                        <td>Shirt</td>
+
+                                                        <td>
+                                                            Nike
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="checkbox"></td>
+                                                        <td class="product"><img src="assets/img/100x100.png"
+                                                                alt="Product img" class="img-lg rounded"> Hand made
+                                                            Jersy</td>
+                                                        <td>
+                                                            <div class="status">Active</div>
+                                                        </td>
+                                                        <td>
+
+                                                            <div>0 in Stock</div>
+                                                        </td>
+                                                        <td>Shirt</td>
+
+                                                        <td>
+                                                            Nike
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><input type="checkbox"></td>
+                                                        <td class="product"><img src="assets/img/100x100.png"
+                                                                alt="Product img" class="img-lg rounded"> Hand made
+                                                            Jersy</td>
+                                                        <td>
+                                                            <div class="status">Active</div>
+                                                        </td>
+                                                        <td>
+
+                                                            <div>0 in Stock</div>
+                                                        </td>
+                                                        <td>Shirt</td>
+
+                                                        <td>
+                                                            Nike
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <hr>
+                                        <div class="px-3 py-2">
+                                            <nav aria-label="pagin">
+                                                <ul class="pagination pagination-sm">
+                                                    <li class="page-item"><a class="page-link" href="#">Previous</a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                    <li class="page-item active"><a class="page-link" href="#">2</a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end: My items table-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <footer class="section-footer bg-dark position-relative">
+        <section class="footer py-5">
+            <div class="container">
+                <div class="row pb-3">
+                    <aside class="col-md-2">
+                        <div class="footer-logo">
+                            <h4 class="text-white font-weight-bold">Theme<span class="text-muted">Shop</span></h4>
+                        </div>
+                    </aside>
+                    <aside class="col-md">
+                        <h6 class="title">Company</h6>
+                        <ul class="list-unstyled">
+                            <li> <a href="#">About us</a></li>
+                            <li> <a href="#">Career</a></li>
+                            <li> <a href="#">Find a store</a></li>
+                            <li> <a href="#">Rules and terms</a></li>
+                            <li> <a href="#">Sitemap</a></li>
+                        </ul>
+                    </aside>
+                    <aside class="col-md">
+                        <h6 class="title">Help</h6>
+                        <ul class="list-unstyled">
+                            <li> <a href="#">Contact us</a></li>
+                            <li> <a href="#">Money refund</a></li>
+                            <li> <a href="#">Order status</a></li>
+                            <li> <a href="#">Shipping info</a></li>
+                            <li> <a href="#">Open dispute</a></li>
+                        </ul>
+                    </aside>
+                    <aside class="col-md">
+                        <h6 class="title">Account</h6>
+                        <ul class="list-unstyled">
+                            <li> <a href="#"> User Login </a></li>
+                            <li> <a href="#"> User register </a></li>
+                            <li> <a href="#"> Account Setting </a></li>
+                            <li> <a href="#"> My Orders </a></li>
+                        </ul>
+                    </aside>
+                    <aside class="col-md">
+                        <h6><i class="las la-coffee mr-2"></i>Stay Up-to-Date!</h6>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control bg-dark" placeholder="Subscribe"
+                                aria-label="Subscribe.." aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary text-white" type="button" id="button-addon2">@</button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                <!-- row.// -->
+            </div>
+            <!-- //container -->
+        </section>
+        <!-- footer-top.// -->
+        <section class="pt-3 pb-4">
+            <div class="container">
+                <div class="footer-cta rounded border-dark">
+                    <div class="row no-gutters d-flex justify-content-between align-items-center">
+                        <div class="col-5 col-md-4 affiliate d-flex align-items-center">
+                            <div class="aff-btn">
+                                <a href="/affiliate" class="btn btn-primary btn-sm">
+                                    Affiliate
+                                </a>
+                            </div>
+                            <div>
+                                <p class="text-white d-none d-md-block m-0 w-75 small ml-3">
+                                    Earn 55% and more on all sales
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="d-flex flex-row justify-content-between">
+                                <div class="fact">
+                                    <h6 class="mb-1">12,961</h6>
+                                    <p class="mb-0">Downloads</p>
+                                </div>
+                                <div class="fact">
+                                    <h6 class="mb-1">90</h6>
+                                    <p class="mb-0">Authors</p>
+                                </div>
+                                <div class="fact">
+                                    <h6 class="mb-1">270</h6>
+                                    <p class="mb-0">Themes</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="footer-bottom border-top border-dark white pt-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="pr-2">© 2019 Company name</span>
+                        <span class="pr-2"><a href="#">Privacy policy</a></span>
+                        <span class="pr-2"><a href="#">Terms of use</a></span>
+                    </div>
+                    <div class="col-md-6 text-md-right">
+                        <a href="#" class="mr-2"><img src="assets/img/payment/footer-visa.svg" width="42"></a>
+                        <a href="#" class="mr-2"><img src="assets/img/payment/footer-mastercard.svg" width="42"></a>
+                        <a href="#"><img src="assets/img/payment/footer-paypal.svg" width="42"></a>
+                    </div>
+                </div>
+                <!-- row.// -->
+            </div>
+            <!-- //container -->
+        </section>
+    </footer> <!-- build:js -->
+    <script src="assets/vendor/js/jquery.js"></script>
+    <script src="assets/vendor/js/popper.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/vendor/js/swiper.min.js"></script>
+    <script src="assets/vendor/js/prism.min.js"></script>
+
+    <script src="assets/js/custom.js"></script>
+
+    <!-- endbuild -->
+
+</body>
+
+</html>
