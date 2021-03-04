@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Card } from '../helpers/custom-card';
 import { JsonCodec } from './json-codec';
-import { ApiCallsService} from 'src/app/services/api-calls.service';
+import { ApiCallsService } from 'src/app/services/api-calls.service';
 
 
 declare var mxConstants: any;
@@ -28,7 +28,7 @@ export class Helper {
 	isVertex: boolean;
 	copyAction: any;
 	vertexType: string;
-	constructor(private apiCalls:ApiCallsService) {
+	constructor(private apiCalls: ApiCallsService) {
 
 	}
 
@@ -585,7 +585,12 @@ export class Helper {
 			// cell.div.removeChild(initialMessage[0]);
 		}
 		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
-		var yAxis =120;
+		var yAxis = 0;
+		if (this.v1.id == "5") {
+			yAxis = 60;
+		} else {
+			yAxis = 120;
+		}
 		var childHegiht = 55;
 		yAxis = yAxis + (childLength * childHegiht);
 		var current = cell.getGeometry();

@@ -126,7 +126,7 @@ export class SideNav {
   }
 
   triggerFocusOut(event, i) {
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1.children[i+1]))
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1.children[i+2]))
   }
 
   titleFocusOut(event) {
@@ -195,7 +195,6 @@ export class SideNav {
     if (this.helper.isVertex) {
       this.buttonsArray = [];
       try {
-        console.log(this.helper.v1.children)
         for (var i = 1; i < (this.helper.v1.children.length-1); i++) {
           this.buttonsArray.push(String(this.helper.v1.children[i].div.innerText))
         }
