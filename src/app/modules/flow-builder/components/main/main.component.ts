@@ -7,6 +7,8 @@ import { saveAs } from 'file-saver';
 import { ApiCallsService } from "src/app/services/api-calls.service";
 import { MatDialog } from '@angular/material/dialog';
 import { HelperService } from 'src/app/services/helper.service';
+import { FlowDialog } from 'src/app/modules/flow-builder/components/flow-dialog/flow-dialog.component';
+
 declare var mxUtils: any;
 declare var mxGraphHandler: any;
 declare var mxEvent: any;
@@ -28,14 +30,17 @@ export class MainComponent implements OnInit, AfterViewInit {
    triggers: any;
    redoPointer: any;
    opened: boolean;
-
-   constructor(private helperService: HelperService, private helper: Helper, private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) { }
+   flowTitle: any="";
+   flowDescription:any;
+   constructor(private helperService: HelperService, private helper: Helper, private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) {
+   }
 
    ngOnInit() {
       this.route.params.subscribe(params => {
          if (params.id) {
             this.configService.flowId = params.id;
             this.retrieveJsonEndpoint();
+
          }
       });
    }
@@ -282,6 +287,8 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.configService.data = data.data.data;
       data = JSON.stringify({ mxGraphModel: data.data.mxGraphModel });
       JsonCodec.loadJson(this.graph, data)
+      this.setFlowDetails();
+
    }
 
    publish() {
@@ -348,5 +355,34 @@ export class MainComponent implements OnInit, AfterViewInit {
       return v1;
    }
 
+   editDetails() {
+      const dialogRef = this.dialog.open(FlowDialog, {
+         width: '368px',
+         data: { title: this.flowTitle, description: this.flowDescription, dialogTitle: "Edit flow details" }
+      });
 
+      dialogRef.afterClosed().subscribe(async result => {
+         if (result) {
+            if (result[0] && result[1]) {
+               this.flowTitle=result[1];
+               this.flowDescription=result[0];
+               this.configService.updateFlowDetails({
+                  title:result[1],
+                  description:result[0],
+                  ownerId: localStorage.getItem("ownerId")
+               });
+            }
+         }
+      });
+   }
+
+   async setFlowDetails() {
+      var flowDetails:any = await this.configService.retrieveFlowDetails(this.configService.flowId);
+      this.flowTitle = flowDetails.data.title;
+      this.flowDescription = flowDetails.data.description;
+
+
+      
+
+   }
 }

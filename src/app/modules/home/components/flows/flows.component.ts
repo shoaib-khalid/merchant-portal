@@ -32,7 +32,7 @@ export class FlowsComponent implements OnInit {
   createNewFlow(){
     const dialogRef = this.dialog.open(FlowDialog, {
       width: '368px',
-      data: { title: "", description: "" }
+      data: { title: "", description: "" , dialogTitle:"Create new Flow"}
    });
 
    dialogRef.afterClosed().subscribe(async result => {

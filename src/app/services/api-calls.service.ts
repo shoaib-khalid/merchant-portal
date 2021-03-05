@@ -11,18 +11,20 @@ export class ApiCallsService {
   retrievedJson: any;
   data: any = [];
   vertextType: any;
-  pathVariable: string = "http://209.58.160.20:3002";
+  pathVariable1: string = "http://209.58.160.20:3002";
+  pathVariable2: string = "http://209.58.160.20:20921";
+
   constructor(private http: HttpClient, private router: Router) { }
 
 
   async getAllflows() {
     const httpOptions = this.getHttpOptions("asx");
-    return await this.http.get(this.pathVariable + "/flow/getall/" + localStorage.getItem("ownerId"), httpOptions).toPromise();
+    return await this.http.get(this.pathVariable1 + "/flow/getall/" + localStorage.getItem("ownerId"), httpOptions).toPromise();
   }
 
   async retrieveGraph() {
     const httpOptions = this.getHttpOptions("asx");
-    return await this.http.get(this.pathVariable + "/mxgraph/" + this.flowId, httpOptions)
+    return await this.http.get(this.pathVariable1 + "/mxgraph/" + this.flowId, httpOptions)
       .toPromise();
   }
 
@@ -31,7 +33,7 @@ export class ApiCallsService {
     const body: any = json;
     console.log("flow id when posting: " + this.flowId)
     try {
-      this.http.post<any>(this.pathVariable + "/mxgraph/" + this.flowId, body, httpOptions).
+      this.http.post<any>(this.pathVariable1 + "/mxgraph/" + this.flowId, body, httpOptions).
         subscribe(data => {
           console.log("Starting json posted successfully");
         });
@@ -59,7 +61,7 @@ export class ApiCallsService {
 
     }
     try {
-      var data = await this.http.post<any>(this.pathVariable + "/flow/", body, httpOptions).toPromise();
+      var data = await this.http.post<any>(this.pathVariable1 + "/flow/", body, httpOptions).toPromise();
     } catch (ex) {
       if (ex.status == "401") {
         this.status401();
@@ -129,7 +131,7 @@ export class ApiCallsService {
     if (this.flowId) {
       console.log("Updating after addition")
       try {
-        return await this.http.patch<any>(this.pathVariable + "/mxgraph/ADD/" + this.flowId, body, httpOptions).toPromise
+        return await this.http.patch<any>(this.pathVariable1 + "/mxgraph/ADD/" + this.flowId, body, httpOptions).toPromise
           ();
       } catch (ex) {
         if (ex.status == "401") {
@@ -151,7 +153,7 @@ export class ApiCallsService {
     if (this.flowId) {
 
       try {
-        this.http.patch<any>(this.pathVariable + "/mxgraph/DELETE/" + this.flowId, body, httpOptions).toPromise
+        this.http.patch<any>(this.pathVariable1 + "/mxgraph/DELETE/" + this.flowId, body, httpOptions).toPromise
           ().then((data) => {
             console.log("Flow updated after deletion!")
           });
@@ -173,7 +175,7 @@ export class ApiCallsService {
     var body = { "data": this.data, object };
     if (this.flowId) {
       try {
-        this.http.patch<any>(this.pathVariable + "/mxgraph/UPDATE/" + this.flowId, body, httpOptions).toPromise
+        this.http.patch<any>(this.pathVariable1 + "/mxgraph/UPDATE/" + this.flowId, body, httpOptions).toPromise
           ().then((data) => {
             console.log("Flow Updated after change!")
           });
@@ -197,7 +199,7 @@ export class ApiCallsService {
 
     if (this.flowId) {
       try {
-        this.http.patch<any>(this.pathVariable + "/mxgraph/publish/" + this.flowId, body, httpOptions).toPromise
+        this.http.patch<any>(this.pathVariable1 + "/mxgraph/publish/" + this.flowId, body, httpOptions).toPromise
           ().then((data) => {
             console.log("Flow Pusblished!")
           });
@@ -220,39 +222,61 @@ export class ApiCallsService {
         Authorization: "asx"
       })
     }
-    this.http.post<any>("http://209.58.160.20:20921/clients/register", signUpData,httpOptions).
+    this.http.post<any>(this.pathVariable2 + "/clients/register", signUpData, httpOptions).
       subscribe(data => {
-        console.log(data);
-        // localStorage.setItem('accessToken', data.data.session.accessToken)
-        localStorage.setItem('ownerId', data.data.id)
-        localStorage.setItem('username',data.data.username)
-        this.router.navigateByUrl('/chooseverticle')
-      },error=>{
-        if(error.status=="409"){
+        this.authenticateClient({ username: signUpData.username, password: signUpData.password })
+      }, error => {
+        if (error.status == "409") {
           alert("User already exists")
         }
       });
-      
+
   }
   authenticateClient(logInData) {
 
 
-    return this.http.post<any>("http://209.58.160.20:20921/clients/authenticate", logInData, this.getHttpOptions("asx")).
+    return this.http.post<any>(this.pathVariable2 + "/clients/authenticate", logInData, this.getHttpOptions("asx")).
       subscribe(data => {
 
         if (data.status == 202) {
           localStorage.setItem('accessToken', data.data.session.accessToken)
           localStorage.setItem('ownerId', data.data.session.ownerId)
-          localStorage.setItem('username',data.data.session.username)
-          this.router.navigate(["/flows"]);
+          localStorage.setItem('username', data.data.session.username)
+          this.router.navigateByUrl('/chooseverticle')
         }
       }, error => alert(error.status));
   }
 
   async getUserChannels() {
     const httpOptions = this.getHttpOptions("asx");
-    return await this.http.get("http://209.58.160.20:20921" + "/userChannels", httpOptions).toPromise();
+    return await this.http.get(this.pathVariable2 + "/userChannels", httpOptions).toPromise();
   }
+
+  updateFlowDetails(body) {
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+    this.http.patch<any>(this.pathVariable1 + "/flow/" + this.flowId, body, httpOptions).toPromise
+      ().then((data) => {
+        console.log("Flow Details Updated")
+      });
+  }
+
+  async retrieveFlowDetails(id) {
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+    return await this.http.get(this.pathVariable1 + "/flow/" + id, httpOptions).toPromise();
+  }
+
+
+
 
   status401() {
     this.router.navigateByUrl('/signin');

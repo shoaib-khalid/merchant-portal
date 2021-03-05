@@ -6,9 +6,10 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {HomeModule} from 'src/app/modules/home/home.module';
+import { StorePageComponent } from './components/store-page/store-page.component';
 
 @NgModule({
-  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent],
+  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, StorePageComponent],
   imports: [
     CommonModule,
     FormsModule,

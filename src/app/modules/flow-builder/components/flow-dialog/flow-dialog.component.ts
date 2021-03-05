@@ -15,9 +15,18 @@ export interface DialogData {
 export class FlowDialog {
     title:any;
     description:any;
+    dialogTitle:any;
     constructor(private configService: ApiCallsService,
         public dialogRef: MatDialogRef<FlowDialog>,
-        @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+        @Inject(MAT_DIALOG_DATA) public data: {
+            title:any;
+            description:any;
+            dialogTitle:any;
+        }) {
+            this.title=data.title;
+            this.description=data.description;
+            this.dialogTitle=data.dialogTitle;
+         }
 
     onNoClick(): void {
         this.dialogRef.close();

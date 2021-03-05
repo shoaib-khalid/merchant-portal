@@ -28,7 +28,8 @@
                     <div class="collapse navbar-collapse ">
                         <div class="">
                             <div class="row pb-3">
-                                <h5 style="font-family:Arial, Helvetica, sans-serif;">Menu Actions</h5>
+                                <h6 id="flow-title" >{{flowTitle}}</h6>
+                                <img src="assets/edit.svg" alt="" id="edit-details" (click)="editDetails()">
                             </div>
                             <div class="row">
                                 <span (click)="undo()" class="p-0 ml-3">Undo</span>
@@ -89,6 +90,7 @@
                     <side-nav-action></side-nav-action>
                     <side-nav-handover></side-nav-handover>
                     <side-nav-condition></side-nav-condition>
+                    <app-side-nav-quick-reply></app-side-nav-quick-reply>
                 </div>
             </main>
         </div>

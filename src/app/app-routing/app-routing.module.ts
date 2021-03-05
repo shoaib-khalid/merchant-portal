@@ -12,6 +12,7 @@ import {AuthGuardService} from 'src/app/services/auth-guard.service.ts.service';
 import {FlowsComponent} from 'src/app/modules/home/components/flows/flows.component';
 import {SharedHeaderComponent} from 'src/app/modules/home/components/shared-header/shared-header.component';
 import {ProductsComponent} from 'src/app/modules/product-management/components/products/products.component';
+import {StorePageComponent} from 'src/app/modules/user-onboarding/components/store-page/store-page.component';
 
 const routes: Routes = [
 
@@ -62,6 +63,11 @@ const routes: Routes = [
   {
     path:'products',
     component:ProductsComponent,
+    children:[]
+  },
+  {
+    path:'store',
+    component:StorePageComponent,
     children:[]
   },
   {

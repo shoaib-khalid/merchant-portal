@@ -9,17 +9,20 @@ export class HelperService {
   constructor(private apiCalls: ApiCallsService, private helper: Helper) { }
 
   vertexClicked() {
+
     var vertextType;
-    this.apiCalls.data.forEach((element, index) => {
-      try {
+    try {
+      this.apiCalls.data.forEach((element, index) => {
+
         if (element.vertexId === this.helper.v1.id) {
           vertextType = element.type;
         }
-      } catch (ex) {
-        return "";
-      }
 
-    });
+
+      });
+    } catch (ex) {
+      return "";
+    }
     return vertextType;
   }
 

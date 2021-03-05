@@ -26,6 +26,7 @@ import { ActionDialog } from './components/action-dialog/action-dialog.component
 import { SideNavConditionComponent } from './components/side-nav-condition/side-nav-condition.component';
 import { BotSelectionDialogComponent } from './components/bot-selection-dialog/bot-selection-dialog.component';
 import {HomeModule} from 'src/app/modules/home/home.module';
+import { SideNavQuickReplyComponent } from './components/side-nav-quick-reply/side-nav-quick-reply.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import {HomeModule} from 'src/app/modules/home/home.module';
     SideNavConditionComponent,
     ActionDialog,
     BotSelectionDialogComponent,
+    SideNavQuickReplyComponent,
   ],
   imports: [
     CommonModule,
