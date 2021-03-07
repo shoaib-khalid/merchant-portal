@@ -98,11 +98,8 @@ export class Helper {
 
 
 	connectPreview = (graph) => {
-
+		mxConstants.MIN_HOTSPOT_SIZE = 50;
 		let previous_id = 0;
-		var doc = mxUtils.createXmlDocument();
-		var obj = doc.createElement('UserObject');
-
 		graph.connectionHandler.isConnectableCell = (cell) => {
 			return true;
 		};
@@ -202,15 +199,17 @@ export class Helper {
 		style[mxConstants.STYLE_STROKEWIDTH] = 2;
 		// style[mxConstants.STYLE_EXIT_X] = 1; // center
 		// style[mxConstants.STYLE_EXIT_Y] = 0.8; // bottom
-		style[mxConstants.STYLE_EXIT_PERIMETER] = 0; // disabled
-		style[mxConstants.STYLE_ENTRY_X] = 0; // center
-		style[mxConstants.STYLE_ENTRY_Y] = 0; // top
+		// style[mxConstants.STYLE_EXIT_PERIMETER] = 0; // disabled
+		// style[mxConstants.STYLE_ENTRY_X] = 0; // center
+		// style[mxConstants.STYLE_ENTRY_Y] = 0; // top
 		// style[mxConstants.STYLE_ENTRY_PERIMETER] = 0; // disabled
 		style[mxConstants.STYLE_STROKECOLOR] = 'gray';
 
 		mxConstants.EDGE_SELECTION_STROKEWIDTH = 2;
 		mxConstants.EDGE_SELECTION_DASHED = false;
 		mxConstants.INVALID_COLOR = '#74fca1';
+
+
 
 	}
 
@@ -283,25 +282,25 @@ export class Helper {
 			}
 			cellLabelChanged.apply(this, arguments);
 		};
-		mxRectangle.prototype.getCenterX = function () {
-			let x = this.x + this.width + 10;
-			if (this.view && this.view.graph && this.view.graph.isPart) {
-				if (this.view.graph.isPart(this.cell)) {
-					x = this.x + this.width - 10;
-				}
-			}
+		// mxRectangle.prototype.getCenterX = function () {
+		// 	let x = this.x + this.width + 10;
+		// 	if (this.view && this.view.graph && this.view.graph.isPart) {
+		// 		if (this.view.graph.isPart(this.cell)) {
+		// 			x = this.x + this.width - 10;
+		// 		}
+		// 	}
 
-			return x;
-		};
-		mxRectangle.prototype.getCenterY = function () {
-			let y = this.y + this.height / 2;
-			if (this.view && this.view.graph && this.view.graph.isPart) {
-				if (!this.view.graph.isPart(this.cell)) {
-					y = this.y + this.height - (((this.height) * 0.2));
-				}
-			}
-			return y;
-		};
+		// 	return x;
+		// };
+		// mxRectangle.prototype.getCenterY = function () {
+		// 	let y = this.y + this.height / 2;
+		// 	if (this.view && this.view.graph && this.view.graph.isPart) {
+		// 		if (!this.view.graph.isPart(this.cell)) {
+		// 			y = this.y + this.height - (((this.height) * 0.2));
+		// 		}
+		// 	}
+		// 	return y;
+		// };
 
 		mxCellMarker.prototype.getMarkerColor = function (evt, state, isValid) { }
 		mxConnectionHandler.prototype.livePreview = true;
