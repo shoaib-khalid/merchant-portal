@@ -13,6 +13,7 @@ export class ApiCallsService {
   vertextType: any;
   pathVariable1: string = "http://209.58.160.20:3002";
   pathVariable2: string = "http://209.58.160.20:20921";
+  pathVariable3: string = "http://209.58.160.20:7071";
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -235,16 +236,30 @@ export class ApiCallsService {
   authenticateClient(logInData) {
 
 
-    return this.http.post<any>(this.pathVariable2 + "/clients/authenticate", logInData, this.getHttpOptions("asx")).
-      subscribe(data => {
 
+    return this.http.post<any>(this.pathVariable2 + "/clients/authenticate", logInData, this.getHttpOptions("asx")).
+      subscribe(async data => {
         if (data.status == 202) {
           localStorage.setItem('accessToken', data.data.session.accessToken)
           localStorage.setItem('ownerId', data.data.session.ownerId)
           localStorage.setItem('username', data.data.session.username)
-          this.router.navigateByUrl('/chooseverticle')
+
+          const httpOptions = {
+            params: {
+              clientId: localStorage.getItem("ownerId")
+            }
+          }
+
+          var data: any = await this.http.get(this.pathVariable3 + "/store", httpOptions).toPromise();
+
+          if (data.data.content.length == 0) {
+            this.router.navigateByUrl('/chooseverticle')
+          } else {
+            this.router.navigateByUrl('/flows')
+
+          }
         }
-      }, error => alert(error.status));
+      }, error => console.log(error));
   }
 
   async getUserChannels() {
@@ -276,6 +291,24 @@ export class ApiCallsService {
   }
 
 
+  registerStore(body) {
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+    this.http.post<any>(this.pathVariable3 + "/store", body, httpOptions).
+      subscribe(data => {
+        this.router.navigateByUrl('/flows');
+
+      });
+  }
+
+  deleteFlow(id){
+    this.http.delete(this.pathVariable1+"/flow/"+id)
+    .subscribe((data) =>console.log(data));
+  }
 
 
   status401() {

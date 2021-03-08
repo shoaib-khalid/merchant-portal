@@ -46,4 +46,14 @@ export class FlowsComponent implements OnInit {
 
   }
 
+  delete(event){
+    this.apiCallsService.deleteFlow(event.target.id)
+    console.log(this.flows)
+    for(var i=0;i<this.flows.length;i++){
+      if(this.flows[i].id==event.target.id){
+        this.flows.splice(i,1)
+      }
+    }
+  }
+
 }

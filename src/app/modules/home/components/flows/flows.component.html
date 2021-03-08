@@ -5,15 +5,28 @@
 <body>
     <app-shared-header></app-shared-header>
     <h3 id="select-text">Please select a flow...</h3>
-    <div class="flow-card" (click)="createNewFlow()">
-        <div class="flow-title" style="color: blue;">+ Create New Flow</div>
+    <div class="flow-card">
+        
+
+
+        <div class="flow-title"  (click)="createNewFlow()" style="color: blue;">+ Create New Flow
+        </div>
     </div>
+
     <div *ngIf="loading">
         <mat-spinner [diameter]="70" style="margin:auto;margin-top: 100px;"></mat-spinner>
     </div>
     <div *ngFor="let flow of flows;index as i;">
-        <div class="flow-card" id="{{flow.id}}" (click)="openFlow($event)">
-            <div class="flow-title" id="{{flow.id}}">{{flow.title}}</div>
+       
+        <div class="flow-card"  >
+            <div class="dropdown edit">
+                <img class="edit" src="assets/edit.svg" alt="dots" width="20px" height="20px">
+                <div class="dropdown-content">
+                  <p style="color: red;" id="{{flow.id}}" (click)="delete($event)">Delete</p>
+                  </div>
+              </div>
+       
+              <div class="flow-title" id="{{flow.id}}" (click)="openFlow($event)">{{flow.title}}</div>
         </div>
     </div>
 
@@ -21,3 +34,4 @@
 </body>
 
 </html>
+

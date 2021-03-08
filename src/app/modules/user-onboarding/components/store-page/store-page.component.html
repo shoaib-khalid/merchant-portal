@@ -27,12 +27,20 @@
                                             placeholder="Enter Store Name">
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label for="storeDescription">Description</label>
-                                        <textarea name="description" class="form-control"id="storeDescription" cols="30" rows="5" placeholder="Enter Store Description..."></textarea>
+                                        <label for="city">City</label>
+                                        <input class="form-control" name="city" type="username"
+                                            [(ngModel)]="city" id="cit" required=""
+                                            placeholder="Enter City Name">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="address">Address</label>
+                                        <input class="form-control" name="address" type="username"
+                                            [(ngModel)]="address" id="address" required=""
+                                            placeholder="Enter Address">
                                     </div>
 
                                     <div class="form-group mb-0 text-center">
-                                        <a class="btn btn-primary btn-block" [routerLink]="['/flows']">
+                                        <a class="btn btn-primary btn-block" (click)="registerStore()">
                                             Register Store </a>
                                     </div>
                                 </form>

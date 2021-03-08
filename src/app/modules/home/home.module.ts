@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FlowsComponent } from './components/flows/flows.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SharedHeaderComponent } from './components/shared-header/shared-header.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 
@@ -13,7 +14,8 @@ import { SharedHeaderComponent } from './components/shared-header/shared-header.
   imports: [
     CommonModule,
     RouterModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatMenuModule
   ],
   exports: [SharedHeaderComponent]
 })
