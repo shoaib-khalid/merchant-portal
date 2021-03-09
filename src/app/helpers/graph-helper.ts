@@ -585,11 +585,9 @@ export class Helper {
 		}
 		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
 		var yAxis = 0;
-		if (this.v1.id == "5") {
-			yAxis = 60;
-		} else {
-			yAxis = 120;
-		}
+
+		yAxis = 120;
+		
 		var childHegiht = 55;
 		yAxis = yAxis + (childLength * childHegiht);
 		var current = cell.getGeometry();
