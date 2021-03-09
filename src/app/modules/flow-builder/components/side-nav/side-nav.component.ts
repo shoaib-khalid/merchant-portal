@@ -19,12 +19,12 @@ export class SideNav {
   description: any = "";
   show: any = false;
   btnValues: any = []
-  btnIndex: any=0;
-  btnValue:any="";
-  placeholderValue="New Button";
+  btnIndex: any = 0;
+  btnValue: any = "";
+  placeholderValue = "New Button";
 
 
-  constructor(private apiCalls: ApiCallsService, private helper:Helper,private helperService: HelperService) {
+  constructor(private apiCalls: ApiCallsService, private helper: Helper, private helperService: HelperService) {
   }
 
   toggle() {
@@ -40,13 +40,13 @@ export class SideNav {
     if (this.opened) {
       this.updateButtons();
       this.updateButtonValues();
-      this.btnValue="";
-      this.show=false;
+      this.btnValue = "";
+      this.show = false;
     } else {
       this.opened = true;
-      this.show=false;
+      this.show = false;
       this.updateButtons();
-      this.btnValue="";
+      this.btnValue = "";
       this.updateButtonValues();
 
     }
@@ -59,9 +59,9 @@ export class SideNav {
       this.updateDataVariableArray();
     }
     this.buttonsArray.push("New Button");
-    this.btnValues.push({ btnTitle: "New Button" , btnValue: "" });
-    this.btnValue="";
-    this.btnIndex = this.buttonsArray.length-1;
+    this.btnValues.push({ btnTitle: "New Button", btnValue: "" });
+    this.btnValue = "";
+    this.btnIndex = this.buttonsArray.length - 1;
     this.helper.addTriggerUsingSidePanel();
   }
 
@@ -85,24 +85,24 @@ export class SideNav {
       } else if (event.target.localName === "svg") {
         if (this.pinned === false) {
           this.opened = false;
-          this.show=false;
+          this.show = false;
         }
       }
     } else {
       this.opened = false;
-      this.show=false;
+      this.show = false;
     }
   }
 
   titleChange(text) {
-    
+
     var strDigit = this.getStrDigit();
     const digit = this.helper.digitFromString(strDigit);
     document.getElementById("header" + digit).textContent = text;
 
   }
   triggerTextChange(event, index) {
-    this.btnValues[index].btnTitle=event.target.value;
+    this.btnValues[index].btnTitle = event.target.value;
     var strDigit = this.getStrDigit();
     const digit = this.helper.digitFromString(strDigit);
     var arr = document.getElementsByClassName('customTrigger' + digit);
@@ -126,7 +126,7 @@ export class SideNav {
   }
 
   triggerFocusOut(event, i) {
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1.children[i+2]))
+    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1.children[i + 2]))
   }
 
   titleFocusOut(event) {
@@ -195,7 +195,7 @@ export class SideNav {
     if (this.helper.isVertex) {
       this.buttonsArray = [];
       try {
-        for (var i = 1; i < (this.helper.v1.children.length-1); i++) {
+        for (var i = 1; i < (this.helper.v1.children.length - 1); i++) {
           this.buttonsArray.push(String(this.helper.v1.children[i].div.innerText))
         }
       } catch (ex) {
@@ -217,27 +217,42 @@ export class SideNav {
 
   btnTitleFocus(event, i) {
     this.btnIndex = i;
-    this.btnValue=this.btnValues[i].btnValue;
-    this.placeholderValue=this.btnValues[i].btnTitle+" Value";
-    this.show=true;
+    this.btnValue = this.btnValues[i].btnValue;
+    this.placeholderValue = this.btnValues[i].btnTitle + " Value";
+    this.show = true;
   }
 
   btnValueChange(event) {
-    this.btnValues[this.btnIndex].btnValue=event.target.value;
+    this.btnValues[this.btnIndex].btnValue = event.target.value;
   }
 
-  btnValueMouseOut(){
+  btnValueMouseOut() {
     // Send updated buttons array
-    var vertexIndex =this.helperService.getVertexIndex();
+    var vertexIndex = this.helperService.getVertexIndex();
     this.apiCalls.data[vertexIndex].buttons = this.btnValues;
     this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
   }
 
 
-  updateButtonValues(){
-    var vertexIndex =this.helperService.getVertexIndex();
+  updateButtonValues() {
+    var vertexIndex = this.helperService.getVertexIndex();
     this.btnValues = this.apiCalls.data[vertexIndex].buttons;
   }
+
+  deleteTriggers() {
+
+    for (var i = 0; i < this.helper.v1.children.length; i++) {
+      console.log()
+
+      if (this.helper.v1.children[i].value.localName == "triggers") {
+        console.log(JsonCodec.getIndividualJson(this.helper.v1.children[i]))
+        this.apiCalls.autoSaveDelete(JsonCodec.getIndividualJson(this.helper.v1.children[i]));
+      }
+    }
+
+    // var allTriggers = 
+  }
+
 
 }

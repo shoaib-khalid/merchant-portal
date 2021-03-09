@@ -102,6 +102,7 @@ color: blue;
   height: 30px;
   border: 1px solid gainsboro;
   border-bottom: none;
+  margin-left: 15px ;
 }
 
 .button-text:focus{
@@ -145,4 +146,9 @@ color: blue;
 }
 #btnValue:hover{
   border: 2px solid rgb(149, 248, 1);
+}
+
+.delete-trigger-icon{
+  cursor: pointer;
+  margin-left: 5px;
 }
