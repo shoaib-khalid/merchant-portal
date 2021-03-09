@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-
+import {environment} from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,9 +11,9 @@ export class ApiCallsService {
   retrievedJson: any;
   data: any = [];
   vertextType: any;
-  pathVariable1: string = "http://209.58.160.20:3002";
-  pathVariable2: string = "http://209.58.160.20:20921";
-  pathVariable3: string = "http://209.58.160.20:7071";
+  pathVariable1: string = environment.url1;
+  pathVariable2: string = environment.url2;
+  pathVariable3: string = environment.url3;
 
   constructor(private http: HttpClient, private router: Router) { }
 

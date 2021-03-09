@@ -3,7 +3,7 @@ import { ApiCallsService } from 'src/app/services/api-calls.service';
 @Component({
   selector: 'app-store-page',
   templateUrl: './store-page.component.html',
-  styleUrls: ['./store-page.component.css']
+  styleUrls: ['./store-page.component.scss']
 })
 export class StorePageComponent implements OnInit {
   storeName: any;

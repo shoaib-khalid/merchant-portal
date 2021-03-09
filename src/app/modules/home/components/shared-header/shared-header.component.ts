@@ -17,9 +17,10 @@ export class SharedHeaderComponent implements OnInit {
     flows: [{ heading: 'Home', link: '', bold: false }, { heading: 'flows', link: '/flows', bold: true }],
     flowbuilder: [{ heading: "Home", link: '', bold: false }, { heading: "Flow Builder", link: '/flows/', bold: true }],
     home: [{ heading: "Home", link: '', bold: true }, { heading: "Flow Builder", link: '/flows', bold: false }],
-    chooseVerticle: [{ heading: "Home", link: '', bold: false }, { heading: "Choose Verticle", link: '/chooseverticle', bold: true }],
+    chooseVerticle: [],
     addProduct: [{ heading: "Home", link: '', bold: false }, { heading: "Add Product", link: '/products/add', bold: true }],
-    products: [{ heading: "Home", link: '', bold: false }, { heading: "Products", link: '/products', bold: true }]
+    products: [{ heading: "Home", link: '', bold: false }, { heading: "Products", link: '/products', bold: true }],
+    store: []
   }
   navHeadings: any = [];
 
@@ -47,7 +48,10 @@ export class SharedHeaderComponent implements OnInit {
     }
     else if (this.router.url == "/products") {
       this.navHeadings = this.navOptionalHeadings.products;
+    }  else if (this.router.url == "/store") {
+      this.navHeadings = this.navOptionalHeadings.store;
     }
+
 
     const ownerId = localStorage.getItem("ownerId");
     const accessToken = localStorage.getItem("accessToken")

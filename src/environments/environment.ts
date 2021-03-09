@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  url1:"http://209.58.160.20:3002",
+  url2:"http://209.58.160.20:20921",
+  url3:"http://209.58.160.20:7071"
 };
 
 /*
