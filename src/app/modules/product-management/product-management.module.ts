@@ -6,7 +6,7 @@ import { ChooseVerticleComponent } from './components/choose-verticle/choose-ver
 import {RouterModule } from '@angular/router';
 import {HomeModule} from 'src/app/modules/home/home.module';
 import { FormsModule } from '@angular/forms';
-
+import { TagInputModule } from 'ngx-chips';
 
 
 
@@ -16,7 +16,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     RouterModule,
     HomeModule,
-    FormsModule
+    FormsModule,
+    TagInputModule
   ]
 })
 export class ProductManagementModule { }

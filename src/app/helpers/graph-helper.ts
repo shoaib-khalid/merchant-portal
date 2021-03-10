@@ -609,6 +609,24 @@ export class Helper {
 	}
 
 
+	deleteTriggerUsingSidePanel(length){
+		var cell = this.v1;
+		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
+		var childHegiht = -(length*(55));
+		console.log(childHegiht)
+		var current = cell.getGeometry();
+		if (childLength > 0) {
+			current.height = current.heightchildHegiht +childHegiht;
+		}
+		let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
+		let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
+		flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
+		flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
+		this.graph.cellsResized([cell], [current], false);
+		this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.v1))		
+	}
+
+
 	addConditionUsingSidePanel(cell = this.v1) {
 		var doc = mxUtils.createXmlDocument();
 		let conditions = doc.createElement('conditions');

@@ -241,17 +241,15 @@ export class SideNav {
   }
 
   deleteTriggers() {
-
+    var len=0;
     for (var i = 0; i < this.helper.v1.children.length; i++) {
-      console.log()
-
       if (this.helper.v1.children[i].value.localName == "triggers") {
-        console.log(JsonCodec.getIndividualJson(this.helper.v1.children[i]))
+      len=len+1;
         this.apiCalls.autoSaveDelete(JsonCodec.getIndividualJson(this.helper.v1.children[i]));
       }
     }
-
-    // var allTriggers = 
+    this.buttonsArray=[];
+    this.helper.deleteTriggerUsingSidePanel(len);
   }
 
 
