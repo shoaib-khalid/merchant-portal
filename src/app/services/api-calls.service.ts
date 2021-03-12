@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -250,10 +250,10 @@ export class ApiCallsService {
           }
 
           var data: any = await this.http.get(this.pathVariable3 + "/stores", httpOptions).toPromise();
-
           if (data.data.content.length == 0) {
             this.router.navigateByUrl('/chooseverticle')
           } else {
+            localStorage.setItem("storeId", data.data.content[0].id)
             this.router.navigateByUrl('/flows')
 
           }
@@ -309,6 +309,30 @@ export class ApiCallsService {
       .subscribe((data) => console.log(data));
   }
 
+
+  addProduct(body) {
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/" + "products", body, httpOptions).toPromise();
+  }
+
+
+  addVariant(productId,body) {
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+    this.http.post<any>(this.pathVariable3 + "/products/" + productId + "/" + "variant", body, httpOptions).
+      subscribe(data => {
+        console.log(data)
+      });
+  }
 
   status401() {
     this.router.navigateByUrl('/signin');
