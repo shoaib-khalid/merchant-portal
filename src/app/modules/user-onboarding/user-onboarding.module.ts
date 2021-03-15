@@ -5,11 +5,12 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import {HomeModule} from 'src/app/modules/home/home.module';
+import { HomeModule } from 'src/app/modules/home/home.module';
 import { StorePageComponent } from './components/store-page/store-page.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 @NgModule({
-  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, StorePageComponent],
+  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, StorePageComponent, ForgotPasswordComponent],
   imports: [
     CommonModule,
     FormsModule,

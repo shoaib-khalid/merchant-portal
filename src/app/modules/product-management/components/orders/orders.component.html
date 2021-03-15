@@ -56,27 +56,19 @@
                                     <div class="card-header py-3 border-bottom">
                                         <div class="d-flex align-items-center">
                                             <div>
-                                                <h6 class="card-title mb-0">Products</h6>
+                                                <h6 class="card-title mb-0">Orders</h6>
                                             </div>
-                                            <div id="add-product" [routerLink]="['/products/add']"> Add Product</div>
                                         </div>
                                     </div>
                                     <div class="card-body pt-4">
                                         <div class="table-responsive">
                                             <div style="display: flex;">
                                                 <div>
-                                                    <input type="text" placeholder="Filter Products"
+                                                    <input type="text" placeholder="Filter Orders"
                                                         class="form-control" style="width:140px; margin-right: 10px;"
                                                         name="" id="">
                                                 </div>
-                                                <div>
-                                                    <select class="mr-2 form-control" style="width:170px">
-                                                        <option>Product Vendor</option>
-                                                        <option>Trending</option>
-                                                        <option>Most Popular</option>
-                                                        <option>Cheapest</option>
-                                                    </select>
-                                                </div>
+        
                                                 <div>
                                                     <select class="mr-2 form-control" style="width:150px">
                                                         <option> Tagged With</option>
@@ -91,7 +83,7 @@
                                                     <tr>
                                                         <th class="border-0"><input type="checkbox"></th>
 
-                                                        <th class="border-0">Product</th>
+                                                        <th class="border-0">Order</th>
                                                         <th class="border-0">Status</th>
                                                         <th class="border-0" data-breakpoints="sm xs">Inventory</th>
                                                         <th class="border-0" data-breakpoints="xs">Type</th>
@@ -100,16 +92,16 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor ="let product of products">
+                                                    <tr>
                                                         <td><input type="checkbox"></td>
                                                         <td class="product"><img src="assets/img/100x100.png"
-                                                                alt="Product img" class="img-lg rounded"> {{product.name}}</td>
+                                                                alt="Product img" class="img-lg rounded">Order Name</td>
                                                         <td>
                                                             <div class="status">Active</div>
                                                         </td>
                                                         <td>
 
-                                                            <div>{{product.stock}} in Stock</div>
+                                                            <div>0 in Stock</div>
                                                         </td>
                                                         <td>Shirt</td>
 
@@ -256,13 +248,7 @@
             <!-- //container -->
         </section>
     </footer> <!-- build:js -->
-    <script src="assets/vendor/js/jquery.js"></script>
-    <script src="assets/vendor/js/popper.js"></script>
-    <script src="assets/vendor/js/bootstrap.js"></script>
-    <script src="assets/vendor/js/swiper.min.js"></script>
-    <script src="assets/vendor/js/prism.min.js"></script>
 
-    <script src="assets/js/custom.js"></script>
 
     <!-- endbuild -->
 

@@ -321,7 +321,18 @@ export class ApiCallsService {
   }
 
 
-  addVariant(productId,body) {
+  getProducts() {
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+    return this.http.get(this.pathVariable3 + "/products", httpOptions).toPromise();
+  }
+
+
+  addVariant(productId, body) {
     const httpOptions = {
 
       headers: new HttpHeaders({

@@ -6,17 +6,18 @@ import { FlowsComponent } from './components/flows/flows.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SharedHeaderComponent } from './components/shared-header/shared-header.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { SharedSidePanelComponent } from './components/shared-side-panel/shared-side-panel.component';
 
 
 
 @NgModule({
-  declarations: [LandingPageComponent, FlowsComponent, SharedHeaderComponent],
+  declarations: [LandingPageComponent, FlowsComponent, SharedHeaderComponent, SharedSidePanelComponent],
   imports: [
     CommonModule,
     RouterModule,
     MatProgressSpinnerModule,
     MatMenuModule
   ],
-  exports: [SharedHeaderComponent]
+  exports: [SharedHeaderComponent,SharedSidePanelComponent]
 })
 export class HomeModule { }
