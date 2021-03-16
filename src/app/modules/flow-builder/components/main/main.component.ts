@@ -77,6 +77,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
       //Graph configurations
       this.graph = new mxGraph(this.graphContainer.nativeElement);
+      this.graph.keepEdgesInBackground = true;
       this.helper.addAssets(this.graph);
 
       new mxOutline(this.graph, this.outlineContainer.nativeElement);
@@ -258,11 +259,11 @@ export class MainComponent implements OnInit, AfterViewInit {
 
          reader.onload = () => {
             JsonCodec.loadJson(this.graph, reader.result);
-            var parent = this.graph.getDefaultParent();
-            var edges = this.graph.getChildEdges(parent);
-            if (edges) {
-               this.graph.orderCells(false, edges)
-            }
+            // var parent = this.graph.getDefaultParent();
+            // var edges = this.graph.getChildEdges(parent);
+            // if (edges) {
+            //    this.graph.orderCells(false, edges)
+            // }
             // need to run CD since file load runs outside of zone
             // this.cd.markForCheck();
          };
