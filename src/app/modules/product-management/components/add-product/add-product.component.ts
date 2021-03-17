@@ -44,12 +44,12 @@ export class AddProductComponent implements OnInit {
   }
 
   addAnotherOption() {
-    this.options.push("")
+    this.options.push({name:""})
   }
 
   variantChanged(event) {
     if (event.target.checked) {
-      this.options.push("")
+      this.options.push({name:""})
     } else {
       this.options = [];
     }
@@ -63,7 +63,7 @@ export class AddProductComponent implements OnInit {
   }
 
   variantNameChanged(event, i) {
-    this.options[i] = event.target.value;
+    this.options[i].name = event.target.value;
   }
 
 
@@ -72,7 +72,7 @@ export class AddProductComponent implements OnInit {
     var out = "";
 
     if (n == combos.length) {
-      this.combos.push(result.substring(1))
+      this.combos.push({ variant: result.substring(1), price: 0, quantity: 0, sku: 0 })
       return result.substring(1);
     }
 
@@ -99,25 +99,29 @@ export class AddProductComponent implements OnInit {
         "name": this.title,
         "status": this.productStatus,
         "stock": 0,
+        "description":this.description,
         "storeId": localStorage.getItem("storeId")
       }
       if (this.options.length > 0) {
         const data: any = await this.apiCalls.addProduct(body);
-        this.addVariantName(data.data.id);
+        const variantIds: any = await this.addVariantName(data.data.id);
+        const productAvailableIds = await this.addVariantValues(data.data.id, variantIds);
+        await this.addInventory(data.data.id)
+        this.addInventoryItem(data.data.id, productAvailableIds)
+        console.log(data.data.id)
+        console.log(localStorage.getItem("storeId"))
       }
     } else {
       window.scroll(0, 0)
       this.requiredError = true;
     }
-
-
-
   }
+
 
   checkProductVariantNames() {
     try {
       for (var i = 0; i < this.options.length; i++) {
-        if (this.options[i] == "" || this.items[i].length < 1) {
+        if (this.options[i].name == "" || this.items[i].length < 1) {
           return false;
         }
       }
@@ -127,10 +131,65 @@ export class AddProductComponent implements OnInit {
     }
   }
 
-  addVariantName(productId) {
+  async addVariantName(productId) {
+    var variantIds = [];
     for (var i = 0; i < this.options.length; i++) {
-      this.apiCalls.addVariant(productId, { name: this.options[i] })
+      var data: any = await this.apiCalls.addVariant(productId, { name: this.options[i].name })
+      variantIds.push(data.data.id)
+    }
+    return variantIds;
+  }
+
+  async addVariantValues(productId, variantIds) {
+    var productVariantAvailableIds = [];
+    for (var i = 0; i < this.options.length; i++) {
+      const values = (String(this.items[i])).split(",");
+      for (var j = 0; j < values.length; j++) {
+        var data: any = await this.apiCalls.addVariantValues(productId, { productVariantId: variantIds[i], value: values[j] })
+        productVariantAvailableIds.push({ productVariantAvailableId: data.data.id, value: data.data.value })
+      }
+    }
+    return productVariantAvailableIds;
+  }
+
+  async addInventory(productId) {
+
+    for (var i = 0; i < this.combos.length; i++) {
+      const combosSplitted = this.combos[i].variant.split("/");
+      const itemCode = productId + i
+      const data: any = await this.apiCalls.addInventory(productId, {
+        itemCode: itemCode,
+        price: this.combos[i].price,
+        compareAtPrice: 0,
+        quantity: this.combos[i].quantity,
+        sku: this.combos[i].sku
+      })
+
     }
   }
 
+  async addInventoryItem(productId, productVariantAvailableIds) {
+    for (var i = 0; i < this.combos.length; i++) {
+      const combosSplitted = this.combos[i].variant.split("/");
+      for (var j = 0; j < combosSplitted.length; j++) {
+        const test = this.apiCalls.addInventoryItem(productId, {
+          itemCode: productId + i,
+          productVariantAvailableId: productVariantAvailableIds[j].productVariantAvailableId,
+          productId: productId
+        })
+      }
+    }
+  }
+
+  priceChanged(event,i){
+    this.combos[i].price = event.target.value;
+  }
+  skuChanged(event,i){
+    this.combos[i].sku = event.target.value;
+
+  }
+  quantityChanged(event,i){
+    this.combos[i].quantity = event.target.value;
+
+  }
 }

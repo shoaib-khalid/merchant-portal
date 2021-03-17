@@ -334,15 +334,47 @@ export class ApiCallsService {
 
   addVariant(productId, body) {
     const httpOptions = {
-
       headers: new HttpHeaders({
         Authorization: "asx"
       })
     }
-    this.http.post<any>(this.pathVariable3 + "/products/" + productId + "/" + "variant", body, httpOptions).
-      subscribe(data => {
-        console.log(data)
-      });
+
+    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants", body, httpOptions).
+      toPromise();
+  }
+
+  addVariantValues(productId, body) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+
+    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants-available", body, httpOptions).
+    toPromise();
+  }
+
+  addInventory(productId, body) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+
+    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory", body, httpOptions).
+    toPromise();
+  }
+
+  
+  addInventoryItem(productId, body) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+
+    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory-item", body, httpOptions).
+    toPromise();
   }
 
   status401() {

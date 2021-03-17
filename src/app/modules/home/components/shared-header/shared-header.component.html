@@ -13,17 +13,16 @@
                     <ul class="navbar-nav">
                         <li *ngFor="let heading of navHeadings;index as i;" class="nav-item swap-link">
 
-                            <div *ngIf="heading.bold; else not_white"> <a [routerLink]="[''+heading.link]" class="nav-link"
-                                    style="color: white;">
+                            <div *ngIf="heading.bold; else not_white"> <a [routerLink]="[''+heading.link]"
+                                    class="nav-link" style="color: white;">
                                     {{heading.heading}}
                                 </a> </div>
 
-                                <ng-template #not_white>
-                                    <a [routerLink]="[''+heading.link]" class="nav-link"
-                                    >
+                            <ng-template #not_white>
+                                <a [routerLink]="[''+heading.link]" class="nav-link">
                                     {{heading.heading}}
                                 </a>
-                                </ng-template>
+                            </ng-template>
                         </li>
                     </ul>
                 </div>
@@ -35,6 +34,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link  text-white" role="button">{{username}}</a>
                     </li>
+                    <li>
+                        <a class="nav-link btn btn-primary text-white" (click)="logOut()" [routerLink]="['/signin']"
+                            role="button">Log Out</a>
+                    </li>
+
             </div>
 
             <ng-template #not_authenticated>

@@ -16,7 +16,8 @@ export class SharedHeaderComponent implements OnInit {
     signIn: [{ heading: 'Home', link: '', bold: false }, { heading: 'Sign In', link: '/signin', bold: true }],
     flows: [{ heading: 'Home', link: '', bold: false }, { heading: 'flows', link: '/flows', bold: true }],
     flowbuilder: [{ heading: "Home", link: '', bold: false }, { heading: "Flow Builder", link: '/flows/', bold: true }],
-    home: [{ heading: "Home", link: '', bold: true }, { heading: "Flow Builder", link: '/flows', bold: false }],
+    home: [{ heading: "Home", link: '', bold: true }, { heading: "Flow Builder", link: '/flows', bold: false },
+    { heading: "Dashboard", link: '/products/add', bold: false }],
     chooseVerticle: [],
     addProduct: [{ heading: "Home", link: '', bold: false }, { heading: "Add Product", link: '/products/add', bold: true }],
     products: [{ heading: "Home", link: '', bold: false }, { heading: "Products", link: '/products', bold: true }],
@@ -60,6 +61,10 @@ export class SharedHeaderComponent implements OnInit {
     if (username && accessToken && ownerId) {
       this.username = username
     }
+  }
+
+  logOut(){
+    localStorage.clear();
   }
 
 }
