@@ -15,6 +15,9 @@ import { ProductsComponent } from 'src/app/modules/product-management/components
 import { StorePageComponent } from 'src/app/modules/user-onboarding/components/store-page/store-page.component';
 import { OrdersComponent } from 'src/app/modules/product-management/components/orders/orders.component';
 import { ForgotPasswordComponent } from 'src/app/modules/user-onboarding/components/forgot-password/forgot-password.component';
+import { CartComponent } from 'src/app/modules/product-management/components/cart/cart.component';
+import {SingleCartComponent} from 'src/app/modules/product-management/components/single-cart/single-cart.component';
+import {SingleOrderComponent} from 'src/app/modules/product-management/components/single-order/single-order.component';
 
 const routes: Routes = [
 
@@ -82,7 +85,20 @@ const routes: Routes = [
     component: ForgotPasswordComponent,
     children: []
   },
-
+  {
+    path: 'cart',
+    component: CartComponent,
+    children: []
+  },  {
+    path: 'cart-items/:id',
+    component: SingleCartComponent,
+    children: []
+  },
+  {
+    path: 'order-items/:id',
+    component: SingleOrderComponent,
+    children: []
+  },
   {
     path: '**',
     component: PageNotFoundComponent,

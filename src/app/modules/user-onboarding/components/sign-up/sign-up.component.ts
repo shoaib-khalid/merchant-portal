@@ -26,11 +26,10 @@ export class SignUpComponent implements OnInit {
       username: this.username,
       email: this.email,
       password: this.password,
-      storeName: this.storeName,
       roleId: "STORE_OWNER"
     }
  
-    if (data.name && data.username && data.email && data.password && data.storeName && data.roleId) {
+    if (data.name && data.username && data.email && data.password && data.roleId) {
       if(this.validateEmail(this.email)){
       this.apiCalls.registerClient(data)
       }else{

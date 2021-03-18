@@ -84,30 +84,23 @@
                                                         <th class="border-0"><input type="checkbox"></th>
 
                                                         <th class="border-0">Order</th>
-                                                        <th class="border-0">Status</th>
-                                                        <th class="border-0" data-breakpoints="sm xs">Inventory</th>
-                                                        <th class="border-0" data-breakpoints="xs">Type</th>
-
-                                                        <th class="border-0" data-breakpoints="sm xs md">Vendor</th>
+                                                        <th class="border-0">Completion status</th>
+                                                        <th class="border-0" data-breakpoints="sm xs">Payment Status</th>
+                                                        <th class="border-0" data-breakpoints="xs">Customer Id</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    <tr *ngFor='let order of orders;' (click)="showOrderItems(order)">
                                                         <td><input type="checkbox"></td>
-                                                        <td class="product"><img src="assets/img/100x100.png"
-                                                                alt="Product img" class="img-lg rounded">Order Name</td>
+                                                        <td class="product">{{order.id}}</td>
                                                         <td>
-                                                            <div class="status">Active</div>
+                                                            <div >{{order.completionStatus}}</div>
                                                         </td>
                                                         <td>
 
-                                                            <div>0 in Stock</div>
+                                                            <div>{{order.paymentStatus}}</div>
                                                         </td>
-                                                        <td>Shirt</td>
-
-                                                        <td>
-                                                            Nike
-                                                        </td>
+                                                        <td>{{order.customerId}}</td>
                                                     </tr>
                                                    
                                                 </tbody>

@@ -299,6 +299,7 @@ export class ApiCallsService {
     }
     this.http.post<any>(this.pathVariable3 + "/stores", body, httpOptions).
       subscribe(data => {
+        localStorage.setItem("storeId",data.data.id)
         this.router.navigateByUrl('/flows');
 
       });
@@ -321,14 +322,21 @@ export class ApiCallsService {
   }
 
 
-  getProducts() {
+  getProducts(page=0) {
     const httpOptions = {
 
       headers: new HttpHeaders({
         Authorization: "asx"
-      })
+      }),
+      params:{
+        storeId:localStorage.getItem("storeId"),
+        "pageSize":"15",
+        "page":page+""
+
+      }
     }
-    return this.http.get(this.pathVariable3 + "/products", httpOptions).toPromise();
+    return  this.http.get("http://209.58.160.20:7071/products", httpOptions).toPromise();
+
   }
 
 
@@ -376,6 +384,54 @@ export class ApiCallsService {
     return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory-item", body, httpOptions).
     toPromise();
   }
+
+  async getOrders(){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      }),
+      
+      params: {
+        "storeId": localStorage.getItem("storeId")
+      }
+    }
+    return await this.http.get("http://209.58.160.20:7072/orders", httpOptions).toPromise();
+  }
+
+  async getCarts(){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      }),
+      
+      params: {
+        "storeId": localStorage.getItem("storeId")
+      }
+    }
+    return await this.http.get("http://209.58.160.20:7072/carts", httpOptions).toPromise();
+  }
+
+
+  getCartItems(cartId){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      }),
+      
+    }
+    return this.http.get("http://209.58.160.20:7072/carts/"+cartId+"/items", httpOptions).toPromise();
+  }
+
+  getOrderItems(cartId){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      }),
+      
+    }
+    return this.http.get("http://209.58.160.20:7072/orders/"+cartId+"/items", httpOptions).toPromise();
+  }
+
 
   status401() {
     this.router.navigateByUrl('/signin');

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HelperTextService } from 'src/app/helpers/helper-text.service';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-add-product',
@@ -36,7 +38,7 @@ export class AddProductComponent implements OnInit {
 
 
 
-  constructor(private helperTextService: HelperTextService, private apiCalls: ApiCallsService) { }
+  constructor(private helperTextService: HelperTextService, private apiCalls: ApiCallsService, private router: Router) { }
 
   ngOnInit(): void {
     this.countries = this.helperTextService.countriesList;
@@ -44,12 +46,12 @@ export class AddProductComponent implements OnInit {
   }
 
   addAnotherOption() {
-    this.options.push({name:""})
+    this.options.push({ name: "" })
   }
 
   variantChanged(event) {
     if (event.target.checked) {
-      this.options.push({name:""})
+      this.options.push({ name: "" })
     } else {
       this.options = [];
     }
@@ -91,26 +93,29 @@ export class AddProductComponent implements OnInit {
 
   async saveProduct() {
 
-    if (this.title && this.compareAtPrice && this.price && this.quantity && this.sku && this.productStatus != "status"
-      && this.checkProductVariantNames) {
+    if (this.title && this.compareAtPrice && this.price && this.quantity && this.sku && this.productStatus != "status") {
 
       const body = {
         "categoryId": 2,
         "name": this.title,
         "status": this.productStatus,
         "stock": 0,
-        "description":this.description,
+        "description": this.description,
         "storeId": localStorage.getItem("storeId")
       }
+
+      const data: any = await this.apiCalls.addProduct(body);
+      await this.addInventory(data.data.id)
+
       if (this.options.length > 0) {
-        const data: any = await this.apiCalls.addProduct(body);
         const variantIds: any = await this.addVariantName(data.data.id);
         const productAvailableIds = await this.addVariantValues(data.data.id, variantIds);
-        await this.addInventory(data.data.id)
         this.addInventoryItem(data.data.id, productAvailableIds)
-        console.log(data.data.id)
-        console.log(localStorage.getItem("storeId"))
       }
+      console.log("product Id:" + data.data.id)
+      console.log("storeId" + localStorage.getItem("storeId"))
+      this.router.navigateByUrl("/products")
+
     } else {
       window.scroll(0, 0)
       this.requiredError = true;
@@ -154,6 +159,9 @@ export class AddProductComponent implements OnInit {
 
   async addInventory(productId) {
 
+    if(this.combos.length>0){
+
+
     for (var i = 0; i < this.combos.length; i++) {
       const combosSplitted = this.combos[i].variant.split("/");
       const itemCode = productId + i
@@ -166,6 +174,15 @@ export class AddProductComponent implements OnInit {
       })
 
     }
+  }else{
+    const data: any = await this.apiCalls.addInventory(productId, {
+      itemCode: productId+"aa",
+      price: this.price,
+      compareAtPrice: this.compareAtPrice,
+      quantity: this.quantity,
+      sku: this.sku
+    })
+  }
   }
 
   async addInventoryItem(productId, productVariantAvailableIds) {
@@ -181,14 +198,14 @@ export class AddProductComponent implements OnInit {
     }
   }
 
-  priceChanged(event,i){
+  priceChanged(event, i) {
     this.combos[i].price = event.target.value;
   }
-  skuChanged(event,i){
+  skuChanged(event, i) {
     this.combos[i].sku = event.target.value;
 
   }
-  quantityChanged(event,i){
+  quantityChanged(event, i) {
     this.combos[i].quantity = event.target.value;
 
   }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiCallsService } from 'src/app/services/api-calls.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-orders',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrdersComponent implements OnInit {
 
-  constructor() { }
+  orders: any = [];
+  constructor(private apiCalls: ApiCallsService, private router:Router) { }
 
   ngOnInit(): void {
+    this.getOrders();
+  }
+
+  async getOrders() {
+    this.orders = await this.apiCalls.getOrders();
+    this.orders = this.orders.data.content;
+  }
+
+  showOrderItems(order){
+    this.router.navigateByUrl('order-items/'+order.id)
+
   }
 
 }
