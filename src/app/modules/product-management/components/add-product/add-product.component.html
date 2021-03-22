@@ -66,11 +66,13 @@
                                                 <div class="row">
                                                     <div class="col-lg-6">
 
-                                                        <p style="color: red;" *ngIf="requiredError"> * Please complete all fields</p>
+                                                        <p style="color: red;" *ngIf="requiredError"> * Please complete
+                                                            all fields</p>
 
                                                         <div class="form-group">
                                                             <label for="l301">Title</label>
-                                                            <input type="text" [(ngModel)]="title"  class="form-control" id="l301" />
+                                                            <input type="text" [(ngModel)]="title" class="form-control"
+                                                                id="l301" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -78,7 +80,8 @@
 
                                                 <div class="form-group">
                                                     <label class="form-control-label" for="l151">Description</label>
-                                                    <textarea class="form-control" [(ngModel)]="description" rows="3" id="l151"></textarea>
+                                                    <textarea class="form-control" [(ngModel)]="description" rows="3"
+                                                        id="l151"></textarea>
                                                 </div>
                                                 <h4 class="mt-4 mb-3">Media</h4>
                                                 <div class="input-group mb-3">
@@ -96,13 +99,15 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="l30">Price</label>
-                                                            <input type="number" min="0" [(ngModel)]="price" class="form-control" />
+                                                            <input type="number" min="0" [(ngModel)]="price"
+                                                                class="form-control" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="l31">Compare at price</label>
-                                                            <input type="number" min="0" [(ngModel)]="compareAtPrice" class="form-control" id="l31" />
+                                                            <input type="number" min="0" [(ngModel)]="compareAtPrice"
+                                                                class="form-control" id="l31" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -110,7 +115,8 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="l30">Cost per item</label>
-                                                            <input type="number" min="0" [(ngModel)]="costPerItem" class="form-control" />
+                                                            <input type="number" min="0" [(ngModel)]="costPerItem"
+                                                                class="form-control" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
@@ -130,7 +136,8 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6 ml-3">
-                                                        <input class="form-check-input" [(ngModel)]="chargeTax" type="checkbox"  value="">
+                                                        <input class="form-check-input" [(ngModel)]="chargeTax"
+                                                            type="checkbox" value="">
                                                         <label for="">Charge Tax on this product</label>
                                                     </div>
                                                 </div>
@@ -141,7 +148,8 @@
                                                         <div class="form-group">
                                                             <label for="l30">Inventory Managed by</label>
                                                             <div>
-                                                                <select name="Inventory-manager" [(ngModel)]="inventoryMngdBy" id="inventory-manage">
+                                                                <select name="Inventory-manager"
+                                                                    [(ngModel)]="inventoryMngdBy" id="inventory-manage">
                                                                     <option value="shopify">Shopify</option>
                                                                     <option value="dropshipman">Dropshipman</option>
                                                                 </select>
@@ -160,7 +168,8 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="l30">Barcode (ISBN, UPC, GTIN, etc.)</label>
-                                                            <input type="text" [(ngModel)]="barcode" class="form-control" />
+                                                            <input type="text" [(ngModel)]="barcode"
+                                                                class="form-control" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -168,7 +177,8 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" [(ngModel)]="trackQuantity" type="checkbox" value=""
+                                                                <input class="form-check-input"
+                                                                    [(ngModel)]="trackQuantity" type="checkbox" value=""
                                                                     id="flexCheckDefault">
                                                                 <label class="form-check-label" for="flexCheckDefault">
 
@@ -180,8 +190,9 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" [(ngModel)]="continueSelling" type="checkbox" value=""
-                                                                    id="flexCheckDefault">
+                                                                <input class="form-check-input"
+                                                                    [(ngModel)]="continueSelling" type="checkbox"
+                                                                    value="" id="flexCheckDefault">
                                                                 <label class="form-check-label" for="flexCheckDefault">
 
                                                                     Continue selling when out of stock
@@ -195,8 +206,8 @@
                                                         <div class="form-group">
                                                             <label for="quantity">Quantity</label>
                                                             <br>
-                                                            <input type="number" [(ngModel)]="quantity" id="quantity" name="quantity" min="1"
-                                                                max="10000">
+                                                            <input type="number" [(ngModel)]="quantity" id="quantity"
+                                                                name="quantity" min="1" max="10000">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -205,8 +216,9 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" [(ngModel)]="physicalProduct" type="checkbox" value=""
-                                                                    id="flexCheckDefault">
+                                                                <input class="form-check-input"
+                                                                    [(ngModel)]="physicalProduct" type="checkbox"
+                                                                    value="" id="flexCheckDefault">
                                                                 <label class="form-check-label" for="flexCheckDefault">
 
                                                                     This is a physical product
@@ -228,7 +240,8 @@
                                                             <br>
                                                             <input type="number" id="quantity" name="quantity" min="1"
                                                                 value="0.0" max="10000">
-                                                            <select name="" [(ngModel)]="weight" id="weight-type-dropdown">
+                                                            <select name="" [(ngModel)]="weight"
+                                                                id="weight-type-dropdown">
                                                                 <option value="">lb</option>
                                                                 <option value="">oz</option>
                                                                 <option value="">kg</option>
@@ -267,8 +280,7 @@
                                                     <div class="col-lg-10">
                                                         <div class="form-group">
                                                             <label for="l30">HS (Harmonized System) code</label>
-                                                            <input type="text"
-                                                            [(ngModel)]="hsCode"
+                                                            <input type="text" [(ngModel)]="hsCode"
                                                                 placeholder="Search by product keyword or HS code"
                                                                 class="form-control" id="l30" />
                                                         </div>
@@ -312,9 +324,8 @@
                                                         <div class="row">
                                                             <div class="col-lg-3" style="font-weight: lighter;">
                                                                 <div class="form-group">
-                                                                    <input type="text"
-                                                                    value="{{options[i].name}}"
-                                                                    (keyup)="variantNameChanged($event,i)"
+                                                                    <input type="text" value="{{options[i].name}}"
+                                                                        (keyup)="variantNameChanged($event,i)"
                                                                         class="form-control" />
                                                                 </div>
                                                             </div>
@@ -345,22 +356,21 @@
                                                             <th class="variant-cols">SKU </th>
                                                         </tr>
                                                         <tr *ngFor="let combo of combos;index as i;">
-                                                            <td class="variant-cols" style="font-weight: normal;">{{combo.variant}}</td>
+                                                            <td class="variant-cols" style="font-weight: normal;">
+                                                                {{combo.variant}}</td>
                                                             <td class="variant-cols" style="font-weight: normal;"><input
                                                                     type="text" class="form-control"
                                                                     (keyup)="priceChanged($event,i)"
-                                                                    value="{{combo.price}}"
-                                                                    placeholder="0.00 Rs"></td>
+                                                                    value="{{combo.price}}" placeholder="0.00 Rs"></td>
                                                             <td class="variant-cols" style="font-weight: normal;">
                                                                 <input type="number" class="form-control"
-                                                                value="{{combo.quantity}}"
-                                                                (keyup)="quantityChanged($event,i)"
-                                                                name="" id="" min="0">
+                                                                    value="{{combo.quantity}}"
+                                                                    (keyup)="quantityChanged($event,i)" name="" id=""
+                                                                    min="0">
                                                             </td>
                                                             <td class="variant-cols" style="font-weight: normal;"><input
-                                                                value="{{combo.sku}}"
-                                                                (keyup)="skuChanged($event,i)"  
-                                                                type="text" class="form-control">  </td>
+                                                                    value="{{combo.sku}}" (keyup)="skuChanged($event,i)"
+                                                                    type="text" class="form-control"> </td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -375,7 +385,8 @@
                                                 </div>
 
                                                 <div class="form-actions my-4">
-                                                    <button type="button" class="btn btn-primary width-150" (click)="saveProduct()">
+                                                    <button type="button" class="btn btn-primary width-150"
+                                                        (click)="saveProduct()">
                                                         Save Product
                                                     </button>
                                                     <button type="button" class="btn btn-danger">Cancel</button>
@@ -386,7 +397,8 @@
                                                 <h4 class="text-black mb-3">Product Status</h4>
                                                 <div class="add-item position-relative mb-3">
                                                     <div class="add-item-img d-flex  border-radius">
-                                                        <select name="Inventory-manager" [(ngModel)]="productStatus" id="inventory-manage">
+                                                        <select name="Inventory-manager" [(ngModel)]="productStatus"
+                                                            id="inventory-manage">
                                                             <option value="status">Select status</option>
                                                             <option value="ACTIVE">Active</option>
                                                             <option value="DRAFT">Draft</option>
@@ -407,9 +419,14 @@
                                                     <h4 class="text-black mb-3">Organization</h4>
                                                     <div class="add-item position-relative mb-3">
                                                         <div class="add-item-img d-flex  border-radius">
-                                                            <div>Product Type</div>
+                                                            <div>Category</div>
                                                         </div>
-                                                        <input type="text" class="form-control" />
+                                                        <input list="categories-data-list" id="categories" [(ngModel)]='category' type="text"
+                                                            class="form-control" />
+                                                        <datalist id="categories-data-list">
+                                                            <option value="{{cat.name}}" id="{{cat.id}}"
+                                                                *ngFor="let cat of categories;"></option>
+                                                        </datalist>
                                                         <div class="add-item-img d-flex  border-radius">
                                                             <div>Vendor</div>
                                                         </div>

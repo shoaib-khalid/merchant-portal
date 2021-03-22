@@ -8,11 +8,13 @@ import { ApiCallsService } from 'src/app/services/api-calls.service';
 export class ProductsComponent implements OnInit {
 
   products: any = [];
+  allProducts: any = [];
   page: any = 0;
   constructor(private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
     this.loadProducts();
+    this.getAllProducts();
   }
 
 
@@ -37,6 +39,24 @@ export class ProductsComponent implements OnInit {
     this.products = this.products.data.content
     window.scroll(0, 0)
 
+  }
+
+
+  filterProducts(event) {
+    const filter = event.target.value;
+    this.products = this.allProducts.filter(word => word.name.toLowerCase().includes(filter.toLowerCase()));
+  }
+
+  async getAllProducts() {
+    var i = 0;
+    while (true) {
+      const products: any = await this.apiCalls.getProducts(i);
+      if (products.data.content.length < 1) {
+        break;
+      }
+      this.allProducts = this.allProducts.concat(products.data.content)
+      i = i + 1;
+    }
   }
 
 }

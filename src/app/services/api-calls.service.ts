@@ -299,7 +299,7 @@ export class ApiCallsService {
     }
     this.http.post<any>(this.pathVariable3 + "/stores", body, httpOptions).
       subscribe(data => {
-        localStorage.setItem("storeId",data.data.id)
+        localStorage.setItem("storeId", data.data.id)
         this.router.navigateByUrl('/flows');
 
       });
@@ -322,20 +322,20 @@ export class ApiCallsService {
   }
 
 
-  getProducts(page=0) {
+  getProducts(page = 0) {
     const httpOptions = {
 
       headers: new HttpHeaders({
         Authorization: "asx"
       }),
-      params:{
-        storeId:localStorage.getItem("storeId"),
-        "pageSize":"15",
-        "page":page+""
+      params: {
+        storeId: localStorage.getItem("storeId"),
+        "pageSize": "15",
+        "page": page + ""
 
       }
     }
-    return  this.http.get("http://209.58.160.20:7071/products", httpOptions).toPromise();
+    return this.http.get("http://209.58.160.20:7071/products", httpOptions).toPromise();
 
   }
 
@@ -359,7 +359,7 @@ export class ApiCallsService {
     }
 
     return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants-available", body, httpOptions).
-    toPromise();
+      toPromise();
   }
 
   addInventory(productId, body) {
@@ -370,10 +370,10 @@ export class ApiCallsService {
     }
 
     return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory", body, httpOptions).
-    toPromise();
+      toPromise();
   }
 
-  
+
   addInventoryItem(productId, body) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -382,15 +382,15 @@ export class ApiCallsService {
     }
 
     return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory-item", body, httpOptions).
-    toPromise();
+      toPromise();
   }
 
-  async getOrders(){
+  async getOrders() {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: "asx"
       }),
-      
+
       params: {
         "storeId": localStorage.getItem("storeId")
       }
@@ -398,12 +398,12 @@ export class ApiCallsService {
     return await this.http.get("http://209.58.160.20:7072/orders", httpOptions).toPromise();
   }
 
-  async getCarts(){
+  async getCarts() {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: "asx"
       }),
-      
+
       params: {
         "storeId": localStorage.getItem("storeId")
       }
@@ -412,24 +412,52 @@ export class ApiCallsService {
   }
 
 
-  getCartItems(cartId){
+  getCartItems(cartId) {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: "asx"
       }),
-      
+
     }
-    return this.http.get("http://209.58.160.20:7072/carts/"+cartId+"/items", httpOptions).toPromise();
+    return this.http.get("http://209.58.160.20:7072/carts/" + cartId + "/items", httpOptions).toPromise();
   }
 
-  getOrderItems(cartId){
+  getOrderItems(cartId) {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: "asx"
       }),
-      
+
     }
-    return this.http.get("http://209.58.160.20:7072/orders/"+cartId+"/items", httpOptions).toPromise();
+    return this.http.get("http://209.58.160.20:7072/orders/" + cartId + "/items", httpOptions).toPromise();
+  }
+
+
+  getStoreCategories(page) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      }),
+
+      params: {
+        "storeId": localStorage.getItem("storeId"),
+        "page":""+page
+      }
+    }
+
+    return this.http.get(this.pathVariable3 + "/store-categories", httpOptions).toPromise();
+
+  }
+
+
+  createCategory(body) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+    return this.http.post<any>(this.pathVariable3 + "/store-categories", body, httpOptions).
+      toPromise();
   }
 
 

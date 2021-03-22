@@ -67,6 +67,7 @@
                                                 <div>
                                                     <input type="text" placeholder="Filter Products"
                                                         class="form-control" style="width:140px; margin-right: 10px;"
+                                                        (keyup)="filterProducts($event)"
                                                         name="" id="">
                                                 </div>
                                                 <div>
@@ -127,10 +128,10 @@
                                                 <ul class="pagination pagination-sm">
                                                     <li class="page-item"><a class="page-link" style="cursor: pointer;" (click)="previousPage()">Previous</a>
                                                     </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item active"><a class="page-link" href="#">2</a>
+                                                    <li class="page-item active" ><a class="page-link" href="#">{{page+1}}</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">{{page+2}}</a>
                                                     </li>
-                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">{{page+3}}</a></li>
                                                     <li class="page-item"><a class="page-link" style="cursor: pointer;" (click)="nextPage()">Next</a></li>
                                                 </ul>
                                             </nav>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HelperTextService } from 'src/app/helpers/helper-text.service';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router } from '@angular/router';
+import $ from "jquery";
 
 
 @Component({
@@ -35,14 +36,15 @@ export class AddProductComponent implements OnInit {
   options: any = []
   combos: any = [];
   requiredError: boolean = false;
-
+  categories: any = [];
+  category: any;
 
 
   constructor(private helperTextService: HelperTextService, private apiCalls: ApiCallsService, private router: Router) { }
 
   ngOnInit(): void {
     this.countries = this.helperTextService.countriesList;
-
+    this.getCategoriesByStoreId();
   }
 
   addAnotherOption() {
@@ -93,15 +95,17 @@ export class AddProductComponent implements OnInit {
 
   async saveProduct() {
 
-    if (this.title && this.compareAtPrice && this.price && this.quantity && this.sku && this.productStatus != "status") {
+    if (this.title && this.compareAtPrice && this.price && this.quantity && this.sku && this.productStatus != "status" && this.category) {
 
+      const categoryId = await this.getCategoryId()
       const body = {
-        "categoryId": 2,
+        "categoryId": categoryId,
         "name": this.title,
         "status": this.productStatus,
         "stock": 0,
         "description": this.description,
         "storeId": localStorage.getItem("storeId")
+
       }
 
       const data: any = await this.apiCalls.addProduct(body);
@@ -113,7 +117,6 @@ export class AddProductComponent implements OnInit {
         this.addInventoryItem(data.data.id, productAvailableIds)
       }
       console.log("product Id:" + data.data.id)
-      console.log("storeId" + localStorage.getItem("storeId"))
       this.router.navigateByUrl("/products")
 
     } else {
@@ -159,30 +162,30 @@ export class AddProductComponent implements OnInit {
 
   async addInventory(productId) {
 
-    if(this.combos.length>0){
+    if (this.combos.length > 0) {
 
 
-    for (var i = 0; i < this.combos.length; i++) {
-      const combosSplitted = this.combos[i].variant.split("/");
-      const itemCode = productId + i
+      for (var i = 0; i < this.combos.length; i++) {
+        const combosSplitted = this.combos[i].variant.split("/");
+        const itemCode = productId + i
+        const data: any = await this.apiCalls.addInventory(productId, {
+          itemCode: itemCode,
+          price: this.combos[i].price,
+          compareAtPrice: 0,
+          quantity: this.combos[i].quantity,
+          sku: this.combos[i].sku
+        })
+
+      }
+    } else {
       const data: any = await this.apiCalls.addInventory(productId, {
-        itemCode: itemCode,
-        price: this.combos[i].price,
-        compareAtPrice: 0,
-        quantity: this.combos[i].quantity,
-        sku: this.combos[i].sku
+        itemCode: productId + "aa",
+        price: this.price,
+        compareAtPrice: this.compareAtPrice,
+        quantity: this.quantity,
+        sku: this.sku
       })
-
     }
-  }else{
-    const data: any = await this.apiCalls.addInventory(productId, {
-      itemCode: productId+"aa",
-      price: this.price,
-      compareAtPrice: this.compareAtPrice,
-      quantity: this.quantity,
-      sku: this.sku
-    })
-  }
   }
 
   async addInventoryItem(productId, productVariantAvailableIds) {
@@ -209,4 +212,41 @@ export class AddProductComponent implements OnInit {
     this.combos[i].quantity = event.target.value;
 
   }
+
+  async getCategoriesByStoreId() {
+
+    var i = 0;
+    while (true) {
+      var data: any = await this.apiCalls.getStoreCategories(i);
+      if (data.data.content.length < 1) {
+        break;
+      }
+      this.categories = this.categories.concat(data.data.content)
+      i = i + 1;
+    }
+  }
+
+  async getCategoryId() {
+    const name = $('#categories').val();
+    var id = $('#categories-data-list option[value="' + name + '"]').attr('id');
+    if (id) {
+      return id;
+    }
+    id = await this.createNewCategory(name)
+    return id;
+
+  }
+
+  createNewCategory(name) {
+    const body = {
+      "name": name,
+      "storeId": localStorage.getItem("storeId"),
+    }
+    var promise = new Promise(async (resolve, reject) => {
+      const data: any = await this.apiCalls.createCategory(body);
+      resolve(data.data.id);
+    });
+    return promise;
+  }
+
 }
