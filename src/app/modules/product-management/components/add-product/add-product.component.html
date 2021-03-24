@@ -136,9 +136,9 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6 ml-3">
-                                                        <input class="form-check-input" [(ngModel)]="chargeTax"
+                                                        <input hidden class="form-check-input" [(ngModel)]="chargeTax"
                                                             type="checkbox" value="">
-                                                        <label for="">Charge Tax on this product</label>
+                                                        <label for="" hidden>Charge Tax on this product</label>
                                                     </div>
                                                 </div>
                                                 <br />
@@ -146,9 +146,9 @@
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
-                                                            <label for="l30">Inventory Managed by</label>
+                                                            <label for="l30" hidden>Inventory Managed by</label>
                                                             <div>
-                                                                <select name="Inventory-manager"
+                                                                <select name="Inventory-manager" hidden
                                                                     [(ngModel)]="inventoryMngdBy" id="inventory-manage">
                                                                     <option value="shopify">Shopify</option>
                                                                     <option value="dropshipman">Dropshipman</option>
@@ -167,8 +167,8 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
-                                                            <label for="l30">Barcode (ISBN, UPC, GTIN, etc.)</label>
-                                                            <input type="text" [(ngModel)]="barcode"
+                                                            <label for="l30" hidden>Barcode (ISBN, UPC, GTIN, etc.)</label>
+                                                            <input type="text" [(ngModel)]="barcode" hidden
                                                                 class="form-control" />
                                                         </div>
                                                     </div>
@@ -177,10 +177,10 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input"
+                                                                <input class="form-check-input" hidden
                                                                     [(ngModel)]="trackQuantity" type="checkbox" value=""
                                                                     id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault">
+                                                                <label class="form-check-label" for="flexCheckDefault" hidden>
 
                                                                     Track quantity
                                                                 </label>
@@ -191,9 +191,9 @@
                                                         <div class="form-group">
                                                             <div class="form-check">
                                                                 <input class="form-check-input"
-                                                                    [(ngModel)]="continueSelling" type="checkbox"
+                                                                    [(ngModel)]="continueSelling" type="checkbox" hidden
                                                                     value="" id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault">
+                                                                <label class="form-check-label" for="flexCheckDefault" hidden>
 
                                                                     Continue selling when out of stock
                                                                 </label>
@@ -217,9 +217,9 @@
                                                         <div class="form-group">
                                                             <div class="form-check">
                                                                 <input class="form-check-input"
-                                                                    [(ngModel)]="physicalProduct" type="checkbox"
+                                                                    [(ngModel)]="physicalProduct" type="checkbox" hidden
                                                                     value="" id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault">
+                                                                <label class="form-check-label" for="flexCheckDefault" hidden>
 
                                                                     This is a physical product
                                                                 </label>
@@ -227,20 +227,20 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="row" hidden>
                                                     <div class="col-lg-10">
                                                         <div class="form-group">
-                                                            <div>Weight</div>
-                                                            <p style="font-weight: normal;">Used to calculate shipping
+                                                            <div >Weight</div>
+                                                            <p style="font-weight: normal;" >Used to calculate shipping
                                                                 rates at checkout and label prices during fulfillment.
                                                             </p>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="quantity">Weight</label>
+                                                            <label for="quantity" >Weight</label>
                                                             <br>
-                                                            <input type="number" id="quantity" name="quantity" min="1"
+                                                            <input type="number" id="quantity" name="quantity" min="1" 
                                                                 value="0.0" max="10000">
-                                                            <select name="" [(ngModel)]="weight"
+                                                            <select name="" [(ngModel)]="weight" 
                                                                 id="weight-type-dropdown">
                                                                 <option value="">lb</option>
                                                                 <option value="">oz</option>
@@ -250,7 +250,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="row" hidden>
                                                     <div class="col-lg-6">
                                                         Customs information
                                                     </div>
@@ -261,7 +261,7 @@
                                                     </div>
                                                 </div>
                                                 <br>
-                                                <div class="row">
+                                                <div class="row" hidden>
                                                     <div class="col-lg-6">
                                                         Country/Region of origin
                                                     </div>
@@ -407,8 +407,8 @@
                                                     <div style="font-weight: normal;">This product will be hidden from
                                                         all sales channels.</div>
                                                     <br>
-                                                    <div>SALES CHANNELS AND APPS</div>
-                                                    <div style="margin-left: 19px;"> <input class="form-check-input"
+                                                    <div hidden>SALES CHANNELS AND APPS</div>
+                                                    <div hidden style="margin-left: 19px;"> <input class="form-check-input"
                                                             type="checkbox" value="" id="flexCheckDefault">
                                                         <label class="form-check-label" for="flexCheckDefault">
 
@@ -427,11 +427,11 @@
                                                             <option value="{{cat.name}}" id="{{cat.id}}"
                                                                 *ngFor="let cat of categories;"></option>
                                                         </datalist>
-                                                        <div class="add-item-img d-flex  border-radius">
+                                                        <div class="add-item-img d-flex  border-radius" hidden>
                                                             <div>Vendor</div>
                                                         </div>
-                                                        <input type="text" class="form-control" />
-                                                        <div class="add-item-img d-flex  border-radius">
+                                                        <input type="text" class="form-control"  hidden/>
+                                                        <div class="add-item-img d-flex  border-radius" hidden>
                                                             <div>Collections</div>
                                                         </div>
                                                         <input type="text" placeholder="Search for collections"

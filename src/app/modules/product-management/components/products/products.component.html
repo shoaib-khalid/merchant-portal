@@ -103,18 +103,18 @@
                                                 <tbody>
                                                     <tr *ngFor ="let product of products">
                                                         <td><input type="checkbox"></td>
-                                                        <td class="product"><img src="assets/img/100x100.png"
-                                                                alt="Product img" class="img-lg rounded"> {{product.name}}</td>
-                                                        <td>
+                                                        <td class="product"><img src="{{product.thumbnailUrl}}" height="100" width="100"
+                                                                alt="(product-img)" class="img-lg rounded"> {{product.name}}</td>
+                                                        <td style="vertical-align: middle;">
                                                             <div class="status">{{product.status}}</div>
                                                         </td>
-                                                        <td>
+                                                        <td style="vertical-align: middle;">
 
                                                             <div>{{product.stock}} in Stock</div>
                                                         </td>
-                                                        <td>Shirt</td>
+                                                        <td style="vertical-align: middle;">Shirt</td>
 
-                                                        <td>
+                                                        <td style="vertical-align: middle;">
                                                             Nike
                                                         </td>
                                                     </tr>

@@ -329,13 +329,12 @@ export class ApiCallsService {
         Authorization: "asx"
       }),
       params: {
-        storeId: localStorage.getItem("storeId"),
         "pageSize": "15",
         "page": page + ""
 
       }
     }
-    return this.http.get("http://209.58.160.20:7071/products", httpOptions).toPromise();
+    return this.http.get("http://209.58.160.20:7071/stores/" + localStorage.getItem("storeId")+"/products", httpOptions).toPromise();
 
   }
 
@@ -441,7 +440,7 @@ export class ApiCallsService {
 
       params: {
         "storeId": localStorage.getItem("storeId"),
-        "page":""+page
+        "page": "" + page
       }
     }
 

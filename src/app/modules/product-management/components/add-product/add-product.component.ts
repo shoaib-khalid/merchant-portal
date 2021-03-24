@@ -95,7 +95,7 @@ export class AddProductComponent implements OnInit {
 
   async saveProduct() {
 
-    if (this.title && this.compareAtPrice && this.price && this.quantity && this.sku && this.productStatus != "status" && this.category) {
+    if (this.title && this.price && this.quantity && this.sku && this.productStatus != "status" && this.category) {
 
       const categoryId = await this.getCategoryId()
       const body = {
