@@ -23,7 +23,7 @@ export class OrdersComponent implements OnInit {
   }
 
   showOrderItems(order){
-    this.router.navigateByUrl('order-items/'+order.id)
+    this.router.navigate(['orders/order-details'],{ queryParams: { orderId: order.id }})
 
   }
 

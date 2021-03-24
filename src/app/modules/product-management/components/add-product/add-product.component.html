@@ -207,19 +207,20 @@
                                                             <label for="quantity">Quantity</label>
                                                             <br>
                                                             <input type="number" [(ngModel)]="quantity" id="quantity"
-                                                                name="quantity" min="1" max="10000">
+                                                            class="form-control"    
+                                                            name="quantity" min="1" max="10000">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <h4 class="text-black mb-3">Shipping</h4>
-                                                <div class="row">
+                                                <h4 hidden class="text-black mb-3">Shipping</h4>
+                                                <div hidden class="row">
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-check">
                                                                 <input class="form-check-input"
-                                                                    [(ngModel)]="physicalProduct" type="checkbox" hidden
+                                                                    [(ngModel)]="physicalProduct" type="checkbox" 
                                                                     value="" id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault" hidden>
+                                                                <label class="form-check-label" for="flexCheckDefault" >
 
                                                                     This is a physical product
                                                                 </label>
@@ -398,8 +399,9 @@
                                                 <div class="add-item position-relative mb-3">
                                                     <div class="add-item-img d-flex  border-radius">
                                                         <select name="Inventory-manager" [(ngModel)]="productStatus"
-                                                            id="inventory-manage">
-                                                            <option value="status">Select status</option>
+                                                        class="form-control"  
+                                                        id="inventory-manage">
+                                                            <option value="">Select status</option>
                                                             <option value="ACTIVE">Active</option>
                                                             <option value="DRAFT">Draft</option>
                                                         </select>
@@ -428,18 +430,18 @@
                                                                 *ngFor="let cat of categories;"></option>
                                                         </datalist>
                                                         <div class="add-item-img d-flex  border-radius" hidden>
-                                                            <div>Vendor</div>
+                                                            <div hidden>Vendor</div>
                                                         </div>
                                                         <input type="text" class="form-control"  hidden/>
                                                         <div class="add-item-img d-flex  border-radius" hidden>
-                                                            <div>Collections</div>
+                                                            <div hidden>Collections</div >
                                                         </div>
-                                                        <input type="text" placeholder="Search for collections"
+                                                        <input type="text" placeholder="Search for collections" hidden
                                                             class="form-control" />
                                                         <div class="add-item-img d-flex  border-radius">
-                                                            <div>Tags</div>
+                                                            <div hidden>Tags</div>
                                                         </div>
-                                                        <input type="text" placeholder="Vintage, cotton, summer"
+                                                        <input type="text" placeholder="Vintage, cotton, summer" hidden
                                                             class="form-control" />
                                                     </div>
                                                 </div>

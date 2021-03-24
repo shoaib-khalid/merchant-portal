@@ -4,7 +4,7 @@
         <div *ngIf="loading">
             <mat-spinner [diameter]="30" id="loading-spinner"></mat-spinner>
         </div>
-        <mat-checkbox id="{{bot.refId}}"  (change)="setAll($event,i)" *ngFor="let bot of bots;index as i;">{{bot.channelName}} <span
+        <mat-checkbox id="{{bot.refId}}" style="width: 200px;" (change)="setAll($event,i)" *ngFor="let bot of bots;index as i;">{{bot.channelName}} <span
                 class="text-muted">{{bot.refId}}</span></mat-checkbox>
 
     </div>

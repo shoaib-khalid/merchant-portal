@@ -216,6 +216,19 @@ export class ApiCallsService {
     }
   }
 
+  async getPublishedBots() {
+    
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+    console.log(this.flowId)
+    var data: any =  await this.http.get(this.pathVariable1 + "/mxgraph/publish/"+this.flowId, httpOptions).toPromise();
+    console.log(data)
+  }
+
 
   registerClient(signUpData) {
     const httpOptions = {
@@ -254,7 +267,7 @@ export class ApiCallsService {
             this.router.navigateByUrl('/chooseverticle')
           } else {
             localStorage.setItem("storeId", data.data.content[0].id)
-            this.router.navigateByUrl('/flows')
+            this.router.navigateByUrl('/products/add')
 
           }
         }
@@ -334,7 +347,7 @@ export class ApiCallsService {
 
       }
     }
-    return this.http.get("http://209.58.160.20:7071/stores/" + localStorage.getItem("storeId")+"/products", httpOptions).toPromise();
+    return this.http.get("http://209.58.160.20:7071/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
 
   }
 

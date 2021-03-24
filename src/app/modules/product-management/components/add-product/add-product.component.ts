@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { HelperTextService } from 'src/app/helpers/helper-text.service';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import $ from "jquery";
 })
 export class AddProductComponent implements OnInit {
 
-  productStatus: any = "status";
+  productStatus: any = "";
   title: string;
   description: string;
   price: any;
@@ -95,7 +95,7 @@ export class AddProductComponent implements OnInit {
 
   async saveProduct() {
 
-    if (this.title && this.price && this.quantity && this.sku && this.productStatus != "status" && this.category) {
+    if (this.title && this.price && this.quantity && this.sku && this.productStatus && this.category) {
 
       const categoryId = await this.getCategoryId()
       const body = {
@@ -120,8 +120,10 @@ export class AddProductComponent implements OnInit {
       this.router.navigateByUrl("/products")
 
     } else {
-      window.scroll(0, 0)
+      
+      this.highlightEmptyFields();
       this.requiredError = true;
+      window.scroll(0, 0)
     }
   }
 
@@ -248,5 +250,19 @@ export class AddProductComponent implements OnInit {
     });
     return promise;
   }
+
+
+  highlightEmptyFields() {
+    var arr: any = document.getElementsByClassName('form-control');
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].value == "") {
+        $(arr[i]).val('').css("border-color", "red");
+      } else {
+        console.log(arr[i].value)
+        $(arr[i]).css("border-color", "");
+      }
+    }
+  }
+
 
 }

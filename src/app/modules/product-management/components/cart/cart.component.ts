@@ -11,21 +11,22 @@ export class CartComponent implements OnInit {
 
 
   carts:any=[];
-
+  cartDetails:boolean =false;
   constructor(private apiCalls:ApiCallsService,private router:Router) { }
 
   ngOnInit(): void {
     this.getCart();
+    this.cartDetails=false;
   }
 
   async getCart(){
     this.carts = await this.apiCalls.getCarts();
     this.carts = this.carts.data.content;
-    console.log(this.carts)
   }
 
   showCartItems(cart){
-    this.router.navigateByUrl('cart-items/'+cart.id)
+    this.router.navigate(['carts/cart-details'], { queryParams: { cartId: cart.id }})
+    this.cartDetails= true;
   }
 
 }

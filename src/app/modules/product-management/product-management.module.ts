@@ -9,8 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { TagInputModule } from 'ngx-chips';
 import { OrdersComponent } from './components/orders/orders.component';
 import { CartComponent } from './components/cart/cart.component';
-import { SingleOrderComponent } from './components/single-order/single-order.component';
-import { SingleCartComponent } from './components/single-cart/single-cart.component';
+import { SingleOrderComponent } from './components/order-details/single-order.component';
+import { SingleCartComponent } from './components/cart-details/single-cart.component';
 
 
 

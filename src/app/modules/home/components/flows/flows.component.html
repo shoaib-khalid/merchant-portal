@@ -22,7 +22,9 @@
             <div class="dropdown edit">
                 <img class="edit" src="assets/edit.svg" alt="dots" width="20px" height="20px">
                 <div class="dropdown-content">
-                  <p style="color: red;" id="{{flow.id}}" (click)="delete($event)">Delete</p>
+                  <p class="options" id="{{flow.id}}" (click)="delete($event)">Published Channels</p>
+                  <p class="options" style="color: red;" id="{{flow.id}}" (click)="delete($event)">Delete</p>
+
                   </div>
               </div>
        

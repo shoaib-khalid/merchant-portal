@@ -20,8 +20,7 @@ export class ProductsComponent implements OnInit {
 
   async loadProducts() {
     this.products = await this.apiCalls.getProducts();
-    this.products = this.products.data.content
-    console.log(this.products)
+    this.products = this.products.data.content;
   }
 
   async nextPage() {

@@ -14,9 +14,9 @@ export class SingleOrderComponent implements OnInit {
   constructor(private route:ActivatedRoute,private apiCalls:ApiCallsService) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      if(params.id){
-        const orderId = params.id
+    this.route.queryParams.subscribe(params => {
+      if(params["orderId"]){
+        const orderId = params["orderId"];
         this.getOrderItems(orderId);
       }else{
 
