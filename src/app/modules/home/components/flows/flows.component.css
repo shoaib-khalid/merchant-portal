@@ -39,7 +39,7 @@
     border-radius: 10px;
   }
   
-.dropdown-content:hover{
+.username:hover{
     background-color: #fdfdfd;
     
 }
@@ -48,9 +48,10 @@
     display: block;
   }
 
+  .options{
+    height: 50px;
+  }
 
   .options:hover{
     background-color: #c7c7c7;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
   }

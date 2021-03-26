@@ -16,8 +16,10 @@ import { StorePageComponent } from 'src/app/modules/user-onboarding/components/s
 import { OrdersComponent } from 'src/app/modules/product-management/components/orders/orders.component';
 import { ForgotPasswordComponent } from 'src/app/modules/user-onboarding/components/forgot-password/forgot-password.component';
 import { CartComponent } from 'src/app/modules/product-management/components/cart/cart.component';
-import {SingleCartComponent} from 'src/app/modules/product-management/components/cart-details/single-cart.component';
-import {SingleOrderComponent} from 'src/app/modules/product-management/components/order-details/single-order.component';
+import { SingleCartComponent } from 'src/app/modules/product-management/components/cart-details/single-cart.component';
+import { SingleOrderComponent } from 'src/app/modules/product-management/components/order-details/single-order.component';
+import { ManageStoresComponent } from 'src/app/modules/store-management/components/manage-stores/manage-stores.component';
+
 
 const routes: Routes = [
 
@@ -89,7 +91,7 @@ const routes: Routes = [
     path: 'carts',
     component: CartComponent,
     children: []
-  },  {
+  }, {
     path: 'carts/cart-details',
     component: SingleCartComponent,
     children: []
@@ -97,6 +99,11 @@ const routes: Routes = [
   {
     path: 'orders/order-details',
     component: SingleOrderComponent,
+    children: []
+  },
+  {
+    path: 'store-management',
+    component: ManageStoresComponent,
     children: []
   },
   {

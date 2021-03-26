@@ -192,8 +192,8 @@ export class ApiCallsService {
     }
   }
 
-  publishmxGraph(botIds) {
-
+  publishmxGraph(botIds, flowId = this.flowId) {
+    this.flowId = flowId;
     const httpOptions = this.getHttpOptions("asx")
     const body = {
       "botIds": botIds
@@ -217,7 +217,7 @@ export class ApiCallsService {
   }
 
   async getPublishedBots() {
-    
+
     const httpOptions = {
 
       headers: new HttpHeaders({
@@ -225,7 +225,7 @@ export class ApiCallsService {
       })
     }
     console.log(this.flowId)
-    var data: any =  await this.http.get(this.pathVariable1 + "/mxgraph/publish/"+this.flowId, httpOptions).toPromise();
+    var data: any = await this.http.get(this.pathVariable1 + "/mxgraph/publish/" + this.flowId, httpOptions).toPromise();
     console.log(data)
   }
 
@@ -265,13 +265,26 @@ export class ApiCallsService {
           var data: any = await this.http.get(this.pathVariable3 + "/stores", httpOptions).toPromise();
           if (data.data.content.length == 0) {
             this.router.navigateByUrl('/chooseverticle')
-          } else {
+          } else if (data.data.content.length == 1) {
             localStorage.setItem("storeId", data.data.content[0].id)
             this.router.navigateByUrl('/products/add')
+          } else {
+            this.router.navigateByUrl('/store-management')
 
           }
         }
       }, error => console.log(error));
+  }
+
+  getStoresByOwnerId() {
+
+    const httpOptions = {
+      params: {
+        clientId: localStorage.getItem("ownerId")
+      }
+    }
+
+    return this.http.get(this.pathVariable3 + "/stores", httpOptions).toPromise();
   }
 
   async getUserChannels() {
@@ -471,6 +484,22 @@ export class ApiCallsService {
     return this.http.post<any>(this.pathVariable3 + "/store-categories", body, httpOptions).
       toPromise();
   }
+
+
+  uploadImage(body, productId, itemCode) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      }),
+      params: {
+        itemCode: itemCode
+      }
+    }
+    this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId")
+      + "/products/" + productId + "/assets", body, httpOptions).
+      toPromise();
+  }
+
 
 
   status401() {

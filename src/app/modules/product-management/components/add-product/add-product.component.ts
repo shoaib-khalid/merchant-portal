@@ -12,6 +12,7 @@ import $ from "jquery";
 })
 export class AddProductComponent implements OnInit {
 
+  files:any=[];
   productStatus: any = "";
   title: string;
   description: string;
@@ -120,7 +121,7 @@ export class AddProductComponent implements OnInit {
       this.router.navigateByUrl("/products")
 
     } else {
-      
+
       this.highlightEmptyFields();
       this.requiredError = true;
       window.scroll(0, 0)
@@ -262,6 +263,16 @@ export class AddProductComponent implements OnInit {
         $(arr[i]).css("border-color", "");
       }
     }
+  }
+
+  onFileChanged(event) {
+    this.files = event.target.files;
+    const formData = new FormData();
+    for (const file of this.files) {
+        formData.append("name", file, file.name);
+    }
+    // this.http.post('url', formData).subscribe(x => ....);
+    console.log(formData)
   }
 
 

@@ -5,11 +5,8 @@
 <body>
     <app-shared-header></app-shared-header>
     <h3 id="select-text">Please select a flow...</h3>
-    <div class="flow-card">
-        
-
-
-        <div class="flow-title"  (click)="createNewFlow()" style="color: blue;">+ Create New Flow
+    <div class="flow-card" (click)="createNewFlow()">
+        <div class="flow-title" style="color: blue;">+ Create New Flow
         </div>
     </div>
 
@@ -17,18 +14,22 @@
         <mat-spinner [diameter]="70" style="margin:auto;margin-top: 100px;"></mat-spinner>
     </div>
     <div *ngFor="let flow of flows;index as i;">
-       
-        <div class="flow-card"  >
+
+        <div class="flow-card" id="{{flow.id}}" (click)="openFlow($event)">
             <div class="dropdown edit">
                 <img class="edit" src="assets/edit.svg" alt="dots" width="20px" height="20px">
                 <div class="dropdown-content">
-                  <p class="options" id="{{flow.id}}" (click)="delete($event)">Published Channels</p>
-                  <p class="options" style="color: red;" id="{{flow.id}}" (click)="delete($event)">Delete</p>
+                    <div class="options" style="border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;padding-top:10px;" (click)="publishFlow($event)" id="{{flow.id}}">Publish Flow</div>
+                    <div class="options" id="{{flow.id}}" (click)="showPublishedChannels($event)">Published Channels</div>
+                    <div class="options" style="border-bottom-left-radius: 10px;
+                    border-bottom-right-radius: 10px;color: red;padding: 10px;" id="{{flow.id}}"
+                        (click)="delete($event)">Delete</div>
 
-                  </div>
-              </div>
-       
-              <div class="flow-title" id="{{flow.id}}" (click)="openFlow($event)">{{flow.title}}</div>
+                </div>
+            </div>
+
+            <div class="flow-title" id="{{flow.id}}">{{flow.title}}</div>
         </div>
     </div>
 
@@ -36,4 +37,3 @@
 </body>
 
 </html>
-

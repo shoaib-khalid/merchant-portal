@@ -1,0 +1,26 @@
+<html>
+
+<head></head>
+
+<body>
+    <app-shared-header></app-shared-header>
+    <h3 id="select-text">Please select a Store...</h3>
+    <div class="flow-card" [routerLink]="['/chooseverticle']">
+        <div class="flow-title" style="color: blue;">+ Create New Store
+        </div>
+    </div>
+
+    <div *ngIf="loading">
+        <mat-spinner [diameter]="70" style="margin:auto;margin-top: 100px;"></mat-spinner>
+    </div>
+    <div>
+
+        <div class="flow-card" *ngFor = "let store of stores;"  id="{{store.id}}">
+            <div class="flow-title" id="{{store.id}}" (click)="selectStore($event)">{{store.name}}</div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

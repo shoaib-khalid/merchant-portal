@@ -11,7 +11,7 @@ import { FlowBuilderModule } from './modules/flow-builder/flow-builder.module';
 import { UserOnboardingModule } from './modules/user-onboarding/user-onboarding.module';
 import {ProductManagementModule} from './modules/product-management/product-management.module';
 import { HomeModule } from './modules/home/home.module';
-
+import { StoreManagementModule } from './modules/store-management/store-management.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +24,7 @@ import { HomeModule } from './modules/home/home.module';
     UserOnboardingModule,
     ProductManagementModule,
     HomeModule,
+    StoreManagementModule
   ], entryComponents: [FlowDialog],
   providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
   { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }],

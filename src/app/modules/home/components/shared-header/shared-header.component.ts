@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
+import $ from "jquery";
+
 @Component({
   selector: 'app-shared-header',
   templateUrl: './shared-header.component.html',
@@ -24,6 +26,24 @@ export class SharedHeaderComponent implements OnInit {
     store: []
   }
   navHeadings: any = [];
+  @HostListener('document:click', ['$event.target'])
+  onClick(btn) {
+
+    if (btn.classList.value.includes("username")) {
+      const disp = $(".dropdown-content").css("display");
+
+      if (disp == "block") {
+        $(".dropdown-content").css("display", "none");
+
+      } else {
+        $(".dropdown-content").css("display", "block");
+
+      }
+    } else {
+      $(".dropdown-content").css("display", "none");
+
+    }
+  }
 
   ngOnInit(): void {
 
@@ -49,7 +69,7 @@ export class SharedHeaderComponent implements OnInit {
     }
     else if (this.router.url == "/products") {
       this.navHeadings = this.navOptionalHeadings.products;
-    }  else if (this.router.url == "/store") {
+    } else if (this.router.url == "/store") {
       this.navHeadings = this.navOptionalHeadings.store;
     }
 
@@ -63,7 +83,7 @@ export class SharedHeaderComponent implements OnInit {
     }
   }
 
-  logOut(){
+  logOut() {
     localStorage.clear();
   }
 

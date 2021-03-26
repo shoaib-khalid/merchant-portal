@@ -1,0 +1,25 @@
+.flow-card{
+    width:          400px;
+    height:         70px;
+    border-radius:  15px;
+    box-shadow:     0px 0px 4px 3px #c7c7c7;
+    margin:         auto;
+    margin-top:     30px;
+    text-align:     center;
+    cursor:         pointer;
+    padding:        23px;
+}
+.flow-card:hover{
+    border:     2px solid rgb(152, 253, 0);
+
+}
+
+
+#select-text{
+    margin-top: 100px;
+    text-align: center;
+}
+
+.edit{
+    float: right;
+}
