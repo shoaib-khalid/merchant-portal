@@ -29,7 +29,6 @@ export class FlowsComponent implements OnInit {
     this.flows = this.flows.data;
     if (this.flows) {
       this.flows.forEach(element => {
-
         if (element.botIds) {
           this.publishedChannels.push({ flowid: element.id, channels: element.botIds })
         }
@@ -73,6 +72,7 @@ export class FlowsComponent implements OnInit {
   }
 
   publishFlow(event) {
+
     this.openAble = false;
     const dialogRef = this.dialog.open(BotSelectionDialogComponent, {
       width: '300px',

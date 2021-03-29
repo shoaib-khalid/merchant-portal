@@ -12,7 +12,7 @@ import $ from "jquery";
 })
 export class AddProductComponent implements OnInit {
 
-  files:any=[];
+  files: any = [];
   productStatus: any = "";
   title: string;
   description: string;
@@ -39,7 +39,7 @@ export class AddProductComponent implements OnInit {
   requiredError: boolean = false;
   categories: any = [];
   category: any;
-
+  images: any = [];
 
   constructor(private helperTextService: HelperTextService, private apiCalls: ApiCallsService, private router: Router) { }
 
@@ -195,12 +195,24 @@ export class AddProductComponent implements OnInit {
     for (var i = 0; i < this.combos.length; i++) {
       const combosSplitted = this.combos[i].variant.split("/");
       for (var j = 0; j < combosSplitted.length; j++) {
-        const test = this.apiCalls.addInventoryItem(productId, {
+        const test = await this.apiCalls.addInventoryItem(productId, {
           itemCode: productId + i,
           productVariantAvailableId: productVariantAvailableIds[j].productVariantAvailableId,
           productId: productId
         })
+
       }
+
+      for (var j = 0; j < this.images[i].length; j++) {
+        if (this.images[i][j]) {
+          console.log(this.images[i][j])
+          const formdata = new FormData();
+          formdata.append("file", this.images[i][j]);
+          const data = await this.apiCalls.uploadImage(productId, formdata, productId + i)
+          console.log(data)
+        }
+      }
+
     }
   }
 
@@ -259,20 +271,23 @@ export class AddProductComponent implements OnInit {
       if (arr[i].value == "") {
         $(arr[i]).val('').css("border-color", "red");
       } else {
-        console.log(arr[i].value)
         $(arr[i]).css("border-color", "");
       }
     }
   }
 
-  onFileChanged(event) {
-    this.files = event.target.files;
-    const formData = new FormData();
-    for (const file of this.files) {
-        formData.append("name", file, file.name);
+  onFileChanged(event, i) {
+    if (this.images[i]) {
+
+    } else {
+      this.images[i] = [];
     }
-    // this.http.post('url', formData).subscribe(x => ....);
-    console.log(formData)
+    const files = event.target.files;
+    for (var j = 0; j < files.length; j++) {
+      const file = files[j];
+      this.images[i].push(file);
+    }
+    console.log(this.images)
   }
 
 

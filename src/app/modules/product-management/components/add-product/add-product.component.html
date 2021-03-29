@@ -87,8 +87,7 @@
                                                 <div class="input-group mb-3">
                                                     <div class="custom-file">
                                                         <input type="file" multiple class="custom-file-input"
-                                                        (change)="onFileChanged($event)"    
-                                                        id="inputGroupFile01" />
+                                                            (change)="onFileChanged($event,0)" id="inputGroupFile01" />
                                                         <label class="custom-file-label" for="inputGroupFile01">Choose
                                                             file or drop files to upload</label>
                                                     </div>
@@ -168,7 +167,8 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
-                                                            <label for="l30" hidden>Barcode (ISBN, UPC, GTIN, etc.)</label>
+                                                            <label for="l30" hidden>Barcode (ISBN, UPC, GTIN,
+                                                                etc.)</label>
                                                             <input type="text" [(ngModel)]="barcode" hidden
                                                                 class="form-control" />
                                                         </div>
@@ -181,7 +181,8 @@
                                                                 <input class="form-check-input" hidden
                                                                     [(ngModel)]="trackQuantity" type="checkbox" value=""
                                                                     id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault" hidden>
+                                                                <label class="form-check-label" for="flexCheckDefault"
+                                                                    hidden>
 
                                                                     Track quantity
                                                                 </label>
@@ -194,7 +195,8 @@
                                                                 <input class="form-check-input"
                                                                     [(ngModel)]="continueSelling" type="checkbox" hidden
                                                                     value="" id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault" hidden>
+                                                                <label class="form-check-label" for="flexCheckDefault"
+                                                                    hidden>
 
                                                                     Continue selling when out of stock
                                                                 </label>
@@ -208,8 +210,8 @@
                                                             <label for="quantity">Quantity</label>
                                                             <br>
                                                             <input type="number" [(ngModel)]="quantity" id="quantity"
-                                                            class="form-control"    
-                                                            name="quantity" min="1" max="10000">
+                                                                class="form-control" name="quantity" min="1"
+                                                                max="10000">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -219,9 +221,9 @@
                                                         <div class="form-group">
                                                             <div class="form-check">
                                                                 <input class="form-check-input"
-                                                                    [(ngModel)]="physicalProduct" type="checkbox" 
+                                                                    [(ngModel)]="physicalProduct" type="checkbox"
                                                                     value="" id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault" >
+                                                                <label class="form-check-label" for="flexCheckDefault">
 
                                                                     This is a physical product
                                                                 </label>
@@ -232,17 +234,17 @@
                                                 <div class="row" hidden>
                                                     <div class="col-lg-10">
                                                         <div class="form-group">
-                                                            <div >Weight</div>
-                                                            <p style="font-weight: normal;" >Used to calculate shipping
+                                                            <div>Weight</div>
+                                                            <p style="font-weight: normal;">Used to calculate shipping
                                                                 rates at checkout and label prices during fulfillment.
                                                             </p>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="quantity" >Weight</label>
+                                                            <label for="quantity">Weight</label>
                                                             <br>
-                                                            <input type="number" id="quantity" name="quantity" min="1" 
+                                                            <input type="number" id="quantity" name="quantity" min="1"
                                                                 value="0.0" max="10000">
-                                                            <select name="" [(ngModel)]="weight" 
+                                                            <select name="" [(ngModel)]="weight"
                                                                 id="weight-type-dropdown">
                                                                 <option value="">lb</option>
                                                                 <option value="">oz</option>
@@ -338,6 +340,7 @@
                                                                         [modelAsStrings]="true">
                                                                     </tag-input>
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -373,6 +376,17 @@
                                                             <td class="variant-cols" style="font-weight: normal;"><input
                                                                     value="{{combo.sku}}" (keyup)="skuChanged($event,i)"
                                                                     type="text" class="form-control"> </td>
+                                                            <td style="width: 300px;">
+                                                                <div class="custom-file">
+                                                                    <input type="file" multiple
+                                                                        class="custom-file-input"
+                                                                        (change)="onFileChanged($event,i)"
+                                                                        id="inputGroupFile01" />
+                                                                    <label class="custom-file-label"
+                                                                        for="inputGroupFile01">Choose
+                                                                        file(s)</label>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -400,8 +414,7 @@
                                                 <div class="add-item position-relative mb-3">
                                                     <div class="add-item-img d-flex  border-radius">
                                                         <select name="Inventory-manager" [(ngModel)]="productStatus"
-                                                        class="form-control"  
-                                                        id="inventory-manage">
+                                                            class="form-control" id="inventory-manage">
                                                             <option value="">Select status</option>
                                                             <option value="ACTIVE">Active</option>
                                                             <option value="DRAFT">Draft</option>
@@ -411,8 +424,9 @@
                                                         all sales channels.</div>
                                                     <br>
                                                     <div hidden>SALES CHANNELS AND APPS</div>
-                                                    <div hidden style="margin-left: 19px;"> <input class="form-check-input"
-                                                            type="checkbox" value="" id="flexCheckDefault">
+                                                    <div hidden style="margin-left: 19px;"> <input
+                                                            class="form-check-input" type="checkbox" value=""
+                                                            id="flexCheckDefault">
                                                         <label class="form-check-label" for="flexCheckDefault">
 
                                                             Online Store
@@ -424,8 +438,8 @@
                                                         <div class="add-item-img d-flex  border-radius">
                                                             <div>Category</div>
                                                         </div>
-                                                        <input list="categories-data-list" id="categories" [(ngModel)]='category' type="text"
-                                                            class="form-control" />
+                                                        <input list="categories-data-list" id="categories"
+                                                            [(ngModel)]='category' type="text" class="form-control" />
                                                         <datalist id="categories-data-list">
                                                             <option value="{{cat.name}}" id="{{cat.id}}"
                                                                 *ngFor="let cat of categories;"></option>
@@ -433,9 +447,9 @@
                                                         <div class="add-item-img d-flex  border-radius" hidden>
                                                             <div hidden>Vendor</div>
                                                         </div>
-                                                        <input type="text" class="form-control"  hidden/>
+                                                        <input type="text" class="form-control" hidden />
                                                         <div class="add-item-img d-flex  border-radius" hidden>
-                                                            <div hidden>Collections</div >
+                                                            <div hidden>Collections</div>
                                                         </div>
                                                         <input type="text" placeholder="Search for collections" hidden
                                                             class="form-control" />

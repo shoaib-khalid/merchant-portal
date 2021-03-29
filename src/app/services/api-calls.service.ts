@@ -198,7 +198,7 @@ export class ApiCallsService {
     const body = {
       "botIds": botIds
     }
-
+    console.log(body)
     if (this.flowId) {
       try {
         this.http.patch<any>(this.pathVariable1 + "/mxgraph/publish/" + this.flowId, body, httpOptions).toPromise
@@ -426,7 +426,8 @@ export class ApiCallsService {
   async getCarts() {
     const httpOptions = {
       headers: new HttpHeaders({
-        Authorization: "asx"
+        Authorization: "asx",
+        "Content-Type": "multipart/form-data"
       }),
 
       params: {
@@ -486,19 +487,19 @@ export class ApiCallsService {
   }
 
 
-  uploadImage(body, productId, itemCode) {
+  uploadImage(productId, formData, itemCode) {
+    console.log(localStorage.getItem("storeId"))
     const httpOptions = {
       headers: new HttpHeaders({
-        Authorization: "asx"
       }),
       params: {
-        itemCode: itemCode
+        itemCode: itemCode,
       }
     }
-    this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId")
-      + "/products/" + productId + "/assets", body, httpOptions).
-      toPromise();
+    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId")
+      + "/products/" + productId + "/assets", formData, httpOptions).toPromise();
   }
+
 
 
 

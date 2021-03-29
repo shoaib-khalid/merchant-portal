@@ -30,17 +30,17 @@ export class SharedHeaderComponent implements OnInit {
   onClick(btn) {
 
     if (btn.classList.value.includes("username")) {
-      const disp = $(".dropdown-content").css("display");
+      const disp = $(".dropdown-content-header-content").css("display");
 
       if (disp == "block") {
-        $(".dropdown-content").css("display", "none");
+        $(".dropdown-content-header").css("display", "none");
 
       } else {
-        $(".dropdown-content").css("display", "block");
+        $(".dropdown-content-header").css("display", "block");
 
       }
     } else {
-      $(".dropdown-content").css("display", "none");
+      $(".dropdown-content-header").css("display", "none");
 
     }
   }

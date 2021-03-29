@@ -25,8 +25,9 @@ export class BotSelectionDialogComponent implements OnInit {
     if (data.channels) {
       this.showPublished = true;
       this.title = "Published Channels"
-      this.loadPublishButtons(data.channels);
       console.log(data.channels)
+
+      this.loadPublishButtons(data.channels);
     } else {
       this.flowId = data.flowId;
       this.loadPublishButtons(null)
@@ -64,7 +65,6 @@ export class BotSelectionDialogComponent implements OnInit {
   }
 
   publish() {
-    console.log(this.flowId)
     this.apiCalls.publishmxGraph(this.botIds,this.flowId)
     this.dialogRef.close();
 
