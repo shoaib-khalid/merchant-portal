@@ -40,7 +40,7 @@ export class AddProductComponent implements OnInit {
   categories: any = [];
   category: any;
   images: any = [];
-
+  url: any = "";
   constructor(private helperTextService: HelperTextService, private apiCalls: ApiCallsService, private router: Router) { }
 
   ngOnInit(): void {
@@ -117,7 +117,9 @@ export class AddProductComponent implements OnInit {
         const productAvailableIds = await this.addVariantValues(data.data.id, variantIds);
         this.addInventoryItem(data.data.id, productAvailableIds)
       }
-      console.log("product Id:" + data.data.id)
+      console.log("product Id: " + data.data.id)
+      console.log("product Id: " + localStorage.getItem("storeId"))
+
       this.router.navigateByUrl("/products")
 
     } else {
@@ -205,11 +207,9 @@ export class AddProductComponent implements OnInit {
 
       for (var j = 0; j < this.images[i].length; j++) {
         if (this.images[i][j]) {
-          console.log(this.images[i][j])
           const formdata = new FormData();
-          formdata.append("file", this.images[i][j]);
+          formdata.append("file", this.images[i][j].file);
           const data = await this.apiCalls.uploadImage(productId, formdata, productId + i)
-          console.log(data)
         }
       }
 
@@ -276,7 +276,7 @@ export class AddProductComponent implements OnInit {
     }
   }
 
-  onFileChanged(event, i) {
+  async onFileChanged(event, i) {
     if (this.images[i]) {
 
     } else {
@@ -285,9 +285,26 @@ export class AddProductComponent implements OnInit {
     const files = event.target.files;
     for (var j = 0; j < files.length; j++) {
       const file = files[j];
-      this.images[i].push(file);
+      this.images[i].push({ file: file, preview: await this.previewImage(file) });
     }
-    console.log(this.images)
+  }
+
+  previewImage(file) {
+    var promise = new Promise(async (resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (_event) => {
+        this.url = reader.result;
+        resolve(reader.result)
+      }
+    });
+    return promise;
+  }
+
+  async onThumbnailChanged(event, i) {
+    const file =event.target.files[0];
+    const formdata = new FormData();
+    formdata.append("file", file);
   }
 
 

@@ -16,20 +16,22 @@ export class BotSelectionDialogComponent implements OnInit {
   botIds: any = [];
   showPublished: boolean = false;
   flowId:any;
+  channelsPublish:any;
 
   constructor(public dialogRef: MatDialogRef<BotSelectionDialogComponent>, private apiCalls: ApiCallsService, @Inject(MAT_DIALOG_DATA) public data: {
     channels: any;
     flowId:any;
+    channelsPublish:any;
 
   }) {
     if (data.channels) {
       this.showPublished = true;
       this.title = "Published Channels"
-      console.log(data.channels)
 
       this.loadPublishButtons(data.channels);
     } else {
       this.flowId = data.flowId;
+      this.channelsPublish = data.channelsPublish;
       this.loadPublishButtons(null)
     }
   }
@@ -47,18 +49,24 @@ export class BotSelectionDialogComponent implements OnInit {
     this.bots = [];
     var data: any = await this.apiCalls.getUserChannels();
     const content = data.data.content;
-    console.log("content bot selection")
-    console.log(content)
-    console.log("content bot selection")
 
+
+    var j=0;
     for (var i = 0; i < content.length; i++) {
+      
       if (channels) {
-        if (channels[i] == content[i].refId) {
+        if (channels[j] == content[i].refId) {
           this.bots.push({ channelName: content[i].channelName, refId: content[i].refId })
+          j=j+1;
         }
       } else {
-        this.bots.push({ channelName: content[i].channelName, refId: content[i].refId })
+        var flag=false;
+        if(content[i].refId==this.channelsPublish[j]){
+          flag=true;
+          j++;
 
+        }
+        this.bots.push({ channelName: content[i].channelName, refId: content[i].refId,published:flag })
       }
     }
     this.loading = false;

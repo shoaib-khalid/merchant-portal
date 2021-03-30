@@ -194,11 +194,16 @@ export class ApiCallsService {
 
   publishmxGraph(botIds, flowId = this.flowId) {
     this.flowId = flowId;
-    const httpOptions = this.getHttpOptions("asx")
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+    botIds = botIds.filter(String)
     const body = {
       "botIds": botIds
     }
-    console.log(body)
     if (this.flowId) {
       try {
         this.http.patch<any>(this.pathVariable1 + "/mxgraph/publish/" + this.flowId, body, httpOptions).toPromise
@@ -224,9 +229,7 @@ export class ApiCallsService {
         Authorization: "asx"
       })
     }
-    console.log(this.flowId)
     var data: any = await this.http.get(this.pathVariable1 + "/mxgraph/publish/" + this.flowId, httpOptions).toPromise();
-    console.log(data)
   }
 
 
@@ -488,7 +491,6 @@ export class ApiCallsService {
 
 
   uploadImage(productId, formData, itemCode) {
-    console.log(localStorage.getItem("storeId"))
     const httpOptions = {
       headers: new HttpHeaders({
       }),

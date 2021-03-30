@@ -83,11 +83,11 @@
                                                     <textarea class="form-control" [(ngModel)]="description" rows="3"
                                                         id="l151"></textarea>
                                                 </div>
-                                                <h4 class="mt-4 mb-3">Media</h4>
+                                                <h4 class="mt-4 mb-3">Thumbnail</h4>
                                                 <div class="input-group mb-3">
                                                     <div class="custom-file">
                                                         <input type="file" multiple class="custom-file-input"
-                                                            (change)="onFileChanged($event,0)" id="inputGroupFile01" />
+                                                            (change)="onThumbnailChanged($event,0)" id="inputGroupFile01" />
                                                         <label class="custom-file-label" for="inputGroupFile01">Choose
                                                             file or drop files to upload</label>
                                                     </div>
@@ -311,7 +311,7 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-6" *ngIf="variantChecked">
                                                         Options
                                                     </div>
                                                 </div>
@@ -352,28 +352,75 @@
 
 
                                                 <h4 class="text-black mb-3" *ngIf="variantChecked">Preview</h4>
+                                                <div>
+
+                                                    <div  *ngIf="variantChecked">
+                                                        <div class="head-variant">Variant</div>
+                                                        <div class="head-variant">Price</div>
+                                                        <div class="head-variant">Quantity</div>
+                                                        <div class="head-variant">Sku</div>
+                                                        <div class="head-variant">Upload</div>
+
+                                                    </div>
+                                                    <div *ngFor="let combo of combos;index as i;">
+                                                        <div class="body-variant">{{combo.variant}}</div>
+                                                        <div class="body-variant"><input type="text"
+                                                                class="form-control" (keyup)="priceChanged($event,i)"
+                                                                value="{{combo.price}}" placeholder="0.00 Rs"></div>
+                                                        <div class="body-variant"> <input type="number"
+                                                                class="form-control" value="{{combo.quantity}}"
+                                                                (keyup)="quantityChanged($event,i)" name="" id=""
+                                                                min="0"></div>
+                                                        <div class="body-variant"><input value="{{combo.sku}}"
+                                                                (keyup)="skuChanged($event,i)" type="text"
+                                                                class="form-control"> </div>
+                                                        <div class="body-variant">
+                                                            <div class="custom-file">
+                                                                <input type="file" multiple class="custom-file-input"
+                                                                    (change)="onFileChanged($event,i)"
+                                                                    id="inputGroupFile01" />
+                                                                <label class="custom-file-label"
+                                                                    for="inputGroupFile01"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                <div class="images-row"
+                                                                    *ngFor="let img of images[i];index as j"><img src="{{img.preview}}"
+                                                                        alt="" height="80px" width="80px"></div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
                                                 <div class="row" *ngIf="variantChecked">
-                                                    <table>
+
+                                                    <!-- <table>
                                                         <tr>
                                                             <th class="variant-cols">Variant</th>
                                                             <th class="variant-cols">Price</th>
                                                             <th class="variant-cols">Quantity</th>
                                                             <th class="variant-cols">SKU </th>
+                                                            <th>Upload file</th>
                                                         </tr>
                                                         <tr *ngFor="let combo of combos;index as i;">
                                                             <td class="variant-cols" style="font-weight: normal;">
                                                                 {{combo.variant}}</td>
-                                                            <td class="variant-cols" style="font-weight: normal;"><input
+                                                            <td class="variant-cols"
+                                                                style="font-weight: normal;width: 120px;"><input
                                                                     type="text" class="form-control"
                                                                     (keyup)="priceChanged($event,i)"
                                                                     value="{{combo.price}}" placeholder="0.00 Rs"></td>
-                                                            <td class="variant-cols" style="font-weight: normal;">
+                                                            <td class="variant-cols"
+                                                                style="font-weight: normal;width: 120px;">
                                                                 <input type="number" class="form-control"
                                                                     value="{{combo.quantity}}"
                                                                     (keyup)="quantityChanged($event,i)" name="" id=""
                                                                     min="0">
                                                             </td>
-                                                            <td class="variant-cols" style="font-weight: normal;"><input
+                                                            <td class="variant-cols"
+                                                                style="font-weight: normal;width: 150px;"><input
                                                                     value="{{combo.sku}}" (keyup)="skuChanged($event,i)"
                                                                     type="text" class="form-control"> </td>
                                                             <td style="width: 300px;">
@@ -387,8 +434,13 @@
                                                                         file(s)</label>
                                                                 </div>
                                                             </td>
+
                                                         </tr>
-                                                    </table>
+                                                        <tr>
+                                                            <td style="padding-left: 40px;"
+                                                                ><img src="{{url}}"  alt="" height="80px" width="80px"></td>
+                                                        </tr>
+                                                    </table> -->
                                                 </div>
                                                 <h4 class="text-black mb-3">Search engine listing preview
                                                 </h4>
@@ -420,7 +472,8 @@
                                                             <option value="DRAFT">Draft</option>
                                                         </select>
                                                     </div>
-                                                    <div style="font-weight: normal;">This product will be hidden from
+                                                    <div style="font-weight: normal;">This product will be hidden
+                                                        from
                                                         all sales channels.</div>
                                                     <br>
                                                     <div hidden>SALES CHANNELS AND APPS</div>

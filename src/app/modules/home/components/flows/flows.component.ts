@@ -28,14 +28,20 @@ export class FlowsComponent implements OnInit {
     this.flows = await this.apiCallsService.getAllflows();
     this.flows = this.flows.data;
     if (this.flows) {
-      this.flows.forEach(element => {
-        if (element.botIds) {
-          this.publishedChannels.push({ flowid: element.id, channels: element.botIds })
-        }
-      });
+      this.getPublishedChannels
     } this.loading = false;
 
   }
+
+  getPublishedChannels() {
+    this.flows.forEach(element => {
+      if (element.botIds) {
+        this.publishedChannels.push({ flowid: element.id, channels: element.botIds })
+      }
+    });
+  }
+
+
 
   openFlow(event) {
     if (this.openAble) {
@@ -71,23 +77,35 @@ export class FlowsComponent implements OnInit {
     }
   }
 
-  publishFlow(event) {
-
+  async publishFlow(event) {
     this.openAble = false;
-    const dialogRef = this.dialog.open(BotSelectionDialogComponent, {
-      width: '300px',
-      data: { flowId: event.target.id }
-    });
-  }
-
-  showPublishedChannels(event) {
-    this.openAble = false;
+    this.flows = await this.apiCallsService.getAllflows();
+    this.flows = this.flows.data;
+    this.getPublishedChannels();
     var channelIds: any = [];
     this.publishedChannels.forEach(element => {
       if (element.flowid == event.target.id) {
         channelIds = element.channels;
       }
     });
+    const dialogRef = this.dialog.open(BotSelectionDialogComponent, {
+      width: '550px',
+      data: { flowId: event.target.id, channelsPublish:channelIds }
+    });
+  }
+
+  async showPublishedChannels(event) {
+    this.openAble = false;
+    this.flows = await this.apiCallsService.getAllflows();
+    this.flows = this.flows.data;
+    this.getPublishedChannels();
+    var channelIds: any = [];
+    this.publishedChannels.forEach(element => {
+      if (element.flowid == event.target.id) {
+        channelIds = element.channels;
+      }
+    });
+    console.log("Channel Ids: " + channelIds)
     const dialogRef = this.dialog.open(BotSelectionDialogComponent, {
       width: '300px',
       data: { channels: channelIds }
