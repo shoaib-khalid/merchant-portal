@@ -47,11 +47,22 @@ export class SharedHeaderComponent implements OnInit {
 
   ngOnInit(): void {
 
+    const store = localStorage.getItem("storeId");
+
     if (this.router.url == "/") {
-      this.navHeadings = this.navOptionalHeadings.home;
+      if (store) {
+        this.navHeadings = this.navOptionalHeadings.home;
+      } else {
+        this.router.navigateByUrl("/store-management");
+      }
     }
     else if (this.router.url == "/flows") {
-      this.navHeadings = this.navOptionalHeadings.flows;
+      if (store) {
+        this.navHeadings = this.navOptionalHeadings.flows;
+      } else {
+        this.router.navigateByUrl("/store-management");
+
+      }
     }
     else if (this.router.url == "/signup") {
       this.navHeadings = this.navOptionalHeadings.signUp;
@@ -65,10 +76,18 @@ export class SharedHeaderComponent implements OnInit {
     } else if (this.router.url == "/chooseverticle") {
       this.navHeadings = this.navOptionalHeadings.chooseVerticle;
     } else if (this.router.url == "/products/add") {
-      this.navHeadings = this.navOptionalHeadings.addProduct;
+      if (store) {
+        this.navHeadings = this.navOptionalHeadings.addProduct;
+      } else {
+        this.router.navigateByUrl("/store-management");
+      }
     }
     else if (this.router.url == "/products") {
-      this.navHeadings = this.navOptionalHeadings.products;
+      if (store) {
+        this.navHeadings = this.navOptionalHeadings.products;
+      } else {
+        this.router.navigateByUrl("/store-management");
+      }
     } else if (this.router.url == "/store") {
       this.navHeadings = this.navOptionalHeadings.store;
     }
@@ -86,5 +105,6 @@ export class SharedHeaderComponent implements OnInit {
   logOut() {
     localStorage.clear();
   }
+
 
 }

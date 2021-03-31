@@ -12,7 +12,6 @@ import $ from "jquery";
 })
 export class AddProductComponent implements OnInit {
 
-  files: any = [];
   productStatus: any = "";
   title: string;
   description: string;
@@ -40,7 +39,11 @@ export class AddProductComponent implements OnInit {
   categories: any = [];
   category: any;
   images: any = [];
-  url: any = "";
+  addProductLoading: boolean = false;
+  successIcon:boolean=false;
+  thumbnailImage: any;
+
+
   constructor(private helperTextService: HelperTextService, private apiCalls: ApiCallsService, private router: Router) { }
 
   ngOnInit(): void {
@@ -77,7 +80,7 @@ export class AddProductComponent implements OnInit {
     var out = "";
 
     if (n == combos.length) {
-      this.combos.push({ variant: result.substring(1), price: 0, quantity: 0, sku: 0 })
+      this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: 0 })
       return result.substring(1);
     }
 
@@ -97,7 +100,7 @@ export class AddProductComponent implements OnInit {
   async saveProduct() {
 
     if (this.title && this.price && this.quantity && this.sku && this.productStatus && this.category) {
-
+      this.addProductLoading = true;
       const categoryId = await this.getCategoryId()
       const body = {
         "categoryId": categoryId,
@@ -108,18 +111,19 @@ export class AddProductComponent implements OnInit {
         "storeId": localStorage.getItem("storeId")
 
       }
-
       const data: any = await this.apiCalls.addProduct(body);
       await this.addInventory(data.data.id)
 
       if (this.options.length > 0) {
         const variantIds: any = await this.addVariantName(data.data.id);
         const productAvailableIds = await this.addVariantValues(data.data.id, variantIds);
-        this.addInventoryItem(data.data.id, productAvailableIds)
+        await this.addInventoryItem(data.data.id, productAvailableIds)
       }
       console.log("product Id: " + data.data.id)
       console.log("product Id: " + localStorage.getItem("storeId"))
 
+      this.addProductLoading=false;
+      await this.showVerifyIcon();
       this.router.navigateByUrl("/products")
 
     } else {
@@ -190,6 +194,9 @@ export class AddProductComponent implements OnInit {
         quantity: this.quantity,
         sku: this.sku
       })
+      if(this.thumbnailImage){
+      const data1  = await this.apiCalls.uploadImage(productId, this.thumbnailImage, productId + "aa")
+      }
     }
   }
 
@@ -294,17 +301,26 @@ export class AddProductComponent implements OnInit {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (_event) => {
-        this.url = reader.result;
         resolve(reader.result)
       }
     });
     return promise;
   }
 
-  async onThumbnailChanged(event, i) {
-    const file =event.target.files[0];
+  onThumbnailChanged(event, i) {
+    const file = event.target.files[0];
     const formdata = new FormData();
     formdata.append("file", file);
+    this.thumbnailImage=formdata;
+  }
+
+
+  showVerifyIcon(){
+    var promise = new Promise(async (resolve, reject) => {
+      this.successIcon=true;
+      setTimeout(() => resolve(1), 1600)
+    });
+    return promise;
   }
 
 

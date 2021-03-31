@@ -258,7 +258,9 @@ export class ApiCallsService {
           localStorage.setItem('accessToken', data.data.session.accessToken)
           localStorage.setItem('ownerId', data.data.session.ownerId)
           localStorage.setItem('username', data.data.session.username)
-
+          localStorage.setItem('refreshToken', data.data.session.refreshToken)
+          localStorage.setItem("created", data.data.session.created)
+          localStorage.setItem("expiry", data.data.session.expiry)
           const httpOptions = {
             params: {
               clientId: localStorage.getItem("ownerId")
@@ -329,7 +331,7 @@ export class ApiCallsService {
     this.http.post<any>(this.pathVariable3 + "/stores", body, httpOptions).
       subscribe(data => {
         localStorage.setItem("storeId", data.data.id)
-        this.router.navigateByUrl('/flows');
+        this.router.navigateByUrl('/store-management');
 
       });
   }
@@ -363,8 +365,10 @@ export class ApiCallsService {
 
       }
     }
-    return this.http.get("http://209.58.160.20:7071/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
-
+    if (localStorage.getItem("storeId")) {
+      return this.http.get("http://209.58.160.20:7071/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
+    }
+    return { data: { content: [] } };
   }
 
 
@@ -423,7 +427,13 @@ export class ApiCallsService {
         "storeId": localStorage.getItem("storeId")
       }
     }
-    return await this.http.get("http://209.58.160.20:7072/orders", httpOptions).toPromise();
+    if (localStorage.getItem("storeId")) {
+
+      return await this.http.get("http://209.58.160.20:7072/orders", httpOptions).toPromise();
+    } else {
+      this.router.navigateByUrl("/store-management");
+      return { data: { content: [] } }
+    }
   }
 
   async getCarts() {
@@ -437,7 +447,14 @@ export class ApiCallsService {
         "storeId": localStorage.getItem("storeId")
       }
     }
-    return await this.http.get("http://209.58.160.20:7072/carts", httpOptions).toPromise();
+
+    if (localStorage.getItem("storeId")) {
+      return await this.http.get("http://209.58.160.20:7072/carts", httpOptions).toPromise();
+    } else {
+
+      this.router.navigateByUrl("/store-management");
+      return { data: { content: [] } }
+    }
   }
 
 
@@ -502,6 +519,16 @@ export class ApiCallsService {
       + "/products/" + productId + "/assets", formData, httpOptions).toPromise();
   }
 
+
+  getAccessTokenUsingRefresh() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+      }),
+   
+    }
+    return this.http.post<any>(this.pathVariable2 + "/clients/session/refresh",
+      localStorage.getItem("refreshToken"), httpOptions).toPromise();
+  }
 
 
 

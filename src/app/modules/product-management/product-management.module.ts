@@ -11,6 +11,7 @@ import { OrdersComponent } from './components/orders/orders.component';
 import { CartComponent } from './components/cart/cart.component';
 import { SingleOrderComponent } from './components/order-details/single-order.component';
 import { SingleCartComponent } from './components/cart-details/single-cart.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -21,7 +22,8 @@ import { SingleCartComponent } from './components/cart-details/single-cart.compo
     RouterModule,
     HomeModule,
     FormsModule,
-    TagInputModule
+    TagInputModule,
+    MatProgressSpinnerModule
   ]
 })
 export class ProductManagementModule { }

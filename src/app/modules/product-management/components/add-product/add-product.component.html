@@ -9,8 +9,26 @@
 <body>
 
     <app-shared-header></app-shared-header>
+
     <main role="main">
         <div class="wrapper">
+            <div *ngIf="addProductLoading">
+                <mat-spinner [diameter]="70" id="spinner"></mat-spinner>
+            </div>
+            <div class="success-checkmark" *ngIf="successIcon">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                <div style="margin-top: 90px;margin-left:-40px;text-align:initial;width: 250px;">Product Added Successfully</div>
+
+                </div>
+            </div>
+
+
+
+
 
             <div class="breadcrumb-wrap">
                 <div class="container py-3">
@@ -87,8 +105,9 @@
                                                 <div class="input-group mb-3">
                                                     <div class="custom-file">
                                                         <input type="file" multiple class="custom-file-input"
-                                                            (change)="onThumbnailChanged($event,0)" id="inputGroupFile01" />
-                                                        <label class="custom-file-label" for="inputGroupFile01">Choose
+                                                            (change)="onThumbnailChanged($event,0)"
+                                                            id="inputGroupFile011" />
+                                                        <label class="custom-file-label" for="inputGroupFile011">Choose
                                                             file or drop files to upload</label>
                                                     </div>
                                                 </div>
@@ -354,7 +373,7 @@
                                                 <h4 class="text-black mb-3" *ngIf="variantChecked">Preview</h4>
                                                 <div>
 
-                                                    <div  *ngIf="variantChecked">
+                                                    <div *ngIf="variantChecked">
                                                         <div class="head-variant">Variant</div>
                                                         <div class="head-variant">Price</div>
                                                         <div class="head-variant">Quantity</div>
@@ -386,8 +405,9 @@
                                                         <div>
                                                             <div>
                                                                 <div class="images-row"
-                                                                    *ngFor="let img of images[i];index as j"><img src="{{img.preview}}"
-                                                                        alt="" height="80px" width="80px"></div>
+                                                                    *ngFor="let img of images[i];index as j"><img
+                                                                        src="{{img.preview}}" alt="" height="80px"
+                                                                        width="80px"></div>
                                                             </div>
                                                         </div>
 

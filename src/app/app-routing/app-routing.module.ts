@@ -12,7 +12,7 @@ import { AuthGuardService } from 'src/app/services/auth-guard.service.ts.service
 import { FlowsComponent } from 'src/app/modules/home/components/flows/flows.component';
 import { SharedHeaderComponent } from 'src/app/modules/home/components/shared-header/shared-header.component';
 import { ProductsComponent } from 'src/app/modules/product-management/components/products/products.component';
-import { StorePageComponent } from 'src/app/modules/user-onboarding/components/store-page/store-page.component';
+import { StorePageComponent } from 'src/app/modules/store-management/components/store-page/store-page.component';
 import { OrdersComponent } from 'src/app/modules/product-management/components/orders/orders.component';
 import { ForgotPasswordComponent } from 'src/app/modules/user-onboarding/components/forgot-password/forgot-password.component';
 import { CartComponent } from 'src/app/modules/product-management/components/cart/cart.component';
@@ -70,16 +70,19 @@ const routes: Routes = [
   {
     path: 'products',
     component: ProductsComponent,
+    canActivate: [AuthGuardService],
     children: []
   },
   {
     path: 'store',
     component: StorePageComponent,
+    canActivate: [AuthGuardService],
     children: []
   },
   {
     path: 'orders',
     component: OrdersComponent,
+    canActivate: [AuthGuardService],
     children: []
   },
   {
@@ -90,15 +93,18 @@ const routes: Routes = [
   {
     path: 'carts',
     component: CartComponent,
+    canActivate: [AuthGuardService],
     children: []
   }, {
     path: 'carts/cart-details',
     component: SingleCartComponent,
+    canActivate: [AuthGuardService],
     children: []
   },
   {
     path: 'orders/order-details',
     component: SingleOrderComponent,
+    canActivate: [AuthGuardService],
     children: []
   },
   {
