@@ -15,20 +15,6 @@
             <div *ngIf="addProductLoading">
                 <mat-spinner [diameter]="70" id="spinner"></mat-spinner>
             </div>
-            <div class="success-checkmark" *ngIf="successIcon">
-                <div class="check-icon">
-                    <span class="icon-line line-tip"></span>
-                    <span class="icon-line line-long"></span>
-                    <div class="icon-circle"></div>
-                    <div class="icon-fix"></div>
-                <div style="margin-top: 90px;margin-left:-40px;text-align:initial;width: 250px;">Product Added Successfully</div>
-
-                </div>
-            </div>
-
-
-
-
 
             <div class="breadcrumb-wrap">
                 <div class="container py-3">
@@ -108,8 +94,27 @@
                                                             (change)="onThumbnailChanged($event,0)"
                                                             id="inputGroupFile011" />
                                                         <label class="custom-file-label" for="inputGroupFile011">Choose
-                                                            file or drop files to upload</label>
+                                                            file </label>
                                                     </div>
+                                                </div>
+                                                <div *ngIf="thumbnailPreview">
+                                                    <img src="{{this.thumbnailPreview}}" alt=""
+                                                        height="100px" width="100px">
+                                                </div>
+                                                <h4 class="mt-4 mb-3">Default Inventory Image</h4>
+                                                <div class="input-group mb-3">
+                                                    <div class="custom-file">
+                                                        <input type="file" multiple class="custom-file-input"
+                                                            (change)="onInventoryImageChanged($event,0)"
+                                                            id="inputGroupFile011" />
+                                                        <label class="custom-file-label" for="inputGroupFile011">Choose
+                                                            file</label>
+                                                    </div>
+
+                                                </div>
+                                                <div *ngIf="defaultInventoryPreview">
+                                                    <img src="{{this.defaultInventoryPreview}}" alt=""
+                                                        height="100px" width="100px">
                                                 </div>
                                                 <br />
 

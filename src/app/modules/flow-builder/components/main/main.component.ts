@@ -46,7 +46,6 @@ export class MainComponent implements OnInit, AfterViewInit {
    }
 
    ngAfterViewInit() {
-
       this.redoPointer = 0;
 
       //Callback function

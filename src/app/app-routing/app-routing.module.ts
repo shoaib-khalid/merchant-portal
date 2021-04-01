@@ -60,6 +60,7 @@ const routes: Routes = [
   {
     path: '',
     component: LandingPageComponent,
+    canActivate: [AuthGuardService],
     children: []
   },
   {
@@ -110,6 +111,7 @@ const routes: Routes = [
   {
     path: 'store-management',
     component: ManageStoresComponent,
+    canActivate: [AuthGuardService],
     children: []
   },
   {

@@ -20,16 +20,21 @@ export class ProductsComponent implements OnInit {
 
 
   async loadProducts() {
-    this.products = await this.apiCalls.getProducts();
-    this.products = this.products.data.content;
+    const products:any =  await this.apiCalls.getProducts();
+    this.showThumbnailImage(products.data.content);
+    window.scroll(0, 0)
+    window.scroll(0, 0)
 
   }
 
   async nextPage() {
-    this.page++;
-    this.products = await this.apiCalls.getProducts(this.page);
-    this.products = this.products.data.content
-    window.scroll(0, 0)
+    const products: any = await this.apiCalls.getProducts(this.page + 1);
+    if (products.data.content.length > 0) {
+      this.page++;
+      this.products = products.data.content;
+      window.scroll(0, 0)
+    }
+
   }
 
   async previousPage() {
@@ -40,7 +45,7 @@ export class ProductsComponent implements OnInit {
     this.products = await this.apiCalls.getProducts(this.page);
     this.products = this.products.data.content
     window.scroll(0, 0)
-
+    window.scroll(0, 0)
   }
 
 
@@ -61,4 +66,18 @@ export class ProductsComponent implements OnInit {
     }
   }
 
+  showThumbnailImage(products) {
+    products.forEach((product,index) => {
+      if(product.productAssets.length>0){
+      products[index].productThumbnailUrl = product.productAssets[0].url;
+      }
+      product.productAssets.forEach(image => {
+        if(image.itemCode==null){
+          products[index].productThumbnailUrl = image.url;
+        }
+      });
+    });
+    this.products=products;
+    console.log(this.products)
+  }
 }

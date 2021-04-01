@@ -14,21 +14,22 @@ export class SharedHeaderComponent implements OnInit {
   }
   username: any;
   navOptionalHeadings: any = {
-    signUp: [{ heading: 'Home', link: '', bold: false }, { heading: 'Sign Up', link: '/signup', bold: true }],
-    signIn: [{ heading: 'Home', link: '', bold: false }, { heading: 'Sign In', link: '/signin', bold: true }],
-    flows: [{ heading: 'Home', link: '', bold: false }, { heading: 'flows', link: '/flows', bold: true }],
-    flowbuilder: [{ heading: "Home", link: '', bold: false }, { heading: "Flow Builder", link: '/flows/', bold: true }],
-    home: [{ heading: "Home", link: '', bold: true }, { heading: "Flow Builder", link: '/flows', bold: false },
-    { heading: "Dashboard", link: '/products/add', bold: false }],
-    chooseVerticle: [],
-    addProduct: [{ heading: "Home", link: '', bold: false }, { heading: "Add Product", link: '/products/add', bold: true }],
-    products: [{ heading: "Home", link: '', bold: false }, { heading: "Products", link: '/products', bold: true }],
-    store: []
+    signedIn: [],
+    signedUp: []
   }
   navHeadings: any = [];
   @HostListener('document:click', ['$event.target'])
   onClick(btn) {
-
+    if (!btn.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
     if (btn.classList.value.includes("username")) {
       const disp = $(".dropdown-content-header-content").css("display");
 
@@ -46,52 +47,6 @@ export class SharedHeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    const store = localStorage.getItem("storeId");
-
-    if (this.router.url == "/") {
-      if (store) {
-        this.navHeadings = this.navOptionalHeadings.home;
-      } else {
-        this.router.navigateByUrl("/store-management");
-      }
-    }
-    else if (this.router.url == "/flows") {
-      if (store) {
-        this.navHeadings = this.navOptionalHeadings.flows;
-      } else {
-        this.router.navigateByUrl("/store-management");
-
-      }
-    }
-    else if (this.router.url == "/signup") {
-      this.navHeadings = this.navOptionalHeadings.signUp;
-    }
-    else if (this.router.url.includes("/flows/")) {
-      this.navOptionalHeadings.flowbuilder[1].link = this.router.url;
-      this.navHeadings = this.navOptionalHeadings.flowbuilder;
-    }
-    else if (this.router.url == "/signin") {
-      this.navHeadings = this.navOptionalHeadings.signIn;
-    } else if (this.router.url == "/chooseverticle") {
-      this.navHeadings = this.navOptionalHeadings.chooseVerticle;
-    } else if (this.router.url == "/products/add") {
-      if (store) {
-        this.navHeadings = this.navOptionalHeadings.addProduct;
-      } else {
-        this.router.navigateByUrl("/store-management");
-      }
-    }
-    else if (this.router.url == "/products") {
-      if (store) {
-        this.navHeadings = this.navOptionalHeadings.products;
-      } else {
-        this.router.navigateByUrl("/store-management");
-      }
-    } else if (this.router.url == "/store") {
-      this.navHeadings = this.navOptionalHeadings.store;
-    }
-
 
     const ownerId = localStorage.getItem("ownerId");
     const accessToken = localStorage.getItem("accessToken")

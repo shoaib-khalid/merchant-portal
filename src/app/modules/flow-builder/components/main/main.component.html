@@ -1,17 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <title>Chatbot</title>
-
-
 </head>
 
 <body>
-
     <app-shared-header></app-shared-header>
-    <br>
-    <br>
-    <br>
     <span class="float ml-1  rounded-circle shadow-lg  rounded" style="z-index: 2;">
         <menu-options (open)="addStepWithType($event)"></menu-options>
     </span>
@@ -21,82 +15,95 @@
 
     <a (click)="zoomOut()" class="zoom-out-float ml-1 p-2 rounded-circle shadow-lg  rounded" style="z-index: 2;"><img
             src="assets/zoom-out.png" alt=""></a>
-    <div class="container-fluid">
-        <div class="row min-vh-100 flex-column flex-md-row">
-            <aside class="col-md-2 bg-white shadow-lg rounded">
-                <nav class="navbar navbar-expand navbar-white flex-md-column flex-row align-items-start">
-                    <div class="collapse navbar-collapse ">
-                        <div class="">
-                            <div class="row pb-3">
-                                <h6 id="flow-title" >{{flowTitle}}</h6>
-                                <img src="assets/edit.svg" alt="" id="edit-details" (click)="editDetails()">
-                            </div>
-                            <div class="row">
-                                <span (click)="undo()" class="p-0 ml-3">Undo</span>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <span (click)="redo()" class="p-0 ml-3">Redo</span>
-                            </div>
-                            <hr>
-                            <div class="row">
+    <main role="main">
+        <div class="wrapper">
 
-                                <div class="col-1">
-                                    <button mat-raised-button (click)="publish()">Publish</button>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <span (click)="showJson()" class="p-0 ml-3">Download Json</span>
-                            </div>
-                            <hr>
+            <div class="breadcrumb-wrap">
+                <div class="container py-3">
+                    <div class="row d-flex justify-content-md-between justify-content-sm-center">
+                        <div class="col-md-4">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item mr-1 font-weight-bold"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item ml-1 font-weight-bold active" aria-current="page">
+                                        Library
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-ghost grey-dark font-weight-bold">
+                                <i class="las la-share-alt"></i>
+                                <span>Share</span>
+                            </button>
+                            <button class="btn btn-ghost grey-dark like-button font-weight-bold">
+                                <i class="las la-hand-holding-heart"></i>
+                                <span>150 Likes</span>
+                            </button>
+                            <button class="btn btn-ghost grey-dark font-weight-bold">
+                                <i class="las la-bookmark"></i>
+                                <span><span>Save for Later</span></span>
+                            </button>
 
-                            <div class="row">
-                                <span (click)="deleteMultipleVertices()" class="p-0 ml-3">Delete Multiple
-                                    Vertices</span>
-                            </div>
-                            <hr>
-
-                            <div class="row">
-                                <span (click)="copyMultipleVertices()" class="p-0 ml-3">Copy Multiple
-                                    Vertices</span>
-                            </div>
-                            <hr>
-
-                            <div class="row">
-                                <a href="javascript:void(0);" class="p-0 ml-3"><label for="file-jsonUpload">Load
-                                        Json</label></a>
-                                <input id="file-jsonUpload" type="file" accept="application/JSON" name="jsonUpload"
-                                    (change)="loadJson($event)" hidden />
-                            </div>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
+                            <!---->
                         </div>
                     </div>
-                </nav>
-            </aside>
-            <main class="col bg-faded py-3 flex-grow-1">
-
-
-                <div #outlineContainer
-                    style="z-index:1;position:absolute;overflow:hidden;top:55px;right:0px;width:160px;height:120px;background:transparent;border-style:solid;border-color:lightgray;">
-
                 </div>
-                <div #graphContainer id="graphContainer">
-                    <side-nav></side-nav>
-                    <side-nav-action></side-nav-action>
-                    <side-nav-handover></side-nav-handover>
-                    <side-nav-condition></side-nav-condition>
-                    <app-side-nav-quick-reply></app-side-nav-quick-reply>
+            </div>
+
+
+            <div class="container">
+                <div class="row">
+                    <app-shared-side-panel></app-shared-side-panel>
+                    <div class="col-lg-9">
+
+
+                        <div class="row">
+                            <div class="col">
+                                <!-- my items table -->
+                                <div class="card product_item_list" style="
+                                    margin-bottom: 3rem !important;
+                                    margin-left: -170px;
+                                    margin-right: -65px;
+                                    margin-top: -10px;
+                                ">
+                                    <div class="card-header py-1 border-bottom">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <h6 class="card-title">{{flowTitle}}</h6>
+                                            </div>
+                                            <div id="publish-flow" (click)="publish()">Publish Flow</div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="padding-top: 700px;">
+
+
+                                            <div #outlineContainer
+                                                style="z-index:1;position:absolute;overflow:hidden;top:55px;right:0px;width:160px;height:120px;background:transparent;border-style:solid;border-color:lightgray;">
+                            
+                                            </div>
+                                            <div #graphContainer id="graphContainer">
+                                                <side-nav></side-nav>
+                                                <side-nav-action></side-nav-action>
+                                                <side-nav-handover></side-nav-handover>
+                                                <side-nav-condition></side-nav-condition>
+                                                <app-side-nav-quick-reply></app-side-nav-quick-reply>
+                                            </div>
+                                    </div>
+                                </div>
+                                <!-- end: My items table-->
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </main>
+            </div>
+
         </div>
-    </div>
+    </main>
+
+    <!-- endbuild -->
 
 </body>
-<app-footer></app-footer>
 
 </html>

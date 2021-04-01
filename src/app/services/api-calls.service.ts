@@ -3,6 +3,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { SuccessAnimationComponent } from 'src/app/modules/home/components/success-animation/success-animation.component';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +19,7 @@ export class ApiCallsService {
   pathVariable2: string = environment.url2;
   pathVariable3: string = environment.url3;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) { }
 
 
   async getAllflows() {
@@ -208,6 +212,7 @@ export class ApiCallsService {
       try {
         this.http.patch<any>(this.pathVariable1 + "/mxgraph/publish/" + this.flowId, body, httpOptions).toPromise
           ().then((data) => {
+            this.successPopUp("Flow Published")
             console.log("Flow Pusblished!")
           });
       } catch (ex) {
@@ -242,7 +247,7 @@ export class ApiCallsService {
     }
     this.http.post<any>(this.pathVariable2 + "/clients/register", signUpData, httpOptions).
       subscribe(data => {
-        this.authenticateClient({ username: signUpData.username, password: signUpData.password })
+        this.authenticateClient({ username: signUpData.username, password: signUpData.password }, "Signed Up Successfully")
       }, error => {
         if (error.status == "409") {
           alert("User already exists")
@@ -250,17 +255,21 @@ export class ApiCallsService {
       });
 
   }
-  authenticateClient(logInData) {
+  authenticateClient(logInData, message = "") {
 
     return this.http.post<any>(this.pathVariable2 + "/clients/authenticate", logInData, this.getHttpOptions("asx")).
       subscribe(async data => {
         if (data.status == 202) {
+          if (message != "") {
+            this.successPopUp("Signed In Successfully")
+          }
           localStorage.setItem('accessToken', data.data.session.accessToken)
           localStorage.setItem('ownerId', data.data.session.ownerId)
           localStorage.setItem('username', data.data.session.username)
           localStorage.setItem('refreshToken', data.data.session.refreshToken)
           localStorage.setItem("created", data.data.session.created)
           localStorage.setItem("expiry", data.data.session.expiry)
+
           const httpOptions = {
             params: {
               clientId: localStorage.getItem("ownerId")
@@ -515,6 +524,11 @@ export class ApiCallsService {
         itemCode: itemCode,
       }
     }
+    if (itemCode == "") {
+
+      delete httpOptions.params['itemCode'];
+
+    }
     return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId")
       + "/products/" + productId + "/assets", formData, httpOptions).toPromise();
   }
@@ -524,7 +538,7 @@ export class ApiCallsService {
     const httpOptions = {
       headers: new HttpHeaders({
       }),
-   
+
     }
     return this.http.post<any>(this.pathVariable2 + "/clients/session/refresh",
       localStorage.getItem("refreshToken"), httpOptions).toPromise();
@@ -540,4 +554,20 @@ export class ApiCallsService {
     alert("You are not authorized to access such resource")
     this.router.navigateByUrl('/');
   }
+
+  successPopUp(message, time = 1200) {
+
+    const dialogRef = this.dialog.open(SuccessAnimationComponent, {
+      disableClose: true,
+      width: '350px',
+      height: '220px',
+      data: { message: message }
+    });
+
+    setTimeout(() => {
+      dialogRef.close();
+    }, time)
+  }
+
+
 }

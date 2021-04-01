@@ -9,22 +9,22 @@ export class SignInComponent implements OnInit {
 
   username: any = '';
   password: any = '';
-
+  showError:Boolean=false;
   constructor(private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
   }
 
-  authenticateClient() {
+  async authenticateClient() {
     const data = {
       username: this.username,
       password: this.password
     }
 
     if (this.username && this.password) {
-      this.apiCalls.authenticateClient(data);
+      this.apiCalls.authenticateClient(data,"signin");
     }else{
-      alert("Please fill all details!")
+      this.showError=true;
     }
   }
 

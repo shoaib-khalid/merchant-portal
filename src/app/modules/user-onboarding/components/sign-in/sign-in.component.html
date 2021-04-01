@@ -29,8 +29,9 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="password">Password</label>
-                                        <input class="form-control" name="password" (keyup.enter)="authenticateClient()" type="password" required=""
-                                            [(ngModel)]="password" id="password" placeholder="Enter your password">
+                                        <input class="form-control" name="password" (keyup.enter)="authenticateClient()"
+                                            type="password" required="" [(ngModel)]="password" id="password"
+                                            placeholder="Enter your password">
                                     </div>
                                     <div class="form-group mb-3">
                                         <div class="custom-control custom-checkbox">
@@ -40,8 +41,9 @@
                                                 me</label>
                                         </div>
                                     </div>
+                                    <div *ngIf="showError" style="color: red;font-size: 14px;margin-left: 3px;margin-bottom: 9px;">* Please enter all details</div>
                                     <div class="form-group mb-0 text-center">
-                                        <a class="btn btn-primary btn-block"  (click)="authenticateClient()">
+                                        <a class="btn btn-primary btn-block" (click)="authenticateClient()">
                                             Log In </a>
                                     </div>
                                 </form>

@@ -3,7 +3,8 @@ import { HelperTextService } from 'src/app/helpers/helper-text.service';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router } from '@angular/router';
 import $ from "jquery";
-
+import { SuccessAnimationComponent } from 'src/app/modules/home/components/success-animation/success-animation.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-product',
@@ -40,11 +41,13 @@ export class AddProductComponent implements OnInit {
   category: any;
   images: any = [];
   addProductLoading: boolean = false;
-  successIcon:boolean=false;
   thumbnailImage: any;
+  defaultInventoryImage: any="";
+  thumbnailPreview:any;
+  defaultInventoryPreview:any;
 
 
-  constructor(private helperTextService: HelperTextService, private apiCalls: ApiCallsService, private router: Router) { }
+  constructor(private dialog: MatDialog, private helperTextService: HelperTextService, private apiCalls: ApiCallsService, private router: Router) { }
 
   ngOnInit(): void {
     this.countries = this.helperTextService.countriesList;
@@ -122,7 +125,7 @@ export class AddProductComponent implements OnInit {
       console.log("product Id: " + data.data.id)
       console.log("product Id: " + localStorage.getItem("storeId"))
 
-      this.addProductLoading=false;
+      this.addProductLoading = false;
       await this.showVerifyIcon();
       this.router.navigateByUrl("/products")
 
@@ -186,17 +189,23 @@ export class AddProductComponent implements OnInit {
         })
 
       }
-    } else {
-      const data: any = await this.apiCalls.addInventory(productId, {
-        itemCode: productId + "aa",
-        price: this.price,
-        compareAtPrice: this.compareAtPrice,
-        quantity: this.quantity,
-        sku: this.sku
-      })
-      if(this.thumbnailImage){
-      const data1  = await this.apiCalls.uploadImage(productId, this.thumbnailImage, productId + "aa")
-      }
+    }
+    var itemCode=null;
+    if (this.defaultInventoryImage) {
+
+      const data1 = await this.apiCalls.uploadImage(productId, this.defaultInventoryImage, productId + "aa")
+      itemCode=productId+"aa"
+    }
+    const data: any = await this.apiCalls.addInventory(productId, {
+      itemCode: itemCode,
+      price: this.price,
+      compareAtPrice: this.compareAtPrice,
+      quantity: this.quantity,
+      sku: this.sku
+    })
+
+    if (this.thumbnailImage) {
+      const data1 = await this.apiCalls.uploadImage(productId, this.thumbnailImage, "")
     }
   }
 
@@ -307,21 +316,36 @@ export class AddProductComponent implements OnInit {
     return promise;
   }
 
-  onThumbnailChanged(event, i) {
+  async onThumbnailChanged(event, i) {
     const file = event.target.files[0];
     const formdata = new FormData();
     formdata.append("file", file);
-    this.thumbnailImage=formdata;
+    this.thumbnailImage = formdata;
+    this.thumbnailPreview = await this.previewImage(file);
   }
 
 
-  showVerifyIcon(){
+  showVerifyIcon() {
     var promise = new Promise(async (resolve, reject) => {
-      this.successIcon=true;
-      setTimeout(() => resolve(1), 1600)
+      const dialogRef = this.dialog.open(SuccessAnimationComponent, {
+        width: '350px',
+        height: '220px',
+        data: { message: "Product Added successfully" }
+      });
+      setTimeout(() => {
+        dialogRef.close();
+        resolve(1)
+      }, 1600)
     });
     return promise;
   }
 
+  async onInventoryImageChanged(event, i) {
+    const file = event.target.files[0];
+    const formdata = new FormData();
+    formdata.append("file", file);
+    this.defaultInventoryImage = formdata;
+    this.defaultInventoryPreview = await this.previewImage(file)
+  }
 
 }

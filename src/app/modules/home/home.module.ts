@@ -7,17 +7,21 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SharedHeaderComponent } from './components/shared-header/shared-header.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { SharedSidePanelComponent } from './components/shared-side-panel/shared-side-panel.component';
-
+import { SuccessAnimationComponent } from './components/success-animation/success-animation.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 @NgModule({
-  declarations: [LandingPageComponent, FlowsComponent, SharedHeaderComponent, SharedSidePanelComponent],
+  declarations: [LandingPageComponent, FlowsComponent, SharedHeaderComponent, SharedSidePanelComponent, SuccessAnimationComponent],
   imports: [
     CommonModule,
     RouterModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule,
+    MatCheckboxModule
   ],
-  exports: [SharedHeaderComponent,SharedSidePanelComponent]
+  exports: [SharedHeaderComponent,SharedSidePanelComponent,SuccessAnimationComponent]
 })
 export class HomeModule { }

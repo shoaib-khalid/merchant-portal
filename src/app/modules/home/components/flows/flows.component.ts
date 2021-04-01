@@ -27,6 +27,7 @@ export class FlowsComponent implements OnInit {
     this.loading = true;
     this.flows = await this.apiCallsService.getAllflows();
     this.flows = this.flows.data;
+    console.log(this.flows)
     if (this.flows) {
       this.getPublishedChannels
     } this.loading = false;
@@ -43,9 +44,9 @@ export class FlowsComponent implements OnInit {
 
 
 
-  openFlow(event) {
+  openFlow(id) {
     if (this.openAble) {
-      this.router.navigateByUrl('/flows/' + event.target.id);
+      this.router.navigateByUrl('/flows/' + id);
     } else {
       this.openAble = true;
     }
@@ -60,6 +61,7 @@ export class FlowsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         if (result[0] && result[1]) {
+          this.apiCallsService.successPopUp("New Flow Created")
           await this.apiCallsService.getFlowId(result[1], result[0]);
           this.router.navigateByUrl('/flows/' + this.apiCallsService.flowId)
         }
@@ -70,6 +72,7 @@ export class FlowsComponent implements OnInit {
 
   delete(event) {
     this.apiCallsService.deleteFlow(event.target.id)
+    this.apiCallsService.successPopUp("Flow Deleted")
     for (var i = 0; i < this.flows.length; i++) {
       if (this.flows[i].id == event.target.id) {
         this.flows.splice(i, 1)
@@ -111,5 +114,8 @@ export class FlowsComponent implements OnInit {
       data: { channels: channelIds }
     });
   }
-
+  showDropdown(id) {
+    this.openAble=false;
+    document.getElementById(""+id).classList.toggle("show");
+  }
 }

@@ -1,57 +1,59 @@
-.flow-card{
-    width:          400px;
-    height:         70px;
-    border-radius:  15px;
-    box-shadow:     0px 0px 4px 3px #c7c7c7;
-    margin:         auto;
-    margin-top:     30px;
-    text-align:     center;
-    cursor:         pointer;
-    padding:        23px;
-}
-.flow-card:hover{
-    border:     2px solid rgb(152, 253, 0);
-
+/* Dropdown Button */
+#add-flow{
+  margin-left: auto;
+  background-color: rgb(91, 179, 127);
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
 }
 
-
-#select-text{
-    margin-top: 100px;
-    text-align: center;
+.dropbtn {
+  background-color: #76c497;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  width: 100px;
+  border-radius: 10px;
 }
 
-.edit{
-    float: right;
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #74d855;
 }
 
+/* The container <div> - needed to position the dropdown content */
 .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    width: 100px;
-    border-radius: 10px;
-  }
-  
-.username:hover{
-    background-color: #fdfdfd;
-    
+  position: relative;
+  display: inline-block;
 }
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
 
-  .options{
-    height: 50px;
-  }
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
 
-  .options:hover{
-    background-color: #c7c7c7;
-  }
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+
+.options{
+  cursor: pointer;
+}

@@ -103,14 +103,21 @@
                                                     <tr *ngFor="let product of products">
                                                         <td><input type="checkbox"></td>
                                                         <td class="product">
-                                                            <div *ngIf="product.productInventories.length>0"
-                                                                style="display: inline-block;">
-                                                                <div style="display: inline-block;"
-                                                                    *ngIf="product.productInventories[0].productAssets.length>0">
-                                                                    <img src="{{product.productInventories[0].productAssets[0].url}}"
-                                                                        height="100" width="100" alt="(product-img)"
-                                                                        class="img-lg rounded"></div>
-                                                            </div> {{product.name}}
+
+
+                                                            <div style="display: inline-block;"
+                                                                *ngIf="product.productThumbnailUrl">
+                                                                <img src="{{product.productThumbnailUrl}}" height="100"
+                                                                    width="100" alt="(product-img)"
+                                                                    class="img-lg rounded">
+                                                            </div >
+
+                                                            <div style="display: inline-block;"*ngIf="product.productAssets.length==0">
+                                                                <img src="assets/img/default.png" height="100"
+                                                                width="100" alt="(product-img)"
+                                                                class="img-lg rounded"></div>
+
+                                                            {{product.name}}
                                                         </td>
                                                         <td style="vertical-align: middle;">
                                                             <div class="status">{{product.status}}</div>
