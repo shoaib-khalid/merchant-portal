@@ -30,8 +30,8 @@ export class MainComponent implements OnInit, AfterViewInit {
    triggers: any;
    redoPointer: any;
    opened: boolean;
-   flowTitle: any="";
-   flowDescription:any;
+   flowTitle: any = "";
+   flowDescription: any;
    constructor(private helperService: HelperService, private helper: Helper, private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) {
    }
 
@@ -291,10 +291,11 @@ export class MainComponent implements OnInit, AfterViewInit {
 
    }
 
-   publish() {
+   async publish() {
+      const data = await this.helperService.getPublishFlowData(this.configService.flowId)
       const dialogRef = this.dialog.open(BotSelectionDialogComponent, {
-         width: '300px',
-         data: {}
+         width: '550px',
+         data: data
       });
    }
    addStepWithType(type, x: any = 50, y: any = 0) {
@@ -364,11 +365,11 @@ export class MainComponent implements OnInit, AfterViewInit {
       dialogRef.afterClosed().subscribe(async result => {
          if (result) {
             if (result[0] && result[1]) {
-               this.flowTitle=result[1];
-               this.flowDescription=result[0];
+               this.flowTitle = result[1];
+               this.flowDescription = result[0];
                this.configService.updateFlowDetails({
-                  title:result[1],
-                  description:result[0],
+                  title: result[1],
+                  description: result[0],
                   ownerId: localStorage.getItem("ownerId")
                });
             }
@@ -377,12 +378,12 @@ export class MainComponent implements OnInit, AfterViewInit {
    }
 
    async setFlowDetails() {
-      var flowDetails:any = await this.configService.retrieveFlowDetails(this.configService.flowId);
+      var flowDetails: any = await this.configService.retrieveFlowDetails(this.configService.flowId);
       this.flowTitle = flowDetails.data.title;
       this.flowDescription = flowDetails.data.description;
 
 
-      
+
 
    }
 }

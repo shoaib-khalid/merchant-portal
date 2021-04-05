@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
+import { Router, ActivatedRoute } from '@angular/router';
+
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -10,7 +13,7 @@ export class ProductsComponent implements OnInit {
   products: any = [];
   allProducts: any = [];
   page: any = 0;
-  constructor(private apiCalls: ApiCallsService) { }
+  constructor(private apiCalls: ApiCallsService,private router:Router) { }
 
   ngOnInit(): void {
     window.scroll(0, 0)
@@ -79,5 +82,9 @@ export class ProductsComponent implements OnInit {
     });
     this.products=products;
     console.log(this.products)
+  }
+
+  editProduct(id){
+    this.router.navigateByUrl("products/"+id)
   }
 }

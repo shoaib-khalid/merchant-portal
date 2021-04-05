@@ -22,7 +22,8 @@ export class SignInComponent implements OnInit {
     }
 
     if (this.username && this.password) {
-      this.apiCalls.authenticateClient(data,"signin");
+      this.apiCalls.loadingAnimation("Logging in")
+      this.apiCalls.authenticateClient(data);
     }else{
       this.showError=true;
     }

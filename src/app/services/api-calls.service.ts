@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 import { SuccessAnimationComponent } from 'src/app/modules/home/components/success-animation/success-animation.component';
-
+import { LoadingComponent } from 'src/app/modules/home/components/loading/loading.component';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ export class ApiCallsService {
   flowId: any;
   retrievedJson: any;
   data: any = [];
+  loadingdialogRef: any;
   vertextType: any;
   pathVariable1: string = environment.url1;
   pathVariable2: string = environment.url2;
@@ -208,6 +209,7 @@ export class ApiCallsService {
     const body = {
       "botIds": botIds
     }
+    console.log(body)
     if (this.flowId) {
       try {
         this.http.patch<any>(this.pathVariable1 + "/mxgraph/publish/" + this.flowId, body, httpOptions).toPromise
@@ -247,22 +249,18 @@ export class ApiCallsService {
     }
     this.http.post<any>(this.pathVariable2 + "/clients/register", signUpData, httpOptions).
       subscribe(data => {
-        this.authenticateClient({ username: signUpData.username, password: signUpData.password }, "Signed Up Successfully")
+        this.authenticateClient({ username: signUpData.username, password: signUpData.password })
       }, error => {
-        if (error.status == "409") {
-          alert("User already exists")
-        }
+        this.loadingdialogRef.close()
       });
 
   }
-  authenticateClient(logInData, message = "") {
+  authenticateClient(logInData) {
 
     return this.http.post<any>(this.pathVariable2 + "/clients/authenticate", logInData, this.getHttpOptions("asx")).
       subscribe(async data => {
         if (data.status == 202) {
-          if (message != "") {
-            this.successPopUp("Signed In Successfully")
-          }
+
           localStorage.setItem('accessToken', data.data.session.accessToken)
           localStorage.setItem('ownerId', data.data.session.ownerId)
           localStorage.setItem('username', data.data.session.username)
@@ -277,6 +275,8 @@ export class ApiCallsService {
           }
 
           var data: any = await this.http.get(this.pathVariable3 + "/stores", httpOptions).toPromise();
+          this.loadingdialogRef.close();
+
           if (data.data.content.length == 0) {
             this.router.navigateByUrl('/chooseverticle')
           } else if (data.data.content.length == 1) {
@@ -287,7 +287,7 @@ export class ApiCallsService {
 
           }
         }
-      }, error => console.log(error));
+      }, error =>this.loadingdialogRef.close());
   }
 
   getStoresByOwnerId() {
@@ -339,6 +339,8 @@ export class ApiCallsService {
     }
     this.http.post<any>(this.pathVariable3 + "/stores", body, httpOptions).
       subscribe(data => {
+      this.loadingdialogRef.close();
+      // this.successPopUp("New Store Registered")
         localStorage.setItem("storeId", data.data.id)
         this.router.navigateByUrl('/store-management');
 
@@ -555,6 +557,15 @@ export class ApiCallsService {
     this.router.navigateByUrl('/');
   }
 
+  getStoreProductById(productId) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+      }),
+    }
+    return this.http.get(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId")
+      + "/products/" + productId, httpOptions).toPromise();
+  }
+
   successPopUp(message, time = 1200) {
 
     const dialogRef = this.dialog.open(SuccessAnimationComponent, {
@@ -569,5 +580,39 @@ export class ApiCallsService {
     }, time)
   }
 
+  updateProduct(body, productId) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+      }),
+    }
+    this.http.put<any>(
+      this.pathVariable3 + `/stores/${localStorage.getItem("storeId")}/products/${productId}`, body, httpOptions
+    ).subscribe(data => {
+      console.log(data)
+    });
+  }
 
+  deleteProductAsset(productId, assetId) {
+    this.http.delete<any>(this.pathVariable3 +
+      `/stores/${localStorage.getItem("storeId")}/products/${productId}/assets/${assetId}`)
+      .subscribe((data) => console.log(data));
+  }
+
+  deleteVariant(productId, variantId) {
+    this.http.delete<any>(this.pathVariable3 +
+      `/stores/${localStorage.getItem("storeId")}/products/${productId}/variants/${variantId}`)
+      .subscribe((data) => console.log(data));
+  }
+
+
+  loadingAnimation(message,width="250px") {
+
+    this.loadingdialogRef = this.dialog.open(LoadingComponent, {
+      disableClose: true,
+      width: width,
+      height: '130px',
+      data: { message: message }
+    });
+
+  }
 }

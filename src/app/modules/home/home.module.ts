@@ -10,10 +10,11 @@ import { SharedSidePanelComponent } from './components/shared-side-panel/shared-
 import { SuccessAnimationComponent } from './components/success-animation/success-animation.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { LoadingComponent } from './components/loading/loading.component';
 
 
 @NgModule({
-  declarations: [LandingPageComponent, FlowsComponent, SharedHeaderComponent, SharedSidePanelComponent, SuccessAnimationComponent],
+  declarations: [LandingPageComponent, FlowsComponent, SharedHeaderComponent, SharedSidePanelComponent, SuccessAnimationComponent, LoadingComponent],
   imports: [
     CommonModule,
     RouterModule,

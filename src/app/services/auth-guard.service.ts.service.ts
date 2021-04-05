@@ -14,10 +14,11 @@ export class AuthGuardService implements CanActivate {
   constructor(public router: Router, private apiCalls: ApiCallsService) { }
   canActivate(route: ActivatedRouteSnapshot): boolean {
     if (localStorage.getItem("accessToken")) {
-      if (Date.parse(localStorage.getItem("created")) < Date.parse(localStorage.getItem("expiry"))) {
+      const d = new Date();
+      if (new Date(localStorage.getItem("expiry")) > new Date(d.toUTCString())) {
         return this.storeSelected(route.url[0] ? route.url[0].path : "");
       } else {
-        this.getFreshAccessToken(route.url[0].path);
+        this.getFreshAccessToken(route.url[0] ? route.url[0].path : "");
       }
 
     } else {

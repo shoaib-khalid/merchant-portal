@@ -95,8 +95,8 @@
                                                         <th class="border-0">Status</th>
                                                         <th class="border-0" data-breakpoints="sm xs">Inventory</th>
                                                         <th class="border-0" data-breakpoints="xs">Type</th>
-
                                                         <th class="border-0" data-breakpoints="sm xs md">Vendor</th>
+                                                        <th class="border-0" data-breakpoints="sm xs md">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -110,12 +110,14 @@
                                                                 <img src="{{product.productThumbnailUrl}}" height="100"
                                                                     width="100" alt="(product-img)"
                                                                     class="img-lg rounded">
-                                                            </div >
+                                                            </div>
 
-                                                            <div style="display: inline-block;"*ngIf="product.productAssets.length==0">
+                                                            <div style="display: inline-block;"
+                                                                *ngIf="product.productAssets.length==0">
                                                                 <img src="assets/img/default.png" height="100"
-                                                                width="100" alt="(product-img)"
-                                                                class="img-lg rounded"></div>
+                                                                    width="100" alt="(product-img)"
+                                                                    class="img-lg rounded">
+                                                            </div>
 
                                                             {{product.name}}
                                                         </td>
@@ -131,6 +133,7 @@
                                                         <td style="vertical-align: middle;">
                                                             Nike
                                                         </td>
+                                                        <td (click)="editProduct(product.id)"><button  type="button" class="btn btn-primary width-150">Edit</button></td>
                                                     </tr>
 
                                                 </tbody>

@@ -40,11 +40,10 @@ export class AddProductComponent implements OnInit {
   categories: any = [];
   category: any;
   images: any = [];
-  addProductLoading: boolean = false;
   thumbnailImage: any;
-  defaultInventoryImage: any="";
-  thumbnailPreview:any;
-  defaultInventoryPreview:any;
+  defaultInventoryImage: any = "";
+  thumbnailPreview: any;
+  defaultInventoryPreview: any;
 
 
   constructor(private dialog: MatDialog, private helperTextService: HelperTextService, private apiCalls: ApiCallsService, private router: Router) { }
@@ -55,7 +54,9 @@ export class AddProductComponent implements OnInit {
   }
 
   addAnotherOption() {
-    this.options.push({ name: "" })
+    if (this.items.length == this.options.length) {
+      this.options.push({ name: "" })
+    }
   }
 
   variantChanged(event) {
@@ -83,7 +84,9 @@ export class AddProductComponent implements OnInit {
     var out = "";
 
     if (n == combos.length) {
-      this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: 0 })
+      if (result.substring(1) != "") {
+        this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: 0 })
+      }
       return result.substring(1);
     }
 
@@ -103,7 +106,7 @@ export class AddProductComponent implements OnInit {
   async saveProduct() {
 
     if (this.title && this.price && this.quantity && this.sku && this.productStatus && this.category) {
-      this.addProductLoading = true;
+      this.apiCalls.loadingAnimation("Adding Product")
       const categoryId = await this.getCategoryId()
       const body = {
         "categoryId": categoryId,
@@ -123,9 +126,9 @@ export class AddProductComponent implements OnInit {
         await this.addInventoryItem(data.data.id, productAvailableIds)
       }
       console.log("product Id: " + data.data.id)
-      console.log("product Id: " + localStorage.getItem("storeId"))
+      console.log("store Id: " + localStorage.getItem("storeId"))
 
-      this.addProductLoading = false;
+      this.apiCalls.loadingdialogRef.close();
       await this.showVerifyIcon();
       this.router.navigateByUrl("/products")
 
@@ -163,6 +166,7 @@ export class AddProductComponent implements OnInit {
   async addVariantValues(productId, variantIds) {
     var productVariantAvailableIds = [];
     for (var i = 0; i < this.options.length; i++) {
+      productVariantAvailableIds.push([]);
       const values = (String(this.items[i])).split(",");
       for (var j = 0; j < values.length; j++) {
         var data: any = await this.apiCalls.addVariantValues(productId, { productVariantId: variantIds[i], value: values[j] })
@@ -178,7 +182,6 @@ export class AddProductComponent implements OnInit {
 
 
       for (var i = 0; i < this.combos.length; i++) {
-        const combosSplitted = this.combos[i].variant.split("/");
         const itemCode = productId + i
         const data: any = await this.apiCalls.addInventory(productId, {
           itemCode: itemCode,
@@ -190,14 +193,12 @@ export class AddProductComponent implements OnInit {
 
       }
     }
-    var itemCode=null;
     if (this.defaultInventoryImage) {
 
-      const data1 = await this.apiCalls.uploadImage(productId, this.defaultInventoryImage, productId + "aa")
-      itemCode=productId+"aa"
+      const data1 = await this.apiCalls.uploadImage(productId, this.defaultInventoryImage, "")
     }
     const data: any = await this.apiCalls.addInventory(productId, {
-      itemCode: itemCode,
+      itemCode: productId + "aa",
       price: this.price,
       compareAtPrice: this.compareAtPrice,
       quantity: this.quantity,
@@ -210,25 +211,27 @@ export class AddProductComponent implements OnInit {
   }
 
   async addInventoryItem(productId, productVariantAvailableIds) {
+
     for (var i = 0; i < this.combos.length; i++) {
       const combosSplitted = this.combos[i].variant.split("/");
       for (var j = 0; j < combosSplitted.length; j++) {
+        const productAvailableId = await this.getVariantAvailableByValue(combosSplitted[j], productVariantAvailableIds)
         const test = await this.apiCalls.addInventoryItem(productId, {
           itemCode: productId + i,
-          productVariantAvailableId: productVariantAvailableIds[j].productVariantAvailableId,
+          productVariantAvailableId: productAvailableId,
           productId: productId
         })
-
       }
 
-      for (var j = 0; j < this.images[i].length; j++) {
-        if (this.images[i][j]) {
-          const formdata = new FormData();
-          formdata.append("file", this.images[i][j].file);
-          const data = await this.apiCalls.uploadImage(productId, formdata, productId + i)
+      if (this.images[i]) {
+        for (var j = 0; j < this.images[i].length; j++) {
+          if (this.images[i][j]) {
+            const formdata = new FormData();
+            formdata.append("file", this.images[i][j].file);
+            const data = await this.apiCalls.uploadImage(productId, formdata, productId + i)
+          }
         }
       }
-
     }
   }
 
@@ -346,6 +349,49 @@ export class AddProductComponent implements OnInit {
     formdata.append("file", file);
     this.defaultInventoryImage = formdata;
     this.defaultInventoryPreview = await this.previewImage(file)
+  }
+
+  deleteVariant(i) {
+    this.items.splice(i, 1)
+    this.options.splice(i, 1);
+    this.variantsChanged(0)
+  }
+
+  onRemove(item, i) {
+    const index = this.items[i].indexOf(item)
+    if (index != -1) {
+      this.items[i].splice(index, 1);
+    }
+    if (this.items[i].length == 0) {
+      this.items.splice(i, 1)
+    }
+    this.variantsChanged(0)
+  }
+
+  deleteVariantImage(i, j) {
+    this.images[i].splice(j, 1);
+  }
+
+  deletethumbnailImage() {
+    this.thumbnailImage = "";
+    this.thumbnailPreview = "";
+  }
+  deleteDefaultInventoryImage() {
+    this.defaultInventoryImage = "";
+    this.defaultInventoryPreview = "";
+  }
+
+
+  getVariantAvailableByValue(value, productAvailableIds) {
+    var promise = new Promise(async (resolve, reject) => {
+      for (var i = 0; i < productAvailableIds.length; i++) {
+        if (productAvailableIds[i].value == value.trim()) {
+          resolve(productAvailableIds[i].productVariantAvailableId);
+          break;
+        }
+      }
+    });
+    return promise;
   }
 
 }

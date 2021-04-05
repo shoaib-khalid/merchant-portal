@@ -1,0 +1,55 @@
+#weight-type-dropdown{
+    height: 29px;
+    margin-left: 5px;
+}
+
+.right-side-card{
+    border: none;
+    height: 580px;
+    border-radius: 20px;
+}
+.add-option{
+    border: 1px solid rgb(223, 222, 222);
+    padding: 4px;
+    border-radius: 5px;
+    margin-left: 10px; 
+    cursor: pointer;
+}
+
+.add-option:hover{
+    background-color: gainsboro;
+}
+
+td, th {
+    text-align: center;
+    padding: 15px;
+  }
+.head-variant{
+    display: inline-block;
+    max-width: 150px;
+    width: 90px;
+    margin-left: 20px;
+}
+.body-variant{
+    display: inline-block;
+    max-width: 150px;
+    margin-left: 20px;
+    width: 90px;
+    margin-top: 10px;
+}
+.images-row{
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#spinner{
+    // margin: 100px 50%;
+    margin-top: 22%;
+    margin-left: 50%;
+    width: 70px;
+    height: 70px;
+    position: fixed;
+    z-index: 2
+}
+
+

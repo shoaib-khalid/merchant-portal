@@ -19,15 +19,13 @@ export class StorePageComponent implements OnInit {
 
   registerStore() {
     if (this.storeName && this.city && this.address) {
-
+      this.apiCalls.loadingAnimation("Registering new store","280")
       this.apiCalls.registerStore({
         name: this.storeName,
         city: this.city,
         address: this.address,
         clientId: localStorage.getItem("ownerId")
-
       })
-      this.apiCalls.successPopUp("New Store Registered")
     } else {
       alert("Please enter all details");
     }

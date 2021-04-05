@@ -102,4 +102,23 @@ export class HelperService {
     });
     return dataVariableNames;
   }
+
+  async getPublishFlowData(id) {
+    const publishedChannels = [];
+    var flows: any = await this.apiCalls.getAllflows();
+    flows = flows.data;
+    flows.forEach(element => {
+      if (element.botIds) {
+        publishedChannels.push({ flowid: element.id, channels: element.botIds })
+      }
+    });
+    var channelIds: any = [];
+    publishedChannels.forEach(element => {
+      if (element.flowid == id) {
+        channelIds = element.channels;
+      }
+    });
+    return { flowId: id, channelsPublish: channelIds }
+  }
+
 }

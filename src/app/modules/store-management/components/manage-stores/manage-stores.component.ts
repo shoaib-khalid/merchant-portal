@@ -25,7 +25,6 @@ export class ManageStoresComponent implements OnInit {
   }
 
   selectStore(event){
-    this.apiCalls.successPopUp("New Store Selected")
     localStorage.setItem("storeId",event.target.id)
     this.router.navigateByUrl("/products")
   }

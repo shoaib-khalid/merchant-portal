@@ -12,6 +12,9 @@
 
     <main role="main">
         <div class="wrapper">
+            <div *ngIf="addProductLoading">
+                <mat-spinner [diameter]="70" id="spinner"></mat-spinner>
+            </div>
 
             <div class="breadcrumb-wrap">
                 <div class="container py-3">
@@ -57,7 +60,7 @@
                                     <div class="card-header border-bottom">
                                         <div class="d-flex align-items-center">
                                             <div>
-                                                <h6 class="card-title mb-0">Add New Product</h6>
+                                                <h6 class="card-title mb-0">Update Product</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -95,11 +98,12 @@
                                                     </div>
 
                                                 </div>
-                                                <div *ngIf="thumbnailPreview">
-                                                    <img src="{{this.thumbnailPreview}}" alt="" height="100px"
+                                                <div *ngIf="thumbnail">
+                                                    <img src="{{this.thumbnail.preview}}" alt="" height="100px"
                                                         width="100px">
                                                     <img src="assets/red-cross.svg" style="margin-left: 5px;" alt=""
-                                                        height="14px" width="14px" (click)="deletethumbnailImage()">
+                                                        height="14px" width="14px"
+                                                        (click)="deletethumbnailImage(this.thumbnail.id)">
 
                                                 </div>
                                                 <h4 class="mt-4 mb-3">Default Inventory Image</h4>
@@ -114,10 +118,11 @@
 
                                                 </div>
                                                 <div *ngIf="defaultInventoryPreview">
-                                                    <img src="{{this.defaultInventoryPreview}}" alt="" height="100px"
+                                                    <img src="{{this.defaultInventoryPreview.preview}}" alt="" height="100px"
                                                         width="100px">
-                                                        <img src="assets/red-cross.svg" style="margin-left: 5px;" alt=""
-                                                        height="14px" width="14px" (click)="deleteDefaultInventoryImage()">
+                                                    <img src="assets/red-cross.svg" style="margin-left: 5px;" alt=""
+                                                        height="14px" width="14px"
+                                                        (click)="deleteDefaultInventoryImage(this.defaultInventoryPreview.id)">
                                                 </div>
                                                 <br />
 
@@ -372,7 +377,7 @@
                                                             </div>
                                                             <div class="col-lg-1 mt-3"
                                                                 style="font-weight: lighter;display: inline-block;cursor: pointer;"
-                                                                (click)="deleteVariant(i)">
+                                                                (click)="deleteVariant(i,option.id)">
                                                                 <img src="assets/red-cross.svg" alt="" height="20px"
                                                                     width="20px">
                                                             </div>
@@ -425,7 +430,7 @@
                                                                         width="80px">
                                                                     <div class="col-lg-1 mt-3"
                                                                         style="font-weight: lighter;display: inline-block;cursor: pointer;"
-                                                                        (click)="deleteVariantImage(i,j)">
+                                                                        (click)="deleteVariantImage(i,j,img.id)">
                                                                         <img src="assets/red-cross.svg" alt=""
                                                                             height="14px" width="14px">
                                                                     </div>
@@ -496,8 +501,8 @@
 
                                                 <div class="form-actions my-4">
                                                     <button type="button" class="btn btn-primary width-150"
-                                                        (click)="saveProduct()">
-                                                        Save Product
+                                                        (click)="updateProduct()">
+                                                        Update Product
                                                     </button>
                                                     <button type="button" class="btn btn-danger">Cancel</button>
                                                 </div>
@@ -679,7 +684,6 @@
             <!-- //container -->
         </section>
     </footer> <!-- build:js -->
-
 
     <!-- endbuild -->
 

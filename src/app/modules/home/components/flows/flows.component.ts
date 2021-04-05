@@ -27,7 +27,6 @@ export class FlowsComponent implements OnInit {
     this.loading = true;
     this.flows = await this.apiCallsService.getAllflows();
     this.flows = this.flows.data;
-    console.log(this.flows)
     if (this.flows) {
       this.getPublishedChannels
     } this.loading = false;
@@ -108,7 +107,6 @@ export class FlowsComponent implements OnInit {
         channelIds = element.channels;
       }
     });
-    console.log("Channel Ids: " + channelIds)
     const dialogRef = this.dialog.open(BotSelectionDialogComponent, {
       width: '300px',
       data: { channels: channelIds }

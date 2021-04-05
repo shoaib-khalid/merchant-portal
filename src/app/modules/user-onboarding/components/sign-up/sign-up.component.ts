@@ -31,8 +31,9 @@ export class SignUpComponent implements OnInit {
 
     if (data.name && data.username && data.email && data.password && data.roleId) {
       if (this.validateEmail(this.email)) {
+        this.apiCalls.loadingAnimation("Signing up")
         this.apiCalls.registerClient(data)
-        this.apiCalls.successPopUp("Signed Up Successfuflly",1900)
+        // this.apiCalls.successPopUp("Signed Up Successfuflly",1900)
       } else {
         this.errorText = "Wrong Email Format"
         this.showError = true;

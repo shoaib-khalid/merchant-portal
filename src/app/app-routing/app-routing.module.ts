@@ -6,7 +6,7 @@ import { SignUpComponent } from 'src/app/modules/user-onboarding/components/sign
 import { SignInComponent } from 'src/app/modules/user-onboarding/components/sign-in/sign-in.component';
 import { AddProductComponent } from 'src/app/modules/product-management/components/add-product/add-product.component'
 import { LandingPageComponent } from 'src/app/modules/home/components/landing-page/landing-page.component';
-import { ChooseVerticleComponent } from 'src/app/modules/product-management/components/choose-verticle/choose-verticle.component';
+import { ChooseVerticleComponent } from 'src/app/modules/store-management/components/choose-verticle/choose-verticle.component';
 import { PageNotFoundComponent } from 'src/app/modules/user-onboarding/components/page-not-found/page-not-found.component';
 import { AuthGuardService } from 'src/app/services/auth-guard.service.ts.service';
 import { FlowsComponent } from 'src/app/modules/home/components/flows/flows.component';
@@ -19,7 +19,7 @@ import { CartComponent } from 'src/app/modules/product-management/components/car
 import { SingleCartComponent } from 'src/app/modules/product-management/components/cart-details/single-cart.component';
 import { SingleOrderComponent } from 'src/app/modules/product-management/components/order-details/single-order.component';
 import { ManageStoresComponent } from 'src/app/modules/store-management/components/manage-stores/manage-stores.component';
-
+import {EditProductComponent} from 'src/app/modules/product-management/components/edit-product/edit-product.component'
 
 const routes: Routes = [
 
@@ -71,6 +71,12 @@ const routes: Routes = [
   {
     path: 'products',
     component: ProductsComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: 'products/:id',
+    component: EditProductComponent,
     canActivate: [AuthGuardService],
     children: []
   },
