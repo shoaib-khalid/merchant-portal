@@ -342,7 +342,7 @@ export class ApiCallsService {
       this.loadingdialogRef.close();
       // this.successPopUp("New Store Registered")
         localStorage.setItem("storeId", data.data.id)
-        this.router.navigateByUrl('/store-management');
+        this.router.navigateByUrl('/products');
 
       });
   }

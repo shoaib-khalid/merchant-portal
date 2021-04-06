@@ -13,13 +13,13 @@ import { FlowsComponent } from 'src/app/modules/home/components/flows/flows.comp
 import { SharedHeaderComponent } from 'src/app/modules/home/components/shared-header/shared-header.component';
 import { ProductsComponent } from 'src/app/modules/product-management/components/products/products.component';
 import { StorePageComponent } from 'src/app/modules/store-management/components/store-page/store-page.component';
-import { OrdersComponent } from 'src/app/modules/product-management/components/orders/orders.component';
+import { OrdersComponent } from 'src/app/modules/order-management/components/orders/orders.component';
 import { ForgotPasswordComponent } from 'src/app/modules/user-onboarding/components/forgot-password/forgot-password.component';
-import { CartComponent } from 'src/app/modules/product-management/components/cart/cart.component';
-import { SingleCartComponent } from 'src/app/modules/product-management/components/cart-details/single-cart.component';
-import { SingleOrderComponent } from 'src/app/modules/product-management/components/order-details/single-order.component';
+import { CartComponent } from 'src/app/modules/cart-management/components/cart/cart.component';
+import { SingleCartComponent } from 'src/app/modules/cart-management/components/cart-details/single-cart.component';
+import { SingleOrderComponent } from 'src/app/modules/order-management/components/order-details/single-order.component';
 import { ManageStoresComponent } from 'src/app/modules/store-management/components/manage-stores/manage-stores.component';
-import {EditProductComponent} from 'src/app/modules/product-management/components/edit-product/edit-product.component'
+import { EditProductComponent } from 'src/app/modules/product-management/components/edit-product/edit-product.component'
 
 const routes: Routes = [
 
@@ -120,6 +120,7 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     children: []
   },
+
   {
     path: '**',
     component: PageNotFoundComponent,

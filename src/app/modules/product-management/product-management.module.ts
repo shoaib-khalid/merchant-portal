@@ -7,17 +7,13 @@ import {RouterModule } from '@angular/router';
 import {HomeModule} from 'src/app/modules/home/home.module';
 import { FormsModule } from '@angular/forms';
 import { TagInputModule } from 'ngx-chips';
-import { OrdersComponent } from './components/orders/orders.component';
-import { CartComponent } from './components/cart/cart.component';
-import { SingleOrderComponent } from './components/order-details/single-order.component';
-import { SingleCartComponent } from './components/cart-details/single-cart.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 
 
 
 @NgModule({
-  declarations: [AddProductComponent, ProductsComponent, ChooseVerticleComponent, OrdersComponent, CartComponent, SingleOrderComponent, SingleCartComponent, EditProductComponent],
+  declarations: [AddProductComponent, ProductsComponent, ChooseVerticleComponent, EditProductComponent],
   imports: [
     CommonModule,
     RouterModule,

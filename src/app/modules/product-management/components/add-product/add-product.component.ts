@@ -177,10 +177,7 @@ export class AddProductComponent implements OnInit {
   }
 
   async addInventory(productId) {
-
     if (this.combos.length > 0) {
-
-
       for (var i = 0; i < this.combos.length; i++) {
         const itemCode = productId + i
         const data: any = await this.apiCalls.addInventory(productId, {
