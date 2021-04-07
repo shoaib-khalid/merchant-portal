@@ -9,18 +9,28 @@ import { FormsModule } from '@angular/forms';
 import { TagInputModule } from 'ngx-chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { CreateNewComponent } from './components/categories/create-new/create-new.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
 @NgModule({
-  declarations: [AddProductComponent, ProductsComponent, ChooseVerticleComponent, EditProductComponent],
+  declarations: [AddProductComponent, ProductsComponent, ChooseVerticleComponent, EditProductComponent, CategoriesComponent, CreateNewComponent],
   imports: [
     CommonModule,
     RouterModule,
     HomeModule,
     FormsModule,
+    MatDialogModule,
     TagInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatInputModule,
+    MatMenuModule,
+    MatButtonModule
   ]
 })
 export class ProductManagementModule { }

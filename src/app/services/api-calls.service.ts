@@ -364,8 +364,8 @@ export class ApiCallsService {
   }
 
 
-  getProducts(page = 0) {
-    const httpOptions = {
+  getProducts(page = 0,categoryId) {
+    const httpOptions:any = {
 
       headers: new HttpHeaders({
         Authorization: "asx"
@@ -375,6 +375,10 @@ export class ApiCallsService {
         "page": page + ""
 
       }
+    }
+
+    if(categoryId){
+      httpOptions.params["categoryId"]=categoryId;
     }
     if (localStorage.getItem("storeId")) {
       return this.http.get("http://209.58.160.20:7071/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
@@ -450,8 +454,7 @@ export class ApiCallsService {
   async getCarts() {
     const httpOptions = {
       headers: new HttpHeaders({
-        Authorization: "asx",
-        "Content-Type": "multipart/form-data"
+
       }),
 
       params: {

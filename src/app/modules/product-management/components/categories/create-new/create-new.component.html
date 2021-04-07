@@ -1,0 +1,12 @@
+<h1 mat-dialog-title style="text-align: center;">Create New Category</h1>
+<div mat-dialog-content>
+  <mat-form-field id="category">
+    <mat-label>Category Name</mat-label>
+    <input matInput [(ngModel)]="category">
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="create()">Create New Category</button>
+</div>
+

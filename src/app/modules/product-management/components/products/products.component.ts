@@ -13,9 +13,15 @@ export class ProductsComponent implements OnInit {
   products: any = [];
   allProducts: any = [];
   page: any = 0;
-  constructor(private apiCalls: ApiCallsService,private router:Router) { }
+  categoryId:any;
+  constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params["categoryId"]) {
+        this.categoryId = params["categoryId"];
+      } 
+    });
     window.scroll(0, 0)
     this.loadProducts();
     this.getAllProducts();
@@ -23,7 +29,7 @@ export class ProductsComponent implements OnInit {
 
 
   async loadProducts() {
-    const products:any =  await this.apiCalls.getProducts();
+    const products: any = await this.apiCalls.getProducts(0,this.categoryId);
     this.showThumbnailImage(products.data.content);
     window.scroll(0, 0)
     window.scroll(0, 0)
@@ -31,7 +37,7 @@ export class ProductsComponent implements OnInit {
   }
 
   async nextPage() {
-    const products: any = await this.apiCalls.getProducts(this.page + 1);
+    const products: any = await this.apiCalls.getProducts(this.page + 1,this.categoryId);
     if (products.data.content.length > 0) {
       this.page++;
       this.products = products.data.content;
@@ -45,7 +51,7 @@ export class ProductsComponent implements OnInit {
     if (this.page < 0) {
       this.page = 0;
     }
-    this.products = await this.apiCalls.getProducts(this.page);
+    this.products = await this.apiCalls.getProducts(this.page,this.categoryId);
     this.products = this.products.data.content
     window.scroll(0, 0)
     window.scroll(0, 0)
@@ -60,7 +66,7 @@ export class ProductsComponent implements OnInit {
   async getAllProducts() {
     var i = 0;
     while (true) {
-      const products: any = await this.apiCalls.getProducts(i);
+      const products: any = await this.apiCalls.getProducts(i,this.categoryId);
       if (products.data.content.length < 1) {
         break;
       }
@@ -70,21 +76,21 @@ export class ProductsComponent implements OnInit {
   }
 
   showThumbnailImage(products) {
-    products.forEach((product,index) => {
-      if(product.productAssets.length>0){
-      products[index].productThumbnailUrl = product.productAssets[0].url;
+    products.forEach((product, index) => {
+      if (product.productAssets.length > 0) {
+        products[index].productThumbnailUrl = product.productAssets[0].url;
       }
       product.productAssets.forEach(image => {
-        if(image.itemCode==null){
+        if (image.itemCode == null) {
           products[index].productThumbnailUrl = image.url;
         }
       });
     });
-    this.products=products;
+    this.products = products;
     console.log(this.products)
   }
 
-  editProduct(id){
-    this.router.navigateByUrl("products/"+id)
+  editProduct(id) {
+    this.router.navigateByUrl("products/" + id)
   }
 }

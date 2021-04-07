@@ -22,6 +22,7 @@ export class CartComponent implements OnInit {
   async getCart(){
     this.carts = await this.apiCalls.getCarts();
     this.carts = this.carts.data.content;
+    console.log(this.carts)
   }
 
   showCartItems(cart){

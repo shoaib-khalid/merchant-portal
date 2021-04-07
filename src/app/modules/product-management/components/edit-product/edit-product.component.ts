@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
-
+import $ from 'jquery';
 @Component({
   selector: 'app-edit-product',
   templateUrl: './edit-product.component.html',
@@ -88,7 +88,7 @@ export class EditProductComponent implements OnInit {
 
   setCategory() {
     this.categories.forEach(element => {
-      if (element.id = this.product.categoryId) {
+      if (element.id == this.product.categoryId) {
         this.category = element.name;
       }
     });
@@ -116,7 +116,7 @@ export class EditProductComponent implements OnInit {
       this.variantChecked = true;
     }
     this.product.productVariants.forEach((element, index) => {
-      this.options.push({ name: element.name,id:element.id })
+      this.options.push({ name: element.name, id: element.id })
       this.items.push([])
       element.productVariantsAvailable.forEach(pva => {
         this.items[index].push(pva.value)
@@ -189,8 +189,9 @@ export class EditProductComponent implements OnInit {
   }
 
   updateProduct() {
+    console.log(this.getCategoryId())
     const body = {
-      "categoryId": this.category,
+      "categoryId": this.getCategoryId(),
       "name": this.title,
       "status": this.productStatus,
       "stock": 0,
@@ -211,8 +212,17 @@ export class EditProductComponent implements OnInit {
     this.images[i].splice(j, 1);
   }
 
-  deleteVariant(i,variantId){
-    this.apiCalls.deleteVariant(this.product.id,variantId)
+  deleteVariant(i, variantId) {
+    this.items.splice(i, 1)
+    this.options.splice(i, 1);
+    this.apiCalls.deleteVariant(this.product.id, variantId)
+  }
+
+  getCategoryId() {
+    const name = $('#categories').val();
+    var id = $('#categories-data-list option[value="' + name + '"]').attr('id');
+    return id;
+
   }
 
 }
