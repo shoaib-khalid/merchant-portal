@@ -41,9 +41,8 @@ export class AddProductComponent implements OnInit {
   category: any;
   images: any = [];
   thumbnailImage: any;
-  defaultInventoryImage: any = "";
   thumbnailPreview: any;
-  defaultInventoryPreview: any;
+  productImages:any=[];
 
 
   constructor(private dialog: MatDialog, private helperTextService: HelperTextService, private apiCalls: ApiCallsService, private router: Router) { }
@@ -157,7 +156,7 @@ export class AddProductComponent implements OnInit {
   async addVariantName(productId) {
     var variantIds = [];
     for (var i = 0; i < this.options.length; i++) {
-      var data: any = await this.apiCalls.addVariant(productId, { name: this.options[i].name })
+      var data: any = await this.apiCalls.addVariant(productId, { name: this.options[i].name, sequenceNumber: i })
       variantIds.push(data.data.id)
     }
     return variantIds;
@@ -169,7 +168,7 @@ export class AddProductComponent implements OnInit {
       productVariantAvailableIds.push([]);
       const values = (String(this.items[i])).split(",");
       for (var j = 0; j < values.length; j++) {
-        var data: any = await this.apiCalls.addVariantValues(productId, { productVariantId: variantIds[i], value: values[j] })
+        var data: any = await this.apiCalls.addVariantValues(productId, { productVariantId: variantIds[i], value: values[j], sequenceNumber: j })
         productVariantAvailableIds.push({ productVariantAvailableId: data.data.id, value: data.data.value })
       }
     }
@@ -189,18 +188,17 @@ export class AddProductComponent implements OnInit {
         })
 
       }
+    } else {
+      const data: any = await this.apiCalls.addInventory(productId, {
+        itemCode: productId + "aa",
+        price: this.price,
+        compareAtPrice: this.compareAtPrice,
+        quantity: this.quantity,
+        sku: this.sku
+      })
     }
-    if (this.defaultInventoryImage) {
 
-      const data1 = await this.apiCalls.uploadImage(productId, this.defaultInventoryImage, "")
-    }
-    const data: any = await this.apiCalls.addInventory(productId, {
-      itemCode: productId + "aa",
-      price: this.price,
-      compareAtPrice: this.compareAtPrice,
-      quantity: this.quantity,
-      sku: this.sku
-    })
+
 
     if (this.thumbnailImage) {
       const data1 = await this.apiCalls.uploadImage(productId, this.thumbnailImage, "")
@@ -322,6 +320,7 @@ export class AddProductComponent implements OnInit {
     formdata.append("file", file);
     this.thumbnailImage = formdata;
     this.thumbnailPreview = await this.previewImage(file);
+    this.productImages.push({file:file,preview:await this.previewImage(file)})
   }
 
 
@@ -340,13 +339,7 @@ export class AddProductComponent implements OnInit {
     return promise;
   }
 
-  async onInventoryImageChanged(event, i) {
-    const file = event.target.files[0];
-    const formdata = new FormData();
-    formdata.append("file", file);
-    this.defaultInventoryImage = formdata;
-    this.defaultInventoryPreview = await this.previewImage(file)
-  }
+
 
   deleteVariant(i) {
     this.items.splice(i, 1)
@@ -373,10 +366,7 @@ export class AddProductComponent implements OnInit {
     this.thumbnailImage = "";
     this.thumbnailPreview = "";
   }
-  deleteDefaultInventoryImage() {
-    this.defaultInventoryImage = "";
-    this.defaultInventoryPreview = "";
-  }
+
 
 
   getVariantAvailableByValue(value, productAvailableIds) {

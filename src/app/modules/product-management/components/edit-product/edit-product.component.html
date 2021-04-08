@@ -87,14 +87,14 @@
                                                     <textarea class="form-control" [(ngModel)]="description" rows="3"
                                                         id="l151"></textarea>
                                                 </div>
-                                                <h4 class="mt-4 mb-3">Thumbnail</h4>
+                                                <h4 class="mt-4 mb-3">Media</h4>
                                                 <div class="input-group mb-3">
                                                     <div class="custom-file">
                                                         <input type="file" multiple class="custom-file-input"
                                                             (change)="onThumbnailChanged($event,0)"
                                                             id="inputGroupFile011" />
                                                         <label class="custom-file-label" for="inputGroupFile011">Choose
-                                                            file </label>
+                                                            file(s) </label>
                                                     </div>
 
                                                 </div>
@@ -106,7 +106,7 @@
                                                         (click)="deletethumbnailImage(this.thumbnail.id)">
 
                                                 </div>
-                                                <h4 class="mt-4 mb-3">Default Inventory Image</h4>
+                                                <!-- <h4 class="mt-4 mb-3">Default Inventory Image</h4>
                                                 <div class="input-group mb-3">
                                                     <div class="custom-file">
                                                         <input type="file" multiple class="custom-file-input"
@@ -114,16 +114,9 @@
                                                             id="inputGroupFile011" />
                                                         <label class="custom-file-label" for="inputGroupFile011">Choose
                                                             file</label>
-                                                    </div>
+                                                    </div> -->
+                                                <!-- </div> -->
 
-                                                </div>
-                                                <div *ngIf="defaultInventoryPreview">
-                                                    <img src="{{this.defaultInventoryPreview.preview}}" alt="" height="100px"
-                                                        width="100px">
-                                                    <img src="assets/red-cross.svg" style="margin-left: 5px;" alt=""
-                                                        height="14px" width="14px"
-                                                        (click)="deleteDefaultInventoryImage(this.defaultInventoryPreview.id)">
-                                                </div>
                                                 <br />
 
                                                 <h4 class="text-black mb-3">Pricing</h4>
@@ -153,13 +146,13 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div>
-                                                            <div>
+                                                            <div hidden>
                                                                 <div>Margin</div>
                                                                 <div>-</div>
                                                             </div>
                                                         </div>
                                                         <div>
-                                                            <div>
+                                                            <div hidden>
                                                                 <div>Profit</div>
                                                                 <div>-</div>
                                                             </div>
@@ -199,6 +192,15 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
+                                                            <label for="quantity">Quantity</label>
+                                                            <br>
+                                                            <input type="number" [(ngModel)]="quantity" id="quantity"
+                                                                class="form-control" name="quantity" min="1"
+                                                                max="10000">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6" hidden>
+                                                        <div class="form-group">
                                                             <label for="l30" hidden>Barcode (ISBN, UPC, GTIN,
                                                                 etc.)</label>
                                                             <input type="text" [(ngModel)]="barcode" hidden
@@ -206,11 +208,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="row" hidden>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" hidden
+                                                                <input class="form-check-input"
                                                                     [(ngModel)]="trackQuantity" type="checkbox" value=""
                                                                     id="flexCheckDefault">
                                                                 <label class="form-check-label" for="flexCheckDefault"
@@ -236,7 +238,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <!-- <div class="row">
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="quantity">Quantity</label>
@@ -246,9 +248,9 @@
                                                                 max="10000">
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <h4 hidden class="text-black mb-3">Shipping</h4>
-                                                <div hidden class="row">
+                                                <div hidden class="row" hidden>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-check">
@@ -273,7 +275,6 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="quantity">Weight</label>
-                                                            <br>
                                                             <input type="number" id="quantity" name="quantity" min="1"
                                                                 value="0.0" max="10000">
                                                             <select name="" [(ngModel)]="weight"
@@ -296,7 +297,6 @@
                                                         fulfillment.
                                                     </div>
                                                 </div>
-                                                <br>
                                                 <div class="row" hidden>
                                                     <div class="col-lg-6">
                                                         Country/Region of origin
@@ -311,8 +311,7 @@
                                                     </div>
                                                     <div class="col-lg-10" style="font-weight:normal">In most cases,
                                                         where the product is manufactured.</div>
-                                                    <br>
-                                                    <br>
+
                                                     <div class="col-lg-10">
                                                         <div class="form-group">
                                                             <label for="l30">HS (Harmonized System) code</label>
@@ -519,7 +518,7 @@
                                                             <option value="DRAFT">Draft</option>
                                                         </select>
                                                     </div>
-                                                    <div style="font-weight: normal;">This product will be hidden
+                                                    <div style="font-weight: normal;" hidden>This product will be hidden
                                                         from
                                                         all sales channels.</div>
                                                     <br>
@@ -533,11 +532,8 @@
                                                         </label>
                                                     </div>
                                                     <br>
-                                                    <h4 class="text-black mb-3">Organization</h4>
+                                                    <h4 class="text-black mb-3">Category</h4>
                                                     <div class="add-item position-relative mb-3">
-                                                        <div class="add-item-img d-flex  border-radius">
-                                                            <div>Category</div>
-                                                        </div>
                                                         <input list="categories-data-list" id="categories"
                                                             [(ngModel)]='category' type="text" class="form-control" />
                                                         <datalist id="categories-data-list">
@@ -559,6 +555,31 @@
                                                         <input type="text" placeholder="Vintage, cotton, summer" hidden
                                                             class="form-control" />
                                                     </div>
+                                                    <hr>
+                                                    <h4 class="text-black mb-3">Delivery Details</h4>
+                                                    <div class="add-item-img d-flex  border-radius">
+                                                        <select name="Inventory-manager"
+                                                            class="form-control" id="inventory-manage">
+                                                            <option value="">Type</option>
+                                                            <option value="Scheduled">Scheduled</option>
+                                                            <option value="Ad-Hoc">Ad-Hoc</option>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <div class="add-item-img d-flex  border-radius">
+                                                        <select name="Inventory-manager"
+                                                            class="form-control" id="inventory-manage">
+                                                            <option value="">Packaging</option>
+                                                            <option value="Parcel">Parcel</option>
+                                                            <option value="Document">Document</option>
+                                                            <option value="Food">Food</option>
+
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                        <input type="number" id="quantity" name="quantity" min="1"
+                                                            placeholder="Weight in Kg" max="10000" class="form-control">
+                                                    
                                                 </div>
 
                                             </div>

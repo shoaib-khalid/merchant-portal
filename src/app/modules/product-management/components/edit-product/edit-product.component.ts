@@ -112,10 +112,13 @@ export class EditProductComponent implements OnInit {
 
   setVariants() {
 
+
     if (this.product.productVariants.length > 0) {
+      this.sortObjects(this.product.productVariants)
       this.variantChecked = true;
     }
     this.product.productVariants.forEach((element, index) => {
+      this.sortObjects(element.productVariantsAvailable)
       this.options.push({ name: element.name, id: element.id })
       this.items.push([])
       element.productVariantsAvailable.forEach(pva => {
@@ -156,9 +159,10 @@ export class EditProductComponent implements OnInit {
   }
 
   setInventory() {
+    const productIdLength = this.product.id.length;
     this.product.productInventories.forEach((element) => {
       if (element.itemCode.slice(-1) != "a") {
-        const index = parseInt(element.itemCode.slice(-1));
+        const index = parseInt(element.itemCode.substring(productIdLength));
         this.combos[index].price = element.price;
         this.combos[index].sku = element.sku;
         this.combos[index].quantity = element.quantity;
@@ -189,7 +193,6 @@ export class EditProductComponent implements OnInit {
   }
 
   updateProduct() {
-    console.log(this.getCategoryId())
     const body = {
       "categoryId": this.getCategoryId(),
       "name": this.title,
@@ -198,6 +201,7 @@ export class EditProductComponent implements OnInit {
       "description": this.description,
       "storeId": localStorage.getItem("storeId")
     }
+    console.log(body)
     this.apiCalls.updateProduct(body, this.product.id)
   }
 
@@ -212,17 +216,29 @@ export class EditProductComponent implements OnInit {
     this.images[i].splice(j, 1);
   }
 
-  deleteVariant(i, variantId) {
+  async deleteVariant(i, variantId) {
     this.items.splice(i, 1)
     this.options.splice(i, 1);
-    this.apiCalls.deleteVariant(this.product.id, variantId)
+    await this.apiCalls.deleteVariant(this.product.id, variantId)
+    for (var j = 0; j < this.product.productInventories.length; j++) {
+      if(this.product.productInventories[j].itemCode.slice(-1)!="a"){
+      await this.apiCalls.deleteInventory(this.product.id, this.product.productInventories[j].itemCode)
+
+      }
+    }
+    this.getallCombinations(this.items)
   }
 
   getCategoryId() {
     const name = $('#categories').val();
     var id = $('#categories-data-list option[value="' + name + '"]').attr('id');
     return id;
+  }
 
+  sortObjects(array) {
+    array.sort(function (a, b) {
+      return a.sequenceNumber - b.sequenceNumber;
+    });
   }
 
 }

@@ -607,6 +607,14 @@ export class ApiCallsService {
       .subscribe((data) => console.log(data));
   }
 
+  deleteInventory(productId, itemCode) {
+    console.log(`/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${itemCode}`)
+    this.http.delete<any>(this.pathVariable3 +
+      `/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${itemCode}`)
+      .subscribe((data) => console.log(data));
+  }
+
+
 
   loadingAnimation(message,width="250px") {
 
