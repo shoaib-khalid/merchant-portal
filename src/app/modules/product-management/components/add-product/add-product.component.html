@@ -95,13 +95,12 @@
                                                     </div>
 
                                                 </div>
-                                                <div *ngIf="thumbnailPreview">
-                                                    <img src="{{this.thumbnailPreview}}" alt="" height="100px"
+                                                    <div *ngFor="let prodImg of productImages;index as i" style="display: inline-block;margin-top: 3px;margin-right: 3px;">
+                                                    <img src="{{prodImg.preview}}" alt="" height="100px"
                                                         width="100px">
                                                     <img src="assets/red-cross.svg" style="margin-left: 5px;" alt=""
-                                                        height="14px" width="14px" (click)="deletethumbnailImage()">
-
-                                                </div>
+                                                        height="14px" width="14px" (click)="deleteProductImages(i)">
+                                                    </div>
 
                                                 <br />
 

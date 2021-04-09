@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import $ from 'jquery';
+import { DataSource } from '@angular/cdk/collections';
 @Component({
   selector: 'app-edit-product',
   templateUrl: './edit-product.component.html',
@@ -35,12 +36,9 @@ export class EditProductComponent implements OnInit {
   categories: any = [];
   category: any;
   images: any = [];
-  addProductLoading: boolean = false;
-  thumbnailImage: any;
-  defaultInventoryImage: any = "";
-  thumbnail: any;
-  defaultInventoryPreview: any;
   product: any;
+  productImages: any = [];
+  newItems: any = [];
 
 
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
@@ -67,7 +65,6 @@ export class EditProductComponent implements OnInit {
     this.productStatus = this.product.status;
     this.setCategory();
     this.setThumbnailPreview();
-    this.setDefaultInventoryPreview();
     this.setVariants();
     this.getallCombinations(this.items)
     this.setProductAssets();
@@ -97,22 +94,14 @@ export class EditProductComponent implements OnInit {
   setThumbnailPreview() {
     this.product.productAssets.forEach(element => {
       if (element.itemCode == null) {
-        this.thumbnail = { id: element.id, preview: element.url };
+        this.productImages.push({ id: element.id, preview: element.url })
       }
     });
   }
 
-  setDefaultInventoryPreview() {
-    this.product.productAssets.forEach(element => {
-      if (element.itemCode == null) {
-        this.defaultInventoryPreview = { id: element.id, preview: element.url }
-      }
-    });
-  }
+
 
   setVariants() {
-
-
     if (this.product.productVariants.length > 0) {
       this.sortObjects(this.product.productVariants)
       this.variantChecked = true;
@@ -120,14 +109,43 @@ export class EditProductComponent implements OnInit {
     this.product.productVariants.forEach((element, index) => {
       this.sortObjects(element.productVariantsAvailable)
       this.options.push({ name: element.name, id: element.id })
-      this.items.push([])
+      this.items.push({ values: [], ids: [] })
       element.productVariantsAvailable.forEach(pva => {
-        this.items[index].push(pva.value)
+        this.items[index].values.push(pva.value)
+        this.items[index].ids.push(pva.id)
+
       });
     });
-
+    this.newItems = JSON.parse(JSON.stringify(this.items))
+  }
+  variantsChanged(i, data) {
+    if (this.options[i].id) {
+      console.log(this.items[i].values.length-1)
+      this.apiCalls.addVariantValues(this.product.id, { productVariantId: this.options[i].id, value: data.value, sequenceNumber: this.items[i].values.length-1 })
+    }
+    this.combos = [];
+    this.getallCombinations(this.items)
   }
 
+  variantAvailableRemoved(value, i) {
+
+    var id = 0;
+    if (this.newItems[i]) {
+      for (var j = 0; j < this.newItems[i].values.length; j++) {
+        if (this.newItems[i].values[j] == value) {
+          id = this.items[i].ids[j];
+          break;
+        }
+      }
+      this.apiCalls.deleteVariantValue(this.product.id, id)
+    }
+    this.combos = [];
+    this.getallCombinations(this.items)
+  }
+
+  variantNameChanged(event, i) {
+    this.options[i].name = event.target.value;
+  }
 
   setProductAssets() {
     this.product.productAssets.forEach(element => {
@@ -138,6 +156,7 @@ export class EditProductComponent implements OnInit {
   }
 
   getallCombinations(combos, result = "", n = 0) {
+
     var out = "";
     if (n == combos.length) {
       if (result.substring(1) != "") {
@@ -147,12 +166,12 @@ export class EditProductComponent implements OnInit {
       return result.substring(1);
     }
 
-    for (var i = 0; i < combos[n].length; i++) {
+    for (var i = 0; i < combos[n].values.length; i++) {
       if (result != "") {
-        out = result + " / " + combos[n][i];
+        out = result + " / " + combos[n].values[i];
       }
       else {
-        out = result + " " + combos[n][i];
+        out = result + " " + combos[n].values[i];
       }
       this.getallCombinations(combos, out, n + 1)
     }
@@ -170,8 +189,25 @@ export class EditProductComponent implements OnInit {
     });
   }
 
-  onThumbnailChanged($event, i) {
+  async onThumbnailChanged(event, i) {
+    const files = event.target.files;
+    for (var j = 0; j < files.length; j++) {
+      const formdata = new FormData();
+      formdata.append("file", files[j]);
+      this.productImages.push({ file: formdata, preview: await this.previewImage(files[j]), new: true })
 
+    }
+  }
+
+  previewImage(file) {
+    var promise = new Promise(async (resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (_event) => {
+        resolve(reader.result)
+      }
+    });
+    return promise;
   }
   onInventoryImageChanged($event, i) {
 
@@ -181,18 +217,15 @@ export class EditProductComponent implements OnInit {
 
   }
 
-  deletethumbnailImage(thumbnailId) {
-    this.thumbnailImage = "";
-    this.thumbnail = "";
-    this.apiCalls.deleteProductAsset(this.product.id, thumbnailId)
+  deletethumbnailImage(prodId) {
+    this.productImages.splice(prodId, 1)
+    this.apiCalls.deleteProductAsset(this.product.id, prodId)
   }
 
-  deleteDefaultInventoryImage(inventoryImgId) {
-    this.defaultInventoryPreview = "";
-    this.apiCalls.deleteProductAsset(this.product.id, inventoryImgId)
-  }
 
-  updateProduct() {
+
+  async updateProduct() {
+    await this.deleteEntireInventory();
     const body = {
       "categoryId": this.getCategoryId(),
       "name": this.title,
@@ -201,15 +234,108 @@ export class EditProductComponent implements OnInit {
       "description": this.description,
       "storeId": localStorage.getItem("storeId")
     }
-    console.log(body)
+    this.addInventory();
     this.apiCalls.updateProduct(body, this.product.id)
+    this.uploadProductImages();
+    const variantIds: any = await this.addVariantName();
+    const productAvailableIds = await this.addVariantValues(variantIds);
+    const allIds: any = await this.joinVariantAvailables(productAvailableIds)
+    this.addInventoryItem(allIds);
+    this.uploadVariantImages();
   }
 
   addAnotherOption() {
     if (this.items.length == this.options.length) {
-      this.options.push({ name: "" })
+      this.options.push({ name: "", new: true })
+      this.items.push({ values: [], ids: [] })
     }
   }
+  async addVariantName() {
+    var variantIds = [];
+    for (var i = 0; i < this.options.length; i++) {
+      if (this.options[i].new) {
+        var data: any = await this.apiCalls.addVariant(this.product.id, { name: this.options[i].name, sequenceNumber: i })
+        variantIds.push(data.data.id)
+      }
+    }
+    return variantIds;
+  }
+
+
+  async addInventory() {
+    if (this.combos.length > 0) {
+      for (var i = 0; i < this.combos.length; i++) {
+        const itemCode = this.product.id + i
+        const data: any = await this.apiCalls.addInventory(this.product.id, {
+          itemCode: itemCode,
+          price: this.combos[i].price,
+          compareAtPrice: 0,
+          quantity: this.combos[i].quantity,
+          sku: this.combos[i].sku
+        })
+
+      }
+    } else {
+      const data: any = await this.apiCalls.addInventory(this.product.id, {
+        itemCode: this.product.id + "aa",
+        price: this.price,
+        compareAtPrice: this.compareAtPrice,
+        quantity: this.quantity,
+        sku: this.sku
+      })
+    }
+  }
+
+
+  async addInventoryItem(productVariantAvailableIds) {
+    for (var i = 0; i < this.combos.length; i++) {
+      const combosSplitted = this.combos[i].variant.split("/");
+      for (var j = 0; j < combosSplitted.length; j++) {
+        const productAvailableId = await this.getVariantAvailableByValue(combosSplitted[j], productVariantAvailableIds)
+        if (productAvailableId == null) {
+          continue;
+        }
+        const test = await this.apiCalls.addInventoryItem(this.product.id, {
+          itemCode: this.product.id + i,
+          productVariantAvailableId: productAvailableId,
+          productId: this.product.id
+        })
+      }
+
+    }
+  }
+
+  getVariantAvailableByValue(value, productAvailableIds) {
+    var promise = new Promise(async (resolve, reject) => {
+      for (var i = 0; i < productAvailableIds.length; i++) {
+        if (productAvailableIds[i].value == value.trim()) {
+          resolve(productAvailableIds[i].productVariantAvailableId);
+          break;
+        }
+      }
+      resolve(null);
+    });
+    return promise;
+  }
+
+  async addVariantValues(variantIds) {
+    var k = 0;
+    var productVariantAvailableIds = [];
+    for (var i = 0; i < this.options.length; i++) {
+      productVariantAvailableIds.push([]);
+      if (this.options[i].new) {
+        const values = (String(this.items[i].values)).split(",");
+        for (var j = 0; j < values.length; j++) {
+          var data: any = await this.apiCalls.addVariantValues(this.product.id, { productVariantId: variantIds[k], value: values[j], sequenceNumber: k })
+          productVariantAvailableIds.push({ productVariantAvailableId: data.data.id, value: data.data.value })
+        }
+        k = k + 1;
+      }
+
+    }
+    return productVariantAvailableIds;
+  }
+
 
   deleteVariantImage(i, j, variantImgId) {
     this.apiCalls.deleteProductAsset(this.product.id, variantImgId)
@@ -219,13 +345,9 @@ export class EditProductComponent implements OnInit {
   async deleteVariant(i, variantId) {
     this.items.splice(i, 1)
     this.options.splice(i, 1);
-    await this.apiCalls.deleteVariant(this.product.id, variantId)
-    for (var j = 0; j < this.product.productInventories.length; j++) {
-      if(this.product.productInventories[j].itemCode.slice(-1)!="a"){
-      await this.apiCalls.deleteInventory(this.product.id, this.product.productInventories[j].itemCode)
-
-      }
-    }
+    this.apiCalls.deleteVariant(this.product.id, variantId)
+    // this.deleteEntireInventory();
+    this.combos = [];
     this.getallCombinations(this.items)
   }
 
@@ -239,6 +361,81 @@ export class EditProductComponent implements OnInit {
     array.sort(function (a, b) {
       return a.sequenceNumber - b.sequenceNumber;
     });
+  }
+
+  async uploadProductImages() {
+    for (var i = 0; i < this.productImages.length; i++) {
+      if (this.productImages[i].new) {
+        await this.apiCalls.uploadImage(this.product.id, this.productImages[i].file, "")
+      }
+    }
+  }
+
+  priceChanged(event, i) {
+    this.combos[i].price = event.target.value;
+  }
+  skuChanged(event, i) {
+    this.combos[i].sku = event.target.value;
+
+  }
+  quantityChanged(event, i) {
+    this.combos[i].quantity = event.target.value;
+
+  }
+
+  deleteEntireInventory() {
+    var promise = new Promise(async (resolve, reject) => {
+      for (var j = 0; j < this.product.productInventories.length; j++) {
+        this.apiCalls.deleteInventory(this.product.id, this.product.productInventories[j].itemCode)
+      }
+      resolve("done")
+    });
+    return promise;
+
+  }
+
+  async joinVariantAvailables(variantAvailables) {
+
+    var promise = new Promise(async (resolve, reject) => {
+      const data: any = await this.apiCalls.getVariantAvailables(this.product.id);
+      for (var i = 0; i < data.data.length; i++) {
+        variantAvailables.push({ productVariantAvailableId: data.data[i].id, value: data.data[i].value })
+      }
+      resolve(variantAvailables)
+    });
+    return promise;
+
+  }
+
+
+
+  async onFileChanged(event, i) {
+    if (this.images[i]) {
+
+    } else {
+      this.images[i] = [];
+    }
+    const files = event.target.files;
+    for (var j = 0; j < files.length; j++) {
+      const file = files[j];
+      this.images[i].push({ file: file, preview: await this.previewImage(file), new: true });
+    }
+  }
+
+  async uploadVariantImages(){
+    for (var i = 0; i < this.images.length;i++){
+      if (this.images[i]) {
+        for (var j = 0; j < this.images[i].length; j++) {
+          console.log(this.images[i][j].new)
+          if (this.images[i][j].new) {
+            const formdata = new FormData();
+            formdata.append("file", this.images[i][j].file);
+            const data = await this.apiCalls.uploadImage(this.product.id, formdata, this.product.id + i)
+            console.log(data)
+          }
+        }
+      }
+    }
   }
 
 }

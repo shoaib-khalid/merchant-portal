@@ -40,9 +40,7 @@ export class AddProductComponent implements OnInit {
   categories: any = [];
   category: any;
   images: any = [];
-  thumbnailImage: any;
-  thumbnailPreview: any;
-  productImages:any=[];
+  productImages: any = [];
 
 
   constructor(private dialog: MatDialog, private helperTextService: HelperTextService, private apiCalls: ApiCallsService, private router: Router) { }
@@ -198,10 +196,9 @@ export class AddProductComponent implements OnInit {
       })
     }
 
-
-
-    if (this.thumbnailImage) {
-      const data1 = await this.apiCalls.uploadImage(productId, this.thumbnailImage, "")
+    //uploading product images
+    for (var i = 0; i < this.productImages.length; i++) {
+      await this.apiCalls.uploadImage(productId, this.productImages[i].file, "")
     }
   }
 
@@ -315,12 +312,12 @@ export class AddProductComponent implements OnInit {
   }
 
   async onThumbnailChanged(event, i) {
-    const file = event.target.files[0];
-    const formdata = new FormData();
-    formdata.append("file", file);
-    this.thumbnailImage = formdata;
-    this.thumbnailPreview = await this.previewImage(file);
-    this.productImages.push({file:file,preview:await this.previewImage(file)})
+    const files = event.target.files;
+    for (var j = 0; j < files.length; j++) {
+      const formdata = new FormData();
+      formdata.append("file", files[j]);
+      this.productImages.push({ file: formdata, preview: await this.previewImage(files[j]) })
+    }
   }
 
 
@@ -362,9 +359,8 @@ export class AddProductComponent implements OnInit {
     this.images[i].splice(j, 1);
   }
 
-  deletethumbnailImage() {
-    this.thumbnailImage = "";
-    this.thumbnailPreview = "";
+  deleteProductImages(i) {
+    this.productImages.splice(i, 1);
   }
 
 

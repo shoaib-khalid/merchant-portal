@@ -287,7 +287,7 @@ export class ApiCallsService {
 
           }
         }
-      }, error =>this.loadingdialogRef.close());
+      }, error => this.loadingdialogRef.close());
   }
 
   getStoresByOwnerId() {
@@ -339,8 +339,8 @@ export class ApiCallsService {
     }
     this.http.post<any>(this.pathVariable3 + "/stores", body, httpOptions).
       subscribe(data => {
-      this.loadingdialogRef.close();
-      // this.successPopUp("New Store Registered")
+        this.loadingdialogRef.close();
+        // this.successPopUp("New Store Registered")
         localStorage.setItem("storeId", data.data.id)
         this.router.navigateByUrl('/products');
 
@@ -364,8 +364,8 @@ export class ApiCallsService {
   }
 
 
-  getProducts(page = 0,categoryId) {
-    const httpOptions:any = {
+  getProducts(page = 0, categoryId) {
+    const httpOptions: any = {
 
       headers: new HttpHeaders({
         Authorization: "asx"
@@ -377,8 +377,8 @@ export class ApiCallsService {
       }
     }
 
-    if(categoryId){
-      httpOptions.params["categoryId"]=categoryId;
+    if (categoryId) {
+      httpOptions.params["categoryId"] = categoryId;
     }
     if (localStorage.getItem("storeId")) {
       return this.http.get("http://209.58.160.20:7071/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
@@ -409,12 +409,27 @@ export class ApiCallsService {
       toPromise();
   }
 
+  deleteVariantValue(productId, variantAvailableId) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+
+    return this.http.delete<any>
+      (this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" +
+        productId + "/" + "variants-available/" + variantAvailableId, httpOptions).
+      toPromise();
+  }
+
   addInventory(productId, body) {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: "asx"
       })
     }
+
+
 
     return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory", body, httpOptions).
       toPromise();
@@ -607,16 +622,14 @@ export class ApiCallsService {
       .subscribe((data) => console.log(data));
   }
 
-  deleteInventory(productId, itemCode) {
-    console.log(`/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${itemCode}`)
-    this.http.delete<any>(this.pathVariable3 +
-      `/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${itemCode}`)
+  deleteInventory(productId, id) {
+    this.http.delete<any>(`http://symplified.biz:7071/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${id}`)
       .subscribe((data) => console.log(data));
   }
 
 
 
-  loadingAnimation(message,width="250px") {
+  loadingAnimation(message, width = "250px") {
 
     this.loadingdialogRef = this.dialog.open(LoadingComponent, {
       disableClose: true,
@@ -626,4 +639,19 @@ export class ApiCallsService {
     });
 
   }
+
+
+  getVariantAvailables(productId) {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          Authorization: "asx"
+        })
+      }
+  
+      return this.http.get<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants-available", httpOptions).
+        toPromise();
+    
+  }
+
+
 }

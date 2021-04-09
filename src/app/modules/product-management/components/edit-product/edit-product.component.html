@@ -12,9 +12,6 @@
 
     <main role="main">
         <div class="wrapper">
-            <div *ngIf="addProductLoading">
-                <mat-spinner [diameter]="70" id="spinner"></mat-spinner>
-            </div>
 
             <div class="breadcrumb-wrap">
                 <div class="container py-3">
@@ -98,13 +95,14 @@
                                                     </div>
 
                                                 </div>
-                                                <div *ngIf="thumbnail">
-                                                    <img src="{{this.thumbnail.preview}}" alt="" height="100px"
+                                                <div >
+                                                    <div *ngFor="let prodImg of productImages;index as i" style="display: inline-block;margin-top: 3px;margin-right: 3px;">
+                                                    <img src="{{this.prodImg.preview}}" alt="" height="100px"
                                                         width="100px">
                                                     <img src="assets/red-cross.svg" style="margin-left: 5px;" alt=""
                                                         height="14px" width="14px"
-                                                        (click)="deletethumbnailImage(this.thumbnail.id)">
-
+                                                        (click)="deletethumbnailImage(prodImg.id)">
+                                                    </div>
                                                 </div>
                                                 <!-- <h4 class="mt-4 mb-3">Default Inventory Image</h4>
                                                 <div class="input-group mb-3">
@@ -366,9 +364,9 @@
                                                             </div>
                                                             <div class="col-lg-6" style="font-weight: lighter;">
                                                                 <div class="form-group">
-                                                                    <tag-input [(ngModel)]="items[i]"
-                                                                        (keyup.enter)="variantsChanged(i)"
-                                                                        (onRemove)="onRemove($event,i)"
+                                                                    <tag-input [(ngModel)]="items[i].values"
+                                                                        (onAdd)="variantsChanged(i,$event)"
+                                                                        (onRemove)="variantAvailableRemoved($event,i)"
                                                                         [modelAsStrings]="true">
                                                                     </tag-input>
                                                                 </div>
