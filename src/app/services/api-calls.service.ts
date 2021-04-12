@@ -429,21 +429,14 @@ export class ApiCallsService {
       })
     }
 
-
-
     return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory", body, httpOptions).
       toPromise();
   }
 
 
   addInventoryItem(productId, body) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: "asx"
-      })
-    }
 
-    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory-item", body, httpOptions).
+    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory-item", body).
       toPromise();
   }
 
@@ -624,7 +617,9 @@ export class ApiCallsService {
 
   deleteInventory(productId, id) {
     this.http.delete<any>(`http://symplified.biz:7071/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${id}`)
-      .subscribe((data) => console.log(data));
+      .subscribe((data) =>{
+
+      });
   }
 
 

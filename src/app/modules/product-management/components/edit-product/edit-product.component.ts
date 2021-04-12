@@ -120,8 +120,7 @@ export class EditProductComponent implements OnInit {
   }
   variantsChanged(i, data) {
     if (this.options[i].id) {
-      console.log(this.items[i].values.length-1)
-      this.apiCalls.addVariantValues(this.product.id, { productVariantId: this.options[i].id, value: data.value, sequenceNumber: this.items[i].values.length-1 })
+      this.apiCalls.addVariantValues(this.product.id, { productVariantId: this.options[i].id, value: data.value, sequenceNumber: this.items[i].values.length - 1 })
     }
     this.combos = [];
     this.getallCombinations(this.items)
@@ -182,9 +181,12 @@ export class EditProductComponent implements OnInit {
     this.product.productInventories.forEach((element) => {
       if (element.itemCode.slice(-1) != "a") {
         const index = parseInt(element.itemCode.substring(productIdLength));
-        this.combos[index].price = element.price;
-        this.combos[index].sku = element.sku;
-        this.combos[index].quantity = element.quantity;
+        if (this.combos[index]) {
+          this.combos[index].price = element.price;
+          this.combos[index].sku = element.sku;
+          this.combos[index].quantity = element.quantity;
+        }
+
       }
     });
   }
@@ -234,7 +236,7 @@ export class EditProductComponent implements OnInit {
       "description": this.description,
       "storeId": localStorage.getItem("storeId")
     }
-    this.addInventory();
+    await this.addInventory();
     this.apiCalls.updateProduct(body, this.product.id)
     this.uploadProductImages();
     const variantIds: any = await this.addVariantName();
@@ -251,55 +253,82 @@ export class EditProductComponent implements OnInit {
     }
   }
   async addVariantName() {
-    var variantIds = [];
-    for (var i = 0; i < this.options.length; i++) {
-      if (this.options[i].new) {
-        var data: any = await this.apiCalls.addVariant(this.product.id, { name: this.options[i].name, sequenceNumber: i })
-        variantIds.push(data.data.id)
+
+    var promise = new Promise(async (resolve, reject) => {
+
+      var variantIds = [];
+      for (var i = 0; i < this.options.length; i++) {
+        if (this.options[i].new) {
+          var data: any = await this.apiCalls.addVariant(this.product.id, { name: this.options[i].name, sequenceNumber: i })
+          variantIds.push(data.data.id)
+        }
       }
-    }
-    return variantIds;
+      ;
+      resolve(variantIds)
+    });
+
+
+
   }
 
 
   async addInventory() {
-    if (this.combos.length > 0) {
-      for (var i = 0; i < this.combos.length; i++) {
-        const itemCode = this.product.id + i
-        const data: any = await this.apiCalls.addInventory(this.product.id, {
-          itemCode: itemCode,
-          price: this.combos[i].price,
-          compareAtPrice: 0,
-          quantity: this.combos[i].quantity,
-          sku: this.combos[i].sku
-        })
+    var promise = new Promise(async (resolve, reject) => {
+      if (this.combos.length > 0) {
+        for (var i = 0; i < this.combos.length; i++) {
+          const itemCode = this.product.id + i
 
+          const data: any = await this.apiCalls.addInventory(this.product.id, {
+            itemCode: itemCode,
+            price: this.combos[i].price,
+            compareAtPrice: 0,
+            quantity: this.combos[i].quantity,
+            sku: this.combos[i].sku
+          })
+
+        }
+      } else {
+        const data: any = await this.apiCalls.addInventory(this.product.id, {
+          itemCode: this.product.id + "aa",
+          price: this.price,
+          compareAtPrice: this.compareAtPrice,
+          quantity: this.quantity,
+          sku: this.sku
+        })
       }
-    } else {
-      const data: any = await this.apiCalls.addInventory(this.product.id, {
-        itemCode: this.product.id + "aa",
-        price: this.price,
-        compareAtPrice: this.compareAtPrice,
-        quantity: this.quantity,
-        sku: this.sku
-      })
-    }
+      resolve("")
+    });
+    return promise;
+
   }
 
 
   async addInventoryItem(productVariantAvailableIds) {
+    var k = 0;
     for (var i = 0; i < this.combos.length; i++) {
       const combosSplitted = this.combos[i].variant.split("/");
       for (var j = 0; j < combosSplitted.length; j++) {
         const productAvailableId = await this.getVariantAvailableByValue(combosSplitted[j], productVariantAvailableIds)
+
         if (productAvailableId == null) {
           continue;
         }
-        const test = await this.apiCalls.addInventoryItem(this.product.id, {
-          itemCode: this.product.id + i,
-          productVariantAvailableId: productAvailableId,
-          productId: this.product.id
-        })
+        try {
+          const test = await this.apiCalls.addInventoryItem(this.product.id, {
+
+            itemCode: this.product.id + i,
+            productVariantAvailableId: productAvailableId,
+            productId: this.product.id,
+            sequenceNumber: 0
+          })
+          if (test.status == 200) {
+            k = k + 1;
+
+          }
+        } catch (Ex) {
+
+        }
+
       }
 
     }
@@ -319,21 +348,26 @@ export class EditProductComponent implements OnInit {
   }
 
   async addVariantValues(variantIds) {
-    var k = 0;
-    var productVariantAvailableIds = [];
-    for (var i = 0; i < this.options.length; i++) {
-      productVariantAvailableIds.push([]);
-      if (this.options[i].new) {
-        const values = (String(this.items[i].values)).split(",");
-        for (var j = 0; j < values.length; j++) {
-          var data: any = await this.apiCalls.addVariantValues(this.product.id, { productVariantId: variantIds[k], value: values[j], sequenceNumber: k })
-          productVariantAvailableIds.push({ productVariantAvailableId: data.data.id, value: data.data.value })
+    var promise = new Promise(async (resolve, reject) => {
+      var k = 0;
+      var productVariantAvailableIds = [];
+      for (var i = 0; i < this.options.length; i++) {
+        productVariantAvailableIds.push([]);
+        if (this.options[i].new) {
+          const values = (String(this.items[i].values)).split(",");
+          for (var j = 0; j < values.length; j++) {
+            var data: any = await this.apiCalls.addVariantValues(this.product.id, { productVariantId: variantIds[k], value: values[j], sequenceNumber: k })
+            productVariantAvailableIds.push({ productVariantAvailableId: data.data.id, value: data.data.value })
+          }
+          k = k + 1;
         }
-        k = k + 1;
-      }
 
-    }
-    return productVariantAvailableIds;
+      }
+      resolve(productVariantAvailableIds)
+    });
+    return promise;
+
+
   }
 
 
@@ -422,16 +456,14 @@ export class EditProductComponent implements OnInit {
     }
   }
 
-  async uploadVariantImages(){
-    for (var i = 0; i < this.images.length;i++){
+  async uploadVariantImages() {
+    for (var i = 0; i < this.images.length; i++) {
       if (this.images[i]) {
         for (var j = 0; j < this.images[i].length; j++) {
-          console.log(this.images[i][j].new)
           if (this.images[i][j].new) {
             const formdata = new FormData();
             formdata.append("file", this.images[i][j].file);
             const data = await this.apiCalls.uploadImage(this.product.id, formdata, this.product.id + i)
-            console.log(data)
           }
         }
       }
