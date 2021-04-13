@@ -10,7 +10,11 @@ import $ from "jquery";
 })
 
 export class SharedHeaderComponent implements OnInit {
+  stores:any;
   constructor(private router: Router, private apiCalls: ApiCallsService) {
+    if (localStorage.getItem("store") == undefined) {
+      localStorage.setItem("store", "Symplified.biz")
+    }
   }
   username: any;
   navOptionalHeadings: any = {
@@ -30,6 +34,29 @@ export class SharedHeaderComponent implements OnInit {
         }
       }
     }
+    this.toggleDropdown(btn);
+  }
+
+  ngOnInit(): void {
+    this.loadStores();
+    const ownerId = localStorage.getItem("ownerId");
+    const accessToken = localStorage.getItem("accessToken")
+    const username = localStorage.getItem("username");
+
+    if (username && accessToken && ownerId) {
+      this.username = username
+    }
+  }
+
+  logOut() {
+    localStorage.clear();
+  }
+
+  get leftHeading(): any {
+    return localStorage.getItem('store');
+  }
+
+  toggleDropdown(btn) {
     if (btn.classList.value.includes("username")) {
       const disp = $(".dropdown-content-header-content").css("display");
 
@@ -44,22 +71,34 @@ export class SharedHeaderComponent implements OnInit {
       $(".dropdown-content-header").css("display", "none");
 
     }
-  }
 
-  ngOnInit(): void {
+    if (btn.classList.value.includes("heading")) {
+      const disp = $(".dropdown-content-header-content").css("display");
 
-    const ownerId = localStorage.getItem("ownerId");
-    const accessToken = localStorage.getItem("accessToken")
-    const username = localStorage.getItem("username");
+      if (disp == "block") {
+        $(".dropdown-content-heading").css("display", "none");
 
-    if (username && accessToken && ownerId) {
-      this.username = username
+      } else {
+        $(".dropdown-content-heading").css("display", "block");
+
+      }
+    } else {
+      $(".dropdown-content-heading").css("display", "none");
+
     }
+
+
+  }
+  async loadStores(){
+    const data:any = await this.apiCalls.getStoresByOwnerId();
+    this.stores = data.data.content;
   }
 
-  logOut() {
-    localStorage.clear();
+  selectStore(id,name){
+    localStorage.setItem("storeId",id)
+    localStorage.setItem("store", name)
+    this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/products']);
+  }); 
   }
-
-
 }

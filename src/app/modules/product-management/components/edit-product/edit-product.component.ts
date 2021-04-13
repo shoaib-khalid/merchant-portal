@@ -417,10 +417,10 @@ export class EditProductComponent implements OnInit {
 
   }
 
-  deleteEntireInventory() {
+  async deleteEntireInventory() {
     var promise = new Promise(async (resolve, reject) => {
       for (var j = 0; j < this.product.productInventories.length; j++) {
-        this.apiCalls.deleteInventory(this.product.id, this.product.productInventories[j].itemCode)
+        await this.apiCalls.deleteInventory(this.product.id, this.product.productInventories[j].itemCode)
       }
       resolve("done")
     });

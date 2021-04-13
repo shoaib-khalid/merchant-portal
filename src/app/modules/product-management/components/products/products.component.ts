@@ -14,6 +14,7 @@ export class ProductsComponent implements OnInit {
   allProducts: any = [];
   page: any = 0;
   categoryId:any;
+  categories:any=[];
   constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -22,6 +23,7 @@ export class ProductsComponent implements OnInit {
         this.categoryId = params["categoryId"];
       } 
     });
+    this.getCategoriesByStoreId();
     window.scroll(0, 0)
     this.loadProducts();
     this.getAllProducts();
@@ -92,5 +94,23 @@ export class ProductsComponent implements OnInit {
 
   editProduct(id) {
     this.router.navigateByUrl("products/" + id)
+  }
+
+  async getCategoriesByStoreId() {
+    this.categories=[];
+    var i = 0;
+    while (true) {
+      var data: any = await this.apiCalls.getStoreCategories(i);
+      if (data.data.content.length < 1) {
+        break;
+      }
+      this.categories = this.categories.concat(data.data.content)
+      i = i + 1;
+    }
+  }
+  getProdsByCat(id){
+    this.categoryId=id;
+    this.router.navigate(['products'], { queryParams: { categoryId: id}})
+    this.loadProducts();
   }
 }

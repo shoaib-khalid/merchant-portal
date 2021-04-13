@@ -24,8 +24,9 @@ export class ManageStoresComponent implements OnInit {
     this.stores = data.data.content;
   }
 
-  selectStore(event){
+  selectStore(event,name){
     localStorage.setItem("storeId",event.target.id)
+    localStorage.setItem("store",name)
     this.router.navigateByUrl("/products")
   }
 }

@@ -16,7 +16,7 @@
     <div>
 
         <div class="flow-card" *ngFor = "let store of stores;"  id="{{store.id}}">
-            <div class="flow-title" id="{{store.id}}" (click)="selectStore($event)">{{store.name}}</div>
+            <div class="flow-title" id="{{store.id}}" (click)="selectStore($event,store.name)">{{store.name}}</div>
         </div>
     </div>
 

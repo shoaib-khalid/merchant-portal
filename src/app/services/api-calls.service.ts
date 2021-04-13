@@ -20,7 +20,10 @@ export class ApiCallsService {
   pathVariable2: string = environment.url2;
   pathVariable3: string = environment.url3;
 
-  constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) { }
+  constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) {
+
+
+   }
 
 
   async getAllflows() {
@@ -267,7 +270,6 @@ export class ApiCallsService {
           localStorage.setItem('refreshToken', data.data.session.refreshToken)
           localStorage.setItem("created", data.data.session.created)
           localStorage.setItem("expiry", data.data.session.expiry)
-
           const httpOptions = {
             params: {
               clientId: localStorage.getItem("ownerId")
@@ -276,11 +278,11 @@ export class ApiCallsService {
 
           var data: any = await this.http.get(this.pathVariable3 + "/stores", httpOptions).toPromise();
           this.loadingdialogRef.close();
-
           if (data.data.content.length == 0) {
             this.router.navigateByUrl('/chooseverticle')
           } else if (data.data.content.length == 1) {
             localStorage.setItem("storeId", data.data.content[0].id)
+            localStorage.setItem("store",data.data.content[0].name)
             this.router.navigateByUrl('/products/add')
           } else {
             this.router.navigateByUrl('/store-management')
@@ -339,9 +341,10 @@ export class ApiCallsService {
     }
     this.http.post<any>(this.pathVariable3 + "/stores", body, httpOptions).
       subscribe(data => {
-        this.loadingdialogRef.close();
+        // this.loadingdialogRef.close();
         // this.successPopUp("New Store Registered")
         localStorage.setItem("storeId", data.data.id)
+        localStorage.setItem("store",data.data.name)
         this.router.navigateByUrl('/products');
 
       });
@@ -428,7 +431,7 @@ export class ApiCallsService {
         Authorization: "asx"
       })
     }
-
+    console.log("add")
     return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory", body, httpOptions).
       toPromise();
   }
@@ -616,10 +619,9 @@ export class ApiCallsService {
   }
 
   deleteInventory(productId, id) {
-    this.http.delete<any>(`http://symplified.biz:7071/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${id}`)
-      .subscribe((data) =>{
-
-      });
+    console.log("delete")
+    return this.http.delete<any>(`http://symplified.biz:7071/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${id}`)
+      .toPromise();
   }
 
 
@@ -637,16 +639,22 @@ export class ApiCallsService {
 
 
   getVariantAvailables(productId) {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: "asx"
-        })
-      }
-  
-      return this.http.get<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants-available", httpOptions).
-        toPromise();
-    
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      })
+    }
+
+    return this.http.get<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants-available", httpOptions).
+      toPromise();
+
   }
 
+  async uploadStoreAssets(body) {
+     const data = await this.http.post<any>(this.pathVariable3 + 
+      `/stores/${localStorage.getItem('storeId')}/assets`, body).toPromise();
+      this.loadingdialogRef.close();
+      console.log(data)
+  }
 
 }

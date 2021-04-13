@@ -70,19 +70,13 @@
                                                         (keyup)="filterProducts($event)" name="" id="">
                                                 </div>
                                                 <div>
-                                                    <select class="mr-2 form-control" style="width:170px">
-                                                        <option>Product Vendor</option>
-                                                        <option>Trending</option>
-                                                        <option>Most Popular</option>
-                                                        <option>Cheapest</option>
-                                                    </select>
-                                                </div>
-                                                <div>
-                                                    <select class="mr-2 form-control" style="width:150px">
-                                                        <option> Tagged With</option>
-                                                        <option>Trending</option>
-                                                        <option>Most Popular</option>
-                                                        <option>Cheapest</option>
+                                                    <select (change)="getProdsByCat($event.target.value)" class="mr-2 form-control" style="width:170px"  >
+                                                        <option>Categories</option>
+                                                        <option *ngFor="let cat of categories"
+                                                            value="{{cat.id}}">
+                                                            {{cat.name}}
+                                                        </option>
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -133,7 +127,8 @@
                                                         <td style="vertical-align: middle;">
                                                             Nike
                                                         </td>
-                                                        <td (click)="editProduct(product.id)"><button  type="button" class="btn btn-primary width-150">Edit</button></td>
+                                                        <td (click)="editProduct(product.id)"><button type="button"
+                                                                class="btn btn-primary width-150">Edit</button></td>
                                                     </tr>
 
                                                 </tbody>
