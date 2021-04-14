@@ -391,13 +391,8 @@ export class ApiCallsService {
 
 
   addVariant(productId, body) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: "asx"
-      })
-    }
 
-    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants", body, httpOptions).
+    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants", body).
       toPromise();
   }
 
@@ -426,13 +421,8 @@ export class ApiCallsService {
   }
 
   addInventory(productId, body) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: "asx"
-      })
-    }
-    console.log("add")
-    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory", body, httpOptions).
+
+    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory", body).
       toPromise();
   }
 
@@ -619,7 +609,6 @@ export class ApiCallsService {
   }
 
   deleteInventory(productId, id) {
-    console.log("delete")
     return this.http.delete<any>(`http://symplified.biz:7071/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${id}`)
       .toPromise();
   }

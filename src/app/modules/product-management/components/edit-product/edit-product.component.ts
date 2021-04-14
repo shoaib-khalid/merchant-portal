@@ -44,7 +44,7 @@ export class EditProductComponent implements OnInit {
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
-    this.getCategoriesByStoreId();
+    
     this.route.params.subscribe(params => {
       if (params.id) {
         this.loadProduct(params.id)
@@ -53,6 +53,7 @@ export class EditProductComponent implements OnInit {
   }
 
   async loadProduct(id) {
+    await this.getCategoriesByStoreId();
     const data: any = await this.apiCalls.getStoreProductById(id);
     this.product = data.data;
     this.setAllVariables()
@@ -72,15 +73,20 @@ export class EditProductComponent implements OnInit {
   }
 
   async getCategoriesByStoreId() {
-    var i = 0;
-    while (true) {
-      var data: any = await this.apiCalls.getStoreCategories(i);
-      if (data.data.content.length < 1) {
-        break;
+    var promise = new Promise(async (resolve, reject) => {
+      var i = 0;
+      while (true) {
+        var data: any = await this.apiCalls.getStoreCategories(i);
+        if (data.data.content.length < 1) {
+          break;
+        }
+        this.categories = this.categories.concat(data.data.content)
+        i = i + 1;
       }
-      this.categories = this.categories.concat(data.data.content)
-      i = i + 1;
-    }
+      resolve("")
+    });
+    return promise;
+   
   }
 
   setCategory() {
@@ -227,6 +233,7 @@ export class EditProductComponent implements OnInit {
 
 
   async updateProduct() {
+    this.apiCalls.loadingAnimation('Updating..')
     await this.deleteEntireInventory();
     const body = {
       "categoryId": this.getCategoryId(),
@@ -244,6 +251,7 @@ export class EditProductComponent implements OnInit {
     const allIds: any = await this.joinVariantAvailables(productAvailableIds)
     this.addInventoryItem(allIds);
     this.uploadVariantImages();
+    this.apiCalls.loadingdialogRef.close();
   }
 
   addAnotherOption() {
@@ -267,7 +275,7 @@ export class EditProductComponent implements OnInit {
       resolve(variantIds)
     });
 
-
+    return promise;
 
   }
 

@@ -13,15 +13,15 @@ export class ProductsComponent implements OnInit {
   products: any = [];
   allProducts: any = [];
   page: any = 0;
-  categoryId:any;
-  categories:any=[];
+  categoryId: any = "";
+  categories: any = [];
   constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       if (params["categoryId"]) {
         this.categoryId = params["categoryId"];
-      } 
+      }
     });
     this.getCategoriesByStoreId();
     window.scroll(0, 0)
@@ -31,7 +31,7 @@ export class ProductsComponent implements OnInit {
 
 
   async loadProducts() {
-    const products: any = await this.apiCalls.getProducts(0,this.categoryId);
+    const products: any = await this.apiCalls.getProducts(0, this.categoryId);
     this.showThumbnailImage(products.data.content);
     window.scroll(0, 0)
     window.scroll(0, 0)
@@ -39,10 +39,11 @@ export class ProductsComponent implements OnInit {
   }
 
   async nextPage() {
-    const products: any = await this.apiCalls.getProducts(this.page + 1,this.categoryId);
+    const products: any = await this.apiCalls.getProducts(this.page + 1, this.categoryId);
     if (products.data.content.length > 0) {
       this.page++;
       this.products = products.data.content;
+      this.showThumbnailImage(this.products);
       window.scroll(0, 0)
     }
 
@@ -52,9 +53,11 @@ export class ProductsComponent implements OnInit {
     this.page--;
     if (this.page < 0) {
       this.page = 0;
+      return
     }
-    this.products = await this.apiCalls.getProducts(this.page,this.categoryId);
+    this.products = await this.apiCalls.getProducts(this.page, this.categoryId);
     this.products = this.products.data.content
+    this.showThumbnailImage(this.products);
     window.scroll(0, 0)
     window.scroll(0, 0)
   }
@@ -68,7 +71,7 @@ export class ProductsComponent implements OnInit {
   async getAllProducts() {
     var i = 0;
     while (true) {
-      const products: any = await this.apiCalls.getProducts(i,this.categoryId);
+      const products: any = await this.apiCalls.getProducts(i, this.categoryId);
       if (products.data.content.length < 1) {
         break;
       }
@@ -97,7 +100,7 @@ export class ProductsComponent implements OnInit {
   }
 
   async getCategoriesByStoreId() {
-    this.categories=[];
+    this.categories = [];
     var i = 0;
     while (true) {
       var data: any = await this.apiCalls.getStoreCategories(i);
@@ -108,9 +111,9 @@ export class ProductsComponent implements OnInit {
       i = i + 1;
     }
   }
-  getProdsByCat(id){
-    this.categoryId=id;
-    this.router.navigate(['products'], { queryParams: { categoryId: id}})
+  getProdsByCat(id) {
+    this.categoryId = id;
+    this.router.navigate(['products'], { queryParams: { categoryId: id } })
     this.loadProducts();
   }
 }
