@@ -23,7 +23,7 @@ export class ApiCallsService {
   constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) {
 
 
-   }
+  }
 
 
   async getAllflows() {
@@ -282,7 +282,7 @@ export class ApiCallsService {
             this.router.navigateByUrl('/chooseverticle')
           } else if (data.data.content.length == 1) {
             localStorage.setItem("storeId", data.data.content[0].id)
-            localStorage.setItem("store",data.data.content[0].name)
+            localStorage.setItem("store", data.data.content[0].name)
             this.router.navigateByUrl('/products/add')
           } else {
             this.router.navigateByUrl('/store-management')
@@ -333,21 +333,17 @@ export class ApiCallsService {
 
 
   registerStore(body) {
-    const httpOptions = {
+    var promise = new Promise(async (resolve, reject) => {
 
-      headers: new HttpHeaders({
-        Authorization: "asx"
-      })
-    }
-    this.http.post<any>(this.pathVariable3 + "/stores", body, httpOptions).
+    this.http.post<any>(this.pathVariable3 + "/stores", body, ).
       subscribe(data => {
-        // this.loadingdialogRef.close();
-        // this.successPopUp("New Store Registered")
+        resolve("")
         localStorage.setItem("storeId", data.data.id)
-        localStorage.setItem("store",data.data.name)
+        localStorage.setItem("store", data.data.name)
         this.router.navigateByUrl('/products');
-
       });
+    });
+    return promise;
   }
 
   deleteFlow(id) {
@@ -592,7 +588,6 @@ export class ApiCallsService {
     this.http.put<any>(
       this.pathVariable3 + `/stores/${localStorage.getItem("storeId")}/products/${productId}`, body, httpOptions
     ).subscribe(data => {
-      console.log(data)
     });
   }
 
@@ -639,11 +634,31 @@ export class ApiCallsService {
 
   }
 
-  async uploadStoreAssets(body) {
-     const data = await this.http.post<any>(this.pathVariable3 + 
-      `/stores/${localStorage.getItem('storeId')}/assets`, body).toPromise();
-      this.loadingdialogRef.close();
-      console.log(data)
+  async uploadStoreAssets(body,id) {
+    const data = await this.http.post<any>(this.pathVariable3 +
+      `/stores/${id}/assets`, body).toPromise();
+    this.loadingdialogRef.close();
+
+  }
+
+  getStoreDetails(id) {
+    return this.http.get<any>(this.pathVariable3 + `/stores/${id}`).
+      toPromise();
+  }
+
+  getStoreAssets(id) {
+    return this.http.get<any>(this.pathVariable3 + `/stores/${id}/assets`).
+      toPromise();
+  }
+
+  updateStore(body,id) {
+    return this.http.put<any>(
+      this.pathVariable3 + `/stores/${id}`, body).toPromise()
+  }
+  deleteStoreAssets(id) {
+    return this.http.delete<any>(
+      this.pathVariable3 +
+      `/stores/${localStorage.getItem("storeId")}/assets/${id}`).toPromise()
   }
 
 }

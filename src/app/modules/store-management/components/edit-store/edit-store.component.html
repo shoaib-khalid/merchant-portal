@@ -1,1 +1,95 @@
-<p>edit-store works!</p>
+<html>
+
+<head>
+
+</head>
+
+<body>
+
+
+    <app-shared-header></app-shared-header>
+    <br>
+    <br>
+    <br>
+    <span>
+        <h1 style="text-align: center;margin-top: 10px;">Update Store</h1>
+
+        <div class="l-container" id="container">
+            <div class="card" style="width: 500px;border:none">
+                <div class="card-body p-4">
+                    <div class="text-center w-75 m-auto">
+                        <a href="index.html">
+                            <span></span>
+                        </a>
+                        <p class="text-muted mb-4 mt-3">Store details</p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="storeName">Store Name</label>
+                        <input class="form-control" name="storeName" type="username" [(ngModel)]="storeName"
+                            id="storeName" required="" placeholder="Enter Store Name" readonly>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="form-control-label">Store Info</label>
+                        <textarea class="form-control" [(ngModel)]="storeInfo" rows="3"></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="address">Address</label>
+                        <p id="warning-address">Warning: Changing store address will direct only new orders to this store</p>
+                        <input class="form-control" name="address" type="username" [(ngModel)]="address" id="address"
+                            required="" placeholder="Enter Address" (keypress)="showAddressWarning()" >
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="city">City</label>
+                        <input class="form-control" name="city" type="username" [(ngModel)]="city" id="cit" required=""
+                            placeholder="Enter City Name">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="city">Post Code</label>
+                        <p id="warning-postcode">Warning: Changing store postcode will direct only new orders to this store</p>
+                        <input class="form-control" name="city" type="username" [(ngModel)]="postCode" id="cit"
+                            required="" placeholder="Enter post code" (keypress)="showPostWarning()">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="city">Logo</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" (change)="onLogoChanged($event)" />
+                            <label class="custom-file-label">Choose
+                                file </label>
+                        </div>
+                        <div *ngIf="this.logo.preview" class="assets">
+                            <img src="{{this.logo.preview}}" alt="" height="100px" width="100px">
+                            <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
+                                (click)="deleteLogo()">
+                        </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="city">Banner</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" (change)="onBannerChanged($event)" />
+                        <label class="custom-file-label">Choose
+                            file </label>
+                    </div>
+                </div>
+                <div *ngIf="this.banner.preview" class="assets">
+                    <img src="{{this.banner.preview}}" alt="" height="100px" width="100px">
+                    <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
+                        (click)="deleteBanner()">
+                </div>
+                <div class="form-group mb-0 text-center">
+                    <a class="btn btn-primary btn-block"
+                        style="height: 40px;padding: 10px;width: 150px;display: inline; margin-right: 10px;"
+                        (click)="update()">
+                        Update </a>
+                </div>
+
+            </div>
+            <!-- end card-body -->
+        </div>
+
+        </div>
+    </span>
+</body>
+
+</html>

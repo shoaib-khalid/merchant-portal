@@ -22,10 +22,10 @@ export class StorePageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  registerStore() {
+  async registerStore() {
     if (this.storeName) {
       this.apiCalls.loadingAnimation("Registering new store", "280")
-      this.saveDetails();
+      await this.saveDetails();
       this.uploadAssets();
     } else {
       this.emptyFields();
@@ -70,13 +70,14 @@ export class StorePageComponent implements OnInit {
       const formData = new FormData();
       formData.append("banner", this.banner.file);
       formData.append("logo", this.logo.file);
-      this.apiCalls.uploadStoreAssets(formData)
+      console.log(localStorage.getItem('storeId'))
+      this.apiCalls.uploadStoreAssets(formData,localStorage.getItem('storeId'))
     }
 
   }
 
   saveDetails() {
-    this.apiCalls.registerStore({
+    return this.apiCalls.registerStore({
       name: this.storeName,
       city: this.city,
       address: this.address,

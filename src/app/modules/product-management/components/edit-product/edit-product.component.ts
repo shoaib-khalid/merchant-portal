@@ -44,7 +44,6 @@ export class EditProductComponent implements OnInit {
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
-    
     this.route.params.subscribe(params => {
       if (params.id) {
         this.loadProduct(params.id)

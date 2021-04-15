@@ -21,6 +21,7 @@ import { SingleOrderComponent } from 'src/app/modules/order-management/component
 import { ManageStoresComponent } from 'src/app/modules/store-management/components/manage-stores/manage-stores.component';
 import { EditProductComponent } from 'src/app/modules/product-management/components/edit-product/edit-product.component'
 import {CategoriesComponent} from 'src/app/modules/product-management/components/categories/categories.component';
+import {EditStoreComponent} from 'src/app/modules/store-management/components/edit-store/edit-store.component';
 const routes: Routes = [
 
   {
@@ -123,6 +124,12 @@ const routes: Routes = [
   {
     path: 'product-categories',
     component: CategoriesComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: 'stores/:id',
+    component: EditStoreComponent,
     canActivate: [AuthGuardService],
     children: []
   },

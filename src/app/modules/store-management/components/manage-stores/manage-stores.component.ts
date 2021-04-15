@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ApiCallsService} from 'src/app/services/api-calls.service';
+import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router } from '@angular/router';
 
 
@@ -11,22 +11,31 @@ import { Router } from '@angular/router';
 })
 export class ManageStoresComponent implements OnInit {
 
-  stores:any;
-  loading:any=true;
-  constructor(private apiCalls:ApiCallsService,private router:Router) { }
+  stores: any;
+  loading: any = true;
+  constructor(private apiCalls: ApiCallsService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadStores();
   }
 
-  async loadStores(){
-    const data:any = await this.apiCalls.getStoresByOwnerId();
+  async loadStores() {
+    const data: any = await this.apiCalls.getStoresByOwnerId();
     this.stores = data.data.content;
   }
 
-  selectStore(event,name){
-    localStorage.setItem("storeId",event.target.id)
-    localStorage.setItem("store",name)
+  selectStore(id, name) {
+    localStorage.setItem("storeId", id)
+    localStorage.setItem("store", name)
     this.router.navigateByUrl("/products")
+  }
+  nextPage() {
+
+  }
+  previousPage() { }
+
+  editStore(id) {
+    this.router.navigateByUrl("stores/" + id)
+
   }
 }
