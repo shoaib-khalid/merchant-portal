@@ -7,9 +7,11 @@ import $ from 'jquery';
 })
 export class SharedSidePanelComponent implements OnInit {
 
+  onlineStore:String="";
   constructor() { }
 
   ngOnInit(): void {
+    this.onlineStore = localStorage.getItem('store').replace(/\s+/g, '-').toLowerCase();
   }
 
   openSubMenu() {

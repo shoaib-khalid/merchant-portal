@@ -13,9 +13,13 @@ export class ManageStoresComponent implements OnInit {
 
   stores: any;
   loading: any = true;
+  showEdit:any=false;
   constructor(private apiCalls: ApiCallsService, private router: Router) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('storeId')){
+      this.showEdit=true;
+    }
     this.loadStores();
   }
 

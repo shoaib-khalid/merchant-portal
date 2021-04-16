@@ -76,7 +76,7 @@
                                                     <tr>
 
                                                         <th class="border-0">Store Name</th>
-                                                        <th class="border-0">Action</th>
+                                                        <th class="border-0" *ngIf="showEdit">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -85,7 +85,7 @@
                                                             {{store.name}}
                                                         </td>
                                                         
-                                                        <td (click)="editStore(store.id)"><button type="button"
+                                                        <td (click)="editStore(store.id)" *ngIf="showEdit"><button type="button"
                                                                 class="btn btn-primary width-150">Edit</button></td>
                                                     </tr>
 
