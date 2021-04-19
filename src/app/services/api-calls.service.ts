@@ -263,7 +263,6 @@ export class ApiCallsService {
     return this.http.post<any>(this.pathVariable2 + "/clients/authenticate", logInData, this.getHttpOptions("asx")).
       subscribe(async data => {
         if (data.status == 202) {
-
           localStorage.setItem('accessToken', data.data.session.accessToken)
           localStorage.setItem('ownerId', data.data.session.ownerId)
           localStorage.setItem('username', data.data.session.username)
@@ -304,8 +303,13 @@ export class ApiCallsService {
   }
 
   async getUserChannels() {
-    const httpOptions = this.getHttpOptions("asx");
-    return await this.http.get(this.pathVariable2 + "/userChannels", httpOptions).toPromise();
+    
+    const httpOptions = {
+      params: {
+        userId: localStorage.getItem('ownerId')
+      }
+    }
+    return await this.http.get(this.pathVariable2 + "/userChannels",httpOptions).toPromise();
   }
 
   updateFlowDetails(body) {
@@ -335,13 +339,13 @@ export class ApiCallsService {
   registerStore(body) {
     var promise = new Promise(async (resolve, reject) => {
 
-    this.http.post<any>(this.pathVariable3 + "/stores", body, ).
-      subscribe(data => {
-        resolve("")
-        localStorage.setItem("storeId", data.data.id)
-        localStorage.setItem("store", data.data.name)
-        this.router.navigateByUrl('/products');
-      });
+      this.http.post<any>(this.pathVariable3 + "/stores", body,).
+        subscribe(data => {
+          resolve("")
+          localStorage.setItem("storeId", data.data.id)
+          localStorage.setItem("store", data.data.name)
+          this.router.navigateByUrl('/products');
+        });
     });
     return promise;
   }
@@ -380,7 +384,7 @@ export class ApiCallsService {
       httpOptions.params["categoryId"] = categoryId;
     }
     if (localStorage.getItem("storeId")) {
-      return this.http.get("http://209.58.160.20:7071/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
+      return this.http.get(this.pathVariable3+"/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
     }
     return { data: { content: [] } };
   }
@@ -634,7 +638,7 @@ export class ApiCallsService {
 
   }
 
-  async uploadStoreAssets(body,id) {
+  async uploadStoreAssets(body, id) {
     const data = await this.http.post<any>(this.pathVariable3 +
       `/stores/${id}/assets`, body).toPromise();
     this.loadingdialogRef.close();
@@ -651,7 +655,7 @@ export class ApiCallsService {
       toPromise();
   }
 
-  updateStore(body,id) {
+  updateStore(body, id) {
     return this.http.put<any>(
       this.pathVariable3 + `/stores/${id}`, body).toPromise()
   }
@@ -660,5 +664,12 @@ export class ApiCallsService {
       this.pathVariable3 +
       `/stores/${localStorage.getItem("storeId")}/assets/${id}`).toPromise()
   }
+
+  getCustomers(page = 0) {
+
+    return this.http.get(
+      `${this.pathVariable2}/stores/${localStorage.getItem('storeId')}/customers/?page=${page}&pageSize=15`).toPromise();
+  }
+
 
 }

@@ -5,9 +5,10 @@ import { OrdersComponent } from '../order-management/components/orders/orders.co
 import { SingleOrderComponent } from '../order-management/components/order-details/single-order.component';
 import {RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CustomersComponent } from './components/customers/customers.component';
 
 @NgModule({
-  declarations: [OrdersComponent,SingleOrderComponent],
+  declarations: [OrdersComponent,SingleOrderComponent, CustomersComponent],
   imports: [
     CommonModule,
     HomeModule,

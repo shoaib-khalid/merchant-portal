@@ -22,6 +22,9 @@ import { ManageStoresComponent } from 'src/app/modules/store-management/componen
 import { EditProductComponent } from 'src/app/modules/product-management/components/edit-product/edit-product.component'
 import {CategoriesComponent} from 'src/app/modules/product-management/components/categories/categories.component';
 import {EditStoreComponent} from 'src/app/modules/store-management/components/edit-store/edit-store.component';
+import {CustomersComponent} from 'src/app/modules/order-management/components/customers/customers.component';
+import {ChannelsComponent} from 'src/app/modules/user-onboarding/components/channels/channels.component';
+
 const routes: Routes = [
 
   {
@@ -130,6 +133,18 @@ const routes: Routes = [
   {
     path: 'stores/:id',
     component: EditStoreComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: 'customers',
+    component: CustomersComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: 'user-channels',
+    component: ChannelsComponent,
     canActivate: [AuthGuardService],
     children: []
   },

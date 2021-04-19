@@ -7,9 +7,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HomeModule } from 'src/app/modules/home/home.module';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ChannelsComponent } from './components/channels/channels.component';
 
 @NgModule({
-  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, ForgotPasswordComponent],
+  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, ForgotPasswordComponent, ChannelsComponent],
   imports: [
     CommonModule,
     FormsModule,
