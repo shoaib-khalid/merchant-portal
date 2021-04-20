@@ -24,6 +24,7 @@ import {CategoriesComponent} from 'src/app/modules/product-management/components
 import {EditStoreComponent} from 'src/app/modules/store-management/components/edit-store/edit-store.component';
 import {CustomersComponent} from 'src/app/modules/order-management/components/customers/customers.component';
 import {ChannelsComponent} from 'src/app/modules/user-onboarding/components/channels/channels.component';
+import {AccountsComponent} from 'src/app/modules/user-onboarding/components/accounts/accounts.component';
 
 const routes: Routes = [
 
@@ -145,6 +146,12 @@ const routes: Routes = [
   {
     path: 'user-channels',
     component: ChannelsComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: 'agent-accounts',
+    component: AccountsComponent,
     canActivate: [AuthGuardService],
     children: []
   },

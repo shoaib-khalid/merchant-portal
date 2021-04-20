@@ -15,6 +15,7 @@ export class ProductsComponent implements OnInit {
   page: any = 0;
   categoryId: any = "";
   categories: any = [];
+  categoryWithProduct: any = {};
   constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -108,12 +109,21 @@ export class ProductsComponent implements OnInit {
         break;
       }
       this.categories = this.categories.concat(data.data.content)
+      console.log(this.categories)
       i = i + 1;
     }
+    this.setCatogoriesForSingleProduct();
   }
   getProdsByCat(id) {
     this.categoryId = id;
     this.router.navigate(['products'], { queryParams: { categoryId: id } })
     this.loadProducts();
+  }
+
+  setCatogoriesForSingleProduct() {
+    for (var i = 0; i < this.categories.length; i++) {
+      this.categoryWithProduct[this.categories[i].id]=this.categories[i].name;
+    }
+    console.log(this.categoryWithProduct)
   }
 }

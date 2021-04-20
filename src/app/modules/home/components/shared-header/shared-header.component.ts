@@ -10,7 +10,7 @@ import $ from "jquery";
 })
 
 export class SharedHeaderComponent implements OnInit {
-  stores:any;
+  stores: any;
   constructor(private router: Router, private apiCalls: ApiCallsService) {
     if (localStorage.getItem("store") == undefined) {
       localStorage.setItem("store", "Symplified.biz")
@@ -89,16 +89,19 @@ export class SharedHeaderComponent implements OnInit {
 
 
   }
-  async loadStores(){
-    const data:any = await this.apiCalls.getStoresByOwnerId();
-    this.stores = data.data.content;
+  async loadStores() {
+    if (localStorage.getItem("accessToken")) {
+      const data: any = await this.apiCalls.getStoresByOwnerId();
+      this.stores = data.data.content;
+    }
+
   }
 
-  selectStore(id,name){
-    localStorage.setItem("storeId",id)
+  selectStore(id, name) {
+    localStorage.setItem("storeId", id)
     localStorage.setItem("store", name)
     this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/products']);
-  }); 
+    });
   }
 }

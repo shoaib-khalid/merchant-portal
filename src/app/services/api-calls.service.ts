@@ -19,6 +19,7 @@ export class ApiCallsService {
   pathVariable1: string = environment.url1;
   pathVariable2: string = environment.url2;
   pathVariable3: string = environment.url3;
+  pathVariable4: string = environment.url4;
 
   constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) {
 
@@ -260,7 +261,7 @@ export class ApiCallsService {
   }
   authenticateClient(logInData) {
 
-    return this.http.post<any>(this.pathVariable2 + "/clients/authenticate", logInData, this.getHttpOptions("asx")).
+    return this.http.post<any>(this.pathVariable2 + "/clients/authenticate", logInData).
       subscribe(async data => {
         if (data.status == 202) {
           localStorage.setItem('accessToken', data.data.session.accessToken)
@@ -298,18 +299,22 @@ export class ApiCallsService {
         clientId: localStorage.getItem("ownerId")
       }
     }
-
+    
     return this.http.get(this.pathVariable3 + "/stores", httpOptions).toPromise();
   }
 
   async getUserChannels() {
-    
+
     const httpOptions = {
       params: {
         userId: localStorage.getItem('ownerId')
       }
     }
-    return await this.http.get(this.pathVariable2 + "/userChannels",httpOptions).toPromise();
+    return await this.http.get(this.pathVariable2 + "/userChannels", httpOptions).toPromise();
+  }
+
+  async createChannel(body) {
+    return await this.http.post<any>(this.pathVariable2 + "/userChannels", body).toPromise();
   }
 
   updateFlowDetails(body) {
@@ -384,7 +389,7 @@ export class ApiCallsService {
       httpOptions.params["categoryId"] = categoryId;
     }
     if (localStorage.getItem("storeId")) {
-      return this.http.get(this.pathVariable3+"/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
+      return this.http.get(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
     }
     return { data: { content: [] } };
   }
@@ -445,7 +450,7 @@ export class ApiCallsService {
     }
     if (localStorage.getItem("storeId")) {
 
-      return await this.http.get("http://209.58.160.20:7072/orders", httpOptions).toPromise();
+      return await this.http.get(this.pathVariable4+"/orders", httpOptions).toPromise();
     } else {
       this.router.navigateByUrl("/store-management");
       return { data: { content: [] } }
@@ -464,7 +469,7 @@ export class ApiCallsService {
     }
 
     if (localStorage.getItem("storeId")) {
-      return await this.http.get("http://209.58.160.20:7072/carts", httpOptions).toPromise();
+      return await this.http.get(this.pathVariable4+"/carts", httpOptions).toPromise();
     } else {
 
       this.router.navigateByUrl("/store-management");
@@ -474,13 +479,7 @@ export class ApiCallsService {
 
 
   getCartItems(cartId) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: "asx"
-      }),
-
-    }
-    return this.http.get("http://209.58.160.20:7072/carts/" + cartId + "/items", httpOptions).toPromise();
+    return this.http.get(this.pathVariable4+"/carts/" + cartId + "/items").toPromise();
   }
 
   getOrderItems(cartId) {
@@ -490,7 +489,7 @@ export class ApiCallsService {
       }),
 
     }
-    return this.http.get("http://209.58.160.20:7072/orders/" + cartId + "/items", httpOptions).toPromise();
+    return this.http.get(this.pathVariable4+"/orders/" + cartId + "/items", httpOptions).toPromise();
   }
 
 

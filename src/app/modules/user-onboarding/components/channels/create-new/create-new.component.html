@@ -1,0 +1,15 @@
+<h1 mat-dialog-title style="text-align: center;">Create New Channel</h1>
+<div mat-dialog-content>
+  <mat-form-field class="inputs">
+    <mat-label>Channel Name</mat-label>
+    <input matInput [(ngModel)]="channel">
+  </mat-form-field>
+  <mat-form-field class="inputs">
+    <mat-label>Ref Id</mat-label>
+    <input matInput [(ngModel)]="refId">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="create()">Create New Channel</button>
+</div>
+

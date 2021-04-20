@@ -8,14 +8,26 @@ import { RouterModule } from '@angular/router';
 import { HomeModule } from 'src/app/modules/home/home.module';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ChannelsComponent } from './components/channels/channels.component';
-
+import { CreateNewComponent } from './components/channels/create-new/create-new.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { AccountsComponent } from './components/accounts/accounts.component';
+import { AddAgentComponent } from './components/add-agent/add-agent.component';
 @NgModule({
-  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, ForgotPasswordComponent, ChannelsComponent],
+  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, ForgotPasswordComponent, ChannelsComponent, CreateNewComponent, AccountsComponent, AddAgentComponent],
   imports: [
     CommonModule,
     FormsModule,
     RouterModule,
-    HomeModule
+    HomeModule,
+    MatInputModule,
+    MatDialogModule,
+    MatMenuModule,
+    MatButtonModule
+
+
   ]
 })
 export class UserOnboardingModule { }

@@ -56,74 +56,49 @@
                                     <div class="card-header py-3 border-bottom">
                                         <div class="d-flex align-items-center">
                                             <div>
-                                                <h6 class="card-title mb-0">Products</h6>
+                                                <h6 class="card-title mb-0">Agents</h6>
                                             </div>
-                                            <div id="add-product" [routerLink]="['/products/add']"> Add Product</div>
+                                            <div id="add-agent" (click)="createAccount()"> Add Agent</div>
                                         </div>
                                     </div>
                                     <div class="card-body pt-4">
                                         <div class="table-responsive">
                                             <div style="display: flex;">
                                                 <div>
-                                                    <input type="text" placeholder="Filter Products"
-                                                        class="form-control" style="width:140px; margin-right: 10px;"
-                                                        (keyup)="filterProducts($event)" name="" id="">
-                                                </div>
-                                                <div>
-                                                    <select (change)="getProdsByCat($event.target.value)"
-                                                        [(ngModel)]='categoryId' class="mr-2 form-control"
-                                                        style="width:170px">
-                                                        <option value="">Categories</option>
-                                                        <option *ngFor="let cat of categories" value="{{cat.id}}">
-                                                            {{cat.name}}
-                                                        </option>
-
-                                                    </select>
+                                                    <input type="text" placeholder="Filter Agents" class="form-control"
+                                                        style="width:140px; margin-right: 10px;" name="" id="">
                                                 </div>
                                             </div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
                                                     <tr>
-                                                        <th class="border-0"><input type="checkbox"></th>
+                                                        <th class="border-0">Username</th>
+                                                        <th class="border-0">Login</th>
+                                                        <th class="border-0">Type</th>
+                                                        <th class="border-0">Password</th>
+                                                        <th class="border-0">Action</th>
 
-                                                        <th class="border-0">Product</th>
-                                                        <th class="border-0">Status</th>
-                                                        <th class="border-0" data-breakpoints="sm xs">Category</th>
-
-                                                        <th class="border-0" data-breakpoints="sm xs md">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor="let product of products">
-                                                        <td><input type="checkbox"></td>
+                                                    <tr *ngFor="let account of accounts">
+
                                                         <td class="product">
-
-
-                                                            <div style="display: inline-block;"
-                                                                *ngIf="product.productThumbnailUrl">
-                                                                <img src="{{product.productThumbnailUrl}}" height="100"
-                                                                    width="100" alt="(product-img)"
-                                                                    class="img-lg rounded">
-                                                            </div>
-
-                                                            <div style="display: inline-block;"
-                                                                *ngIf="product.productAssets.length==0">
-                                                                <img src="assets/img/default.png" height="100"
-                                                                    width="100" alt="(product-img)"
-                                                                    class="img-lg rounded">
-                                                            </div>
-
-                                                            {{product.name}}
+                                                            {{account.userName}}
                                                         </td>
-                                                        <td style="vertical-align: middle;">
-                                                            <div class="status">{{product.status}}</div>
+                                                        <td class="product">
+                                                            {{account.userName}}
                                                         </td>
-                                                        <td style="vertical-align: middle;">
-
-                                                            <div>{{categoryWithProduct[product.categoryId]}}</div>
+                                                        <td class="product">
+                                                            {{account.userName}}
                                                         </td>
-                                                        <td (click)="editProduct(product.id)"><button type="button"
-                                                                class="btn btn-primary width-150">Edit</button></td>
+                                                        <td class="product">
+                                                            {{account.userName}}
+                                                        </td>
+                                                        <td class="product">
+                                                            <button type="button"
+                                                                class="btn btn-primary width-150">Edit</button>
+                                                        </td>
                                                     </tr>
 
                                                 </tbody>
@@ -136,7 +111,10 @@
                                                     <li class="page-item add-pointer"><a class="page-link"
                                                             (click)="previousPage()">Previous</a>
                                                     </li>
-                                                    <li class="page-item active add-pointer"><a class="page-link">{{page+1}}</a>
+
+
+                                                    <li class="page-item active add-pointer"><a
+                                                            class="page-link">{{page+1}}</a>
                                                     </li>
                                                     <li class="page-item add-pointer"><a class="page-link"
                                                             (click)="nextPage()">{{page+2}}</a>
@@ -144,7 +122,7 @@
                                                     <li class="page-item add-pointer"><a class="page-link"
                                                             (click)="nextPage()">{{page+3}}</a>
                                                     </li>
-                                                    <li class="page-item add-pointer"><a class="page-link" 
+                                                    <li class="page-item add-pointer"><a class="page-link"
                                                             (click)="nextPage()">Next</a></li>
                                                 </ul>
                                             </nav>
@@ -270,13 +248,7 @@
             <!-- //container -->
         </section>
     </footer> <!-- build:js -->
-    <script src="assets/vendor/js/jquery.js"></script>
-    <script src="assets/vendor/js/popper.js"></script>
-    <script src="assets/vendor/js/bootstrap.js"></script>
-    <script src="assets/vendor/js/swiper.min.js"></script>
-    <script src="assets/vendor/js/prism.min.js"></script>
 
-    <script src="assets/js/custom.js"></script>
 
     <!-- endbuild -->
 

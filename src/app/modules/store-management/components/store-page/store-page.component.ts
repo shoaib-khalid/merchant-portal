@@ -78,7 +78,7 @@ export class StorePageComponent implements OnInit {
 
   saveDetails() {
     return this.apiCalls.registerStore({
-      name: this.storeName,
+      name: this.storeName.replace(/\s+/g, '-'),
       city: this.city,
       address: this.address,
       postCode: this.postCode,
