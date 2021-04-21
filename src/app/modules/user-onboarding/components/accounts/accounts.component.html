@@ -58,7 +58,7 @@
                                             <div>
                                                 <h6 class="card-title mb-0">Agents</h6>
                                             </div>
-                                            <div id="add-agent" (click)="createAccount()"> Add Agent</div>
+                                            <div id="add-agent" [routerLink]="['add']"> Add Agent</div>
                                         </div>
                                     </div>
                                     <div class="card-body pt-4">
@@ -73,7 +73,6 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="border-0">Username</th>
-                                                        <th class="border-0">Login</th>
                                                         <th class="border-0">Type</th>
                                                         <th class="border-0">Password</th>
                                                         <th class="border-0">Action</th>
@@ -84,20 +83,18 @@
                                                     <tr *ngFor="let account of accounts">
 
                                                         <td class="product">
-                                                            {{account.userName}}
+                                                            {{account.name}}
+                                                        </td>
+
+                                                        <td class="product">
+                                                            {{account.roleId}}
                                                         </td>
                                                         <td class="product">
-                                                            {{account.userName}}
-                                                        </td>
-                                                        <td class="product">
-                                                            {{account.userName}}
-                                                        </td>
-                                                        <td class="product">
-                                                            {{account.userName}}
+                                                             **********
                                                         </td>
                                                         <td class="product">
                                                             <button type="button"
-                                                                class="btn btn-primary width-150">Edit</button>
+                                                                class="btn btn-primary width-150" (click)="edit(account.id)">Edit</button>
                                                         </td>
                                                     </tr>
 

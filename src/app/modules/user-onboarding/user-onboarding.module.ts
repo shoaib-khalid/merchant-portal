@@ -15,8 +15,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { AccountsComponent } from './components/accounts/accounts.component';
 import { AddAgentComponent } from './components/add-agent/add-agent.component';
+import { EditAgentComponent } from './components/edit-agent/edit-agent.component';
 @NgModule({
-  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, ForgotPasswordComponent, ChannelsComponent, CreateNewComponent, AccountsComponent, AddAgentComponent],
+  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, ForgotPasswordComponent, ChannelsComponent, CreateNewComponent, AccountsComponent, AddAgentComponent, EditAgentComponent],
   imports: [
     CommonModule,
     FormsModule,

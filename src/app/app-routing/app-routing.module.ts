@@ -25,7 +25,8 @@ import {EditStoreComponent} from 'src/app/modules/store-management/components/ed
 import {CustomersComponent} from 'src/app/modules/order-management/components/customers/customers.component';
 import {ChannelsComponent} from 'src/app/modules/user-onboarding/components/channels/channels.component';
 import {AccountsComponent} from 'src/app/modules/user-onboarding/components/accounts/accounts.component';
-
+import {AddAgentComponent} from 'src/app/modules/user-onboarding/components/add-agent/add-agent.component';
+import {EditAgentComponent} from 'src/app/modules/user-onboarding/components/edit-agent/edit-agent.component'
 const routes: Routes = [
 
   {
@@ -152,6 +153,18 @@ const routes: Routes = [
   {
     path: 'agent-accounts',
     component: AccountsComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: 'agent-accounts/add',
+    component: AddAgentComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: 'agent-accounts/:id',
+    component: EditAgentComponent,
     canActivate: [AuthGuardService],
     children: []
   },

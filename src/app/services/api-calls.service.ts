@@ -253,7 +253,13 @@ export class ApiCallsService {
     }
     this.http.post<any>(this.pathVariable2 + "/clients/register", signUpData, httpOptions).
       subscribe(data => {
-        this.authenticateClient({ username: signUpData.username, password: signUpData.password })
+        if (signUpData.roleId == "STORE_OWNER") {
+          this.authenticateClient({ username: signUpData.username, password: signUpData.password })
+        } else {
+          
+          this.loadingdialogRef.close()
+          this.router.navigateByUrl('agent-accounts')
+        }
       }, error => {
         this.loadingdialogRef.close()
       });
@@ -299,7 +305,7 @@ export class ApiCallsService {
         clientId: localStorage.getItem("ownerId")
       }
     }
-    
+
     return this.http.get(this.pathVariable3 + "/stores", httpOptions).toPromise();
   }
 
@@ -344,7 +350,7 @@ export class ApiCallsService {
   registerStore(body) {
     var promise = new Promise(async (resolve, reject) => {
 
-      this.http.post<any>(this.pathVariable3 + "/stores", body,).
+      this.http.post<any>(this.pathVariable3 + "/stores", body).
         subscribe(data => {
           resolve("")
           localStorage.setItem("storeId", data.data.id)
@@ -450,7 +456,7 @@ export class ApiCallsService {
     }
     if (localStorage.getItem("storeId")) {
 
-      return await this.http.get(this.pathVariable4+"/orders", httpOptions).toPromise();
+      return await this.http.get(this.pathVariable4 + "/orders", httpOptions).toPromise();
     } else {
       this.router.navigateByUrl("/store-management");
       return { data: { content: [] } }
@@ -469,7 +475,7 @@ export class ApiCallsService {
     }
 
     if (localStorage.getItem("storeId")) {
-      return await this.http.get(this.pathVariable4+"/carts", httpOptions).toPromise();
+      return await this.http.get(this.pathVariable4 + "/carts", httpOptions).toPromise();
     } else {
 
       this.router.navigateByUrl("/store-management");
@@ -479,7 +485,7 @@ export class ApiCallsService {
 
 
   getCartItems(cartId) {
-    return this.http.get(this.pathVariable4+"/carts/" + cartId + "/items").toPromise();
+    return this.http.get(this.pathVariable4 + "/carts/" + cartId + "/items").toPromise();
   }
 
   getOrderItems(cartId) {
@@ -489,7 +495,7 @@ export class ApiCallsService {
       }),
 
     }
-    return this.http.get(this.pathVariable4+"/orders/" + cartId + "/items", httpOptions).toPromise();
+    return this.http.get(this.pathVariable4 + "/orders/" + cartId + "/items", httpOptions).toPromise();
   }
 
 
@@ -670,5 +676,25 @@ export class ApiCallsService {
       `${this.pathVariable2}/stores/${localStorage.getItem('storeId')}/customers/?page=${page}&pageSize=15`).toPromise();
   }
 
+  getClients(roleId) {
+    const httpOptions = {
+      params: {
+        roleId: roleId,
+        storeId:localStorage.getItem('storeId')
+      }
+    }
+    return this.http.get<any>(this.pathVariable2 + `/clients/`, httpOptions).
+      toPromise();
+  }
+
+  getClient(id) {
+    return this.http.get<any>(this.pathVariable2 + `/clients/${id}`).
+      toPromise();
+  }
+
+  updateClient(id,body){
+    return this.http.put<any>(this.pathVariable2 + `/clients/${id}`, body).
+      toPromise();
+  }
 
 }

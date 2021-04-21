@@ -36,3 +36,16 @@ flex-container{
 .add-pointer{
     cursor: pointer;
 }
+
+.links{
+    display: inline;
+    width: 35px;
+    margin-right: 8px;
+    padding: 4px;
+}
+
+.links:hover{
+    background-color: rgb(231, 231, 231);
+    border-radius: 8px;
+    cursor: pointer;
+}

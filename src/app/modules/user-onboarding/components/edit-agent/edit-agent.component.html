@@ -18,7 +18,7 @@
                     <div class="col-md-8 col-lg-6 col-xl-5">
                         <div class="card hover-box-shadow">
                             <div class="card-body px-auto">
-                                <h4 class="card-title mt-3 text-center">Create Agent Account</h4>
+                                <h4 class="card-title mt-3 text-center">Update Agent Account</h4>
                                 <!-- <p class="text-center">Get started with your free account</p> -->
 
                                 <!-- end:Social logins-->
@@ -60,7 +60,7 @@
                                             <span class="input-group-text"> <i class="las la-key"></i> </span>
                                         </div>
                                         <input class="form-control" name="password"
-                                            (keyup.enter)="createAccount($event)" required [(ngModel)]="password"
+                                            (keyup.enter)="updateAccount()" required [(ngModel)]="password"
                                             placeholder="Create password" type="password">
                                     </div>
                                     <div *ngIf="showError"
@@ -69,7 +69,7 @@
 
                                     <div class="form-group">
 
-                                        <a class="btn btn-primary btn-block" (click)="createAccount($event)">Create
+                                        <a class="btn btn-primary btn-block" (click)="updateAccount()">Update
                                             Account</a>
                                     </div>
 

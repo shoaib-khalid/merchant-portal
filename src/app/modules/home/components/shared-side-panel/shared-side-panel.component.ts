@@ -12,7 +12,6 @@ export class SharedSidePanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.onlineStore = localStorage.getItem('store').replace(/\s+/g, '-').toLowerCase();
-    localStorage.setItem('store',this.onlineStore)
   }
 
   openSubMenu() {
