@@ -102,7 +102,7 @@ export class AddProductComponent implements OnInit {
 
   async saveProduct() {
 
-    if (this.title && this.price && this.quantity && this.sku && this.productStatus && this.category) {
+    if (this.title && this.price && this.quantity && this.sku && this.productStatus) {
       this.apiCalls.loadingAnimation("Adding Product")
       const categoryId = await this.getCategoryId()
       const body = {

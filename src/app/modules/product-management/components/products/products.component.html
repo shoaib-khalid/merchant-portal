@@ -113,18 +113,22 @@
                                                                     class="img-lg rounded">
                                                             </div>
 
-                                                            {{product.name}}
+                                                            <div class="product-name">{{product.name}}</div>
                                                         </td>
                                                         <td style="vertical-align: middle;">
                                                             <div class="status">{{product.status}}</div>
                                                         </td>
-                                                        <td style="vertical-align: middle;">
+                                                        <td
+                                                            style="vertical-align: middle;width: 150px;text-overflow: clip;">
 
                                                             <div>{{categoryWithProduct[product.categoryId]}}</div>
                                                         </td>
-                                                        <td style="vertical-align: middle;"><img src="assets/copy.svg" alt="" class="links" (click)="copyProductUrl(0)"> <img
-                                                                src="assets/share.svg" alt="" class="links" (click)="shareProduct()"></td>
-                                                        <td (click)="editProduct(product.id)"><button type="button"
+                                                        <td style="vertical-align: middle;"><img src="assets/copy.svg"
+                                                                alt="" class="links"
+                                                                (click)="copyProductUrl(product.seoUrl)"> <img
+                                                                src="assets/share.svg" alt="" class="links"
+                                                                (click)="shareProduct()"></td>
+                                                        <td (click)="editProduct(product.id)"  style="vertical-align: middle;"><button type="button"
                                                                 class="btn btn-primary width-150">Edit</button></td>
                                                     </tr>
 

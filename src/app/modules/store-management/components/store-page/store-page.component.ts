@@ -70,8 +70,9 @@ export class StorePageComponent implements OnInit {
       const formData = new FormData();
       formData.append("banner", this.banner.file);
       formData.append("logo", this.logo.file);
-      console.log(localStorage.getItem('storeId'))
       this.apiCalls.uploadStoreAssets(formData,localStorage.getItem('storeId'))
+    }else{
+      this.apiCalls.loadingdialogRef.close();
     }
 
   }
@@ -81,7 +82,7 @@ export class StorePageComponent implements OnInit {
       name: this.storeName,
       city: this.city,
       address: this.address,
-      postCode: this.postCode,
+      postcode: this.postCode,
       storeDescription: this.storeInfo,
       clientId: localStorage.getItem("ownerId"),
       domain: this.storeName.replace(/\s+/g, '-').toLowerCase()

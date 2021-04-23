@@ -9,6 +9,7 @@ export class SignInComponent implements OnInit {
 
   username: any = '';
   password: any = '';
+  error:any=""
   showError:Boolean=false;
   constructor(private apiCalls: ApiCallsService) { }
 
@@ -25,8 +26,13 @@ export class SignInComponent implements OnInit {
       this.apiCalls.loadingAnimation("Logging in")
       this.apiCalls.authenticateClient(data);
     }else{
-      this.showError=true;
+      this.showError_('Please enter all details')
     }
+  }
+
+  showError_(error){
+    this.error = error;
+    this.showError= true;
   }
 
 }

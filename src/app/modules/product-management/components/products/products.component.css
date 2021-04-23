@@ -49,3 +49,9 @@ flex-container{
     border-radius: 8px;
     cursor: pointer;
 }
+
+.product-name{
+    float: right;
+    text-overflow:  clip;
+    width:200px;
+}

@@ -32,31 +32,54 @@ export class EditAgentComponent implements OnInit {
     this.setData(data.data)
   }
 
-
   setData(data) {
     this.email = data.email;
     this.username = data.username;
     this.name = data.name;
     this.roleId = data.roleId;
-    this.password = ""
+    this.password = "!@$--!=z~"
   }
 
   async updateAccount() {
-    if (this.email && this.username && this.name && this.roleId && this.password) {
+    if (this.checkEmptiness()) {
       this.apiCalls.loadingAnimation("Updating")
-      const body = {
-        email: this.email,
-        username: this.username,
-        name: this.name,
-        roleId: this.roleId,
-        password: this.password
-      }
+      const body = this.getBody();
+      this.checkPasswordChange(body);
       await this.apiCalls.updateClient(this.agentId, body)
       this.apiCalls.loadingdialogRef.close();
     } else {
-      this.errorText = "Enter all details";
-      this.showError = true;
+      this.showError_("Enter all details");
     }
-
   }
+
+  getBody() {
+    const body = {
+      email: this.email,
+      username: this.username,
+      name: this.name,
+      roleId: this.roleId,
+      password: this.password
+    }
+    return body;
+  }
+
+  showError_(error) {
+    this.errorText = error;;
+    this.showError = true;
+  }
+
+  checkPasswordChange(body) {
+    if (this.password == "!@$--!=ask") {
+      delete body.password;
+    }
+  }
+
+  checkEmptiness(){
+    if (this.email && this.username && this.name && this.roleId && this.password) {
+      return true;
+    }else{
+      return false;
+    }
+  }
+
 }

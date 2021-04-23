@@ -197,10 +197,11 @@ export class SideNavAction {
     }
 
     convertHeadersToJson(reqHeaders) {
-        var newHeaders = {};
+        var newHeaders = [];
         for (var i = 0; i < reqHeaders.length; i++) {
-            newHeaders[reqHeaders[i].key] = reqHeaders[i].value;
+            newHeaders.push({name:reqHeaders[i].key,value:reqHeaders[i].value});
         }
+        console.log(newHeaders)
         return newHeaders;
     }
     convertJsontoHeadersArray(newHeaders) {

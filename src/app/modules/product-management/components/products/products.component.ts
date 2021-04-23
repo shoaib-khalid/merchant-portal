@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import $ from 'jquery';
 
 @Component({
   selector: 'app-products',
@@ -16,7 +16,9 @@ export class ProductsComponent implements OnInit {
   categoryId: any = "";
   categories: any = [];
   categoryWithProduct: any = {};
-  constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) {
+  
+   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -139,10 +141,7 @@ export class ProductsComponent implements OnInit {
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
-  
-    
     var successful = document.execCommand('copy');
-    console.log(url)
   }
   shareProduct(){
 
