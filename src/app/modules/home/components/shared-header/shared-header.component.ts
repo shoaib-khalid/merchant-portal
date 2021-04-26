@@ -49,6 +49,9 @@ export class SharedHeaderComponent implements OnInit {
   }
 
   logOut() {
+    if(this.apiCalls.loadingdialogRef){
+      this.apiCalls.loadingdialogRef.close();
+    }
     localStorage.clear();
   }
 

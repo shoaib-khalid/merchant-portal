@@ -72,7 +72,7 @@
 
                                                         <div class="form-group">
                                                             <label for="l301">Title</label>
-                                                            <input type="text" [(ngModel)]="title" class="form-control"
+                                                            <input type="text" style="width: 578px;" [(ngModel)]="title" class="form-control"
                                                                 id="l301" />
                                                         </div>
                                                     </div>
@@ -477,7 +477,7 @@
                                                         (click)="saveProduct()">
                                                         Save Product
                                                     </button>
-                                                    <button type="button" class="btn btn-danger">Cancel</button>
+                                                    <button type="button" class="btn btn-danger" [routerLink]="['/products']" >Cancel</button>
                                                 </div>
                                             </div>
 

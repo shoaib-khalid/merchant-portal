@@ -16,9 +16,10 @@ export class ProductsComponent implements OnInit {
   categoryId: any = "";
   categories: any = [];
   categoryWithProduct: any = {};
+  hover: boolean = true;
   constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) {
-  
-   }
+
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -111,7 +112,6 @@ export class ProductsComponent implements OnInit {
         break;
       }
       this.categories = this.categories.concat(data.data.content)
-      console.log(this.categories)
       i = i + 1;
     }
     this.setCatogoriesForSingleProduct();
@@ -124,26 +124,33 @@ export class ProductsComponent implements OnInit {
 
   setCatogoriesForSingleProduct() {
     for (var i = 0; i < this.categories.length; i++) {
-      this.categoryWithProduct[this.categories[i].id]=this.categories[i].name;
+      this.categoryWithProduct[this.categories[i].id] = this.categories[i].name;
     }
-    console.log(this.categoryWithProduct)
   }
 
-  copyProductUrl(url){
+  copyProductUrl(url) {
     var textArea = document.createElement("textarea");
     textArea.value = url;
-    
+
     // Avoid scrolling to bottom
     textArea.style.top = "0";
     textArea.style.left = "0";
     textArea.style.position = "fixed";
-  
+
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
+    this.hover = false;
     var successful = document.execCommand('copy');
-  }
-  shareProduct(){
 
   }
+
+  mouseOverCopy() {
+    this.hover = true;
+  }
+
+  shareProduct() {
+
+  }
+
 }
