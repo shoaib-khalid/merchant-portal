@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import {Router} from '@angular/router';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+
 @Component({
   selector: 'app-accounts',
   templateUrl: './accounts.component.html',
@@ -13,6 +15,11 @@ export class AccountsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAccounts();
+    // $( function() {
+    //   $( "#sortable1, #sortable2" ).sortable({
+    //     connectWith: ".connectedSortable"
+    //   }).disableSelection();
+    // } );
   }
 
   async loadAccounts(){

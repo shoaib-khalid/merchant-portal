@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import $ from 'jquery';
 
 @Component({
   selector: 'app-products',
@@ -70,6 +69,7 @@ export class ProductsComponent implements OnInit {
   filterProducts(event) {
     const filter = event.target.value;
     this.products = this.allProducts.filter(word => word.name.toLowerCase().includes(filter.toLowerCase()));
+    this.showThumbnailImage(this.products);
   }
 
   async getAllProducts() {
@@ -118,7 +118,12 @@ export class ProductsComponent implements OnInit {
   }
   getProdsByCat(id) {
     this.categoryId = id;
+    if(id){
     this.router.navigate(['products'], { queryParams: { categoryId: id } })
+    }else{
+    this.router.navigate(['products'])
+
+    }
     this.loadProducts();
   }
 

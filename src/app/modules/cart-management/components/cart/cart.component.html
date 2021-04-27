@@ -86,7 +86,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr id="{{cart.id}}" *ngFor ="let cart of carts;"  (click)="showCartItems(cart)" >
+                                                    <tr id="{{cart.id}}" *ngFor ="let cart of carts;"  (click)="showCartItems(cart)" class="carts" >
                                                         <td><input type="checkbox"></td>
                                                         <td class="product">{{cart.customerId}}</td>
                                                         <td>

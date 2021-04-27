@@ -90,7 +90,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor='let order of orders;' (click)="showOrderItems(order)">
+                                                    <tr *ngFor='let order of orders;' (click)="showOrderItems(order)" class="orders-list">
                                                         <td><input type="checkbox"></td>
                                                         <td class="product">{{order.id}}</td>
                                                         <td>

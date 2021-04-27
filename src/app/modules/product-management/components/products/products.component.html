@@ -73,7 +73,7 @@
                                                     <select (change)="getProdsByCat($event.target.value)"
                                                         [(ngModel)]='categoryId' class="mr-2 form-control"
                                                         style="width:170px">
-                                                        <option value="">Categories</option>
+                                                        <option value="">All Categories</option>
                                                         <option *ngFor="let cat of categories" value="{{cat.id}}">
                                                             {{cat.name}}
                                                         </option>
@@ -286,13 +286,7 @@
             <!-- //container -->
         </section>
     </footer> <!-- build:js -->
-    <script src="assets/vendor/js/jquery.js"></script>
-    <script src="assets/vendor/js/popper.js"></script>
-    <script src="assets/vendor/js/bootstrap.js"></script>
-    <script src="assets/vendor/js/swiper.min.js"></script>
-    <script src="assets/vendor/js/prism.min.js"></script>
 
-    <script src="assets/js/custom.js"></script>
 
     <!-- endbuild -->
 

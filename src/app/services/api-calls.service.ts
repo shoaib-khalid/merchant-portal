@@ -289,7 +289,7 @@ export class ApiCallsService {
           } else if (data.data.content.length == 1) {
             localStorage.setItem("storeId", data.data.content[0].id)
             localStorage.setItem("store", data.data.content[0].name)
-            this.router.navigateByUrl('/products/add')
+            this.router.navigateByUrl('/products')
           } else {
             this.router.navigateByUrl('/store-management')
 

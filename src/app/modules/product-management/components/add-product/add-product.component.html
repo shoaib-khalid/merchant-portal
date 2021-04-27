@@ -2,8 +2,9 @@
 <html lang="en">
 
 <head>
-    <script src="https://cdn.tiny.cloud/1/zyqfrxe18ts30xcytjqswmq1g0holn2pfin7iz1qur7h2s81/tinymce/5/tinymce.min.js"
-        referrerpolicy="origin"></script>
+    <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet"
+        type="text/css" />
+
 </head>
 
 <body>
@@ -72,8 +73,8 @@
 
                                                         <div class="form-group">
                                                             <label for="l301">Title</label>
-                                                            <input type="text" style="width: 578px;" [(ngModel)]="title" class="form-control"
-                                                                id="l301" />
+                                                            <input type="text" style="width: 578px;" [(ngModel)]="title"
+                                                                class="form-control" id="l301" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -81,8 +82,9 @@
 
                                                 <div class="form-group">
                                                     <label class="form-control-label" for="l151">Description</label>
-                                                    <textarea class="form-control" [(ngModel)]="description" rows="3"
-                                                        id="l151"></textarea>
+                                                    <!-- <textarea class="form-control" [(ngModel)]="description" rows="3"
+                                                        id="l151"></textarea> -->
+                                                        <ckeditor  [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }" [editor]="Editor" [(ngModel)]="description" rows="3"></ckeditor>
                                                 </div>
                                                 <h4 class="mt-4 mb-3">Media</h4>
                                                 <div class="input-group mb-3">
@@ -95,12 +97,12 @@
                                                     </div>
 
                                                 </div>
-                                                    <div *ngFor="let prodImg of productImages;index as i" style="display: inline-block;margin-top: 3px;margin-right: 3px;">
-                                                    <img src="{{prodImg.preview}}" alt="" height="100px"
-                                                        width="100px">
+                                                <div *ngFor="let prodImg of productImages;index as i"
+                                                    style="display: inline-block;margin-top: 3px;margin-right: 3px;">
+                                                    <img src="{{prodImg.preview}}" alt="" height="100px" width="100px">
                                                     <img src="assets/red-cross.svg" style="margin-left: 5px;" alt=""
                                                         height="14px" width="14px" (click)="deleteProductImages(i)">
-                                                    </div>
+                                                </div>
 
                                                 <br />
 
@@ -172,14 +174,16 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="l30">SKU (Stock Keeping Unit)</label>
-                                                            <input type="text" [(ngModel)]="sku" class="form-control" />
+                                                            <input [disabled]="variantChecked" type="text"
+                                                                [(ngModel)]="sku" class="form-control" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="quantity">Quantity</label>
                                                             <br>
-                                                            <input type="number" [(ngModel)]="quantity" id="quantity"
+                                                            <input [disabled]="variantChecked" type="number"
+                                                                [(ngModel)]="quantity" id="quantity"
                                                                 class="form-control" name="quantity" min="1"
                                                                 max="10000">
                                                         </div>
@@ -477,7 +481,8 @@
                                                         (click)="saveProduct()">
                                                         Save Product
                                                     </button>
-                                                    <button type="button" class="btn btn-danger" [routerLink]="['/products']" >Cancel</button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        [routerLink]="['/products']">Cancel</button>
                                                 </div>
                                             </div>
 
@@ -534,8 +539,8 @@
                                                     <hr>
                                                     <h4 class="text-black mb-3">Delivery Details</h4>
                                                     <div class="add-item-img d-flex  border-radius">
-                                                        <select name="Inventory-manager"
-                                                            class="form-control" id="inventory-manage">
+                                                        <select name="Inventory-manager" class="form-control"
+                                                            id="inventory-manage">
                                                             <option value="">Type</option>
                                                             <option value="Scheduled">Scheduled</option>
                                                             <option value="Ad-Hoc">Ad-Hoc</option>
@@ -543,8 +548,8 @@
                                                     </div>
                                                     <br>
                                                     <div class="add-item-img d-flex  border-radius">
-                                                        <select name="Inventory-manager"
-                                                            class="form-control" id="inventory-manage">
+                                                        <select name="Inventory-manager" class="form-control"
+                                                            id="inventory-manage">
                                                             <option value="">Packaging</option>
                                                             <option value="Parcel">Parcel</option>
                                                             <option value="Document">Document</option>
@@ -553,8 +558,8 @@
                                                         </select>
                                                     </div>
                                                     <br>
-                                                        <input type="number" id="quantity" name="quantity" min="1"
-                                                            placeholder="Weight in Kg" max="10000" class="form-control">
+                                                    <input type="number" id="quantity" name="quantity" min="1"
+                                                        placeholder="Weight in Kg" max="10000" class="form-control">
                                                 </div>
 
                                             </div>
@@ -682,8 +687,7 @@
     </footer> <!-- build:js -->
 
 
-    <!-- endbuild -->
-
 </body>
 
 </html>
+

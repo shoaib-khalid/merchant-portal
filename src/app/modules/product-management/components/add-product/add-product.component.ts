@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import $ from "jquery";
 import { SuccessAnimationComponent } from 'src/app/modules/home/components/success-animation/success-animation.component';
 import { MatDialog } from '@angular/material/dialog';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 
 @Component({
   selector: 'app-add-product',
@@ -41,13 +43,14 @@ export class AddProductComponent implements OnInit {
   category: any;
   images: any = [];
   productImages: any = [];
-
+  public Editor = ClassicEditor;
 
   constructor(private dialog: MatDialog, private helperTextService: HelperTextService, private apiCalls: ApiCallsService, private router: Router) { }
 
   ngOnInit(): void {
     this.countries = this.helperTextService.countriesList;
     this.getCategoriesByStoreId();
+    
   }
 
   addAnotherOption() {
@@ -102,7 +105,7 @@ export class AddProductComponent implements OnInit {
 
   async saveProduct() {
 
-    if (this.title && this.price && this.quantity && this.sku && this.productStatus) {
+    if (this.title && this.price && this.verifyDetails() && this.productStatus) {
       this.apiCalls.loadingAnimation("Adding Product")
       const categoryId = await this.getCategoryId()
       const body = {
@@ -375,6 +378,17 @@ export class AddProductComponent implements OnInit {
       }
     });
     return promise;
+  }
+
+
+  verifyDetails(){
+    if(this.variantChecked){
+      return true;
+    }else if(this.quantity && this.sku){
+      return true;
+    }else{
+      return false;
+    }
   }
 
 }

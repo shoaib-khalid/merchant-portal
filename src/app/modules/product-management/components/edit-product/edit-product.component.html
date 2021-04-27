@@ -72,7 +72,7 @@
 
                                                         <div class="form-group">
                                                             <label for="l301">Title</label>
-                                                            <input type="text" [(ngModel)]="title" class="form-control"
+                                                            <input style="width:578px" type="text" [(ngModel)]="title" class="form-control"
                                                                 id="l301" />
                                                         </div>
                                                     </div>
@@ -81,8 +81,8 @@
 
                                                 <div class="form-group">
                                                     <label class="form-control-label" for="l151">Description</label>
-                                                    <textarea class="form-control" [(ngModel)]="description" rows="3"
-                                                        id="l151"></textarea>
+                                                    <ckeditor  [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }" [editor]="Editor" [(ngModel)]="description" rows="3" style="height: 300px;"></ckeditor>
+
                                                 </div>
                                                 <h4 class="mt-4 mb-3">Media</h4>
                                                 <div class="input-group mb-3">
@@ -185,14 +185,14 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="l30">SKU (Stock Keeping Unit)</label>
-                                                            <input type="text" [(ngModel)]="sku" class="form-control" />
+                                                            <input [disabled]="variantChecked" type="text" [(ngModel)]="sku" class="form-control" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="quantity">Quantity</label>
                                                             <br>
-                                                            <input type="number" [(ngModel)]="quantity" id="quantity"
+                                                            <input [disabled]="variantChecked" type="number" [(ngModel)]="quantity" id="quantity"
                                                                 class="form-control" name="quantity" min="1"
                                                                 max="10000">
                                                         </div>

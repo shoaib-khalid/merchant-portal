@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import $ from 'jquery';
-import { DataSource } from '@angular/cdk/collections';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 @Component({
   selector: 'app-edit-product',
   templateUrl: './edit-product.component.html',
@@ -39,6 +40,7 @@ export class EditProductComponent implements OnInit {
   product: any;
   productImages: any = [];
   newItems: any = [];
+  public Editor = ClassicEditor;
 
 
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
@@ -49,6 +51,7 @@ export class EditProductComponent implements OnInit {
         this.loadProduct(params.id)
       }
     });
+
   }
 
   async loadProduct(id) {
