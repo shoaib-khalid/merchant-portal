@@ -6,6 +6,7 @@ import $ from "jquery";
 import { SuccessAnimationComponent } from 'src/app/modules/home/components/success-animation/success-animation.component';
 import { MatDialog } from '@angular/material/dialog';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -50,7 +51,7 @@ export class AddProductComponent implements OnInit {
   ngOnInit(): void {
     this.countries = this.helperTextService.countriesList;
     this.getCategoriesByStoreId();
-    
+
   }
 
   addAnotherOption() {
@@ -201,7 +202,7 @@ export class AddProductComponent implements OnInit {
 
     //uploading product images
     for (var i = 0; i < this.productImages.length; i++) {
-      await this.apiCalls.uploadImage(productId, this.productImages[i].file, "")
+      await this.apiCalls.uploadImage(productId, this.productImages[i].file, "", this.productImages[i].isThumbnail)
     }
   }
 
@@ -223,7 +224,7 @@ export class AddProductComponent implements OnInit {
           if (this.images[i][j]) {
             const formdata = new FormData();
             formdata.append("file", this.images[i][j].file);
-            const data = await this.apiCalls.uploadImage(productId, formdata, productId + i)
+            const data = await this.apiCalls.uploadImage(productId, formdata, productId + i, "")
           }
         }
       }
@@ -319,7 +320,7 @@ export class AddProductComponent implements OnInit {
     for (var j = 0; j < files.length; j++) {
       const formdata = new FormData();
       formdata.append("file", files[j]);
-      this.productImages.push({ file: formdata, preview: await this.previewImage(files[j]) })
+      this.productImages.push({ file: formdata, preview: await this.previewImage(files[j]), isThumbnail: false })
     }
   }
 
@@ -381,14 +382,26 @@ export class AddProductComponent implements OnInit {
   }
 
 
-  verifyDetails(){
-    if(this.variantChecked){
+  verifyDetails() {
+    if (this.variantChecked) {
       return true;
-    }else if(this.quantity && this.sku){
+    } else if (this.quantity && this.sku) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
 
+  setThumbnail(i) {
+    for (var j = 0; j < this.productImages.length; j++) {
+      if (i == j) {
+        this.productImages[j].isThumbnail = true;
+      } else {
+        this.productImages[j].isThumbnail = false;
+      document.getElementById(`product-image-${j}`).style.border = "none";
+      }
+    }
+    document.getElementById(`product-image-${i}`).style.border = "thick solid #0000FF";
+
+  }
 }

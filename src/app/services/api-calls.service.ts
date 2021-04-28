@@ -527,12 +527,13 @@ export class ApiCallsService {
   }
 
 
-  uploadImage(productId, formData, itemCode) {
+  uploadImage(productId, formData, itemCode,isThumbnail) {
     const httpOptions = {
       headers: new HttpHeaders({
       }),
       params: {
         itemCode: itemCode,
+        isThumbnail:isThumbnail
       }
     }
     if (itemCode == "") {
@@ -613,7 +614,7 @@ export class ApiCallsService {
   }
 
   deleteInventory(productId, id) {
-    return this.http.delete<any>(`http://symplified.biz:7071/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${id}`)
+    return this.http.delete<any>(`${this.pathVariable3}/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${id}`)
       .toPromise();
   }
 

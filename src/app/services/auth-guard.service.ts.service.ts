@@ -18,6 +18,7 @@ export class AuthGuardService implements CanActivate {
       if (new Date(localStorage.getItem("expiry")) > new Date(d.toUTCString())) {
         return this.storeSelected(route.url[0] ? route.url[0].path : "");
       } else {
+        this.apiCalls.loadingAnimation("Updating session")
         this.getFreshAccessToken(route.url[0] ? route.url[0].path : "");
       }
 
@@ -42,6 +43,7 @@ export class AuthGuardService implements CanActivate {
     localStorage.setItem('refreshToken', data.data.session.refreshToken)
     localStorage.setItem("created", data.data.session.created)
     localStorage.setItem("expiry", data.data.session.expiry)
+    this.apiCalls.loadingdialogRef.close();
     this.router.navigateByUrl("/" + path)
   }
 

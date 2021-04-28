@@ -86,14 +86,19 @@ export class ProductsComponent implements OnInit {
 
   showThumbnailImage(products) {
     products.forEach((product, index) => {
-      if (product.productAssets.length > 0) {
-        products[index].productThumbnailUrl = product.productAssets[0].url;
+      if (product.thumbnailUrl) {
+        products[index].productThumbnailUrl = product.thumbnailUrl;
+      } else {
+        product.productAssets.forEach(image => {
+          if (image.isThumbnail) {
+            products[index].productThumbnailUrl = image.url;
+            return;
+          }
+        });
       }
-      product.productAssets.forEach(image => {
-        if (image.itemCode == null) {
-          products[index].productThumbnailUrl = image.url;
-        }
-      });
+
+
+
     });
     this.products = products;
     console.log(this.products)
@@ -118,10 +123,10 @@ export class ProductsComponent implements OnInit {
   }
   getProdsByCat(id) {
     this.categoryId = id;
-    if(id){
-    this.router.navigate(['products'], { queryParams: { categoryId: id } })
-    }else{
-    this.router.navigate(['products'])
+    if (id) {
+      this.router.navigate(['products'], { queryParams: { categoryId: id } })
+    } else {
+      this.router.navigate(['products'])
 
     }
     this.loadProducts();

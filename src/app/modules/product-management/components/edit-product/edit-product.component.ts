@@ -40,6 +40,7 @@ export class EditProductComponent implements OnInit {
   product: any;
   productImages: any = [];
   newItems: any = [];
+  thumbnailUrl: any = null;
   public Editor = ClassicEditor;
 
 
@@ -88,7 +89,7 @@ export class EditProductComponent implements OnInit {
       resolve("")
     });
     return promise;
-   
+
   }
 
   setCategory() {
@@ -243,8 +244,10 @@ export class EditProductComponent implements OnInit {
       "status": this.productStatus,
       "stock": 0,
       "description": this.description,
-      "storeId": localStorage.getItem("storeId")
+      "storeId": localStorage.getItem("storeId"),
+      "thumbnailUrl": this.thumbnailUrl
     }
+    console.log(body)
     await this.addInventory();
     this.apiCalls.updateProduct(body, this.product.id)
     this.uploadProductImages();
@@ -410,7 +413,8 @@ export class EditProductComponent implements OnInit {
   async uploadProductImages() {
     for (var i = 0; i < this.productImages.length; i++) {
       if (this.productImages[i].new) {
-        await this.apiCalls.uploadImage(this.product.id, this.productImages[i].file, "")
+        console.log(this.productImages[i].isThumbnail)
+        await this.apiCalls.uploadImage(this.product.id, this.productImages[i].file, "", this.productImages[i].isThumbnail)
       }
     }
   }
@@ -473,11 +477,36 @@ export class EditProductComponent implements OnInit {
           if (this.images[i][j].new) {
             const formdata = new FormData();
             formdata.append("file", this.images[i][j].file);
-            const data = await this.apiCalls.uploadImage(this.product.id, formdata, this.product.id + i)
+            const data = await this.apiCalls.uploadImage(this.product.id, formdata, this.product.id + i, "")
           }
         }
       }
     }
   }
+
+  setThumbnail(i) {
+    document.getElementById(`product-image-${i}`).style.border = "thick solid #0000FF";
+
+    for (var j = 0; j < this.productImages.length; j++) {
+      if (i == j) {
+        this.productImages[j].isThumbnail = true;
+
+      } else {
+        this.productImages[j].isThumbnail = false;
+    document.getElementById(`product-image-${j}`).style.border = "none";
+
+      }
+    }
+    if (this.productImages[i].new) {
+      this.thumbnailUrl = null;
+
+    } else {
+      this.thumbnailUrl = this.productImages[i].preview;
+    }
+
+
+  }
+
+
 
 }

@@ -72,8 +72,8 @@
 
                                                         <div class="form-group">
                                                             <label for="l301">Title</label>
-                                                            <input style="width:578px" type="text" [(ngModel)]="title" class="form-control"
-                                                                id="l301" />
+                                                            <input style="width:578px" type="text" [(ngModel)]="title"
+                                                                class="form-control" id="l301" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -81,7 +81,10 @@
 
                                                 <div class="form-group">
                                                     <label class="form-control-label" for="l151">Description</label>
-                                                    <ckeditor  [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }" [editor]="Editor" [(ngModel)]="description" rows="3" style="height: 300px;"></ckeditor>
+                                                    <ckeditor
+                                                        [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
+                                                        [editor]="Editor" [(ngModel)]="description" rows="3"
+                                                        style="height: 300px;"></ckeditor>
 
                                                 </div>
                                                 <h4 class="mt-4 mb-3">Media</h4>
@@ -95,25 +98,19 @@
                                                     </div>
 
                                                 </div>
-                                                <div >
-                                                    <div *ngFor="let prodImg of productImages;index as i" style="display: inline-block;margin-top: 3px;margin-right: 3px;">
-                                                    <img src="{{this.prodImg.preview}}" alt="" height="100px"
-                                                        width="100px">
-                                                    <img src="assets/red-cross.svg" style="margin-left: 5px;" alt=""
-                                                        height="14px" width="14px"
-                                                        (click)="deletethumbnailImage(prodImg.id)">
+                                                <div>
+                                                    <div *ngFor="let prodImg of productImages;index as i"
+                                                    style="display: inline-block;margin-top: 3px;margin-right: 3px;">
+                                                    <div class="image-container">
+                                                        <img id ="product-image-{{i}}" src="{{prodImg.preview}}" alt="" class="image">
+                                                        <div class="overlay" (click)="setThumbnail(i)">Set as thumbnail?
+                                                        </div>
                                                     </div>
+                                                    <img  src="assets/red-cross.svg"
+                                                        style="margin-left: 5px;margin-bottom: 100px;" alt=""
+                                                        height="14px" width="14px" (click)="deletethumbnailImage(prodImg.id)">
                                                 </div>
-                                                <!-- <h4 class="mt-4 mb-3">Default Inventory Image</h4>
-                                                <div class="input-group mb-3">
-                                                    <div class="custom-file">
-                                                        <input type="file" multiple class="custom-file-input"
-                                                            (change)="onInventoryImageChanged($event,0)"
-                                                            id="inputGroupFile011" />
-                                                        <label class="custom-file-label" for="inputGroupFile011">Choose
-                                                            file</label>
-                                                    </div> -->
-                                                <!-- </div> -->
+                                                </div>
 
                                                 <br />
 
@@ -185,14 +182,16 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="l30">SKU (Stock Keeping Unit)</label>
-                                                            <input [disabled]="variantChecked" type="text" [(ngModel)]="sku" class="form-control" />
+                                                            <input [disabled]="variantChecked" type="text"
+                                                                [(ngModel)]="sku" class="form-control" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="quantity">Quantity</label>
                                                             <br>
-                                                            <input [disabled]="variantChecked" type="number" [(ngModel)]="quantity" id="quantity"
+                                                            <input [disabled]="variantChecked" type="number"
+                                                                [(ngModel)]="quantity" id="quantity"
                                                                 class="form-control" name="quantity" min="1"
                                                                 max="10000">
                                                         </div>
@@ -501,7 +500,8 @@
                                                         (click)="updateProduct()">
                                                         Update Product
                                                     </button>
-                                                    <button type="button" class="btn btn-danger" [routerLink]="['/products']">Cancel</button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        [routerLink]="['/products']">Cancel</button>
                                                 </div>
                                             </div>
 
@@ -556,8 +556,8 @@
                                                     <hr>
                                                     <h4 class="text-black mb-3">Delivery Details</h4>
                                                     <div class="add-item-img d-flex  border-radius">
-                                                        <select name="Inventory-manager"
-                                                            class="form-control" id="inventory-manage">
+                                                        <select name="Inventory-manager" class="form-control"
+                                                            id="inventory-manage">
                                                             <option value="">Type</option>
                                                             <option value="Scheduled">Scheduled</option>
                                                             <option value="Ad-Hoc">Ad-Hoc</option>
@@ -565,8 +565,8 @@
                                                     </div>
                                                     <br>
                                                     <div class="add-item-img d-flex  border-radius">
-                                                        <select name="Inventory-manager"
-                                                            class="form-control" id="inventory-manage">
+                                                        <select name="Inventory-manager" class="form-control"
+                                                            id="inventory-manage">
                                                             <option value="">Packaging</option>
                                                             <option value="Parcel">Parcel</option>
                                                             <option value="Document">Document</option>
@@ -575,9 +575,9 @@
                                                         </select>
                                                     </div>
                                                     <br>
-                                                        <input type="number" id="quantity" name="quantity" min="1"
-                                                            placeholder="Weight in Kg" max="10000" class="form-control">
-                                                    
+                                                    <input type="number" id="quantity" name="quantity" min="1"
+                                                        placeholder="Weight in Kg" max="10000" class="form-control">
+
                                                 </div>
 
                                             </div>
