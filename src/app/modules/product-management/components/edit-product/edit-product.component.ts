@@ -205,7 +205,7 @@ export class EditProductComponent implements OnInit {
     for (var j = 0; j < files.length; j++) {
       const formdata = new FormData();
       formdata.append("file", files[j]);
-      this.productImages.push({ file: formdata, preview: await this.previewImage(files[j]), new: true })
+      this.productImages.push({ file: formdata, preview: await this.previewImage(files[j]), new: true, isThumbnail: false })
 
     }
   }
@@ -228,8 +228,8 @@ export class EditProductComponent implements OnInit {
 
   }
 
-  deletethumbnailImage(prodId) {
-    this.productImages.splice(prodId, 1)
+  deletethumbnailImage(prodId, i) {
+    this.productImages.splice(i, 1)
     this.apiCalls.deleteProductAsset(this.product.id, prodId)
   }
 
@@ -413,8 +413,7 @@ export class EditProductComponent implements OnInit {
   async uploadProductImages() {
     for (var i = 0; i < this.productImages.length; i++) {
       if (this.productImages[i].new) {
-        console.log(this.productImages[i].isThumbnail)
-        await this.apiCalls.uploadImage(this.product.id, this.productImages[i].file, "", this.productImages[i].isThumbnail)
+        await this.apiCalls.uploadImage(this.product.id, this.productImages[i].file, "", this.productImages[i].isThumbnail ? this.productImages[i].isThumbnail : false)
       }
     }
   }
@@ -493,7 +492,7 @@ export class EditProductComponent implements OnInit {
 
       } else {
         this.productImages[j].isThumbnail = false;
-    document.getElementById(`product-image-${j}`).style.border = "none";
+        document.getElementById(`product-image-${j}`).style.border = "none";
 
       }
     }
