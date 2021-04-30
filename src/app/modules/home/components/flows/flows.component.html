@@ -83,9 +83,9 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor="let flow of flows;index as i"  (click)="openFlow(flow.id)">
-                                                        <td 
-                                                            style="cursor: pointer;">
+                                                    <tr *ngFor="let flow of flows;index as i"
+                                                        (click)="openFlow(flow.id)">
+                                                        <td style="cursor: pointer;">
                                                             {{flow.title}}
                                                         </td>
                                                         <td style="cursor: pointer;">{{flow.description}}</td>

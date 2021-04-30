@@ -89,8 +89,8 @@
                                                         <th class="border-0">Product</th>
                                                         <th class="border-0">Status</th>
                                                         <th class="border-0">Category</th>
-                                                        <th class="border-0">Link</th>
-                                                        <th class="border-0">Action</th>
+                                                        <th class="border-0" style="text-align: center;">Link</th>
+                                                        <th class="border-0" style="text-align: center;">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -130,15 +130,34 @@
                                                                     (click)="copyProductUrl(product.seoUrl)">
                                                                 <span *ngIf="hover"
                                                                     class="tooltiptext-custom">{{product.seoUrl}}</span>
-                                                                <span *ngIf="!hover"  class="tooltiptext-custom copied">Link
+                                                                <span *ngIf="!hover"
+                                                                    class="tooltiptext-custom copied">Link
                                                                     Copied!</span>
                                                             </div>
                                                             <img src="assets/share.svg" alt="" class="links"
                                                                 (click)="shareProduct()">
+                                                            <img src="assets/external-link.svg" alt="" class="links"
+                                                                (click)="externalLink(product.id)">
                                                         </td>
-                                                        <td (click)="editProduct(product.id)"
-                                                            style="vertical-align: middle;"><button type="button"
-                                                                class="btn btn-primary width-150">Edit</button></td>
+                                                        <td style="vertical-align: middle;">
+                                                            <div class="dropdown">
+                                                                <div (click)="showDropdown(product.id+i)"
+                                                                    class="dropbtn">
+                                                                    Action</div>
+                                                                <div id="{{product.id+i}}" class="dropdown-content">
+                                                                    <a (click)="editProduct(product.id)"
+                                                                        id="{{product.id}}" class="options"> Edit
+                                                                        Product
+                                                                    </a>
+                                                                    <a style="color: red;" id="{{product.id}}"
+                                                                        class="options"
+                                                                        (click)="deleteProduct(product.id)">Delete
+                                                                        Product</a>
+                                                                </div>
+                                                            </div>
+                                                            <!-- <button type="button"
+                                                                class="btn btn-primary width-150">Edit</button> -->
+                                                        </td>
                                                     </tr>
 
                                                 </tbody>

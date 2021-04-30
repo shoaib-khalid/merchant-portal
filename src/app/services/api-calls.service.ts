@@ -256,7 +256,7 @@ export class ApiCallsService {
         if (signUpData.roleId == "STORE_OWNER") {
           this.authenticateClient({ username: signUpData.username, password: signUpData.password })
         } else {
-          
+
           this.loadingdialogRef.close()
           this.router.navigateByUrl('agent-accounts')
         }
@@ -527,13 +527,13 @@ export class ApiCallsService {
   }
 
 
-  uploadImage(productId, formData, itemCode,isThumbnail) {
+  uploadImage(productId, formData, itemCode, isThumbnail) {
     const httpOptions = {
       headers: new HttpHeaders({
       }),
       params: {
         itemCode: itemCode,
-        isThumbnail:isThumbnail
+        isThumbnail: isThumbnail
       }
     }
     if (itemCode == "") {
@@ -681,7 +681,7 @@ export class ApiCallsService {
     const httpOptions = {
       params: {
         roleId: roleId,
-        storeId:localStorage.getItem('storeId')
+        storeId: localStorage.getItem('storeId')
       }
     }
     return this.http.get<any>(this.pathVariable2 + `/clients/`, httpOptions).
@@ -693,9 +693,14 @@ export class ApiCallsService {
       toPromise();
   }
 
-  updateClient(id,body){
+  updateClient(id, body) {
     return this.http.put<any>(this.pathVariable2 + `/clients/${id}`, body).
       toPromise();
+  }
+
+  async deleteProduct(id) {
+    return this.http.delete(`${this.pathVariable3}/stores/${localStorage.getItem('storeId')}/products/${id}`).toPromise();
+
   }
 
 }

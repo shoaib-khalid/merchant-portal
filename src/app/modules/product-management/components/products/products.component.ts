@@ -163,4 +163,20 @@ export class ProductsComponent implements OnInit {
 
   }
 
+  externalLink(id){
+    window.open(`products/${id}`, "_blank");
+
+  }
+
+  async deleteProduct(id){
+    await this.apiCalls.deleteProduct(id)
+    this.apiCalls.successPopUp("Product Deleted Successfully")
+    this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/products']);
+  }); 
+
+  }
+  showDropdown(id) {
+    document.getElementById(""+id).classList.toggle("show");
+  }
 }
