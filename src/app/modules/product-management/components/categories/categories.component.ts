@@ -41,4 +41,10 @@ export class CategoriesComponent implements OnInit {
   openCatgoryProducts(id){
     this.router.navigate(['products'], { queryParams: { categoryId: id}})
   }
+
+
+  loadFacebookSDK(){
+    
+  }
+
 }
