@@ -6,3 +6,15 @@
     cursor: pointer;
     color: white;
 }
+
+#fb-button-custom{
+    width: 200px;
+    border-radius: 5px;
+    background-color: #4267b2;
+    padding: 6px;
+    color: white;
+    height: 40px;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+}

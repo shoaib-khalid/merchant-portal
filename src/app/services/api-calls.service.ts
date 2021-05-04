@@ -703,4 +703,11 @@ export class ApiCallsService {
 
   }
 
+  loadFbPages() {
+    return this.http.get<any>(`https://graph.facebook.com/${localStorage.getItem('fb-user-id')}/accounts?access_token=${localStorage.getItem('fb-user-accessToken')}`)
+  }
+
+  connectFbPageToSymplified(pageAccessToken, pageId) {
+    return this.http.post<any>(`https://graph.facebook.com/${pageId}/subscribed_apps?subscribed_fields=messages, messaging_postbacks&access_token=${pageAccessToken}`, {})
+  }
 }

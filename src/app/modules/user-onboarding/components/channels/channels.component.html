@@ -67,20 +67,24 @@
                                                 <div>
                                                     <input type="text" placeholder="Filter Channels"
                                                         class="form-control" style="width:140px; margin-right: 10px;"
-                                                         name="" id="">
+                                                        name="" id="">
                                                 </div>
                                             </div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
                                                     <tr>
                                                         <th class="border-0">Channels</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr *ngFor="let channel of channels">
-                                                        
+
                                                         <td class="product">
-                                                            {{channel.channelName}}
+                                                            {{channel.name}}
+                                                        </td>
+                                                        <td><button  type="button" class="btn btn-primary width-150 connect-button"
+                                                                (click)="connectToFbPage(channel.access_token,channel.id)">Connect</button>
                                                         </td>
                                                     </tr>
 
@@ -88,8 +92,8 @@
                                             </table>
                                         </div>
                                         <hr>
-                                        <div id="fb-button" class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default"
-                                        data-auto-logout-link="false" data-use-continue-as="false"></div>
+                                        <div id="fb-button-custom" style="display: none;">Log In with Facebook</div>
+                                        <div id="hidden-button-click" hidden (click)="showPagesToBeConnected()"></div>
                                         <div class="px-3 py-2">
                                             <nav aria-label="pagin">
                                                 <ul class="pagination pagination-sm">
