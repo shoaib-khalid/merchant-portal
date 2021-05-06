@@ -68,6 +68,7 @@ export class EditProductComponent implements OnInit {
     this.description = this.product.description;
     this.productStatus = this.product.status;
     this.setCategory();
+    this.setDeliveryDetails()
     this.setThumbnailPreview();
     this.setVariants();
     this.getallCombinations(this.items)
@@ -248,6 +249,7 @@ export class EditProductComponent implements OnInit {
       "thumbnailUrl": this.thumbnailUrl
     }
     console.log(body)
+    this.updateDeliveryDetails();
     await this.addInventory();
     this.apiCalls.updateProduct(body, this.product.id)
     this.uploadProductImages();
@@ -502,10 +504,35 @@ export class EditProductComponent implements OnInit {
     } else {
       this.thumbnailUrl = this.productImages[i].preview;
     }
-
-
   }
 
 
+  async setDeliveryDetails(){
+    const data:any = await this.apiCalls.getDeliveryDetails(this.product.id);
+    const elements = this.getDeliveryElements();
+    elements.itemType.value =data.data.itemType;
+    elements.weight.value = data.data.weight;
+    elements.type.value = data.data.type;
+  }
 
+  getDeliveryElements() {
+    const itemType: any = document.getElementById("delivery-type");
+    const weight: any = document.getElementById("delivery-weight")
+    const packaging: any = document.getElementById("delivery-package")
+    return {
+      itemType: itemType,
+      weight: weight,
+      type: packaging
+    }
+  }
+
+  updateDeliveryDetails(){
+    const data = this.getDeliveryElements();
+    const body = {
+      itemType: data.itemType.value,
+      type: data.type.value,
+      weight: data.weight.value
+    }
+    this.apiCalls.updateDeliveryDetails(body, this.product.id)
+  }
 }

@@ -106,7 +106,7 @@ export class AddProductComponent implements OnInit {
 
   async saveProduct() {
 
-    if (this.title && this.price && this.verifyDetails() && this.productStatus) {
+    if (this.title && this.price && this.verifyDetails() && this.productStatus && this.verifyDeliveryDetails()) {
       this.apiCalls.loadingAnimation("Adding Product")
       const categoryId = await this.getCategoryId()
       const body = {
@@ -119,6 +119,7 @@ export class AddProductComponent implements OnInit {
 
       }
       const data: any = await this.apiCalls.addProduct(body);
+      this.addDeliveryDetails(data.data.id)
       await this.addInventory(data.data.id)
 
       if (this.options.length > 0) {
@@ -398,10 +399,40 @@ export class AddProductComponent implements OnInit {
         this.productImages[j].isThumbnail = true;
       } else {
         this.productImages[j].isThumbnail = false;
-      document.getElementById(`product-image-${j}`).style.border = "none";
+        document.getElementById(`product-image-${j}`).style.border = "none";
       }
     }
     document.getElementById(`product-image-${i}`).style.border = "thick solid #0000FF";
-
   }
+
+  addDeliveryDetails(productId) {
+    const data = this.getDeliveryElements();
+    const body = {
+      itemType: data.itemType.value,
+      type: data.type.value,
+      weight: data.weight.value
+    }
+    this.apiCalls.saveDeliveryDetails(body, productId)
+  }
+
+  verifyDeliveryDetails() {
+    const data = this.getDeliveryElements();
+    if (data.itemType.value && data.weight.value && data.type.value) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getDeliveryElements() {
+    const itemType: any = document.getElementById("delivery-type");
+    const weight: any = document.getElementById("delivery-weight")
+    const packaging: any = document.getElementById("delivery-package")
+    return {
+      itemType: itemType,
+      weight: weight,
+      type: packaging
+    }
+  }
+
 }

@@ -163,20 +163,26 @@ export class ProductsComponent implements OnInit {
 
   }
 
-  externalLink(id){
+  externalLink(id) {
     window.open(`products/${id}`, "_blank");
 
   }
 
-  async deleteProduct(id){
+  async deleteProduct(id) {
     await this.apiCalls.deleteProduct(id)
     this.apiCalls.successPopUp("Product Deleted Successfully")
     this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/products']);
-  }); 
+    });
 
   }
   showDropdown(id) {
-    document.getElementById(""+id).classList.toggle("show");
+    var dropdowns: any = document.getElementsByClassName('dropdown-content');
+    for (var i = 0; i < dropdowns.length; i++) {
+      if (window.getComputedStyle(dropdowns[i], null).display == "block") {
+        dropdowns[i].classList.toggle("show");
+      }
+    }
+    document.getElementById("" + id).classList.toggle("show");
   }
 }

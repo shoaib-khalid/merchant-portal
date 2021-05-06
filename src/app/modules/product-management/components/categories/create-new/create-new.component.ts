@@ -16,12 +16,13 @@ export class CreateNewComponent implements OnInit {
   }
 
   async create() {
-    this.dialogRef.close();
     const body = {
       "name": this.category,
       "storeId": localStorage.getItem("storeId"),
     }
-    const data: any = await this.apiCalls.createCategory(body);
     this.apiCalls.successPopUp("Category Added Successfully")
+    const data: any = await this.apiCalls.createCategory(body);
+    this.dialogRef.close();
+
   }
 }

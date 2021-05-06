@@ -706,8 +706,32 @@ export class ApiCallsService {
   loadFbPages() {
     return this.http.get<any>(`https://graph.facebook.com/${localStorage.getItem('fb-user-id')}/accounts?access_token=${localStorage.getItem('fb-user-accessToken')}`)
   }
-
+  checkConnectedFbPages() {
+    return this.http.get<any>(`https://graph.facebook.com/me/accounts?access_token=${localStorage.getItem('fb-user-accessToken')}`)
+  }
   connectFbPageToSymplified(pageAccessToken, pageId) {
     return this.http.post<any>(`https://graph.facebook.com/${pageId}/subscribed_apps?subscribed_fields=messages, messaging_postbacks&access_token=${pageAccessToken}`, {})
+  }
+
+  checkFbPageConnection(pageId, pageAccessToken) {
+    return this.http.get<any>(`https://graph.facebook.com/${pageId}/subscribed_apps?access_token=${pageAccessToken}`)
+  }
+
+  saveDeliveryDetails(body, productId) {
+    this.http.post<any>(this.pathVariable3 + `/stores/${localStorage.getItem('storeId')}/products/${productId}/deliverydetails`, body)
+      .subscribe(data => {
+      })
+  }
+
+  async getDeliveryDetails(productId){
+    return this.http.get<any>(this.pathVariable3+`/stores/${localStorage.getItem('storeId')}/products/${productId}/deliverydetails`).toPromise();
+  } 
+  updateDeliveryDetails(body,productId){
+    this.http.put<any>(this.pathVariable3 + `/stores/${localStorage.getItem('storeId')}/products/${productId}/deliverydetails`, body)
+    .subscribe(data => {
+    })
+  }
+  async deleteProductCategory(id){
+    return this.http.delete(this.pathVariable3+`/store-categories/${id}`).toPromise();
   }
 }

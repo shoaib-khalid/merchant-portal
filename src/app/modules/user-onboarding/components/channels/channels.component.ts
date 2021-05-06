@@ -5,6 +5,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateNewComponent } from './create-new/create-new.component'
 import { Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+
+declare const login: any;
+
 @Component({
   selector: 'app-channels',
   templateUrl: './channels.component.html',
@@ -20,9 +23,11 @@ export class ChannelsComponent implements OnInit {
     , private helperText: HelperTextService) { }
 
   ngOnInit(): void {
-    
+
     this.loadScriptTags('https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0&appId=2915126152079198&autoLogAppEvents=1', '')
-    this.loadScriptTag();
+    // this.loadScriptTag();
+    login();
+
   }
 
   async loadUserChannels() {
@@ -49,7 +54,7 @@ export class ChannelsComponent implements OnInit {
   }
 
   loadScriptTags(url, text) {
-     
+
     const s = this.renderer2.createElement('script');
     s.type = 'text/javascript';
     s.src = url;
@@ -60,38 +65,62 @@ export class ChannelsComponent implements OnInit {
   }
 
   loadScriptTag() {
-   
+
     const s = this.renderer2.createElement('script');
     s.type = 'text/javascript';
     s.text = this.helperText.fbsdkCode;
     this.renderer2.appendChild(this._document.body, s);
-    this.loadUserChannels();
+    // this.loadUserChannels();
   }
 
 
   async loadPages() {
     if (localStorage.getItem("fb-user-accessToken")) {
-      this.apiCalls.loadFbPages().subscribe(data => {
-        this.channels = data.data;
+    this.apiCalls.loadingAnimation("Loading..")
+      this.apiCalls.loadFbPages().subscribe(data1 => {
+        const pageList = data1.data;
+        for (var i = 0; i < pageList.length; i++) {
+          this.channels.push(pageList[i])
+          this.checkForConnectedPages(pageList[i])
+        }
       });
     }
   }
 
-  async connectToFbPage(accessToken, pageId) {
+  async connectToFbPage(accessToken, pageId, botNo) {
     this.apiCalls.connectFbPageToSymplified(accessToken, pageId).subscribe(data => {
-      console.log(data)
-      if(data.success){
-        var x:any = document.getElementsByClassName('connect-button');
-        console.log(x)
-        for(var i=0; i < x.length;i++){
-          console.log("ad")
-          x[i].style.display = "none"
+      if (data.success) {
+        var x: any = document.getElementsByClassName('connect-button');
+        for (var i = 0; i < x.length; i++) {
+          if (botNo == i) {
+            x[i].style.display = "none"
+            this.apiCalls.successPopUp("Bot connected successfully")
+            break;
+          }
+
         }
       }
     })
   }
 
-  showPagesToBeConnected(){
+  checkForConnectedPages(page) {
+    this.apiCalls.checkFbPageConnection(page.id, page.access_token).subscribe(data => {
+      var flag=true;
+      for (var i=0;i<data.data.length;i++){
+        if (data.data[i].id == "2915126152079198") {
+          flag=false;
+        }
+      }
+      if(flag){
+        document.getElementById(`${page.id}`).style.display = "block"
+      }
+      this.apiCalls.loadingdialogRef.close();
+    })
+
+  }
+
+  showPagesToBeConnected() {
+
     this.loadPages();
   }
 

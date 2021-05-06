@@ -73,7 +73,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Category Name</th>
- 
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -82,7 +82,10 @@
                                                             style="cursor: pointer;">
                                                             {{category.name}}
                                                         </td>
-
+                                                        <td>
+                                                            <td><button  type="button" class="btn btn-primary width-150 connect-button"
+                                                                (click)="deleteCategory(category.id)">Delete</button>
+                                                        </td>
                                                 </tbody>
                                             </table>
                                         </div>

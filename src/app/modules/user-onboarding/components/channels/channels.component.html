@@ -78,13 +78,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor="let channel of channels">
+                                                    <tr *ngFor="let channel of channels;index as i">
 
                                                         <td class="product">
                                                             {{channel.name}}
                                                         </td>
-                                                        <td><button  type="button" class="btn btn-primary width-150 connect-button"
-                                                                (click)="connectToFbPage(channel.access_token,channel.id)">Connect</button>
+                                                        <td><button id="{{channel.id}}" style="display: none;" type="button" class="btn btn-primary width-150 connect-button"
+                                                                (click)="connectToFbPage(channel.access_token,channel.id,i)">Connect</button>
                                                         </td>
                                                     </tr>
 

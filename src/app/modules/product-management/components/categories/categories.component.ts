@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
 })
 export class CategoriesComponent implements OnInit {
   categories: any = [];
+  openable=true;
   constructor(private apiCalls: ApiCallsService,private dialog: MatDialog,private router:Router) { }
 
   ngOnInit(): void {
@@ -39,7 +40,9 @@ export class CategoriesComponent implements OnInit {
   }
 
   openCatgoryProducts(id){
-    this.router.navigate(['products'], { queryParams: { categoryId: id}})
+    if(this.openable){
+      this.router.navigate(['products'], { queryParams: { categoryId: id}})
+    }
   }
 
 
@@ -47,4 +50,11 @@ export class CategoriesComponent implements OnInit {
     
   }
 
+  async deleteCategory(id){
+    this.openable=false;
+    this.apiCalls.successPopUp("Category Deleted Successfully")
+    await this.apiCalls.deleteProductCategory(id)
+    this.getCategoriesByStoreId();
+    this.openable=true;
+  }
 }

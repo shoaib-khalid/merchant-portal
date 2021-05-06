@@ -51,6 +51,7 @@
               "node_modules/mxgraph/javascript/mxClient.js",
               "src/assets/js/json2xml.js",
               "src/assets/js/xml2json.js",
+              "src/assets/js/fb-login.js",
               "node_modules/jquery/dist/jquery.min.js"
             ]
           },
