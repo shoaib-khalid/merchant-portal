@@ -15,11 +15,13 @@ function login() {
       document.getElementById('hidden-button-click').click();
     }, {
       scope: ['public_profile', 'email', 'pages_messaging', 'pages_messaging_subscriptions',
-      'pages_manage_metadata', 'business_management', 'pages_read_engagement', 'pages_read_user_content',
-       'pages_manage_ads','pages_manage_engagement']
+        'pages_manage_metadata']
+
     });
   };
 }
+
+
 
 
 // -----------------------------------------------------------------------------------------------
@@ -56,7 +58,7 @@ function allPermissionsGranted() {
           }, {
             scope: ['public_profile', 'email', 'pages_messaging', 'pages_messaging_subscriptions',
               'pages_manage_metadata', 'business_management', 'pages_read_engagement', 'pages_read_user_content',
-               'pages_manage_ads','pages_manage_engagement']
+              'pages_manage_ads', 'pages_manage_engagement']
           });
           break;
         }

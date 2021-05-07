@@ -459,16 +459,9 @@ export class EditProductComponent implements OnInit {
 
 
   async onFileChanged(event, i) {
-    if (this.images[i]) {
-
-    } else {
-      this.images[i] = [];
-    }
     const files = event.target.files;
-    for (var j = 0; j < files.length; j++) {
-      const file = files[j];
-      this.images[i].push({ file: file, preview: await this.previewImage(file), new: true });
-    }
+    const file = files[0];
+    this.images[i][0] = { file: file, preview: await this.previewImage(file), new: true };
   }
 
   async uploadVariantImages() {
@@ -507,10 +500,10 @@ export class EditProductComponent implements OnInit {
   }
 
 
-  async setDeliveryDetails(){
-    const data:any = await this.apiCalls.getDeliveryDetails(this.product.id);
+  async setDeliveryDetails() {
+    const data: any = await this.apiCalls.getDeliveryDetails(this.product.id);
     const elements = this.getDeliveryElements();
-    elements.itemType.value =data.data.itemType;
+    elements.itemType.value = data.data.itemType;
     elements.weight.value = data.data.weight;
     elements.type.value = data.data.type;
   }
@@ -526,7 +519,7 @@ export class EditProductComponent implements OnInit {
     }
   }
 
-  updateDeliveryDetails(){
+  updateDeliveryDetails() {
     const data = this.getDeliveryElements();
     const body = {
       itemType: data.itemType.value,

@@ -528,6 +528,9 @@ export class ApiCallsService {
 
 
   uploadImage(productId, formData, itemCode, isThumbnail) {
+    if(isThumbnail==""){
+      isThumbnail=false;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
       }),

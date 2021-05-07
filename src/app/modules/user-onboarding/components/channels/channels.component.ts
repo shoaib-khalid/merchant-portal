@@ -23,11 +23,7 @@ export class ChannelsComponent implements OnInit {
     , private helperText: HelperTextService) { }
 
   ngOnInit(): void {
-
-    this.loadScriptTags('https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0&appId=2915126152079198&autoLogAppEvents=1', '')
-    // this.loadScriptTag();
-    login();
-
+    this.facebookBtnToggle();
   }
 
   async loadUserChannels() {
@@ -76,7 +72,7 @@ export class ChannelsComponent implements OnInit {
 
   async loadPages() {
     if (localStorage.getItem("fb-user-accessToken")) {
-    this.apiCalls.loadingAnimation("Loading..")
+      this.apiCalls.loadingAnimation("Loading..")
       this.apiCalls.loadFbPages().subscribe(data1 => {
         const pageList = data1.data;
         for (var i = 0; i < pageList.length; i++) {
@@ -105,13 +101,13 @@ export class ChannelsComponent implements OnInit {
 
   checkForConnectedPages(page) {
     this.apiCalls.checkFbPageConnection(page.id, page.access_token).subscribe(data => {
-      var flag=true;
-      for (var i=0;i<data.data.length;i++){
+      var flag = true;
+      for (var i = 0; i < data.data.length; i++) {
         if (data.data[i].id == "2915126152079198") {
-          flag=false;
+          flag = false;
         }
       }
-      if(flag){
+      if (flag) {
         document.getElementById(`${page.id}`).style.display = "block"
       }
       this.apiCalls.loadingdialogRef.close();
@@ -120,8 +116,19 @@ export class ChannelsComponent implements OnInit {
   }
 
   showPagesToBeConnected() {
-
-    this.loadPages();
+    this.facebookBtnToggle()
+  }
+  fbLogin() {
+    this.loadScriptTags('https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0&appId=2915126152079198&autoLogAppEvents=1', '')
+    login();
   }
 
+  facebookBtnToggle() {
+    if (localStorage.getItem('fb-user-id')) {
+      document.getElementById('fb-button-custom').style.display = "none";
+      this.loadPages()
+    }else{
+      document.getElementById('fb-button-custom').style.display = "block";
+    }
+  }
 }
