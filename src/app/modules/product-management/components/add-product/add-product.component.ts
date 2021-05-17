@@ -87,6 +87,8 @@ export class AddProductComponent implements OnInit {
     if (n == combos.length) {
       if (result.substring(1) != "") {
         this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: 0 })
+        this.images.push({ file: "", preview: "" })
+        console.log(this.combos)
       }
       return result.substring(1);
     }
@@ -221,13 +223,9 @@ export class AddProductComponent implements OnInit {
       }
 
       if (this.images[i]) {
-        for (var j = 0; j < this.images[i].length; j++) {
-          if (this.images[i][j]) {
             const formdata = new FormData();
-            formdata.append("file", this.images[i][j].file);
+            formdata.append("file", this.images[i].file);
             const data = await this.apiCalls.uploadImage(productId, formdata, productId + i, "")
-          }
-        }
       }
     }
   }
@@ -293,16 +291,12 @@ export class AddProductComponent implements OnInit {
   }
 
   async onFileChanged(event, i) {
-    if (this.images[i]) {
 
-    } else {
-      this.images[i] = [];
-    }
     const files = event.target.files;
-    for (var j = 0; j < files.length; j++) {
-      const file = files[j];
-      this.images[i].push({ file: file, preview: await this.previewImage(file) });
-    }
+    const file = files[0];
+    this.images[i].file = file;
+    this.images[i].preview = await this.previewImage(file);
+
   }
 
   previewImage(file) {
@@ -347,6 +341,7 @@ export class AddProductComponent implements OnInit {
     this.items.splice(i, 1)
     this.options.splice(i, 1);
     this.variantsChanged(0)
+    this.updateImageOrder();
   }
 
   onRemove(item, i) {
@@ -358,6 +353,8 @@ export class AddProductComponent implements OnInit {
       this.items.splice(i, 1)
     }
     this.variantsChanged(0)
+    this.updateImageOrder();
+
   }
 
   deleteVariantImage(i, j) {
@@ -432,6 +429,13 @@ export class AddProductComponent implements OnInit {
       itemType: itemType,
       weight: weight,
       type: packaging
+    }
+  }
+
+  updateImageOrder() {
+    const noOfeles = this.images.length - this.combos.length;
+    if (noOfeles > 0) {
+      this.images.splice(-noOfeles, this.images.length - 1)
     }
   }
 

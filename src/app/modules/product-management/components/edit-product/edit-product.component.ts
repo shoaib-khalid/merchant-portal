@@ -72,6 +72,7 @@ export class EditProductComponent implements OnInit {
     this.setThumbnailPreview();
     this.setVariants();
     this.getallCombinations(this.items)
+    this.showDefaultInventory();
     this.setProductAssets();
     this.setInventory();
   }
@@ -527,5 +528,18 @@ export class EditProductComponent implements OnInit {
       weight: data.weight.value
     }
     this.apiCalls.updateDeliveryDetails(body, this.product.id)
+  }
+
+  showDefaultInventory(){
+    const itemCode = this.product.id+"aa";
+    const productInventories = this.product.productInventories;
+    for(var i=0;i<productInventories.length;i++){
+      if(productInventories[i].itemCode==itemCode){
+        this.price = productInventories[i].price;
+        this.sku = productInventories[i].sku;
+        this.quantity = productInventories[i].quantity;
+        break;
+      }
+    }
   }
 }
