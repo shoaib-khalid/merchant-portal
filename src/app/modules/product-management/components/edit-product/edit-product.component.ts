@@ -56,6 +56,7 @@ export class EditProductComponent implements OnInit {
   }
 
   async loadProduct(id) {
+    this.apiCalls.loadingAnimation("Loading..")
     await this.getCategoriesByStoreId();
     const data: any = await this.apiCalls.getStoreProductById(id);
     this.product = data.data;
@@ -75,6 +76,7 @@ export class EditProductComponent implements OnInit {
     this.showDefaultInventory();
     this.setProductAssets();
     this.setInventory();
+    this.apiCalls.loadingdialogRef.close();
   }
 
   async getCategoriesByStoreId() {
@@ -160,7 +162,7 @@ export class EditProductComponent implements OnInit {
   setProductAssets() {
     this.product.productAssets.forEach(element => {
       if (element.itemCode) {
-        this.images[parseInt(element.itemCode.slice(-1))].push({ preview: element.url, id: element.id })
+        this.images[parseInt(element.itemCode.slice(-1))] = ({ preview: element.url, id: element.id })
       }
     });
   }
@@ -395,10 +397,14 @@ export class EditProductComponent implements OnInit {
   async deleteVariant(i, variantId) {
     this.items.splice(i, 1)
     this.options.splice(i, 1);
-    this.apiCalls.deleteVariant(this.product.id, variantId)
-    // this.deleteEntireInventory();
+    if (variantId) {
+      this.apiCalls.deleteVariant(this.product.id, variantId)
+    }
     this.combos = [];
     this.getallCombinations(this.items)
+    if (this.items.length == 0) {
+      this.variantChecked = false;
+    }
   }
 
   getCategoryId() {
@@ -462,18 +468,16 @@ export class EditProductComponent implements OnInit {
   async onFileChanged(event, i) {
     const files = event.target.files;
     const file = files[0];
-    this.images[i][0] = { file: file, preview: await this.previewImage(file), new: true };
+    this.images[i] = { file: file, preview: await this.previewImage(file), new: true };
   }
 
   async uploadVariantImages() {
     for (var i = 0; i < this.images.length; i++) {
       if (this.images[i]) {
-        for (var j = 0; j < this.images[i].length; j++) {
-          if (this.images[i][j].new) {
-            const formdata = new FormData();
-            formdata.append("file", this.images[i][j].file);
-            const data = await this.apiCalls.uploadImage(this.product.id, formdata, this.product.id + i, "")
-          }
+        if (this.images[i].new) {
+          const formdata = new FormData();
+          formdata.append("file", this.images[i].file);
+          const data = await this.apiCalls.uploadImage(this.product.id, formdata, this.product.id + i, "")
         }
       }
     }
@@ -503,10 +507,13 @@ export class EditProductComponent implements OnInit {
 
   async setDeliveryDetails() {
     const data: any = await this.apiCalls.getDeliveryDetails(this.product.id);
-    const elements = this.getDeliveryElements();
-    elements.itemType.value = data.data.itemType;
-    elements.weight.value = data.data.weight;
-    elements.type.value = data.data.type;
+    if (data.data) {
+      const elements = this.getDeliveryElements();
+      elements.itemType.value = data.data.itemType;
+      elements.weight.value = data.data.weight;
+      elements.type.value = data.data.type;
+    }
+
   }
 
   getDeliveryElements() {
@@ -530,11 +537,11 @@ export class EditProductComponent implements OnInit {
     this.apiCalls.updateDeliveryDetails(body, this.product.id)
   }
 
-  showDefaultInventory(){
-    const itemCode = this.product.id+"aa";
+  showDefaultInventory() {
+    const itemCode = this.product.id + "aa";
     const productInventories = this.product.productInventories;
-    for(var i=0;i<productInventories.length;i++){
-      if(productInventories[i].itemCode==itemCode){
+    for (var i = 0; i < productInventories.length; i++) {
+      if (productInventories[i].itemCode == itemCode) {
         this.price = productInventories[i].price;
         this.sku = productInventories[i].sku;
         this.quantity = productInventories[i].quantity;

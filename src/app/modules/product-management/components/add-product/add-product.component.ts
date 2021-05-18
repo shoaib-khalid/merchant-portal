@@ -6,8 +6,6 @@ import $ from "jquery";
 import { SuccessAnimationComponent } from 'src/app/modules/home/components/success-animation/success-animation.component';
 import { MatDialog } from '@angular/material/dialog';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { ThrowStmt } from '@angular/compiler';
-
 
 @Component({
   selector: 'app-add-product',
@@ -16,7 +14,7 @@ import { ThrowStmt } from '@angular/compiler';
 })
 export class AddProductComponent implements OnInit {
 
-  productStatus: any = "";
+  productStatus: any = "ACTIVE";
   title: string;
   description: string;
   price: any;
@@ -108,7 +106,7 @@ export class AddProductComponent implements OnInit {
 
   async saveProduct() {
 
-    if (this.title && this.price && this.verifyDetails() && this.productStatus && this.verifyDeliveryDetails()) {
+    if (this.title && this.verifyDetails()  && this.verifyDeliveryDetails()) {
       this.apiCalls.loadingAnimation("Adding Product")
       const categoryId = await this.getCategoryId()
       const body = {
@@ -280,7 +278,7 @@ export class AddProductComponent implements OnInit {
 
 
   highlightEmptyFields() {
-    var arr: any = document.getElementsByClassName('form-control');
+    var arr: any = document.getElementsByClassName('necessary');
     for (var i = 0; i < arr.length; i++) {
       if (arr[i].value == "") {
         $(arr[i]).val('').css("border-color", "red");
@@ -383,7 +381,7 @@ export class AddProductComponent implements OnInit {
   verifyDetails() {
     if (this.variantChecked) {
       return true;
-    } else if (this.quantity && this.sku) {
+    } else if (this.price && this.quantity) {
       return true;
     } else {
       return false;

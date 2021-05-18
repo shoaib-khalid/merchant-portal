@@ -528,8 +528,8 @@ export class ApiCallsService {
 
 
   uploadImage(productId, formData, itemCode, isThumbnail) {
-    if(isThumbnail==""){
-      isThumbnail=false;
+    if (isThumbnail == "") {
+      isThumbnail = false;
     }
     const httpOptions = {
       headers: new HttpHeaders({
@@ -726,15 +726,28 @@ export class ApiCallsService {
       })
   }
 
-  async getDeliveryDetails(productId){
-    return this.http.get<any>(this.pathVariable3+`/stores/${localStorage.getItem('storeId')}/products/${productId}/deliverydetails`).toPromise();
-  } 
-  updateDeliveryDetails(body,productId){
+  async getDeliveryDetails(productId) {
+    return this.http.get<any>(this.pathVariable3 + `/stores/${localStorage.getItem('storeId')}/products/${productId}/deliverydetails`).toPromise();
+  }
+  updateDeliveryDetails(body, productId) {
     this.http.put<any>(this.pathVariable3 + `/stores/${localStorage.getItem('storeId')}/products/${productId}/deliverydetails`, body)
-    .subscribe(data => {
-    })
+      .subscribe(data => {
+
+      },
+        error => {
+          console.log("Delivery Details not found! Please add new product with new delivery details")
+        })
   }
-  async deleteProductCategory(id){
-    return this.http.delete(this.pathVariable3+`/store-categories/${id}`).toPromise();
+  async deleteProductCategory(id) {
+    return this.http.delete(this.pathVariable3 + `/store-categories/${id}`).toPromise();
   }
+
+  getOrderDetails(orderId) {
+    return this.http.get<any>(this.pathVariable4 + `/orders/${"0416b3bb-bd89-4c62-a953-463975239502"}`).toPromise();
+  }
+
+  getShipmentDetails(orderId) {
+    return this.http.get<any>(this.pathVariable4 + `/orders/${"0416b3bb-bd89-4c62-a953-463975239502"}/shipment-details`).toPromise();
+  }
+
 }

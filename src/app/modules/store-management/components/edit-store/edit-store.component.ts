@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import $ from 'jquery';
 import { ActivatedRoute } from '@angular/router';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
   selector: 'app-edit-store',
@@ -18,7 +19,7 @@ export class EditStoreComponent implements OnInit {
   logo: any = { file: "", preview: "" }
   banner: any = { file: "", preview: "" };
   store: any;
-
+  public Editor = ClassicEditor;
 
   constructor(private apiCalls: ApiCallsService, private route: ActivatedRoute) { }
 

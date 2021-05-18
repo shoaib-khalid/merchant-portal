@@ -119,7 +119,7 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="l30">Price</label>
-                                                            <input type="number" min="0" [(ngModel)]="price"
+                                                            <input type="number" min="0" [disabled]="variantChecked" [(ngModel)]="price"
                                                                 class="form-control" />
                                                         </div>
                                                     </div>
@@ -399,7 +399,7 @@
 
                                                     </div>
                                                     <div *ngFor="let combo of combos;index as i;" style="width: 700px;">
-                                                        <div class="body-variant"><img class="i-item-img" src="{{images[i][0].preview}}" alt="" ></div>
+                                                        <div class="body-variant"><img class="i-item-img" src="{{images[i].preview}}" alt="" ></div>
                                                         <div class="body-variant">{{combo.variant}}</div>
                                                         <div class="body-variant"><input type="text"
                                                                 class="form-control" (keyup)="priceChanged($event,i)"

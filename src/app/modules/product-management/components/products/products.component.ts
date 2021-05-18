@@ -96,9 +96,6 @@ export class ProductsComponent implements OnInit {
           }
         });
       }
-
-
-
     });
     this.products = products;
     console.log(this.products)
@@ -163,9 +160,8 @@ export class ProductsComponent implements OnInit {
 
   }
 
-  externalLink(id) {
-    window.open(`products/${id}`, "_blank");
-
+  externalLink(productDescLink) {
+    window.open(`${productDescLink}`, "_blank");
   }
 
   async deleteProduct(id) {
@@ -174,8 +170,8 @@ export class ProductsComponent implements OnInit {
     this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/products']);
     });
-
   }
+
   showDropdown(id) {
     var dropdowns: any = document.getElementsByClassName('dropdown-content');
     for (var i = 0; i < dropdowns.length; i++) {

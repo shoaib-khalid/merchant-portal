@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { MatDialog } from '@angular/material/dialog';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import $ from 'jquery';
+
 @Component({
   selector: 'app-store-page',
   templateUrl: './store-page.component.html',
@@ -16,7 +18,7 @@ export class StorePageComponent implements OnInit {
   requiredError: any = false;
   logo: any = { file: "", preview: "" };
   banner: any = { file: "", preview: "" };
-
+  public Editor = ClassicEditor;
   constructor(private apiCalls: ApiCallsService, private dialog: MatDialog) { }
 
   ngOnInit(): void {

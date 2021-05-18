@@ -34,7 +34,12 @@
 
                     <div class="form-group">
                         <label class="form-control-label">Store Info</label>
-                        <textarea class="form-control" [(ngModel)]="storeInfo" rows="3"></textarea>
+
+                        <ckeditor 
+                        [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
+                        [editor]="Editor" [(ngModel)]="storeInfo" rows="3"></ckeditor>
+
+                        <!-- <textarea class="form-control" [(ngModel)]="storeInfo" rows="3"></textarea> -->
                     </div>
                     <div class="form-group mb-3">
                         <label for="address">Address</label>

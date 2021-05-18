@@ -5,9 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="Free minimal portfolio web site template,minmal portfolio,porfolio,bootstrap template,html template,photography " />
+    <meta name="description"
+        content="Free minimal portfolio web site template,minmal portfolio,porfolio,bootstrap template,html template,photography " />
     <title>Invoice page - MarketSpot - Digital marketplace template.</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,400,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,400,600,700,800,900&display=swap"
+        rel="stylesheet">
 
 </head>
 
@@ -55,7 +57,7 @@
 
             <div class="container">
                 <div class="row">
-<app-shared-side-panel></app-shared-side-panel>
+                    <app-shared-side-panel></app-shared-side-panel>
                     <div class="col-lg-9">
 
                         <div class="row">
@@ -63,49 +65,57 @@
                                 <div class="card mb-4">
                                     <div class="card-body">
                                         <div class="invoice">
-
+                                            <div class="col-6 col-md-6 col-lg-6">
+                                                <div class="invoice-name text-right">
+                                                    <h5 class="mb-0">Invoice</h5>
+                                                </div>
+                                            </div>
                                             <div class="row mb-3 d-flex align-items-center">
                                                 <div class="col-6 col-md-6 col-lg-6">
                                                     <div class="invoice-logo">
-                                                        <img src="assets/img/100x100.png" class="img-fluid" alt="invoice-logo">
+                                                        <img src="{{this.logo}}" class="img-fluid" alt="invoice-logo">
                                                     </div>
                                                 </div>
-                                                <div class="col-6 col-md-6 col-lg-6">
-                                                    <div class="invoice-name text-right">
-                                                        <h5 class="mb-0">Invoice</h5>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-md-12 col-lg-12">
                                                     <div class="invoice-meta">
                                                         <ul class="list-inline mb-3">
                                                             <li class="list-inline-item">
-                                                                <p class="mb-0">Date : <span class="text-black f-w-5 ml-2">25/02/2020</span></p>
+                                                                <p class="mb-0">Date : <span
+                                                                        class="text-black f-w-5 ml-2">{{date}}</span>
+                                                                </p>
                                                             </li>
+                                                            <br>
                                                             <li class="list-inline-item">
-                                                                <p class="mb-0">Invoice # : <span class="text-black f-w-5 ml-2">018</span></p>
+                                                                <p class="mb-0">Invoice # : <span
+                                                                        class="text-black f-w-5 ml-2">{{invoiceNo}}</span>
+                                                                </p>
                                                             </li>
+                                                            <br>
                                                             <li class="list-inline-item">
-                                                                <p class="mb-0">Status : <span class="text-success f-w-5 ml-2">Paid</span></p>
+                                                                <p class="mb-0">Status : <span
+                                                                        class="text-success f-w-5 ml-2">{{paymentStatus}}</span>
+                                                                </p>
                                                             </li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
+                                            
+                                            <div class=" mb-3">
 
-                                            <div class="row mb-3">
-
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <div class="">
                                                     <div class="invoice-address mb-4">
-                                                        <p class="f-w-5 text-black">Bill From :</p>
-                                                        <h6>Company Ltd.</h6>
+                                                        <p class="f-w-5 text-black">Shipment Address : {{address}}</p>
+                                                        <!-- <h6>Company Ltd.</h6>
                                                         <address>Aleja Lipa <br> Sarajevo, CA 71 000</address>
                                                         <p>+387 0021 220022</p>
-                                                        <p>company@email.com</p>
+                                                        <p>company@email.com</p> -->
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <!-- <div class="col-sm-6 col-md-6 col-lg-6">
                                                     <div class="invoice-address mb-4">
                                                         <p class="f-w-5 text-black">Bill To :</p>
                                                         <h6>Company Inc.</h6>
@@ -113,7 +123,7 @@
                                                         <p>+387 0021 220022</p>
                                                         <p>company@email.com</p>
                                                     </div>
-                                                </div>
+                                                </div> -->
 
                                             </div>
 
@@ -126,25 +136,24 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th scope="col">#</th>
-                                                                        <th scope="col">Price</th>
+                                                                        <th scope="col">Item Code</th>
+                                                                        <th scope="col">Sku</th>
                                                                         <th scope="col">Weight</th>
                                                                         <th scope="col">Quantity</th>
-                                                                        <th scope="col" class="text-right">Item Code</th>
-                                                                        <th scope="col" class="text-right">Sku</th>
-                                                                        
+                                                                        <th scope="col">Price</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr *ngFor ="let orderItem of orderItems;">
-                                                                        <th scope="row">1</th>
-                                                                        <td>{{orderItem.price}}</td>
+                                                                    <tr *ngFor="let orderItem of orderItems;index as i">
+                                                                        <th scope="col">{{i+1}}</th>
+                                                                        <td style="width: 360px;">{{orderItem.itemCode}}</td>
+                                                                        <td>{{orderItem.sku}}</td>
                                                                         <td>{{orderItem.weight}}</td>
                                                                         <td>{{orderItem.quantity}}</td>
-                                                                        <td class="text-right">{{orderItem.itemCode}}</td>
-                                                                        <td class="text-right">{{orderItem.sku}}</td>
-                                                                        
+                                                                        <td>{{orderItem.price}}</td>
+
                                                                     </tr>
-                                                   
+
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -156,9 +165,11 @@
 
                                                 <div class="col-md-12 col-lg-12">
                                                     <div class="invoice-total text-right font-16">
-                                                        <p>Sub Total : <span class="">$18</span></p>
-                                                        <p>Taxes (10%) : <span class="">$7</span></p>
-                                                        <p>Grand Total : <span class="text-danger font-weight-bold">$25</span></p>
+                                                        <p>Sub Total : <span class="">{{subTotal}}</span></p>
+                                                        <!-- <p>Taxes (10%) : <span class="">$7</span></p> -->
+                                                        <p>Grand Total : <span
+                                                                class="text-danger font-weight-bold">{{total}}</span>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -223,7 +234,8 @@
                     <aside class="col-md">
                         <h6><i class="las la-coffee mr-2"></i>Stay Up-to-Date!</h6>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control bg-dark" placeholder="Subscribe" aria-label="Subscribe.." aria-describedby="button-addon2">
+                            <input type="text" class="form-control bg-dark" placeholder="Subscribe"
+                                aria-label="Subscribe.." aria-describedby="button-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary text-white" type="button" id="button-addon2">@</button>
                             </div>

@@ -74,7 +74,7 @@
                                                         <div class="form-group">
                                                             <label for="l301">Title</label>
                                                             <input type="text" style="width: 578px;" [(ngModel)]="title"
-                                                                class="form-control" id="l301" />
+                                                                class="form-control necessary" id="l301" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -84,7 +84,7 @@
                                                     <label class="form-control-label" for="l151">Description</label>
                                                     <!-- <textarea class="form-control" [(ngModel)]="description" rows="3"
                                                         id="l151"></textarea> -->
-                                                    <ckeditor
+                                                    <ckeditor 
                                                         [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
                                                         [editor]="Editor" [(ngModel)]="description" rows="3"></ckeditor>
                                                 </div>
@@ -118,8 +118,8 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="l30">Price</label>
-                                                            <input type="number" min="0" [(ngModel)]="price"
-                                                                class="form-control" />
+                                                            <input type="number" min="0" [disabled]="variantChecked" [(ngModel)]="price"
+                                                                class="form-control necessary" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6" hidden>
@@ -191,7 +191,7 @@
                                                             <br>
                                                             <input [disabled]="variantChecked" type="number"
                                                                 [(ngModel)]="quantity" id="quantity"
-                                                                class="form-control" name="quantity" min="1"
+                                                                class="form-control necessary" name="quantity" min="1"
                                                                 max="10000">
                                                         </div>
                                                     </div>
@@ -346,7 +346,7 @@
                                                                 <div class="form-group">
                                                                     <input type="text" value="{{options[i].name}}"
                                                                         (keyup)="variantNameChanged($event,i)"
-                                                                        class="form-control" />
+                                                                        class="form-control necessary" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6" style="font-weight: lighter;">
@@ -548,7 +548,7 @@
                                                     <hr>
                                                     <h4 class="text-black mb-3">Delivery Details</h4>
                                                     <div class="add-item-img d-flex  border-radius">
-                                                        <select name="delivery-type" class="form-control"
+                                                        <select name="delivery-type" class="form-control necessary"
                                                             id="delivery-type" >
                                                             <option value="">Type</option>
                                                             <option value="Scheduled">Scheduled</option>
@@ -557,7 +557,7 @@
                                                     </div>
                                                     <br>
                                                     <div class="add-item-img d-flex  border-radius">
-                                                        <select name="delivery-package" class="form-control"
+                                                        <select name="delivery-package" class="form-control necessary"
                                                             id="delivery-package">
                                                             <option value="">Packaging</option>
                                                             <option value="Parcel">Parcel</option>
@@ -568,7 +568,7 @@
                                                     </div>
                                                     <br>
                                                     <input type="number" id="delivery-weight" name="quantity" min="1"
-                                                        placeholder="Weight in Kg" max="10000" min="0" class="form-control">
+                                                        placeholder="Weight in Kg" max="10000" min="0" class="form-control necessary">
                                                 </div>
 
                                             </div>

@@ -6,13 +6,17 @@ import {ManageStoresComponent} from 'src/app/modules/store-management/components
 import {StorePageComponent} from './components/store-page/store-page.component';
 import {HomeModule} from 'src/app/modules/home/home.module';
 import { EditStoreComponent } from './components/edit-store/edit-store.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
+
 @NgModule({
   declarations: [ManageStoresComponent,StorePageComponent, EditStoreComponent],
   imports: [
     CommonModule,
     RouterModule,
     HomeModule,
-    FormsModule
+    FormsModule,
+    CKEditorModule
   ]
 })
 export class StoreManagementModule { }
