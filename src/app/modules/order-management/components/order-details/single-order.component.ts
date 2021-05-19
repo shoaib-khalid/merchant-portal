@@ -12,12 +12,12 @@ export class SingleOrderComponent implements OnInit {
   orderItems: any = [];
   orderId: any;
   address: any = "";
-  logo: any="";
-  invoiceNo:any="";
-  date:any="";
-  paymentStatus:any="";
-  subTotal:any="";
-  total:any="";
+  logo: any = "";
+  invoiceNo: any = "";
+  date: any = "";
+  paymentStatus: any = "";
+  subTotal: any = "";
+  total: any = "";
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
@@ -43,13 +43,15 @@ export class SingleOrderComponent implements OnInit {
   async getOrderItems() {
     const data: any = await this.apiCalls.getOrderItems(this.orderId);
     this.orderItems = data.data.content;
-    console.log(this.orderItems)
+    // console.log(this.orderItems)
   }
 
   async setShipmentDetails() {
     const data = await this.apiCalls.getShipmentDetails(this.orderId)
     const shimpmentDetails = data.data.content[0];
-    this.address = `${shimpmentDetails.address}, ${shimpmentDetails.city}, ${shimpmentDetails.country}`;
+    if (shimpmentDetails) {
+      this.address = `${shimpmentDetails.address}, ${shimpmentDetails.city}, ${shimpmentDetails.country}`;
+    }
   }
 
   async setStoreLogo() {
@@ -59,16 +61,27 @@ export class SingleOrderComponent implements OnInit {
     }
   }
 
-  async setOrderDetails(){
-    const data:any  = await this.apiCalls.getOrderDetails(this.orderId)
+  async setOrderDetails() {
+    const data: any = await this.apiCalls.getOrderDetails(this.orderId)
     const orderDetails = data.data.content[0];
-    console.log(orderDetails)
+    // console.log(orderDetails)
     this.paymentStatus = orderDetails.paymentStatus;
     this.invoiceNo = this.orderId;
     this.date = orderDetails.created;
-    this.date = this.date.substring(0,10);
+    this.date = this.date.substring(0, 10);
     this.subTotal = orderDetails.subTotal;
     this.total = orderDetails.total;
+  }
+
+  printInvoice() {
+    var divToPrint = document.getElementsByClassName('card-body')[0];
+    var newWin = window.open('', 'Print-Window');
+    newWin.document.open();
+    newWin.document.write('<html><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" media="print"/><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+    newWin.document.close();
+    setTimeout(function () {
+      newWin.close();
+    }, 10);
   }
 
 }

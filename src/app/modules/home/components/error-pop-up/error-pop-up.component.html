@@ -1,8 +1,11 @@
-<h1 mat-dialog-title id="title">{{msg}}</h1>
+<h1 mat-dialog-title id="title"> <img id="error-icon" src="assets/error-icon.svg" alt=""> </h1>
 
-<div style="text-align: center;">
-    <img id ="error-icon"src="assets/error-icon.svg" alt="">
-</div>
-<div mat-dialog-actions>
+<mat-dialog-content class="mat-typography" id="main-content">
+    <div *ngFor="let msg of msgs; let i = index">
+        {{msg}}
+    </div>
+</mat-dialog-content>
+
+<div mat-dialog-actions align="end">
     <button mat-button (click)="close()">Close</button>
 </div>

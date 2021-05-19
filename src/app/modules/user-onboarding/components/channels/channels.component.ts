@@ -23,14 +23,16 @@ export class ChannelsComponent implements OnInit {
     , private helperText: HelperTextService) { }
 
   ngOnInit(): void {
+    this.loadUserChannels();
     this.facebookBtnToggle();
   }
 
   async loadUserChannels() {
 
 
-    // const data: any = await this.apiCalls.getUserChannels();
-    // this.channels = data.data.content;
+    const data: any = await this.apiCalls.getUserChannels();
+    this.channels = data.data.content;
+    console.log(this.channels)
   }
 
   nextPage() {

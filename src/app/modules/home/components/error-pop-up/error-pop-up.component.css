@@ -4,7 +4,12 @@
 }
 
 #error-icon{
-    height: 80px;
-    width: 90px;
-    margin: auto;
+    height: 40px;
+    width: 40px;
+}
+#main-content{
+    line-height: 1.8;
+    font-size: medium;
+    font-weight: bold;
+    text-align: center;
 }

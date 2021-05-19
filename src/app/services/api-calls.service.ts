@@ -245,13 +245,8 @@ export class ApiCallsService {
 
 
   registerClient(signUpData) {
-    const httpOptions = {
 
-      headers: new HttpHeaders({
-        Authorization: "asx"
-      })
-    }
-    this.http.post<any>(this.pathVariable2 + "/clients/register", signUpData, httpOptions).
+    this.http.post<any>(this.pathVariable2 + "/clients/register", signUpData).
       subscribe(data => {
         if (signUpData.roleId == "STORE_OWNER") {
           this.authenticateClient({ username: signUpData.username, password: signUpData.password })
@@ -743,11 +738,11 @@ export class ApiCallsService {
   }
 
   getOrderDetails(orderId) {
-    return this.http.get<any>(this.pathVariable4 + `/orders/${"0416b3bb-bd89-4c62-a953-463975239502"}`).toPromise();
+    return this.http.get<any>(this.pathVariable4 + `/orders/${orderId}`).toPromise();
   }
 
   getShipmentDetails(orderId) {
-    return this.http.get<any>(this.pathVariable4 + `/orders/${"0416b3bb-bd89-4c62-a953-463975239502"}/shipment-details`).toPromise();
+    return this.http.get<any>(this.pathVariable4 + `/orders/${orderId}/shipment-details`).toPromise();
   }
 
 }
