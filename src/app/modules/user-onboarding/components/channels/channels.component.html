@@ -78,7 +78,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor="let channel of channels;index as i">
+                                                    <tr *ngFor="let channel of myChannels;index as i">
 
                                                         <td class="product">
                                                             {{channel.channelName}}
@@ -99,7 +99,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <hr>
+                                        <hr style="margin-top:0;margin-bottom: 0;">
                                         <div id="fb-button-custom" style="display: block;" (click)="fbLogin()">Log In with Facebook</div>
                                         <div id="hidden-button-click" hidden (click)="showPagesToBeConnected()"></div>
                                         <div class="px-3 py-2">

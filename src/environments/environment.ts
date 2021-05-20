@@ -7,7 +7,9 @@ export const environment = {
   url1:"https://designer.symplified.biz",
   url2:"https://api.symplified.biz/v1/user-service",
   url3:"https://api.symplified.biz/v1/product-service",
-  url4:"https://api.symplified.biz/order-service/v1"
+  url4:"https://api.symplified.biz/order-service/v1",
+  client_id:'2915126152079198',
+  client_secret:'2a9f0365d6777a36f509c8d9deefcc83'
 };
 
 /*

@@ -43,10 +43,7 @@ export class ApiCallsService {
     const body: any = json;
     console.log("flow id when posting: " + this.flowId)
     try {
-      this.http.post<any>(this.pathVariable1 + "/mxgraph/" + this.flowId, body, httpOptions).
-        subscribe(data => {
-          console.log("Starting json posted successfully");
-        });
+      return this.http.post<any>(this.pathVariable1 + "/mxgraph/" + this.flowId, body, httpOptions).toPromise();
     } catch (ex) {
       if (ex.status == "401") {
         this.status401();
@@ -117,7 +114,7 @@ export class ApiCallsService {
       "mxGraphModel": { "root": { "mxCell": [{ "@id": "0" }, { "@id": "1", "@parent": "0" }, { "@id": "8", "@edge": "1", "@parent": "1", "@source": "3", "@target": "7", "mxGeometry": { "@relative": "1", "@as": "geometry" } }], "UserObject": [{ "@id": "2", "mxCell": { "@style": "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", "@vertex": "1", "@connectable": "0", "@parent": "1", "mxGeometry": { "@x": "50", "@width": "300", "@height": "200", "@as": "geometry" }, "div": { "@xmlns": "http://www.w3.org/1999/xhtml", "@as": "div", "div": { "@id": "flow0", "@class": "custom-card flow-start-container shadow-lg bg-white", "@style": "border-radius: 33px; border-color: transparent;", "div": [{ "@class": "tooltip-parent" }, { "@class": "card", "@style": "border-radius:35px;border:0px;width:300px; min-height:200px;", "div": [{ "@id": "card-header0", "@class": "card-header", "@style": "background-color:white;border-radius:35px;border:0px;", "img": { "@src": "assets/play.png", "@class": "start-icon float-left", "@alt": "...", "@style": "width:35px;height=35px" }, "div": { "@style": "margin-left:60px;margin-top:5px;", "h4": { "@id": "header0", "@class": "header", "#text": "Starting Step" } } }, { "@id": "card-body0", "@class": "card-body flow-start-trigger-list", "@style": "height:63px", "span": { "@id": "initial-message0", "@class": "initial-message", "@style": "font-size: 1.1rem; position: absolute;left: 10px;right: 10px;top: 65px;font-weight: 500", "#text": " Flow starts with the following step. Click to add the triggers. " } }] }], "span": { "@class": "tooltip-text", "div": { "@class": "d-inline img-icon mr-2", "img": { "@class": "delete", "@src": "assets/delete.png" } }, "img": { "@class": "copy", "@src": "assets/copy.png" } } }, "br": null } } }, { "@id": "5", "mxCell": { "@style": "rounded=1;whiteSpace=wrap;autosize=0;resizable=0;opacity=0", "@vertex": "1", "@connectable": "0", "@parent": "1", "mxGeometry": { "@x": "480", "@y": "120", "@width": "300", "@height": "200", "@as": "geometry" }, "div": { "@xmlns": "http://www.w3.org/1999/xhtml", "@as": "div", "div": { "@id": "flow1", "@class": "custom-card flow-start-container shadow-lg bg-white", "@style": "border-radius: 33px; border-color: transparent;", "div": [{ "@class": "tooltip-parent" }, { "@class": "card", "@style": "border-radius:35px;border:0px;width:300px; min-height:200px;", "div": [{ "@id": "card-header1", "@class": "card-header", "@style": "background-color:white;border-radius:35px;border:0px;", "img": { "@src": "assets/messenger.svg", "@class": "start-icon float-left", "@alt": "...", "@style": "width:35px;height=35px" }, "div": { "@style": "margin-left:60px;margin-top:5px;", "h4": { "@id": "header1", "@class": "header", "#text": "Message #1" } } }, { "@id": "card-body1", "@class": "card-body flow-start-trigger-list", "@style": "height:63px", "span": { "@id": "initial-message1", "@class": "initial-message", "@style": "font-size: 1.1rem; position: absolute;left: 10px;right: 10px;top: 65px;font-weight: 500", "#text": " Flow starts with the following step. Click to add the triggers. " } }] }], "span": { "@class": "tooltip-text", "div": { "@class": "d-inline img-icon mr-2", "img": { "@class": "delete", "@src": "assets/delete.png" } }, "img": { "@class": "copy", "@src": "assets/copy.png" } } }, "br": null } } }], "ConnectionStart": [{ "@id": "3", "mxCell": { "@style": "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;port=1;", "@vertex": "1", "@parent": "2", "mxGeometry": { "@x": "1", "@y": "1", "@width": "15", "@height": "15", "@relative": "1", "@as": "geometry", "mxPoint": { "@x": "-7", "@y": "-45", "@as": "offset" } }, "div": { "@xmlns": "http://www.w3.org/1999/xhtml", "@as": "div", "svg": { "@xmlns": "http://www.w3.org/2000/svg", "@height": "20", "@width": "20", "@class": "connect-icon", "circle": { "@cx": "10", "@cy": "10", "@r": "8", "@stroke": "gray", "@stroke-width": "2", "@fill": "gray" } }, "br": null } } }, { "@id": "6", "mxCell": { "@style": "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;port=1;", "@vertex": "1", "@parent": "5", "mxGeometry": { "@x": "1", "@y": "1", "@width": "15", "@height": "15", "@relative": "1", "@as": "geometry", "mxPoint": { "@x": "-7", "@y": "-45", "@as": "offset" } }, "div": { "@xmlns": "http://www.w3.org/1999/xhtml", "@as": "div", "svg": { "@xmlns": "http://www.w3.org/2000/svg", "@height": "20", "@width": "20", "@class": "connect-icon", "circle": { "@cx": "10", "@cy": "10", "@r": "8", "@stroke": "gray", "@stroke-width": "2", "@fill": "white" } }, "br": null } } }], "ConnectionEnd": [{ "@id": "4", "mxCell": { "@style": "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;port=1;", "@vertex": "1", "@parent": "2", "mxGeometry": { "@width": "20", "@height": "20", "@relative": "1", "@as": "geometry", "mxPoint": { "@y": "45", "@as": "offset" } }, "div": { "@xmlns": "http://www.w3.org/1999/xhtml", "@as": "div", "svg": { "@xmlns": "http://www.w3.org/2000/svg", "@height": "20", "@width": "20", "circle": { "@cx": "10", "@cy": "10", "@r": "8", "@stroke": "white", "@stroke-width": "2", "@fill": "white" } }, "br": null } } }, { "@id": "7", "mxCell": { "@style": "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;port=1;", "@vertex": "1", "@parent": "5", "mxGeometry": { "@width": "20", "@height": "20", "@relative": "1", "@as": "geometry", "mxPoint": { "@y": "45", "@as": "offset" } }, "div": { "@xmlns": "http://www.w3.org/1999/xhtml", "@as": "div", "svg": { "@xmlns": "http://www.w3.org/2000/svg", "@height": "20", "@width": "20", "circle": { "@cx": "10", "@cy": "10", "@r": "8", "@stroke": "white", "@stroke-width": "2", "@fill": "white" } }, "br": null } } }] } }
     };
 
-    this.postNewFlowDefaultJson(json);
+    return this.postNewFlowDefaultJson(json);
 
   }
 
@@ -743,6 +740,29 @@ export class ApiCallsService {
 
   getShipmentDetails(orderId) {
     return this.http.get<any>(this.pathVariable4 + `/orders/${orderId}/shipment-details`).toPromise();
+  }
+
+
+  async getLongLivedAppAccessToken1(fb_exchange_token) {
+    return  this.http.get<any>
+    (`https://graph.facebook.com/v2.11/oauth/access_token?grant_type=fb_exchange_token&client_id=${environment.client_id}&client_secret=${environment.client_secret}&fb_exchange_token=${fb_exchange_token}`).toPromise();
+  }
+
+  async getLongLivedPageAccessToken(longLivedAppAccessToken){
+    return  this.http.get<any>
+    (`https://graph.facebook.com/v2.11/${localStorage.getItem('fb-user-id')}/accounts?access_token=${longLivedAppAccessToken}`).toPromise();
+ 
+  }
+
+  storeLongLivedPageAccessToken(accessToken, pageId){
+    const body = {
+      appId:pageId,
+      userId:localStorage.getItem('fb-user-id'),
+      token:accessToken
+    }
+      this.http.post(this.pathVariable2+"/apptokens",body).subscribe(data=>{
+        console.log(data)
+      })
   }
 
 }

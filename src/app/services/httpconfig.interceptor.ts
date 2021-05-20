@@ -21,7 +21,10 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const token: string = localStorage.getItem('accessToken');
-        request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
+        if (request.url.includes('facebook')) {
+        } else {
+            request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
+        }
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
@@ -36,13 +39,13 @@ export class HttpConfigInterceptor implements HttpInterceptor {
             // The backend returned an unsuccessful response code.
             // The response body may contain clues as to what went wrong.
             if (HttpConfigInterceptor.error) {
-            }else{
+            } else {
                 const dialogRef = HttpConfigInterceptor.globalDialog.open(ErrorPopUpComponent, {
                     disableClose: true,
-                    width:"600px",
+                    width: "600px",
                     data: { data: error }
                 });
-                HttpConfigInterceptor.error="error";
+                HttpConfigInterceptor.error = "error";
             }
 
 
