@@ -118,8 +118,8 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="l30">Price</label>
-                                                            <input type="number" min="0" [disabled]="variantChecked" [(ngModel)]="price"
-                                                                class="form-control necessary" />
+                                                            <input id="general-price" type="text" min="0" [disabled]="variantChecked" 
+                                                              (keyup)="priceChange($event)"  class="form-control necessary" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6" hidden>
@@ -390,7 +390,7 @@
                                                         <div class="body-variant"><img class="i-item-img" src="{{images[i].preview}}" alt="" ></div>
                                                         <div class="body-variant">{{combo.variant}}</div>
                                                         <div class="body-variant"><input type="text"
-                                                                class="form-control" (keyup)="priceChanged($event,i)"
+                                                                class="form-control variant-price" (keyup)="priceChanged($event,i)"
                                                                 value="{{combo.price}}" placeholder="0.00 Rs"></div>
                                                         <div class="body-variant"> <input type="number"
                                                                 class="form-control" value="{{combo.quantity}}"

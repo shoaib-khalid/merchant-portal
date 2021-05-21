@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { HttpConfigInterceptor } from 'src/app/services/httpconfig.interceptor';
+import {ApiCallsService} from 'src/app/services/api-calls.service'
+
 @Component({
   selector: 'app-error-pop-up',
   templateUrl: './error-pop-up.component.html',
@@ -13,7 +15,7 @@ export class ErrorPopUpComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<ErrorPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data:
     {
       data: any;
-    }, private router: Router) {
+    }, private router: Router,private apiCalls:ApiCallsService) {
     this.error = data.data;
   }
 
@@ -35,6 +37,9 @@ export class ErrorPopUpComponent implements OnInit {
   close() {
     HttpConfigInterceptor.error = null;
     this.dialogRef.close();
+    if(this.apiCalls.loadingdialogRef){
+      this.apiCalls.loadingdialogRef.close();
+    }
     if (this.error.status == 401) {
       localStorage.clear();
       this.router.navigateByUrl('/signin')

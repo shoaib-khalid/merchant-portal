@@ -121,4 +121,59 @@ export class HelperService {
     return { flowId: id, channelsPublish: channelIds }
   }
 
+  /**
+   * Takes input characters that only accepts numbers, decimals
+   * and commas.
+   * Returns text without commas.
+   */
+  acceptCustomPrice(price) {
+    price = price.replace(/[^\d.-/,/]+/g, '') // remove all non-digits except - and .
+      .replace(/^([^.]*\.)|\./g, '$1') // remove all dots except first one
+      .replace(/(?!^)-/g, '') // remove all hyphens except first one
+    price = this.removeMoreThanOneCommas(price);
+    return price
+  }
+
+  /**
+   * Takes input string and removes commas from it.
+   * Returns string without commas
+   */
+  removeCharacters(text) {
+    debugger
+    if(text){
+
+    }else{
+      text="0";
+    }
+    text = parseFloat(text.replace(/,/g, ''))
+    text = text.toString();
+    return text;
+  }
+
+  /**
+   * 
+   * @param price 
+   * @returns text from which consecutive commas, dots, commas and dots, dots and commas have been removed.
+   */
+  removeMoreThanOneCommas(price) {
+    if (price[0] == "," && !price.includes(",,")) {
+      price = price.substring(1)
+    } else if (
+      price.includes(",,") ||
+      price.includes(",.") ||
+      price.includes(".,")) {
+      var priceLatest = price[0];
+      for (var i = 1; i < price.length; i++) {
+        if (
+          (price[i - 1] == "," && price[i] == ",") ||
+          (price[i - 1] == "," && price[i] == ".") ||
+          (price[i - 1] == "." && price[i] == ",")) {
+        } else {
+          priceLatest = priceLatest + price[i];
+        }
+      }
+      return priceLatest;
+    }
+    return price;
+  }
 }

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import $ from "jquery";
 import { SuccessAnimationComponent } from 'src/app/modules/home/components/success-animation/success-animation.component';
 import { MatDialog } from '@angular/material/dialog';
+import { HelperService } from 'src/app/services/helper.service'
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
@@ -17,7 +18,7 @@ export class AddProductComponent implements OnInit {
   productStatus: any = "ACTIVE";
   title: string;
   description: string;
-  price: any;
+  price: any = "";
   compareAtPrice: string;
   costPerItem: any;
   chargeTax: boolean;
@@ -44,7 +45,11 @@ export class AddProductComponent implements OnInit {
   productImages: any = [];
   public Editor = ClassicEditor;
 
-  constructor(private dialog: MatDialog, private helperTextService: HelperTextService, private apiCalls: ApiCallsService, private router: Router) { }
+  constructor(private dialog: MatDialog,
+    private helperTextService: HelperTextService,
+    private apiCalls: ApiCallsService,
+    private router: Router,
+    private helperService: HelperService) { }
 
   ngOnInit(): void {
     this.countries = this.helperTextService.countriesList;
@@ -106,7 +111,7 @@ export class AddProductComponent implements OnInit {
 
   async saveProduct() {
 
-    if (this.title && this.verifyDetails()  && this.verifyDeliveryDetails()) {
+    if (this.title && this.verifyDetails() && this.verifyDeliveryDetails()) {
       this.apiCalls.loadingAnimation("Adding Product")
       const categoryId = await this.getCategoryId()
       const body = {
@@ -179,12 +184,13 @@ export class AddProductComponent implements OnInit {
   }
 
   async addInventory(productId) {
+
     if (this.combos.length > 0) {
       for (var i = 0; i < this.combos.length; i++) {
         const itemCode = productId + i
         const data: any = await this.apiCalls.addInventory(productId, {
           itemCode: itemCode,
-          price: this.combos[i].price,
+          price: this.helperService.removeCharacters(this.combos[i].price),
           compareAtPrice: 0,
           quantity: this.combos[i].quantity,
           sku: this.combos[i].sku
@@ -194,7 +200,7 @@ export class AddProductComponent implements OnInit {
     } else {
       const data: any = await this.apiCalls.addInventory(productId, {
         itemCode: productId + "aa",
-        price: this.price,
+        price: this.helperService.removeCharacters(this.price),
         compareAtPrice: this.compareAtPrice,
         quantity: this.quantity,
         sku: this.sku
@@ -221,19 +227,21 @@ export class AddProductComponent implements OnInit {
       }
 
       if (this.images[i]) {
-            const formdata = new FormData();
-            formdata.append("file", this.images[i].file);
-            const data = await this.apiCalls.uploadImage(productId, formdata, productId + i, "")
+        const formdata = new FormData();
+        formdata.append("file", this.images[i].file);
+        const data = await this.apiCalls.uploadImage(productId, formdata, productId + i, "")
       }
     }
   }
 
   priceChanged(event, i) {
+    const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
+    const element:any = document.getElementsByClassName('variant-price')[i]
+    element.value = acceptedPrice;
     this.combos[i].price = event.target.value;
   }
   skuChanged(event, i) {
     this.combos[i].sku = event.target.value;
-
   }
   quantityChanged(event, i) {
     this.combos[i].quantity = event.target.value;
@@ -435,6 +443,20 @@ export class AddProductComponent implements OnInit {
     if (noOfeles > 0) {
       this.images.splice(-noOfeles, this.images.length - 1)
     }
+  }
+
+  /**
+   * 
+   * @param event
+   * Takes in input as user types.
+   * Checks if entered value is correct.
+   * Reflects the correct price on front-end
+   */
+  priceChange(event) {
+    const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
+    const generalPrice: any = document.getElementById('general-price')
+    generalPrice.value = `${acceptedPrice}`
+    this.price=acceptedPrice;
   }
 
 }

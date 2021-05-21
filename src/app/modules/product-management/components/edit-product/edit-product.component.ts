@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import $ from 'jquery';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import {HelperService} from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -13,7 +14,7 @@ export class EditProductComponent implements OnInit {
   productStatus: any = "";
   title: string;
   description: string;
-  price: any;
+  price: any="";
   compareAtPrice: string;
   costPerItem: any;
   chargeTax: boolean;
@@ -44,7 +45,7 @@ export class EditProductComponent implements OnInit {
   public Editor = ClassicEditor;
 
 
-  constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
+  constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService,private helperService:HelperService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -298,7 +299,7 @@ export class EditProductComponent implements OnInit {
 
           const data: any = await this.apiCalls.addInventory(this.product.id, {
             itemCode: itemCode,
-            price: this.combos[i].price,
+            price: this.helperService.removeCharacters(this.combos[i].price),
             compareAtPrice: 0,
             quantity: this.combos[i].quantity,
             sku: this.combos[i].sku
@@ -308,7 +309,7 @@ export class EditProductComponent implements OnInit {
       } else {
         const data: any = await this.apiCalls.addInventory(this.product.id, {
           itemCode: this.product.id + "aa",
-          price: this.price,
+          price: this.helperService.removeCharacters(this.price),
           compareAtPrice: this.compareAtPrice,
           quantity: this.quantity,
           sku: this.sku
@@ -317,7 +318,6 @@ export class EditProductComponent implements OnInit {
       resolve("")
     });
     return promise;
-
   }
 
 
@@ -428,6 +428,9 @@ export class EditProductComponent implements OnInit {
   }
 
   priceChanged(event, i) {
+    const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
+    const element:any = document.getElementsByClassName('variant-price')[i]
+    element.value = acceptedPrice;
     this.combos[i].price = event.target.value;
   }
   skuChanged(event, i) {
@@ -548,5 +551,12 @@ export class EditProductComponent implements OnInit {
         break;
       }
     }
+  }
+
+  priceChange(event) {
+    const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
+    const generalPrice: any = document.getElementById('general-price')
+    generalPrice.value = `${acceptedPrice}`
+    this.price=acceptedPrice;
   }
 }

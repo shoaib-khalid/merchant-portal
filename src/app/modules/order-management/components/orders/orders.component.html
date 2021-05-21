@@ -81,7 +81,7 @@
                                             <table class="table table-hover m-b-0">
                                                 <thead>
                                                     <tr>
-                                                        <th class="border-0"><input type="checkbox"></th>
+                                                        <!-- <th class="border-0"><input type="checkbox"></th> -->
 
                                                         <th class="border-0">Order</th>
                                                         <th class="border-0">Completion status</th>
@@ -91,7 +91,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr *ngFor='let order of orders;' (click)="showOrderItems(order)" class="orders-list">
-                                                        <td><input type="checkbox"></td>
+                                                        <!-- <td><input type="checkbox"></td> -->
                                                         <td class="product">{{order.id}}</td>
                                                         <td>
                                                             <div >{{order.completionStatus}}</div>
