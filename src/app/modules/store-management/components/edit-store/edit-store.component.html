@@ -37,6 +37,16 @@
                         [editor]="Editor" [(ngModel)]="storeInfo" rows="3"></ckeditor>
                         <!-- <textarea class="form-control" [(ngModel)]="storeInfo" rows="3"></textarea> -->
                     </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Region</label>
+                        <div class="add-item-img d-flex  border-radius">
+                            <select name="Inventory-manager" [(ngModel)]="region"
+                                class="form-control" id="inventory-manage">
+                                <option value="">Select region</option>
+                                <option value="{{region.id}}" *ngFor="let region of regions">{{region.name}}</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group mb-3">
                         <label for="address">Address</label>
                         <p id="warning-address">Warning: Changing store address will direct only new orders to this store</p>

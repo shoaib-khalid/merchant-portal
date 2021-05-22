@@ -744,25 +744,28 @@ export class ApiCallsService {
 
 
   async getLongLivedAppAccessToken1(fb_exchange_token) {
-    return  this.http.get<any>
-    (`https://graph.facebook.com/v2.11/oauth/access_token?grant_type=fb_exchange_token&client_id=${environment.client_id}&client_secret=${environment.client_secret}&fb_exchange_token=${fb_exchange_token}`).toPromise();
+    return this.http.get<any>
+      (`https://graph.facebook.com/v2.11/oauth/access_token?grant_type=fb_exchange_token&client_id=${environment.client_id}&client_secret=${environment.client_secret}&fb_exchange_token=${fb_exchange_token}`).toPromise();
   }
 
-  async getLongLivedPageAccessToken(longLivedAppAccessToken){
-    return  this.http.get<any>
-    (`https://graph.facebook.com/v2.11/${localStorage.getItem('fb-user-id')}/accounts?access_token=${longLivedAppAccessToken}`).toPromise();
- 
+  async getLongLivedPageAccessToken(longLivedAppAccessToken) {
+    return this.http.get<any>
+      (`https://graph.facebook.com/v2.11/${localStorage.getItem('fb-user-id')}/accounts?access_token=${longLivedAppAccessToken}`).toPromise();
+
   }
 
-  storeLongLivedPageAccessToken(accessToken, pageId){
+  storeLongLivedPageAccessToken(accessToken, pageId) {
     const body = {
-      appId:pageId,
-      userId:localStorage.getItem('fb-user-id'),
-      token:accessToken
+      appId: pageId,
+      userId: localStorage.getItem('fb-user-id'),
+      token: accessToken
     }
-      this.http.post(this.pathVariable2+"/apptokens",body).subscribe(data=>{
-        console.log(data)
-      })
+    this.http.post(this.pathVariable2 + "/apptokens", body).subscribe(data => {
+      console.log(data)
+    })
   }
 
+  getStoreRegions() {
+    return this.http.get(this.pathVariable3 + `/region-countries`).toPromise();
+  }
 }

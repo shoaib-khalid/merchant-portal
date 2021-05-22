@@ -35,11 +35,21 @@
                     <div class="form-group">
                         <label class="form-control-label">Store Info</label>
 
-                        <ckeditor 
-                        [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
-                        [editor]="Editor" [(ngModel)]="storeInfo" rows="3"></ckeditor>
+                        <ckeditor
+                            [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
+                            [editor]="Editor" [(ngModel)]="storeInfo" rows="3"></ckeditor>
 
                         <!-- <textarea class="form-control" [(ngModel)]="storeInfo" rows="3"></textarea> -->
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Region</label>
+                        <div class="add-item-img d-flex  border-radius">
+                            <select name="Inventory-manager" [(ngModel)]="region"
+                                class="form-control" id="inventory-manage">
+                                <option value="">Select region</option>
+                                <option value="{{region.region}}" *ngFor="let region of regions">{{region.name}}</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group mb-3">
                         <label for="address">Address</label>
@@ -68,34 +78,34 @@
                             <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
                                 (click)="deleteLogo()">
                         </div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="city">Banner</label>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" (change)="onBannerChanged($event)" />
-                        <label class="custom-file-label">Choose
-                            file </label>
                     </div>
-                </div>
-                <div *ngIf="this.banner.preview" class="assets">
-                    <img src="{{this.banner.preview}}" alt="" height="100px" width="100px">
-                    <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
-                        (click)="deleteBanner()">
-                </div>
-                <div class="form-group mb-0 text-center">
-                    <a class="btn btn-primary btn-block"
-                        style="height: 40px;padding: 10px;width: 150px;display: inline; margin-right: 10px;"
-                        (click)="registerStore()">
-                        Register Store </a>
-                    <a class="btn btn-block"
-                        style="height: 40px;padding: 10px;width: 150px;display: inline;background-color: red;color: white;"
-                        [routerLink]="['/chooseverticle']">
-                        Back to Step one</a>
-                </div>
+                    <div class="form-group mb-3">
+                        <label for="city">Banner</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" (change)="onBannerChanged($event)" />
+                            <label class="custom-file-label">Choose
+                                file </label>
+                        </div>
+                    </div>
+                    <div *ngIf="this.banner.preview" class="assets">
+                        <img src="{{this.banner.preview}}" alt="" height="100px" width="100px">
+                        <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
+                            (click)="deleteBanner()">
+                    </div>
+                    <div class="form-group mb-0 text-center">
+                        <a class="btn btn-primary btn-block"
+                            style="height: 40px;padding: 10px;width: 150px;display: inline; margin-right: 10px;"
+                            (click)="registerStore()">
+                            Register Store </a>
+                        <a class="btn btn-block"
+                            style="height: 40px;padding: 10px;width: 150px;display: inline;background-color: red;color: white;"
+                            [routerLink]="['/chooseverticle']">
+                            Back to Step one</a>
+                    </div>
 
+                </div>
+                <!-- end card-body -->
             </div>
-            <!-- end card-body -->
-        </div>
 
         </div>
     </span>

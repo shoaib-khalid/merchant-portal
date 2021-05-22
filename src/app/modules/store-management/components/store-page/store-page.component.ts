@@ -11,6 +11,8 @@ import $ from 'jquery';
 })
 export class StorePageComponent implements OnInit {
   storeName: any;
+  region: any = "";
+  regions: any = [];
   city: any = "";
   address: any = "";
   storeInfo: any = "";
@@ -22,6 +24,7 @@ export class StorePageComponent implements OnInit {
   constructor(private apiCalls: ApiCallsService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.fetchRegions();
   }
 
   async registerStore() {
@@ -72,8 +75,8 @@ export class StorePageComponent implements OnInit {
       const formData = new FormData();
       formData.append("banner", this.banner.file);
       formData.append("logo", this.logo.file);
-      this.apiCalls.uploadStoreAssets(formData,localStorage.getItem('storeId'))
-    }else{
+      this.apiCalls.uploadStoreAssets(formData, localStorage.getItem('storeId'))
+    } else {
       this.apiCalls.loadingdialogRef.close();
     }
 
@@ -87,7 +90,8 @@ export class StorePageComponent implements OnInit {
       postcode: this.postCode,
       storeDescription: this.storeInfo,
       clientId: localStorage.getItem("ownerId"),
-      domain: this.storeName.replace(/\s+/g, '-').toLowerCase()
+      domain: this.storeName.replace(/\s+/g, '-').toLowerCase(),
+      region: this.region
     })
   }
 
@@ -104,11 +108,17 @@ export class StorePageComponent implements OnInit {
   }
 
   deleteBanner() {
-    this.banner.file="";
+    this.banner.file = "";
     this.banner.preview = "";
   }
   deleteLogo() {
-    this.logo.file="";
+    this.logo.file = "";
     this.logo.preview = "";
+  }
+
+
+  async fetchRegions() {
+    var regions: any = await this.apiCalls.getStoreRegions();
+    this.regions = regions.data.content;
   }
 }

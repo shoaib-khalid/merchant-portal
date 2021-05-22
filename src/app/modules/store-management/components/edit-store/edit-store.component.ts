@@ -13,6 +13,8 @@ export class EditStoreComponent implements OnInit {
 
   storeName: any;
   storeInfo: any;
+  region: any = "";
+  regions: any = [];
   address: any;
   city: any;
   postCode: any;
@@ -39,6 +41,7 @@ export class EditStoreComponent implements OnInit {
     this.store = this.store.data;
     this.setAssets();
     this.setTextualDetails();
+    this.fetchRegions();
   }
 
   async onLogoChanged(event) {
@@ -94,7 +97,8 @@ export class EditStoreComponent implements OnInit {
       "clientId": localStorage.getItem('ownerId'),
       "name": this.storeName,
       "postcode": this.postCode,
-      "storeDescription": this.storeInfo
+      "storeDescription": this.storeInfo,
+      "region":this.region
     }
     return this.apiCalls.updateStore(store, this.store.id)
   }
@@ -104,7 +108,7 @@ export class EditStoreComponent implements OnInit {
     if (this.banner.file && this.logo.file) {
       formData.append("banner", this.banner.file);
       formData.append("logo", this.logo.file);
-      return this.apiCalls.uploadStoreAssets(formData,this.store.id)
+      return this.apiCalls.uploadStoreAssets(formData, this.store.id)
     }
     else {
       this.deleteAssets();
@@ -135,5 +139,14 @@ export class EditStoreComponent implements OnInit {
   }
   showPostWarning() {
     $("#warning-postcode").show(500);
+  }
+  async fetchRegions() {
+    debugger
+    var regions: any = await this.apiCalls.getStoreRegions();
+    this.regions = regions.data.content;
+    this.region = this.store.regionCountryId;
+    if (this.region == null) {
+      this.region = "";
+    }
   }
 }
