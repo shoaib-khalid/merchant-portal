@@ -47,7 +47,7 @@
                             <select name="Inventory-manager" [(ngModel)]="region"
                                 class="form-control" id="inventory-manage">
                                 <option value="">Select region</option>
-                                <option value="{{region.region}}" *ngFor="let region of regions">{{region.name}}</option>
+                                <option value="{{region.id}}" *ngFor="let region of regions">{{region.name}}</option>
                             </select>
                         </div>
                     </div>

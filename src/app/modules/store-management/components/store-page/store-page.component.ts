@@ -91,7 +91,7 @@ export class StorePageComponent implements OnInit {
       storeDescription: this.storeInfo,
       clientId: localStorage.getItem("ownerId"),
       domain: this.storeName.replace(/\s+/g, '-').toLowerCase(),
-      region: this.region
+      regionCountryId: this.region
     })
   }
 
@@ -118,6 +118,8 @@ export class StorePageComponent implements OnInit {
 
 
   async fetchRegions() {
+    debugger
+
     var regions: any = await this.apiCalls.getStoreRegions();
     this.regions = regions.data.content;
   }
