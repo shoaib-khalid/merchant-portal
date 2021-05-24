@@ -92,7 +92,7 @@ export class FlowsComponent implements OnInit {
     });
     const dialogRef = this.dialog.open(BotSelectionDialogComponent, {
       width: '550px',
-      data: { flowId: event.target.id, channelsPublish:channelIds }
+      data: { flowId: event.target.id, channelsPublish: channelIds }
     });
   }
 
@@ -113,7 +113,9 @@ export class FlowsComponent implements OnInit {
     });
   }
   showDropdown(id) {
-    this.openAble=false;
-    document.getElementById(""+id).classList.toggle("show");
+    this.openAble = false;
+    document.getElementById("" + id).classList.toggle("show");
   }
+
+
 }

@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateNewComponent } from './create-new/create-new.component'
 import { Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { JSDocTagName } from '@angular/compiler/src/output/output_ast';
 import { environment } from 'src/environments/environment';
 
 declare const login: any;
@@ -45,6 +44,7 @@ export class ChannelsComponent implements OnInit {
   }
 
   addChannel() {
+    debugger
     const dialogRef = this.dialog.open(CreateNewComponent, {
       width: '368px',
     });
