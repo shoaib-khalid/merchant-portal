@@ -286,6 +286,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
       this.configService.data = data.data.data;
       data = JSON.stringify({ mxGraphModel: data.data.mxGraphModel });
+
       JsonCodec.loadJson(this.graph, data)
       this.setFlowDetails();
 

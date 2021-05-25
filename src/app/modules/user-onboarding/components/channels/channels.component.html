@@ -74,6 +74,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="border-0">Channels</th>
+                                                        <th>Ref Id</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -84,12 +85,17 @@
                                                             {{channel.channelName}}
                                                         </td>
                                                         <td>
+                                                            {{channel.refId}}
                                                         </td>
+                                                        <td></td>
                                                     </tr>
                                                     <tr *ngFor="let channel of channels;index as i">
 
                                                         <td class="product">
                                                             {{channel.name}}
+                                                        </td>
+                                                        <td>
+                                                            {{channel.id}}
                                                         </td>
                                                         <td><button id="{{channel.id}}" style="display: none;" type="button" class="btn btn-primary width-150 connect-button"
                                                                 (click)="connectToFbPage(channel.access_token,channel.id,i)">Connect</button>

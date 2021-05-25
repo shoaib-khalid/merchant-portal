@@ -32,7 +32,7 @@ export class ChannelsComponent implements OnInit {
   async loadUserChannels() {
     const data: any = await this.apiCalls.getUserChannels();
     this.myChannels = data.data.content;
-    console.log(this.channels)
+    console.log(this.myChannels)
   }
 
   nextPage() {
