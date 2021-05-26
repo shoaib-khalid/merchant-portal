@@ -44,7 +44,6 @@ export class ChannelsComponent implements OnInit {
   }
 
   addChannel() {
-    debugger
     const dialogRef = this.dialog.open(CreateNewComponent, {
       width: '368px',
     });
@@ -86,20 +85,21 @@ export class ChannelsComponent implements OnInit {
     }
   }
 
-  async connectToFbPage(accessToken, pageId, botNo) {
-    this.apiCalls.connectFbPageToSymplified(accessToken, pageId).subscribe(data => {
-      if (data.success) {
-        this.getLongLivedAppAccessToken(accessToken)
-        var x: any = document.getElementsByClassName('connect-button');
-        for (var i = 0; i < x.length; i++) {
-          if (botNo == i) {
-            x[i].style.display = "none"
-            this.apiCalls.successPopUp("Bot connected successfully")
-            break;
-          }
-        }
-      }
-    })
+  async connectToFbPage(accessToken, pageId, botNo,channelName) {
+        this.addFacebookChannel(pageId,channelName)
+    // this.apiCalls.connectFbPageToSymplified(accessToken, pageId).subscribe(data => {
+    //   if (data.success) {
+    //     this.getLongLivedAppAccessToken(accessToken)
+    //     var x: any = document.getElementsByClassName('connect-button');
+    //     for (var i = 0; i < x.length; i++) {
+    //       if (botNo == i) {
+    //         x[i].style.display = "none"
+    //         this.apiCalls.successPopUp("Bot connected successfully")
+    //         break;
+    //       }
+    //     }
+    //   }
+    // })
   }
 
   checkForConnectedPages(page) {
@@ -162,4 +162,23 @@ export class ChannelsComponent implements OnInit {
     this.apiCalls.storeLongLivedPageAccessToken(pageAcessToken,pageId)
   }
 
+  /**
+   * Adds facebook page details to user channels when page is connected. 
+   * 
+   */
+  async addFacebookChannel(pageId,pageName){
+    await this.apiCalls.createChannel({
+      channelName: pageName,
+      refId: pageId,
+      userId: localStorage.getItem('ownerId')
+    })
+  }
+
+  /**
+   * Deletes user channel from DB
+   */
+  async deleteUserChannel(channelId){
+   await this.apiCalls.deleteUserChannel(channelId)
+   this.apiCalls.successPopUp("Channel Deleted Successfully")
+  }
 }

@@ -63,17 +63,10 @@
                                     </div>
                                     <div class="card-body pt-4">
                                         <div class="table-responsive">
-                                            <div style="display: flex;">
-                                                <div>
-                                                    <input type="text" placeholder="Filter Channels"
-                                                        class="form-control" style="width:140px; margin-right: 10px;"
-                                                        name="" id="">
-                                                </div>
-                                            </div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
                                                     <tr>
-                                                        <th class="border-0">Channels</th>
+                                                        <th>Channels</th>
                                                         <th>Ref Id</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -87,7 +80,11 @@
                                                         <td>
                                                             {{channel.refId}}
                                                         </td>
-                                                        <td></td>
+                                                        <td><button  
+                                                                type="button"
+                                                                class="btn btn-primary width-150 connect-button1"
+                                                                (click)="deleteUserChannel(channel.id)">Delete</button>
+                                                        </td>
                                                     </tr>
                                                     <tr *ngFor="let channel of channels;index as i">
 
@@ -97,8 +94,10 @@
                                                         <td>
                                                             {{channel.id}}
                                                         </td>
-                                                        <td><button id="{{channel.id}}" style="display: none;" type="button" class="btn btn-primary width-150 connect-button"
-                                                                (click)="connectToFbPage(channel.access_token,channel.id,i)">Connect</button>
+                                                        <td><button id="{{channel.id}}" style="display: none;"
+                                                                type="button"
+                                                                class="btn btn-primary width-150 connect-button"
+                                                                (click)="connectToFbPage(channel.access_token,channel.id,i,channel.name)">Connect</button>
                                                         </td>
                                                     </tr>
 
@@ -106,7 +105,8 @@
                                             </table>
                                         </div>
                                         <hr style="margin-top:0;margin-bottom: 0;">
-                                        <div id="fb-button-custom" style="display: block;" (click)="fbLogin()">Log In with Facebook</div>
+                                        <div id="fb-button-custom" style="display: block;" (click)="fbLogin()">Log In
+                                            with Facebook</div>
                                         <div id="hidden-button-click" hidden (click)="showPagesToBeConnected()"></div>
                                         <div class="px-3 py-2">
                                             <nav aria-label="pagin">

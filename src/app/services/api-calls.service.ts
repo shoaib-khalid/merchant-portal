@@ -768,4 +768,12 @@ export class ApiCallsService {
   getStoreRegions() {
     return this.http.get(this.pathVariable3 + `/region-countries`).toPromise();
   }
+
+  fetchChannels(){
+    return this.http.get(this.pathVariable2+'/availablechannels').toPromise()
+  }
+
+  deleteUserChannel(channelId){
+    return this.http.delete(this.pathVariable2+`/userChannels/${channelId}`).toPromise();
+  }
 }

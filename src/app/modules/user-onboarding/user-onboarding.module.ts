@@ -16,6 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { AccountsComponent } from './components/accounts/accounts.component';
 import { AddAgentComponent } from './components/add-agent/add-agent.component';
 import { EditAgentComponent } from './components/edit-agent/edit-agent.component';
+import { MatSelectModule } from '@angular/material/select';
+
 @NgModule({
   declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, ForgotPasswordComponent, ChannelsComponent, CreateNewComponent, AccountsComponent, AddAgentComponent, EditAgentComponent],
   imports: [
@@ -26,8 +28,8 @@ import { EditAgentComponent } from './components/edit-agent/edit-agent.component
     MatInputModule,
     MatDialogModule,
     MatMenuModule,
-    MatButtonModule
-
+    MatButtonModule,
+    MatSelectModule
 
   ]
 })
