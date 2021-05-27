@@ -571,12 +571,12 @@ export class ApiCallsService {
       + "/products/" + productId, httpOptions).toPromise();
   }
 
-  successPopUp(message, time = 1200) {
+  successPopUp(message, time = 1200,height = '220px') {
 
     const dialogRef = this.dialog.open(SuccessAnimationComponent, {
       disableClose: true,
       width: '350px',
-      height: '220px',
+      height: height,
       data: { message: message }
     });
 

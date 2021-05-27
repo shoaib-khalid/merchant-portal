@@ -80,8 +80,7 @@
                                                         <td>
                                                             {{channel.refId}}
                                                         </td>
-                                                        <td><button  
-                                                                type="button"
+                                                        <td><button type="button"
                                                                 class="btn btn-primary width-150 connect-button1"
                                                                 (click)="deleteUserChannel(channel.id)">Delete</button>
                                                         </td>
@@ -94,10 +93,14 @@
                                                         <td>
                                                             {{channel.id}}
                                                         </td>
-                                                        <td><button id="{{channel.id}}" style="display: none;"
+                                                        <td><button id="{{channel.id}}" style="display: block;"
                                                                 type="button"
                                                                 class="btn btn-primary width-150 connect-button"
                                                                 (click)="connectToFbPage(channel.access_token,channel.id,i,channel.name)">Connect</button>
+                                                            <!-- <button type="button"
+                                                                style="display: none;"
+                                                                class="btn btn-primary width-150 connect-button1"
+                                                                (click)="deleteUserChannel(channel.id)">Delete</button> -->
                                                         </td>
                                                     </tr>
 
@@ -105,8 +108,8 @@
                                             </table>
                                         </div>
                                         <hr style="margin-top:0;margin-bottom: 0;">
-                                        <div id="fb-button-custom" style="display: block;" (click)="fbLogin()">Log In
-                                            with Facebook</div>
+                                        <!-- <div id="fb-button-custom" style="display: block;" (click)="fbLogin()">Log In
+                                            with Facebook</div> -->
                                         <div id="hidden-button-click" hidden (click)="showPagesToBeConnected()"></div>
                                         <div class="px-3 py-2">
                                             <nav aria-label="pagin">

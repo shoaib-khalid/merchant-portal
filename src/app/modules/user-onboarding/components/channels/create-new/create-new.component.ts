@@ -52,7 +52,6 @@ export class CreateNewComponent implements OnInit {
     } else {
       this.fbButton = false;
     }
-    console.log(this.channel)
   }
 
   fbLogin() {
@@ -78,8 +77,13 @@ export class CreateNewComponent implements OnInit {
    */
   async setChannels(){
     const data:any = await this.apiCalls.fetchChannels();
-    console.log(data)
     this.channels=data.data.content;
   }  
+
+  
+  toggleFBbutton(){
+
+  }
+
 
 }

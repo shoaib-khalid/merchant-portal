@@ -19,6 +19,11 @@ export class ChannelsComponent implements OnInit {
   channels: any = [];
   myChannels: any = [];
   page: any = 0;
+  /**
+   * connect makes sure that FB page connection request to appToken tables goes first time only.
+   * Second time it is already saved in appToken we need to save in userChannels DB only.
+   */
+  connect: Boolean = true;
 
   constructor(private apiCalls: ApiCallsService, private dialog: MatDialog, private renderer2: Renderer2,
     @Inject(DOCUMENT) private _document
@@ -26,12 +31,12 @@ export class ChannelsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUserChannels();
-    this.facebookBtnToggle();
   }
 
   async loadUserChannels() {
     const data: any = await this.apiCalls.getUserChannels();
     this.myChannels = data.data.content;
+    this.facebookBtnToggle();
     console.log(this.myChannels)
   }
 
@@ -78,28 +83,30 @@ export class ChannelsComponent implements OnInit {
       this.apiCalls.loadFbPages().subscribe(data1 => {
         const pageList = data1.data;
         for (var i = 0; i < pageList.length; i++) {
-          this.channels.push(pageList[i])
-          this.checkForConnectedPages(pageList[i])
+          this.checkChannelInDB(pageList[i])
         }
       });
     }
   }
 
-  async connectToFbPage(accessToken, pageId, botNo,channelName) {
-        this.addFacebookChannel(pageId,channelName)
-    // this.apiCalls.connectFbPageToSymplified(accessToken, pageId).subscribe(data => {
-    //   if (data.success) {
-    //     this.getLongLivedAppAccessToken(accessToken)
-    //     var x: any = document.getElementsByClassName('connect-button');
-    //     for (var i = 0; i < x.length; i++) {
-    //       if (botNo == i) {
-    //         x[i].style.display = "none"
-    //         this.apiCalls.successPopUp("Bot connected successfully")
-    //         break;
-    //       }
-    //     }
-    //   }
-    // })
+  async connectToFbPage(accessToken, pageId, botNo, channelName) {
+    this.addFacebookChannel(pageId, channelName)
+    if (this.connect) {
+      this.apiCalls.connectFbPageToSymplified(accessToken, pageId).subscribe(data => {
+        if (data.success) {
+          this.getLongLivedAppAccessToken(accessToken)
+          var x: any = document.getElementsByClassName('connect-button');
+          for (var i = 0; i < x.length; i++) {
+            if (botNo == i) {
+              x[i].style.display = "none"
+              this.apiCalls.successPopUp("Bot connected successfully")
+              break;
+            }
+          }
+        }
+      })
+    }
+
   }
 
   checkForConnectedPages(page) {
@@ -110,8 +117,12 @@ export class ChannelsComponent implements OnInit {
           flag = false;
         }
       }
+      this.channels.push(page)
       if (flag) {
+        this.connect = true;
         document.getElementById(`${page.id}`).style.display = "block"
+      } else {
+        this.connect = false;
       }
       this.apiCalls.loadingdialogRef.close();
     })
@@ -128,10 +139,10 @@ export class ChannelsComponent implements OnInit {
 
   facebookBtnToggle() {
     if (localStorage.getItem('fb-user-id')) {
-      document.getElementById('fb-button-custom').style.display = "none";
+      // document.getElementById('fb-button-custom').style.display = "none";
       this.loadPages()
     } else {
-      document.getElementById('fb-button-custom').style.display = "block";
+      // document.getElementById('fb-button-custom').style.display = "block";
     }
   }
 
@@ -144,9 +155,9 @@ export class ChannelsComponent implements OnInit {
     var data = await this.apiCalls.getLongLivedPageAccessToken(appAccessTokenLongLived)
     console.log(data)
     data = data.data;
-    for(var i=0;i<data.length;i++){
-      if(data[i].access_token){
-        data=data[i];
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].access_token) {
+        data = data[i];
         break;
       }
     }
@@ -159,26 +170,50 @@ export class ChannelsComponent implements OnInit {
   }
 
   async storeTokens(pageAcessToken, pageId) {
-    this.apiCalls.storeLongLivedPageAccessToken(pageAcessToken,pageId)
+    this.apiCalls.storeLongLivedPageAccessToken(pageAcessToken, pageId)
   }
 
   /**
    * Adds facebook page details to user channels when page is connected. 
    * 
    */
-  async addFacebookChannel(pageId,pageName){
+  async addFacebookChannel(pageId, pageName) {
     await this.apiCalls.createChannel({
       channelName: pageName,
       refId: pageId,
       userId: localStorage.getItem('ownerId')
     })
+    this.apiCalls.successPopUp(`Channel Connected Successfully. 
+    Kindly go to 'Flows' menu to publish the channel.`,2800,'290px')
+    location.reload()
   }
 
   /**
    * Deletes user channel from DB
    */
-  async deleteUserChannel(channelId){
-   await this.apiCalls.deleteUserChannel(channelId)
-   this.apiCalls.successPopUp("Channel Deleted Successfully")
+  async deleteUserChannel(channelId) {
+    await this.apiCalls.deleteUserChannel(channelId)
+    this.apiCalls.successPopUp("Channel Deleted Successfully")
+    this.loadUserChannels();
   }
+
+  /**
+   * Checks if the channels coming from facebook exist in DB.
+   * Since we have DB channels already saved in myChannels array
+   * we compare channels coming facebook with this array
+   * if they exist in DB we dont show them otherwise we show them
+   * with connect button.
+   */
+  checkChannelInDB(page) {
+    var obj = "";
+    obj = this.myChannels.filter(x => x.refId === page.id);
+    if (obj.length) {
+      this.apiCalls.loadingdialogRef.close();
+    } else {
+      this.checkForConnectedPages(page)
+      this.apiCalls.loadingdialogRef.close();
+    }
+  }
+
+  m
 }

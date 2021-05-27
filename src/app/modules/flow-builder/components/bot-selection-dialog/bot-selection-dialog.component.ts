@@ -30,7 +30,7 @@ export class BotSelectionDialogComponent implements OnInit {
       this.title = "Published Channels"
       this.loadPublishButtons(data.channels);
     } else {
-      this.loadPages()
+      // this.loadPages()
       this.flowId = data.flowId;
       this.channelsPublish = data.channelsPublish;
       this.loadPublishButtons(null)
