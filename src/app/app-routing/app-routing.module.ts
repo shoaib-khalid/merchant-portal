@@ -27,6 +27,8 @@ import {ChannelsComponent} from 'src/app/modules/user-onboarding/components/chan
 import {AccountsComponent} from 'src/app/modules/user-onboarding/components/accounts/accounts.component';
 import {AddAgentComponent} from 'src/app/modules/user-onboarding/components/add-agent/add-agent.component';
 import {EditAgentComponent} from 'src/app/modules/user-onboarding/components/edit-agent/edit-agent.component'
+import {DailySalesComponent} from 'src/app/modules/reporting/components/daily-sales/daily-sales.component';
+
 const routes: Routes = [
 
   {
@@ -60,6 +62,12 @@ const routes: Routes = [
   {
     path: "products/add",
     component: AddProductComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: "daily-sales",
+    component: DailySalesComponent,
     canActivate: [AuthGuardService],
     children: []
   },

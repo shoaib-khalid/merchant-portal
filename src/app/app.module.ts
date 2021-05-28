@@ -14,6 +14,7 @@ import { HomeModule } from './modules/home/home.module';
 import { StoreManagementModule } from './modules/store-management/store-management.module';
 import { CartManagementModule } from './modules/cart-management/cart-management.module';
 import { OrderManagementModule } from './modules/order-management/order-management.module';
+import {ReportingModule} from './modules/reporting/reporting.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +28,8 @@ import { OrderManagementModule } from './modules/order-management/order-manageme
     HomeModule,
     StoreManagementModule,
     CartManagementModule,
-    OrderManagementModule
+    OrderManagementModule,
+    ReportingModule
   ], entryComponents: [FlowDialog],
   providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
     { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }],

@@ -141,7 +141,6 @@ export class EditStoreComponent implements OnInit {
     $("#warning-postcode").show(500);
   }
   async fetchRegions() {
-    debugger
     var regions: any = await this.apiCalls.getStoreRegions();
     this.regions = regions.data.content;
     this.region = this.store.regionCountryId;

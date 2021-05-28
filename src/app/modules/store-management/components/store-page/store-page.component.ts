@@ -25,6 +25,7 @@ export class StorePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchRegions();
+    $("#store-exists").hide();
   }
 
   async registerStore() {
@@ -111,16 +112,23 @@ export class StorePageComponent implements OnInit {
     this.banner.file = "";
     this.banner.preview = "";
   }
+
   deleteLogo() {
     this.logo.file = "";
     this.logo.preview = "";
   }
 
-
   async fetchRegions() {
-    debugger
-
     var regions: any = await this.apiCalls.getStoreRegions();
     this.regions = regions.data.content;
+  }
+
+  async storeExists(event) {
+    const data: any = await this.apiCalls.getStoreByName(event.target.value)
+    if (data.data.content.length > 0) {
+      $("#store-exists").show(200);
+    } else {
+      $("#store-exists").hide();
+    }
   }
 }

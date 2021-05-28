@@ -18,7 +18,7 @@ export class ApiCallsService {
   vertextType: any;
   pathVariable1: string = environment.url1;
   pathVariable2: string = environment.url2;
-  pathVariable3: string = environment.url3;
+  productService: string = environment.url3;
   pathVariable4: string = environment.url4;
 
   constructor(private http: HttpClient, private router: Router, private dialog: MatDialog, private helperService: HelperTextService) {
@@ -274,7 +274,7 @@ export class ApiCallsService {
             }
           }
 
-          var data: any = await this.http.get(this.pathVariable3 + "/stores", httpOptions).toPromise();
+          var data: any = await this.http.get(this.productService + "/stores", httpOptions).toPromise();
           this.loadingdialogRef.close();
           if (data.data.content.length == 0) {
             this.router.navigateByUrl('/chooseverticle')
@@ -298,7 +298,7 @@ export class ApiCallsService {
       }
     }
 
-    return this.http.get(this.pathVariable3 + "/stores", httpOptions).toPromise();
+    return this.http.get(this.productService + "/stores", httpOptions).toPromise();
   }
 
   async getUserChannels() {
@@ -342,7 +342,7 @@ export class ApiCallsService {
   registerStore(body) {
     var promise = new Promise(async (resolve, reject) => {
 
-      this.http.post<any>(this.pathVariable3 + "/stores", body).
+      this.http.post<any>(this.productService + "/stores", body).
         subscribe(data => {
           resolve("")
           localStorage.setItem("storeId", data.data.id)
@@ -366,7 +366,7 @@ export class ApiCallsService {
         Authorization: "asx"
       })
     }
-    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/" + "products", body, httpOptions).toPromise();
+    return this.http.post<any>(this.productService + "/stores/" + localStorage.getItem("storeId") + "/" + "products", body, httpOptions).toPromise();
   }
 
 
@@ -387,7 +387,7 @@ export class ApiCallsService {
       httpOptions.params["categoryId"] = categoryId;
     }
     if (localStorage.getItem("storeId")) {
-      return this.http.get(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
+      return this.http.get(this.productService + "/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
     }
     return { data: { content: [] } };
   }
@@ -395,7 +395,7 @@ export class ApiCallsService {
 
   addVariant(productId, body) {
 
-    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants", body).
+    return this.http.post<any>(this.productService + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants", body).
       toPromise();
   }
 
@@ -406,7 +406,7 @@ export class ApiCallsService {
       })
     }
 
-    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants-available", body, httpOptions).
+    return this.http.post<any>(this.productService + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants-available", body, httpOptions).
       toPromise();
   }
 
@@ -418,21 +418,21 @@ export class ApiCallsService {
     }
 
     return this.http.delete<any>
-      (this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" +
+      (this.productService + "/stores/" + localStorage.getItem("storeId") + "/products/" +
         productId + "/" + "variants-available/" + variantAvailableId, httpOptions).
       toPromise();
   }
 
   addInventory(productId, body) {
 
-    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory", body).
+    return this.http.post<any>(this.productService + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory", body).
       toPromise();
   }
 
 
   addInventoryItem(productId, body) {
 
-    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory-item", body).
+    return this.http.post<any>(this.productService + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "inventory-item", body).
       toPromise();
   }
 
@@ -503,7 +503,7 @@ export class ApiCallsService {
       }
     }
 
-    return this.http.get(this.pathVariable3 + "/store-categories", httpOptions).toPromise();
+    return this.http.get(this.productService + "/store-categories", httpOptions).toPromise();
 
   }
 
@@ -514,7 +514,7 @@ export class ApiCallsService {
         Authorization: "asx"
       })
     }
-    return this.http.post<any>(this.pathVariable3 + "/store-categories", body, httpOptions).
+    return this.http.post<any>(this.productService + "/store-categories", body, httpOptions).
       toPromise();
   }
 
@@ -536,7 +536,7 @@ export class ApiCallsService {
       delete httpOptions.params['itemCode'];
 
     }
-    return this.http.post<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId")
+    return this.http.post<any>(this.productService + "/stores/" + localStorage.getItem("storeId")
       + "/products/" + productId + "/assets", formData, httpOptions).toPromise();
   }
 
@@ -567,11 +567,11 @@ export class ApiCallsService {
       headers: new HttpHeaders({
       }),
     }
-    return this.http.get(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId")
+    return this.http.get(this.productService + "/stores/" + localStorage.getItem("storeId")
       + "/products/" + productId, httpOptions).toPromise();
   }
 
-  successPopUp(message, time = 1200,height = '220px') {
+  successPopUp(message, time = 1200, height = '220px') {
 
     const dialogRef = this.dialog.open(SuccessAnimationComponent, {
       disableClose: true,
@@ -591,25 +591,25 @@ export class ApiCallsService {
       }),
     }
     this.http.put<any>(
-      this.pathVariable3 + `/stores/${localStorage.getItem("storeId")}/products/${productId}`, body, httpOptions
+      this.productService + `/stores/${localStorage.getItem("storeId")}/products/${productId}`, body, httpOptions
     ).subscribe(data => {
     });
   }
 
   deleteProductAsset(productId, assetId) {
-    this.http.delete<any>(this.pathVariable3 +
+    this.http.delete<any>(this.productService +
       `/stores/${localStorage.getItem("storeId")}/products/${productId}/assets/${assetId}`)
       .subscribe((data) => console.log(data));
   }
 
   deleteVariant(productId, variantId) {
-    this.http.delete<any>(this.pathVariable3 +
+    this.http.delete<any>(this.productService +
       `/stores/${localStorage.getItem("storeId")}/products/${productId}/variants/${variantId}`)
       .subscribe((data) => console.log(data));
   }
 
   deleteInventory(productId, id) {
-    return this.http.delete<any>(`${this.pathVariable3}/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${id}`)
+    return this.http.delete<any>(`${this.productService}/stores/${localStorage.getItem("storeId")}/products/${productId}/inventory/${id}`)
       .toPromise();
   }
 
@@ -634,35 +634,35 @@ export class ApiCallsService {
       })
     }
 
-    return this.http.get<any>(this.pathVariable3 + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants-available", httpOptions).
+    return this.http.get<any>(this.productService + "/stores/" + localStorage.getItem("storeId") + "/products/" + productId + "/" + "variants-available", httpOptions).
       toPromise();
 
   }
 
   async uploadStoreAssets(body, id) {
-    const data = await this.http.post<any>(this.pathVariable3 +
+    const data = await this.http.post<any>(this.productService +
       `/stores/${id}/assets`, body).toPromise();
     this.loadingdialogRef.close();
 
   }
 
   getStoreDetails(id) {
-    return this.http.get<any>(this.pathVariable3 + `/stores/${id}`).
+    return this.http.get<any>(this.productService + `/stores/${id}`).
       toPromise();
   }
 
   getStoreAssets(id) {
-    return this.http.get<any>(this.pathVariable3 + `/stores/${id}/assets`).
+    return this.http.get<any>(this.productService + `/stores/${id}/assets`).
       toPromise();
   }
 
   updateStore(body, id) {
     return this.http.put<any>(
-      this.pathVariable3 + `/stores/${id}`, body).toPromise()
+      this.productService + `/stores/${id}`, body).toPromise()
   }
   deleteStoreAssets(id) {
     return this.http.delete<any>(
-      this.pathVariable3 +
+      this.productService +
       `/stores/${localStorage.getItem("storeId")}/assets/${id}`).toPromise()
   }
 
@@ -694,7 +694,7 @@ export class ApiCallsService {
   }
 
   async deleteProduct(id) {
-    return this.http.delete(`${this.pathVariable3}/stores/${localStorage.getItem('storeId')}/products/${id}`).toPromise();
+    return this.http.delete(`${this.productService}/stores/${localStorage.getItem('storeId')}/products/${id}`).toPromise();
 
   }
 
@@ -713,16 +713,16 @@ export class ApiCallsService {
   }
 
   saveDeliveryDetails(body, productId) {
-    this.http.post<any>(this.pathVariable3 + `/stores/${localStorage.getItem('storeId')}/products/${productId}/deliverydetails`, body)
+    this.http.post<any>(this.productService + `/stores/${localStorage.getItem('storeId')}/products/${productId}/deliverydetails`, body)
       .subscribe(data => {
       })
   }
 
   async getDeliveryDetails(productId) {
-    return this.http.get<any>(this.pathVariable3 + `/stores/${localStorage.getItem('storeId')}/products/${productId}/deliverydetails`).toPromise();
+    return this.http.get<any>(this.productService + `/stores/${localStorage.getItem('storeId')}/products/${productId}/deliverydetails`).toPromise();
   }
   updateDeliveryDetails(body, productId) {
-    this.http.put<any>(this.pathVariable3 + `/stores/${localStorage.getItem('storeId')}/products/${productId}/deliverydetails`, body)
+    this.http.put<any>(this.productService + `/stores/${localStorage.getItem('storeId')}/products/${productId}/deliverydetails`, body)
       .subscribe(data => {
 
       },
@@ -731,7 +731,7 @@ export class ApiCallsService {
         })
   }
   async deleteProductCategory(id) {
-    return this.http.delete(this.pathVariable3 + `/store-categories/${id}`).toPromise();
+    return this.http.delete(this.productService + `/store-categories/${id}`).toPromise();
   }
 
   getOrderDetails(orderId) {
@@ -766,14 +766,30 @@ export class ApiCallsService {
   }
 
   getStoreRegions() {
-    return this.http.get(this.pathVariable3 + `/region-countries`).toPromise();
+    return this.http.get(this.productService + `/region-countries`).toPromise();
   }
 
-  fetchChannels(){
-    return this.http.get(this.pathVariable2+'/availablechannels').toPromise()
+  fetchChannels() {
+    return this.http.get(this.pathVariable2 + '/availablechannels').toPromise()
   }
 
-  deleteUserChannel(channelId){
-    return this.http.delete(this.pathVariable2+`/userChannels/${channelId}`).toPromise();
+  deleteUserChannel(channelId) {
+    return this.http.delete(this.pathVariable2 + `/userChannels/${channelId}`).toPromise();
+  }
+
+  getStoreByName(storeName: any) {
+    const httpOptions = {
+      params: {
+        'name': storeName
+      }
+    }
+    return this.http.get(this.productService + `/stores`, httpOptions).toPromise()
+  }
+  fetchDailySales() {
+    var d = new Date();
+    const endDate = d.toISOString().slice(0, 10)
+    d.setDate(d.getDate() - 7);
+    const startDate = d.toISOString().slice(0, 10);
+    return this.http.get(`http://209.58.160.20:9001/store/${localStorage.getItem('storeId')}/report/dailySales?endDate=${endDate}&startDate=${startDate}`).toPromise()
   }
 }
