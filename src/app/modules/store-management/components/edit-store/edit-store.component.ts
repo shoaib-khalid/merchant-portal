@@ -21,6 +21,9 @@ export class EditStoreComponent implements OnInit {
   logo: any = { file: "", preview: "" }
   banner: any = { file: "", preview: "" };
   store: any;
+  closeTime: any = "";
+  openTime: any = "";
+  timmings: any = [];
   public Editor = ClassicEditor;
 
   constructor(private apiCalls: ApiCallsService, private route: ActivatedRoute) { }
@@ -29,6 +32,8 @@ export class EditStoreComponent implements OnInit {
 
     $("#warning-address").hide();
     $("#warning-postcode").hide();
+    $("#store-timmings-table").hide();
+
     this.route.params.subscribe(params => {
       if (params.id) {
         this.loadStore(params.id)
@@ -42,6 +47,7 @@ export class EditStoreComponent implements OnInit {
     this.setAssets();
     this.setTextualDetails();
     this.fetchRegions();
+    this.setStoreTimmings(id);
   }
 
   async onLogoChanged(event) {
@@ -60,6 +66,7 @@ export class EditStoreComponent implements OnInit {
     this.apiCalls.loadingAnimation("Updating..")
     await this.updateTextualDetails();
     await this.updateAssets();
+    await this.updateStoreTimmings(this.store.id)
     this.apiCalls.loadingdialogRef.close();
   }
 
@@ -98,7 +105,7 @@ export class EditStoreComponent implements OnInit {
       "name": this.storeName,
       "postcode": this.postCode,
       "storeDescription": this.storeInfo,
-      "region":this.region
+      "region": this.region
     }
     return this.apiCalls.updateStore(store, this.store.id)
   }
@@ -137,9 +144,11 @@ export class EditStoreComponent implements OnInit {
   showAddressWarning() {
     $("#warning-address").show(500);
   }
+
   showPostWarning() {
     $("#warning-postcode").show(500);
   }
+
   async fetchRegions() {
     var regions: any = await this.apiCalls.getStoreRegions();
     this.regions = regions.data.content;
@@ -148,4 +157,48 @@ export class EditStoreComponent implements OnInit {
       this.region = "";
     }
   }
+
+  async setStoreTimmings(storeId) {
+    var data: any = await this.apiCalls.getStoreTimmings(storeId);
+    data = data.data;
+    for (var j = 0; j < data.length; j++) {
+      this.timmings.push({ day: data[j].day, isOff: data[j].isOff, openTime: data[j].openTime, closeTime: data[j].closeTime })
+    }
+    console.log(data)
+  }
+
+
+  changeOpenTime(event, i) {
+    this.timmings[i].openTime = event.target.value;
+    console.log(event.target.value)
+  }
+  changeCloseTime(event, i) {
+    this.timmings[i].closeTime = event.target.value;
+
+  }
+  changeOn_Off(event, i) {
+    this.timmings[i].isOff = event.checked;
+    console.log(this.timmings)
+  }
+
+  revealTimeTable() {
+    $("#store-timmings-table").show(1000);
+  }
+
+  async updateStoreTimmings(storeId) {
+    var promise = new Promise(async (resolve, reject) => {
+      for (var j = 0; j < this.timmings.length; j++) {
+        const data = await this.apiCalls.updateStoreTimmings({
+          "closeTime": this.timmings[j].closeTime,
+          "openTime": this.timmings[j].openTime,
+          "isOff": this.timmings[j].isOff
+        }, this.timmings[j].day, storeId)
+        console.log(data)
+      }
+      resolve("");
+    });
+    return promise;
+
+  }
+
 }

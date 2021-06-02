@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
-import { dataSeries } from './data-series';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -28,12 +27,14 @@ export class DailySalesComponent implements OnInit {
   public yaxis: ApexYAxis;
   public xaxis: ApexXAxis;
   public tooltip: ApexTooltip;
+  topProducts: any = [];
   data: any = [];
 
   constructor(private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
     this.setDailySales();
+    this.setTopProducts();
   }
   public initChartData(): void {
     var d = new Date();
@@ -72,7 +73,7 @@ export class DailySalesComponent implements OnInit {
       size: 0
     };
     this.title = {
-      text: "",
+      text: "Daily Sales",
       align: "left"
     };
     this.fill = {
@@ -114,6 +115,42 @@ export class DailySalesComponent implements OnInit {
     this.initChartData();
 
     console.log(this.data)
+  }
+
+
+  setTopProducts = async () => {
+    var data: any = await this.apiCalls.getTopProducts();
+    data = data.data;
+    console.log(data)
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].topProduct.length > 0) {
+        this.topProducts.push({
+          product: this.selectTopProduct[data[i].topProduct],
+          date: data[i].date
+        })
+      } else {
+        this.topProducts.push({product:{productName:"N/A",totalTransaction:"N/A"}, date: data[i].date })
+
+      }
+    }
+    // this.topProducts = data;
+    // console.log(this.topProducts)
+  }
+
+  /**
+   * Selects top product from 
+   * dailTopProduct array based on rank
+   */
+  selectTopProduct(dailyTopProducts) {
+    var topProduct = "";
+    var rank = 10000;
+    for (var j = 0; j < dailyTopProducts.length; j++) {
+      if (rank > dailyTopProducts[j].rank) {
+        topProduct = dailyTopProducts[j];
+        rank = dailyTopProducts[j].rank;
+      }
+    }
+    return topProduct;
   }
 
 }

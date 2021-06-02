@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { DailySalesComponent } from './components/daily-sales/daily-sales.component';
 import { NgApexchartsModule } from "ng-apexcharts";
 import {HomeModule} from 'src/app/modules/home/home.module';
+import { MonthlySalesComponent } from './components/monthly-sales/monthly-sales.component';
 
 
 @NgModule({
-  declarations: [DailySalesComponent],
+  declarations: [DailySalesComponent, MonthlySalesComponent],
   imports: [
     CommonModule,
     NgApexchartsModule,

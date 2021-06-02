@@ -66,7 +66,7 @@ const routes: Routes = [
     children: []
   },
   {
-    path: "daily-sales",
+    path: "sales",
     component: DailySalesComponent,
     canActivate: [AuthGuardService],
     children: []

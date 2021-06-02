@@ -36,13 +36,13 @@
 
                     <div class="form-group">
                         <label class="form-control-label">Store Info</label>
-
                         <ckeditor
                             [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
                             [editor]="Editor" [(ngModel)]="storeInfo" rows="3"></ckeditor>
 
                         <!-- <textarea class="form-control" [(ngModel)]="storeInfo" rows="3"></textarea> -->
                     </div>
+
                     <div class="form-group">
                         <label class="form-control-label">Region</label>
                         <div class="add-item-img d-flex  border-radius">
@@ -94,7 +94,44 @@
                         <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
                             (click)="deleteBanner()">
                     </div>
-                    <div class="form-group mb-0 text-center">
+                    <div class="form-group">
+                        <div style="text-align: center;" (click)='revealTimeTable()' id="store-timmings-text">
+                            <span id="store-timmings-text">Set store timmings</span>
+                        </div>
+                        <table class="table" id="store-timmings-table">
+                            <thead>
+                                <tr>
+
+                                    <th class="border-0">Day</th>
+                                    <th class="border-0">Opening time</th>
+                                    <th class="border-0" data-breakpoints="sm xs">Close Time</th>
+                                    <th class="border-0" data-breakpoints="xs">On/Off</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let time of timmings;index as i;" style="width: 700px;">
+                                    <!-- <td><input type="checkbox"></td> -->
+                                    <td class="border-0">{{time.day}}</td>
+                                    <td class="border-0">
+                                        <input class="form-control" type="time" id="openTime"
+                                            (change)="changeOpenTime($event,i)" value="{{time.openTime}}">
+                                    </td>
+                                    <td class="border-0">
+                                        <input class="form-control" type="time" id="closeTime"
+                                            (change)="changeCloseTime($event,i)" value="{{time.closeTime}}">
+                                    </td>
+                                    <td class="border-0">
+                                        <mat-checkbox (change)="changeOn_Off($event,i)" style="text-align: initial;
+                                        margin-top: 10px;">
+                                        </mat-checkbox>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="form-group mb-0 text-center" style="margin-top:10px">
                         <a class="btn btn-primary btn-block"
                             style="height: 40px;padding: 10px;width: 150px;display: inline; margin-right: 10px;"
                             (click)="registerStore()">

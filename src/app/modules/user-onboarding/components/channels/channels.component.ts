@@ -91,7 +91,6 @@ export class ChannelsComponent implements OnInit {
 
   async connectToFbPage(accessToken, pageId, botNo, channelName) {
     this.addFacebookChannel(pageId, channelName)
-    if (this.connect) {
       this.apiCalls.connectFbPageToSymplified(accessToken, pageId).subscribe(data => {
         if (data.success) {
           this.getLongLivedAppAccessToken(accessToken)
@@ -105,12 +104,12 @@ export class ChannelsComponent implements OnInit {
           }
         }
       })
-    }
 
   }
 
   checkForConnectedPages(page) {
     this.apiCalls.checkFbPageConnection(page.id, page.access_token).subscribe(data => {
+      console.log(data)
       var flag = true;
       for (var i = 0; i < data.data.length; i++) {
         if (data.data[i].id == environment.client_id) {
@@ -148,6 +147,7 @@ export class ChannelsComponent implements OnInit {
 
   async getLongLivedAppAccessToken(pageAccessToken) {
     const data: any = await this.apiCalls.getLongLivedAppAccessToken1(pageAccessToken)
+    console.log(data)
     this.getLongLivedPageAccessToken(data.access_token)
   }
 
@@ -185,7 +185,6 @@ export class ChannelsComponent implements OnInit {
     })
     this.apiCalls.successPopUp(`Channel Connected Successfully. 
     Kindly go to 'Flows' menu to publish the channel.`,2800,'290px')
-    location.reload()
   }
 
   /**
@@ -194,6 +193,7 @@ export class ChannelsComponent implements OnInit {
   async deleteUserChannel(channelId) {
     await this.apiCalls.deleteUserChannel(channelId)
     this.apiCalls.successPopUp("Channel Deleted Successfully")
+    this.channels=[];
     this.loadUserChannels();
   }
 
@@ -211,9 +211,9 @@ export class ChannelsComponent implements OnInit {
       this.apiCalls.loadingdialogRef.close();
     } else {
       this.checkForConnectedPages(page)
-      this.apiCalls.loadingdialogRef.close();
+      // this.apiCalls.loadingdialogRef.close();
     }
   }
 
-  m
+  
 }

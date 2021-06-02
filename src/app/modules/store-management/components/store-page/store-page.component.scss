@@ -131,3 +131,19 @@ body{
   color:red;
   font-size: 15px;
 }
+
+
+#store-timmings-text{
+  cursor: pointer;
+  background-color: rgb(48, 180, 152);
+  padding: 5px;
+  background-size: 100px;
+  border-radius: 12px;
+  color: white;
+  margin: auto auto 20px auto;
+  width: 45%;
+}
+
+#store-timmings-text:hover{
+color:black
+}

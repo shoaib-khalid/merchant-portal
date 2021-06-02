@@ -17,5 +17,8 @@ export class SharedSidePanelComponent implements OnInit {
   openSubMenu() {
     $('.submenu').toggle('visible');
   }
+  openSubMenu2() {
+    $('.submenu2').toggle('visible');
+  }
 
 }

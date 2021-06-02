@@ -1,0 +1,17 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th style="text-align: center;">Month</th>
+            <th style="text-align: center;">Transactions</th>
+            <th style="text-align: center;">Total Amount</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let month of monSales;">
+            <th class="body-cols">{{month.monthNo}}</th>
+            <th class="body-cols">{{month.totalTrx}}</th>
+            <th class="body-cols">{{month.totalAmount}}</th>
+        </tr>
+    </tbody>
+</table>

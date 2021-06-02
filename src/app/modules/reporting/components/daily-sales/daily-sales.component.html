@@ -17,19 +17,54 @@
                     <div class="col-lg-9">
                         <div class="row">
                             <div class="col">
-                                <div class="card mb-5">
+                                <div class="card mb-5" style="min-height: 550px;">
                                     <div class="card-header border-bottom">
                                         <div class="d-flex align-items-center">
                                             <div>
-                                                <h6 class="card-title mb-0">Daily Sales</h6>
+                                                <h6 class="card-title mb-0">Analytics</h6>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card-body">
+
+                                        <span id="graph1">
                                             <apx-chart [series]="series" [chart]="chart" [dataLabels]="dataLabels"
                                                 [markers]="markers" [title]="title" [fill]="fill" [yaxis]="yaxis"
                                                 [xaxis]="xaxis" [tooltip]="tooltip" [autoUpdateSeries]="true">
                                             </apx-chart>
+                                        </span>
+
+                                        <div
+                                            style="display: inline-block;margin-left: 20px;margin-bottom: -260px;min-height: 450px;">
+                                            <table class="table">
+                                                <thead>
+                                                    <span style="font-weight: bold;">Daily Top
+                                                        Products</span>
+                                                    <tr>
+                                                        <th class="column-style">Product Name</th>
+                                                        <th class="column-style">Total Transaction</th>
+                                                        <th class="column-style">Date</th>
+                                                    </tr>
+                                                </thead>
+
+
+                                                <tbody>
+                                                    <tr *ngFor="let prod of topProducts;">
+                                                        <td class="body-cols column-style">{{prod.product.productName}}
+                                                        </td>
+                                                        <td class="body-cols column-style">
+                                                            {{prod.product.totalTransaction}}</td>
+                                                        <td class="body-cols column-style">{{prod.date}}</td>
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+                                        <div style="margin-top: 80px;text-align: center;">
+                                            <span style="font-size:large;font-weight:bold">Monthly Sales</span>
+                                            <app-monthly-sales></app-monthly-sales>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

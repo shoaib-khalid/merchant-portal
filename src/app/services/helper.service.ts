@@ -140,10 +140,11 @@ export class HelperService {
    */
   removeCharacters(text) {
     debugger
-    if(text){
+    text = text.toString();
+    if (text) {
 
-    }else{
-      text="0";
+    } else {
+      text = "0";
     }
     text = parseFloat(text.replace(/,/g, ''))
     text = text.toString();

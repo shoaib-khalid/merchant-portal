@@ -64,7 +64,8 @@ export class ApiCallsService {
       "description": description,
       "title": title,
       "topVertexId": "",
-      "ownerId": localStorage.getItem("ownerId")
+      "ownerId": localStorage.getItem("ownerId"),
+      'storeId':localStorage.getItem('storeId')
 
     }
     try {
@@ -762,6 +763,8 @@ export class ApiCallsService {
     }
     this.http.post(this.pathVariable2 + "/apptokens", body).subscribe(data => {
       console.log(data)
+      location.reload()
+
     })
   }
 
@@ -785,11 +788,43 @@ export class ApiCallsService {
     }
     return this.http.get(this.productService + `/stores`, httpOptions).toPromise()
   }
+  /**
+   * 
+   * @returns returns daily sales from last days
+   */
   fetchDailySales() {
     var d = new Date();
     const endDate = d.toISOString().slice(0, 10)
     d.setDate(d.getDate() - 7);
     const startDate = d.toISOString().slice(0, 10);
-    return this.http.get(`http://209.58.160.20:9001/store/${localStorage.getItem('storeId')}/report/dailySales?endDate=${endDate}&startDate=${startDate}`).toPromise()
+    return this.http.get(`https://api.symplified.biz/report-service/v1/store/${localStorage.getItem('storeId')}/report/dailySales?endDate=${endDate}&startDate=${startDate}`).toPromise()
+  }
+
+  /**
+   * 
+   * @returns top products from last 7 days
+   */
+  getTopProducts() {
+    var d = new Date();
+    const endDate = d.toISOString().slice(0, 10)
+    d.setDate(d.getDate() - 7);
+    const startDate = d.toISOString().slice(0, 10);
+    return this.http.get(`https://api.symplified.biz/report-service/v1/store/${localStorage.getItem('storeId')}/report/dailyTopProducts?endDate=${endDate}&startDate=${startDate}`).toPromise()
+  }
+
+  saveStoreTimmings(timmings) {
+    return this.http.post(this.productService + `/stores/${localStorage.getItem('storeId')}/timings`, timmings).toPromise();
+  }
+
+  getStoreTimmings(storeId) {
+    return this.http.get(this.productService + `/stores/${storeId}/timings`).toPromise();
+  }
+
+  updateStoreTimmings(timmings, day, id) {
+    return this.http.put(`${this.productService}/stores/${id}/timings/${day}`, timmings).toPromise();
+  }
+  getMonthlySales(startMonth, endMonth) {
+    return this.http.get(`${"https://api.symplified.biz/report-service/v1"}/store/${localStorage.getItem('storeId')}/report/monthlySales?endMonth=${endMonth}&startMonth=${startMonth}`).toPromise();
+
   }
 }

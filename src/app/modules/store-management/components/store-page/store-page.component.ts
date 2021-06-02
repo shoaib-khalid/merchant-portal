@@ -20,18 +20,32 @@ export class StorePageComponent implements OnInit {
   requiredError: any = false;
   logo: any = { file: "", preview: "" };
   banner: any = { file: "", preview: "" };
+  openTime: any = "";
+  closeTime: any = "";
+  timmings: any = [
+    { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
+    { day: "TUESDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
+    { day: "WEDNESDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
+    { day: "THURSDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
+    { day: "FRIDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
+    { day: "SATURDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
+    { day: "SUNDAY", isOff: false, openTime: "09:00", closeTime: "17:00" }
+  ]
   public Editor = ClassicEditor;
   constructor(private apiCalls: ApiCallsService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.fetchRegions();
     $("#store-exists").hide();
+    $("#store-timmings-table").hide();
+
   }
 
   async registerStore() {
     if (this.storeName) {
       this.apiCalls.loadingAnimation("Registering new store", "280")
       await this.saveDetails();
+      this.saveStoreTimmings();
       this.uploadAssets();
     } else {
       this.emptyFields();
@@ -130,5 +144,34 @@ export class StorePageComponent implements OnInit {
     } else {
       $("#store-exists").hide();
     }
+  }
+
+  async saveStoreTimmings() {
+    for (var i = 0; i < this.timmings.length; i++) {
+      await this.apiCalls.saveStoreTimmings({
+        "closeTime": this.timmings[i].closeTime,
+        "day": this.timmings[i].day,
+        "openTime": this.timmings[i].openTime,
+        "isOff": this.timmings[i].isOff
+      })
+    }
+  }
+
+  changeOpenTime(event, i) {
+    this.timmings[i].openTime = event.target.value;
+    console.log(event.target.value)
+  }
+  changeCloseTime(event, i) {
+    this.timmings[i].closeTime = event.target.value;
+
+  }
+  changeOn_Off(event, i) {
+    this.timmings[i].isOff = event.checked;
+    console.log(this.timmings)
+  }
+  
+  revealTimeTable() {
+    $("#store-timmings-table").show(1000);
+
   }
 }

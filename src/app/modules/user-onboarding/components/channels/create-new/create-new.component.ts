@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { environment } from 'src/environments/environment';
-
+import $ from 'jquery';
 
 declare const login: any;
 
@@ -20,7 +20,7 @@ export class CreateNewComponent implements OnInit {
   channel: any = "";
   refId: any;
   fbButton: any = false;
-  channels:any=[];
+  channels: any = [];
 
   constructor(public dialogRef: MatDialogRef<CreateNewComponent>,
     private apiCalls: ApiCallsService, private router: Router, private renderer2: Renderer2,
@@ -28,6 +28,7 @@ export class CreateNewComponent implements OnInit {
 
   ngOnInit(): void {
     this.setChannels();
+    $("#wa-contact").hide();
   }
 
   async create() {
@@ -49,8 +50,16 @@ export class CreateNewComponent implements OnInit {
   channelSelected() {
     if (this.channel == "Facebook") {
       this.fbButton = true;
-    } else {
+      $("#wa-contact").hide();
+
+    } else if (this.channel == "Whatsapp") {
       this.fbButton = false;
+      $("#wa-contact").show();
+    }
+    else if(this.channel=="Telegram") {
+      console.log(this.channel)
+      this.fbButton = false;
+      $("#wa-contact").hide();
     }
   }
 
@@ -75,13 +84,13 @@ export class CreateNewComponent implements OnInit {
   /**
    * Fetches channels from service and displays in dropdown
    */
-  async setChannels(){
-    const data:any = await this.apiCalls.fetchChannels();
-    this.channels=data.data.content;
-  }  
+  async setChannels() {
+    const data: any = await this.apiCalls.fetchChannels();
+    this.channels = data.data.content;
+  }
 
-  
-  toggleFBbutton(){
+
+  toggleFBbutton() {
 
   }
 
