@@ -56,7 +56,7 @@
                                     <div class="card-header py-3 border-bottom">
                                         <div class="d-flex align-items-center">
                                             <div>
-                                                <h6 class="card-title mb-0">Products</h6>
+                                                <h6 class="card-title mb-0">Customers</h6>
                                             </div>
 
                                         </div>
@@ -66,22 +66,31 @@
                                             <div style="display: flex;">
                                                 <div>
                                                     <input type="text" placeholder="Filter Customers"
-                                                        class="form-control" style="width:140px; margin-right: 10px;"
+                                                        class="form-control" (keyup)="filterCustomers($event)" style="width:160px; margin-right: 10px;"
                                                          name="" id="">
                                                 </div>
                                             </div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
                                                     <tr>
-                                                        <th class="border-0">Customers</th>
+                                                        <th class="border-0">Name</th>
+                                                        <th class="border-0">Email</th>
+                                                        <th>Orders</th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr *ngFor="let customer of customers">
-                                                        <td><input type="checkbox"></td>
                                                         <td class="product">
                                                             {{customer.name}}
                                                         </td>
+                                                        <td class="product">
+                                                            {{customer.email}}
+                                                        </td>
+                                                        <td><button 
+                                                            type="button"
+                                                            class="btn btn-primary width-150 connect-button"
+                                                           (click)="openOrdersPage(customer.id)">Orders</button></td>
                                                     </tr>
 
                                                 </tbody>

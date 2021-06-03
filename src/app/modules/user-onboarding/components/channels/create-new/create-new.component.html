@@ -10,7 +10,13 @@
     </mat-select>
   </mat-form-field>
   <div id="fb-button-custom" style="display: block;" (click)="fbLogin()" *ngIf="fbButton">Log In with Facebook</div>
-  <div id="wa-contact">Please contact our support for whatsapp channel integration</div>
+  <div id="wa-contact">If you have WhatsApp Reference Id enter below otherwise contact admin to get the WhatsApp
+    Reference Id</div>
+
+  <mat-form-field id="refId">
+    <mat-label>Ref Id</mat-label>
+    <input matInput [(ngModel)]="refId">
+  </mat-form-field>
 </div>
 <div mat-dialog-actions *ngIf="!fbButton">
   <button mat-button (click)="create()">Create New Channel</button>

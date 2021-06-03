@@ -139,7 +139,6 @@ export class HelperService {
    * Returns string without commas
    */
   removeCharacters(text) {
-    debugger
     text = text.toString();
     if (text) {
 

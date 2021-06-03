@@ -3,6 +3,7 @@ import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { MatDialog } from '@angular/material/dialog';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import $ from 'jquery';
+import { min } from 'rxjs/operators';
 
 @Component({
   selector: 'app-store-page',
@@ -22,6 +23,7 @@ export class StorePageComponent implements OnInit {
   banner: any = { file: "", preview: "" };
   openTime: any = "";
   closeTime: any = "";
+  minOrderQty:any="";
   timmings: any = [
     { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
     { day: "TUESDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
@@ -173,5 +175,12 @@ export class StorePageComponent implements OnInit {
   revealTimeTable() {
     $("#store-timmings-table").show(1000);
 
+  }
+
+  minOrderQtyChange(event){
+    const minOrderQty = event.key;
+    if(minOrderQty.toString()=="-"){
+      this.minOrderQty = "";
+    }
   }
 }

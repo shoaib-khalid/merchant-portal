@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class OrdersComponent implements OnInit {
 
   orders: any = [];
+  allOrders:any=[];
+  orderId:any=[];
   constructor(private apiCalls: ApiCallsService, private router:Router) { }
 
   ngOnInit(): void {
@@ -20,11 +22,19 @@ export class OrdersComponent implements OnInit {
   async getOrders() {
     this.orders = await this.apiCalls.getOrders();
     this.orders = this.orders.data.content;
+    this.allOrders = this.orders;
   }
 
   showOrderItems(order){
     this.router.navigate(['orders/order-details'],{ queryParams: { orderId: order.id }})
 
+  }
+
+  filterOrders(event){
+    // var filter = event.target.value+"";
+    // filter=filter.toLowerCase();
+    // console.log(filter)
+    // this.orders = this.allOrders.filter(word => word.customerId.toLowerCase().includes(filter));
   }
 
 }

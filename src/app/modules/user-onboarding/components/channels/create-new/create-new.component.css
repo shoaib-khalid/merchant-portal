@@ -17,3 +17,8 @@
     text-align: center;
     cursor: pointer;
 }
+#refId{
+    text-align: center;
+    margin-left: 30px;
+    width: 250px;
+}

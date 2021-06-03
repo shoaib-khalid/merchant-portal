@@ -8,16 +8,18 @@ import { ApiCallsService } from 'src/app/services/api-calls.service';
 })
 export class CustomersComponent implements OnInit {
   customers: any = [];
+  allCustomers: any = [];
   page: any = 0;
-  constructor(private apiCalls: ApiCallsService) { }
+  constructor(private apiCalls: ApiCallsService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadCustomers()
   }
 
-  async loadCustomers(){
-    const data:any = await this.apiCalls.getCustomers()
+  async loadCustomers() {
+    const data: any = await this.apiCalls.getCustomers()
     this.customers = data.data.content;
+    this.allCustomers = data.data.content;
     console.log(data)
   }
 
@@ -41,4 +43,17 @@ export class CustomersComponent implements OnInit {
     window.scroll(0, 0)
     window.scroll(0, 0)
   }
+
+  filterCustomers(event) {
+    const filter = event.target.value;
+    this.customers = this.allCustomers.filter(word => word.name.toLowerCase().includes(filter.toLowerCase()));
+    if (this.customers.length < 1) {
+      this.customers = this.allCustomers.filter(word => word.email.toLowerCase().includes(filter.toLowerCase()));
+    }
+  }
+
+  openOrdersPage(customerId) {
+    this.router.navigate(['orders'], { queryParams: { customerId: customerId } })
+  }
+
 }

@@ -37,6 +37,20 @@
                             [editor]="Editor" [(ngModel)]="storeInfo" rows="3"></ckeditor>
                         <!-- <textarea class="form-control" [(ngModel)]="storeInfo" rows="3"></textarea> -->
                     </div>
+                    <label class="form-control-label" style="margin-top: 10px;">Minimum Order</label>
+                    <div class="form-group mb-3">
+                        <div style="display: inline-block;"><img src="assets/motor-bike-icon.svg" alt="" height="30px"
+                                width="30px"></div>
+                        <input class="form-control" name="minOrderQty" type="number" [(ngModel)]="minOrderQty"
+                            (keyup)="minOrderQtyChange($event)" id="bike" placeholder="Minimum order quantity" min="0"
+                            max="1000">
+                    </div>
+                    <div class="form-group mb-3">
+                        <div style="display: inline-block;"><img src="assets/car-icon.svg" alt="" height="30px"
+                                width="30px"> <span style="margin-left:5px;">Greater Than</span></div>
+                        <input class="form-control" name="minOrderCar" type="number" (keyup)="minOrderQtyChange($event)"
+                            id="car" value="{{minOrderQty}}">
+                    </div>
                     <div class="form-group">
                         <label class="form-control-label">Region</label>
                         <div class="add-item-img d-flex  border-radius">

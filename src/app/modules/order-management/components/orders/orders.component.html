@@ -66,25 +66,16 @@
                                                 <div>
                                                     <input type="text" placeholder="Filter Orders"
                                                         class="form-control" style="width:140px; margin-right: 10px;"
-                                                        name="" id="">
-                                                </div>
-        
-                                                <div>
-                                                    <select class="mr-2 form-control" style="width:150px">
-                                                        <option> Tagged With</option>
-                                                        <option>Trending</option>
-                                                        <option>Most Popular</option>
-                                                        <option>Cheapest</option>
-                                                    </select>
-                                                </div>
+                                                        name="" id="" (keyup)="filterOrders($event)">
+                                                </div>   
                                             </div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
                                                     <tr>
                                                         <!-- <th class="border-0"><input type="checkbox"></th> -->
 
-                                                        <th class="border-0">Order</th>
-                                                        <th class="border-0">Completion status</th>
+                                                        <!-- <th class="border-0">Order</th> -->
+                                                        <th class="border-0">Order Status</th>
                                                         <th class="border-0" data-breakpoints="sm xs">Payment Status</th>
                                                         <th class="border-0" data-breakpoints="xs">Customer Id</th>
                                                     </tr>
@@ -92,7 +83,7 @@
                                                 <tbody>
                                                     <tr *ngFor='let order of orders;' (click)="showOrderItems(order)" class="orders-list">
                                                         <!-- <td><input type="checkbox"></td> -->
-                                                        <td class="product">{{order.id}}</td>
+                                                        <!-- <td class="product">{{order.id}}</td> -->
                                                         <td>
                                                             <div >{{order.completionStatus}}</div>
                                                         </td>
@@ -100,7 +91,7 @@
 
                                                             <div>{{order.paymentStatus}}</div>
                                                         </td>
-                                                        <td>{{order.customerId}}</td>
+                                                        <td style="cursor: pointer;">{{order.customerId}}</td>
                                                     </tr>
                                                    
                                                 </tbody>

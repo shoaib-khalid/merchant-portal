@@ -24,6 +24,7 @@ export class EditStoreComponent implements OnInit {
   closeTime: any = "";
   openTime: any = "";
   timmings: any = [];
+  minOrderQty:any="";
   public Editor = ClassicEditor;
 
   constructor(private apiCalls: ApiCallsService, private route: ActivatedRoute) { }
@@ -199,6 +200,13 @@ export class EditStoreComponent implements OnInit {
     });
     return promise;
 
+  }
+
+  minOrderQtyChange(event){
+    const minOrderQty = event.key;
+    if(minOrderQty.toString()=="-"){
+      this.minOrderQty = "";
+    }
   }
 
 }

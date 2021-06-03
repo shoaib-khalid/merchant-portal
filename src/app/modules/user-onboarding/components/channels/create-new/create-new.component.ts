@@ -29,6 +29,7 @@ export class CreateNewComponent implements OnInit {
   ngOnInit(): void {
     this.setChannels();
     $("#wa-contact").hide();
+    $("#refId").hide();
   }
 
   async create() {
@@ -55,8 +56,10 @@ export class CreateNewComponent implements OnInit {
     } else if (this.channel == "Whatsapp") {
       this.fbButton = false;
       $("#wa-contact").show();
+      $("#refId").show();
+
     }
-    else if(this.channel=="Telegram") {
+    else if (this.channel == "Telegram") {
       console.log(this.channel)
       this.fbButton = false;
       $("#wa-contact").hide();

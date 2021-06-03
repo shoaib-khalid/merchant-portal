@@ -825,6 +825,6 @@ export class ApiCallsService {
   }
   getMonthlySales(startMonth, endMonth) {
     return this.http.get(`${"https://api.symplified.biz/report-service/v1"}/store/${localStorage.getItem('storeId')}/report/monthlySales?endMonth=${endMonth}&startMonth=${startMonth}`).toPromise();
-
   }
+  
 }
