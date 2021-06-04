@@ -51,6 +51,24 @@
                         <input class="form-control" name="minOrderCar" type="number" (keyup)="minOrderQtyChange($event)"
                             id="car" value="{{minOrderQty}}">
                     </div>
+                    <label class="form-control-label">Delivery Details</label>
+                    <div class="add-item-img d-flex  border-radius">
+                        <select name="delivery-type" class="form-control necessary" id="delivery-type">
+                            <option value="">Type</option>
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="Ad-Hoc">Ad-Hoc</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="add-item-img d-flex  border-radius">
+                        <select name="delivery-package" class="form-control necessary" id="delivery-package">
+                            <option value="">Packaging</option>
+                            <option value="Parcel">Parcel</option>
+                            <option value="Document">Document</option>
+                            <option value="Food">Food</option>
+
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label class="form-control-label">Region</label>
                         <div class="add-item-img d-flex  border-radius">

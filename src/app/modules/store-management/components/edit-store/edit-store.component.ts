@@ -24,7 +24,7 @@ export class EditStoreComponent implements OnInit {
   closeTime: any = "";
   openTime: any = "";
   timmings: any = [];
-  minOrderQty:any="";
+  minOrderQty: any = "";
   public Editor = ClassicEditor;
 
   constructor(private apiCalls: ApiCallsService, private route: ActivatedRoute) { }
@@ -49,6 +49,7 @@ export class EditStoreComponent implements OnInit {
     this.setTextualDetails();
     this.fetchRegions();
     this.setStoreTimmings(id);
+    this.setDeliveryDetails();
   }
 
   async onLogoChanged(event) {
@@ -68,6 +69,7 @@ export class EditStoreComponent implements OnInit {
     await this.updateTextualDetails();
     await this.updateAssets();
     await this.updateStoreTimmings(this.store.id)
+    await this.updateDeliveryDetails();
     this.apiCalls.loadingdialogRef.close();
   }
 
@@ -202,11 +204,35 @@ export class EditStoreComponent implements OnInit {
 
   }
 
-  minOrderQtyChange(event){
+  minOrderQtyChange(event) {
     const minOrderQty = event.key;
-    if(minOrderQty.toString()=="-"){
+    if (minOrderQty.toString() == "-") {
       this.minOrderQty = "";
     }
+  }
+
+  async setDeliveryDetails() {
+    var data: any = await this.apiCalls.getDeliveryDetailsStore(this.store.id);
+    data = data.data;
+    const dType: any = document.getElementById('delivery-type');
+    const dPackage: any = document.getElementById('delivery-package');
+    const bikeOrderQty: any = document.getElementById('bike');
+    dType.value = data.type;
+    dPackage.value = data.itemType;
+    bikeOrderQty.value = data.maxOrderQuantityForBike
+  }
+
+  async updateDeliveryDetails() {
+    const dType: any = document.getElementById('delivery-type');
+    const dPackage: any = document.getElementById('delivery-package');
+    const bikeOrderQty: any = document.getElementById('bike');
+
+    return await this.apiCalls.updateDeliveryDetailsStore(this.store.id, {
+      "type": dType.value,
+      "itemType": dPackage.value,
+      "maxOrderQuantityForBike": bikeOrderQty.value
+    })
+   
   }
 
 }

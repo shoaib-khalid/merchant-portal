@@ -65,7 +65,7 @@ export class ApiCallsService {
       "title": title,
       "topVertexId": "",
       "ownerId": localStorage.getItem("ownerId"),
-      'storeId':localStorage.getItem('storeId')
+      'storeId': localStorage.getItem('storeId')
 
     }
     try {
@@ -437,8 +437,8 @@ export class ApiCallsService {
       toPromise();
   }
 
-  async getOrders() {
-    const httpOptions = {
+  async getOrders(customerId=null) {
+    const httpOptions:any = {
       headers: new HttpHeaders({
         Authorization: "asx"
       }),
@@ -446,6 +446,9 @@ export class ApiCallsService {
       params: {
         "storeId": localStorage.getItem("storeId")
       }
+    }
+    if(customerId){
+      httpOptions.params.customerId=customerId;
     }
     if (localStorage.getItem("storeId")) {
 
@@ -643,7 +646,6 @@ export class ApiCallsService {
   async uploadStoreAssets(body, id) {
     const data = await this.http.post<any>(this.productService +
       `/stores/${id}/assets`, body).toPromise();
-    this.loadingdialogRef.close();
 
   }
 
@@ -826,5 +828,16 @@ export class ApiCallsService {
   getMonthlySales(startMonth, endMonth) {
     return this.http.get(`${"https://api.symplified.biz/report-service/v1"}/store/${localStorage.getItem('storeId')}/report/monthlySales?endMonth=${endMonth}&startMonth=${startMonth}`).toPromise();
   }
-  
+
+  async saveDeliveryDetailsStore(body) {
+    return this.http.post(this.productService + `/stores/${localStorage.getItem("storeId")}/deliverydetails`, body).toPromise();
+  }
+
+  async getDeliveryDetailsStore(storeId) {
+    return this.http.get(this.productService + `/stores/${storeId}/deliverydetails`).toPromise()
+  }
+  async updateDeliveryDetailsStore(storeId, body) {
+    return this.http.put(this.productService + `/stores/${storeId}/deliverydetails`, body).toPromise()
+  }
+
 }

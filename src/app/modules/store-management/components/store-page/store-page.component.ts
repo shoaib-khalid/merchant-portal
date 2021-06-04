@@ -23,7 +23,7 @@ export class StorePageComponent implements OnInit {
   banner: any = { file: "", preview: "" };
   openTime: any = "";
   closeTime: any = "";
-  minOrderQty:any="";
+  minOrderQty: any = "";
   timmings: any = [
     { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
     { day: "TUESDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
@@ -49,6 +49,7 @@ export class StorePageComponent implements OnInit {
       await this.saveDetails();
       this.saveStoreTimmings();
       this.uploadAssets();
+      this.saveStoreDeliveryDetails();
     } else {
       this.emptyFields();
     }
@@ -171,16 +172,32 @@ export class StorePageComponent implements OnInit {
     this.timmings[i].isOff = event.checked;
     console.log(this.timmings)
   }
-  
+
   revealTimeTable() {
     $("#store-timmings-table").show(1000);
 
   }
 
-  minOrderQtyChange(event){
+  minOrderQtyChange(event) {
     const minOrderQty = event.key;
-    if(minOrderQty.toString()=="-"){
+    if (minOrderQty.toString() == "-") {
       this.minOrderQty = "";
     }
   }
+
+  async saveStoreDeliveryDetails() {
+    const dType: any = document.getElementById('delivery-type');
+    const dPackage: any = document.getElementById('delivery-package');
+    const bikeOrderQty: any = document.getElementById('bike');
+
+    const data = await this.apiCalls.saveDeliveryDetailsStore({
+      "type": dType.value,
+      "itemType": dPackage.value,
+      "maxOrderQuantityForBike": bikeOrderQty.value
+    })
+    console.log(data)
+    this.apiCalls.loadingdialogRef.close();
+
+  }
+
 }

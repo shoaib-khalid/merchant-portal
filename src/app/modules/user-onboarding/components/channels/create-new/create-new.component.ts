@@ -52,6 +52,7 @@ export class CreateNewComponent implements OnInit {
     if (this.channel == "Facebook") {
       this.fbButton = true;
       $("#wa-contact").hide();
+      $("#refId").hide();
 
     } else if (this.channel == "Whatsapp") {
       this.fbButton = false;
@@ -63,6 +64,8 @@ export class CreateNewComponent implements OnInit {
       console.log(this.channel)
       this.fbButton = false;
       $("#wa-contact").hide();
+      $("#refId").hide();
+
     }
   }
 
