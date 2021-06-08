@@ -69,6 +69,7 @@ export class EditProductComponent implements OnInit {
     this.title = this.product.name;
     this.description = this.product.description;
     this.productStatus = this.product.status;
+    this.weight = this.product.weight;
     this.setCategory();
     this.setDeliveryDetails()
     this.setThumbnailPreview();
@@ -250,7 +251,8 @@ export class EditProductComponent implements OnInit {
       "stock": 0,
       "description": this.description,
       "storeId": localStorage.getItem("storeId"),
-      "thumbnailUrl": this.thumbnailUrl
+      "thumbnailUrl": this.thumbnailUrl,
+      "weight":this.weight
     }
     console.log(body)
     this.updateDeliveryDetails();
@@ -513,7 +515,6 @@ export class EditProductComponent implements OnInit {
     if (data.data) {
       const elements = this.getDeliveryElements();
       elements.itemType.value = data.data.itemType;
-      elements.weight.value = data.data.weight;
       elements.type.value = data.data.type;
     }
 

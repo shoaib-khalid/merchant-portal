@@ -120,7 +120,8 @@ export class AddProductComponent implements OnInit {
         "status": this.productStatus,
         "stock": 0,
         "description": this.description,
-        "storeId": localStorage.getItem("storeId")
+        "storeId": localStorage.getItem("storeId"),
+        "weight":this.weight
 
       }
       const data: any = await this.apiCalls.addProduct(body);

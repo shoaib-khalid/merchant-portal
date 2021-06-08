@@ -42,29 +42,42 @@
 
                         <!-- <textarea class="form-control" [(ngModel)]="storeInfo" rows="3"></textarea> -->
                     </div>
-                    <label class="form-control-label" style="margin-top: 10px;">Minimum Order</label>
+                    <div class="form-group mb-3">
+                        <label for="service-charges">Service Charges %</label>
+                        <input class="form-control" name="service-charges" type="number" id="service-charges" required=""
+                            placeholder="Enter Service Charge" [(ngModel)]="serviceCharge" (keyup)="serviceChargesChange($event)" min="0" max="100">
+                    </div>
+                    <label class="form-control-label" style="margin-top: 10px;">Delivery Details</label>
                     <div class="form-group mb-3">
                         <div style="display: inline-block;"><img src="assets/motor-bike-icon.svg" alt="" height="30px"
-                                width="30px"></div>
+                                width="30px"><span style="margin-left:0px;">Maximum Order</span></div>
                         <input class="form-control" name="minOrderQty" type="number" [(ngModel)]="minOrderQty"
-                            (keyup)="minOrderQtyChange($event)" id="bike" placeholder="Minimum order quantity" min="0"
+                            (keyup)="minOrderQtyChange($event)" id="bike" placeholder="Maximum Order Quantity" min="0"
                             max="1000">
                     </div>
                     <div class="form-group mb-3">
                         <div style="display: inline-block;"><img src="assets/car-icon.svg" alt="" height="30px"
                                 width="30px"> <span style="margin-left:5px;">Greater Than</span></div>
                         <input class="form-control" name="minOrderCar" type="number" (keyup)="minOrderQtyChange($event)"
-                            id="car" value="{{minOrderQty}}">
+                            id="car" value="{{minOrderQty}}" readonly>
                     </div>
-                    <label class="form-control-label">Delivery Details</label>
+                    <div class="form-group mb-3">
+                        <label for="address">Phone Number</label>
+                        <input class="form-control" name="phoneNumber" type="tel" id="phoneNumber" required=""
+                            placeholder="Enter Phone number" (keyup)="phoneNumberChange($event)">
+                        <p id="phone-pattern"> <img src="assets/error-icon.svg" style="margin-bottom: 2px;"
+                                height="15px" width="15px" alt="">Only digits are allowed in Phone Number</p>
+                    </div>
                     <div class="add-item-img d-flex  border-radius">
                         <select name="delivery-type" class="form-control necessary" id="delivery-type">
                             <option value="">Type</option>
+                            <option value="Self">Self</option>\
                             <option value="Scheduled">Scheduled</option>
                             <option value="Ad-Hoc">Ad-Hoc</option>
                         </select>
                     </div>
                     <br>
+
                     <div class="add-item-img d-flex  border-radius">
                         <select name="delivery-package" class="form-control necessary" id="delivery-package">
                             <option value="">Packaging</option>
@@ -75,17 +88,26 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label">Region</label>
+                        <label class="form-control-label" style="margin-top: 12px;">Region</label>
                         <div class="add-item-img d-flex  border-radius">
                             <select name="Inventory-manager" [(ngModel)]="region" class="form-control"
-                                id="inventory-manage">
+                                id="inventory-manage" (change)="regionChange($event)">
                                 <option value="">Select region</option>
                                 <option value="{{region.id}}" *ngFor="let region of regions">{{region.name}}</option>
                             </select>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="form-control-label" style="margin-top: 12px;">States</label>
+                        <div class="add-item-img d-flex  border-radius">
+                            <select name="Inventory-manager" class="form-control" id="state-dropdown">
+                                <option value="">Select state</option>
+                                <option value="{{state.id}}" *ngFor="let state of states">{{state.name}}</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group mb-3">
-                        <label for="address">Address</label>
+                        <label for="address" style="margin-top: 12px;">Address</label>
                         <input class="form-control" name="address" type="username" [(ngModel)]="address" id="address"
                             required="" placeholder="Enter Address">
                     </div>

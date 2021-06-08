@@ -44,7 +44,7 @@ export class DailySalesComponent implements OnInit {
     let dates = [];
     for (let i = 0; i < 7; i++) {
       ts2 = ts2 + 86400000;
-      dates.push([ts2, this.data[i].totalAmount]);
+      dates.push([ts2, this.data[i].totalOrders]);
     }
 
     this.series = [
@@ -111,10 +111,8 @@ export class DailySalesComponent implements OnInit {
 
   async setDailySales() {
     const data: any = await this.apiCalls.fetchDailySales();
-    this.data = data.data;
+    this.data = data.data.content;
     this.initChartData();
-
-    console.log(this.data)
   }
 
 
@@ -122,19 +120,17 @@ export class DailySalesComponent implements OnInit {
     var data: any = await this.apiCalls.getTopProducts();
     data = data.data;
     console.log(data)
+
     for (var i = 0; i < data.length; i++) {
       if (data[i].topProduct.length > 0) {
         this.topProducts.push({
-          product: this.selectTopProduct[data[i].topProduct],
-          date: data[i].date
+          product: this.selectTopProduct(data[0].topProduct), date: data[i].date
         })
       } else {
-        this.topProducts.push({product:{productName:"N/A",totalTransaction:"N/A"}, date: data[i].date })
-
+        this.topProducts.push({ product: { productName: "N/A", totalTransaction: "N/A" }, date: data[i].date })
       }
     }
-    // this.topProducts = data;
-    // console.log(this.topProducts)
+
   }
 
   /**
@@ -142,15 +138,11 @@ export class DailySalesComponent implements OnInit {
    * dailTopProduct array based on rank
    */
   selectTopProduct(dailyTopProducts) {
-    var topProduct = "";
-    var rank = 10000;
-    for (var j = 0; j < dailyTopProducts.length; j++) {
-      if (rank > dailyTopProducts[j].rank) {
-        topProduct = dailyTopProducts[j];
-        rank = dailyTopProducts[j].rank;
+    for (var i = 0; i < dailyTopProducts.length; i++) {
+      if (dailyTopProducts[i].rank == 1) {
+        return dailyTopProducts[i]
       }
     }
-    return topProduct;
   }
 
 }

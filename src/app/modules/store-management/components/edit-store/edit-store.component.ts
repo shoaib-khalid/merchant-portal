@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
+import { HelperService } from 'src/app/services/helper.service';
 import $ from 'jquery';
 import { ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -25,16 +26,19 @@ export class EditStoreComponent implements OnInit {
   openTime: any = "";
   timmings: any = [];
   minOrderQty: any = "";
+  states: any = [];
+  state: any = "";
+  serviceCharges:any="0";
   public Editor = ClassicEditor;
 
-  constructor(private apiCalls: ApiCallsService, private route: ActivatedRoute) { }
+  constructor(private apiCalls: ApiCallsService, private route: ActivatedRoute, private helperService: HelperService) { }
 
   ngOnInit(): void {
 
     $("#warning-address").hide();
     $("#warning-postcode").hide();
     $("#store-timmings-table").hide();
-
+    $("#phone-pattern").hide()
     this.route.params.subscribe(params => {
       if (params.id) {
         this.loadStore(params.id)
@@ -50,6 +54,9 @@ export class EditStoreComponent implements OnInit {
     this.fetchRegions();
     this.setStoreTimmings(id);
     this.setDeliveryDetails();
+    if (this.store.regionCountry) {
+      this.fetchStates(this.store.regionCountry.id);
+    }
   }
 
   async onLogoChanged(event) {
@@ -79,6 +86,14 @@ export class EditStoreComponent implements OnInit {
     this.address = this.store.address;
     this.city = this.store.city;
     this.postCode = this.store.postcode;
+    (<HTMLInputElement>document.getElementById("phoneNumber")).value = this.store.phoneNumber;
+    this.serviceCharges = this.store.serviceChargesPercentage;
+  }
+
+  setState() {
+    const ele: any = document.getElementById("state-dropdown");
+    ele.value = this.store.regionCountryStateId;
+    this.state = this.store.regionCountryStateId;
   }
 
   async setAssets() {
@@ -108,7 +123,10 @@ export class EditStoreComponent implements OnInit {
       "name": this.storeName,
       "postcode": this.postCode,
       "storeDescription": this.storeInfo,
-      "region": this.region
+      "region": this.region,
+      "regionCountryStateId":this.state,
+      "phoneNumber": (<HTMLInputElement>document.getElementById("phoneNumber")).value,
+      serviceChargesPercentage:this.serviceCharges
     }
     return this.apiCalls.updateStore(store, this.store.id)
   }
@@ -167,13 +185,11 @@ export class EditStoreComponent implements OnInit {
     for (var j = 0; j < data.length; j++) {
       this.timmings.push({ day: data[j].day, isOff: data[j].isOff, openTime: data[j].openTime, closeTime: data[j].closeTime })
     }
-    console.log(data)
   }
 
 
   changeOpenTime(event, i) {
     this.timmings[i].openTime = event.target.value;
-    console.log(event.target.value)
   }
   changeCloseTime(event, i) {
     this.timmings[i].closeTime = event.target.value;
@@ -181,7 +197,6 @@ export class EditStoreComponent implements OnInit {
   }
   changeOn_Off(event, i) {
     this.timmings[i].isOff = event.checked;
-    console.log(this.timmings)
   }
 
   revealTimeTable() {
@@ -196,7 +211,6 @@ export class EditStoreComponent implements OnInit {
           "openTime": this.timmings[j].openTime,
           "isOff": this.timmings[j].isOff
         }, this.timmings[j].day, storeId)
-        console.log(data)
       }
       resolve("");
     });
@@ -212,6 +226,7 @@ export class EditStoreComponent implements OnInit {
   }
 
   async setDeliveryDetails() {
+    console.log(this.store)
     var data: any = await this.apiCalls.getDeliveryDetailsStore(this.store.id);
     data = data.data;
     const dType: any = document.getElementById('delivery-type');
@@ -219,7 +234,8 @@ export class EditStoreComponent implements OnInit {
     const bikeOrderQty: any = document.getElementById('bike');
     dType.value = data.type;
     dPackage.value = data.itemType;
-    bikeOrderQty.value = data.maxOrderQuantityForBike
+    bikeOrderQty.value = data.maxOrderQuantityForBike;
+    (<HTMLInputElement>document.getElementById("car")).value = bikeOrderQty.value;
   }
 
   async updateDeliveryDetails() {
@@ -232,7 +248,39 @@ export class EditStoreComponent implements OnInit {
       "itemType": dPackage.value,
       "maxOrderQuantityForBike": bikeOrderQty.value
     })
-   
+
   }
 
+  phoneNumberChange(event) {
+    const phNum = event.target.value;
+    if (!/^([0-9]{0,})$/.test(phNum)) {
+      var phoneNumber = (<HTMLInputElement>document.getElementById("phoneNumber")).value.replace(phNum[phNum.length - 1], "");
+      phoneNumber = phoneNumber.replace(/\D/g, '');
+      (<HTMLInputElement>document.getElementById("phoneNumber")).value = phoneNumber;
+      $("#phone-pattern").show(70)
+    } else {
+      $("#phone-pattern").hide()
+    }
+  }
+
+  regionChange(event) {
+    if (event.target.value) {
+      this.fetchStates(event.target.value)
+    } else {
+      this.states = [];
+    }
+  }
+
+  async fetchStates(regionId) {
+    const data: any = await this.apiCalls.getStates(regionId);
+    this.states = data.data.content;
+    this.setState();
+  }
+  serviceChargesChange(event) {
+    if (event.target.value > 100) {
+      this.serviceCharges = 100;
+    } else if (event.key == "-") {
+      this.serviceCharges = 0;
+    }
+  }
 }

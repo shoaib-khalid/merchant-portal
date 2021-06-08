@@ -50,7 +50,9 @@
 
                                                 <tbody>
                                                     <tr *ngFor="let prod of topProducts;">
-                                                        <td class="body-cols column-style">{{prod.product.productName}}
+                                                        <td class="body-cols column-style"
+                                                            style="text-overflow: clip;max-width: 100px;">
+                                                            {{prod.product.productName}}
                                                         </td>
                                                         <td class="body-cols column-style">
                                                             {{prod.product.totalTransaction}}</td>
@@ -63,7 +65,7 @@
 
                                         <div style="margin-top: 80px;text-align: center;">
                                             <span style="font-size:large;font-weight:bold">Monthly Sales</span>
-                                            <app-monthly-sales></app-monthly-sales>
+                                            <!-- <app-monthly-sales></app-monthly-sales> -->
                                         </div>
                                     </div>
                                 </div>

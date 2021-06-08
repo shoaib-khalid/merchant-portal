@@ -16,10 +16,11 @@ export class ApiCallsService {
   data: any = [];
   loadingdialogRef: any;
   vertextType: any;
-  pathVariable1: string = environment.url1;
-  pathVariable2: string = environment.url2;
-  productService: string = environment.url3;
-  pathVariable4: string = environment.url4;
+  private pathVariable1: string = environment.url1;
+  private userService: string = environment.url2;
+  private productService: string = environment.url3;
+  private pathVariable4: string = environment.url4;
+  private reportService: string = environment.url5;
 
   constructor(private http: HttpClient, private router: Router, private dialog: MatDialog, private helperService: HelperTextService) {
 
@@ -244,7 +245,7 @@ export class ApiCallsService {
 
   registerClient(signUpData) {
 
-    this.http.post<any>(this.pathVariable2 + "/clients/register", signUpData).
+    this.http.post<any>(this.userService + "/clients/register", signUpData).
       subscribe(data => {
         if (signUpData.roleId == "STORE_OWNER") {
           this.authenticateClient({ username: signUpData.username, password: signUpData.password })
@@ -260,7 +261,7 @@ export class ApiCallsService {
   }
   authenticateClient(logInData) {
 
-    return this.http.post<any>(this.pathVariable2 + "/clients/authenticate", logInData).
+    return this.http.post<any>(this.userService + "/clients/authenticate", logInData).
       subscribe(async data => {
         if (data.status == 202) {
           localStorage.setItem('accessToken', data.data.session.accessToken)
@@ -309,11 +310,11 @@ export class ApiCallsService {
         userId: localStorage.getItem('ownerId')
       }
     }
-    return await this.http.get(this.pathVariable2 + "/userChannels", httpOptions).toPromise();
+    return await this.http.get(this.userService + "/userChannels", httpOptions).toPromise();
   }
 
   async createChannel(body) {
-    return await this.http.post<any>(this.pathVariable2 + "/userChannels", body).toPromise();
+    return await this.http.post<any>(this.userService + "/userChannels", body).toPromise();
   }
 
   updateFlowDetails(body) {
@@ -437,8 +438,8 @@ export class ApiCallsService {
       toPromise();
   }
 
-  async getOrders(customerId=null) {
-    const httpOptions:any = {
+  async getOrders(customerId = null) {
+    const httpOptions: any = {
       headers: new HttpHeaders({
         Authorization: "asx"
       }),
@@ -447,8 +448,8 @@ export class ApiCallsService {
         "storeId": localStorage.getItem("storeId")
       }
     }
-    if(customerId){
-      httpOptions.params.customerId=customerId;
+    if (customerId) {
+      httpOptions.params.customerId = customerId;
     }
     if (localStorage.getItem("storeId")) {
 
@@ -551,7 +552,7 @@ export class ApiCallsService {
       }),
 
     }
-    return this.http.post<any>(this.pathVariable2 + "/clients/session/refresh",
+    return this.http.post<any>(this.userService + "/clients/session/refresh",
       localStorage.getItem("refreshToken"), httpOptions).toPromise();
   }
 
@@ -672,7 +673,7 @@ export class ApiCallsService {
   getCustomers(page = 0) {
 
     return this.http.get(
-      `${this.pathVariable2}/stores/${localStorage.getItem('storeId')}/customers/?page=${page}&pageSize=15`).toPromise();
+      `${this.userService}/stores/${localStorage.getItem('storeId')}/customers/?page=${page}&pageSize=15`).toPromise();
   }
 
   getClients(roleId) {
@@ -682,17 +683,17 @@ export class ApiCallsService {
         storeId: localStorage.getItem('storeId')
       }
     }
-    return this.http.get<any>(this.pathVariable2 + `/clients/`, httpOptions).
+    return this.http.get<any>(this.userService + `/clients/`, httpOptions).
       toPromise();
   }
 
   getClient(id) {
-    return this.http.get<any>(this.pathVariable2 + `/clients/${id}`).
+    return this.http.get<any>(this.userService + `/clients/${id}`).
       toPromise();
   }
 
   updateClient(id, body) {
-    return this.http.put<any>(this.pathVariable2 + `/clients/${id}`, body).
+    return this.http.put<any>(this.userService + `/clients/${id}`, body).
       toPromise();
   }
 
@@ -763,7 +764,7 @@ export class ApiCallsService {
       userId: localStorage.getItem('fb-user-id'),
       token: accessToken
     }
-    this.http.post(this.pathVariable2 + "/apptokens", body).subscribe(data => {
+    this.http.post(this.userService + "/apptokens", body).subscribe(data => {
       console.log(data)
       location.reload()
 
@@ -775,11 +776,11 @@ export class ApiCallsService {
   }
 
   fetchChannels() {
-    return this.http.get(this.pathVariable2 + '/availablechannels').toPromise()
+    return this.http.get(this.userService + '/availablechannels').toPromise()
   }
 
   deleteUserChannel(channelId) {
-    return this.http.delete(this.pathVariable2 + `/userChannels/${channelId}`).toPromise();
+    return this.http.delete(this.userService + `/userChannels/${channelId}`).toPromise();
   }
 
   getStoreByName(storeName: any) {
@@ -799,7 +800,7 @@ export class ApiCallsService {
     const endDate = d.toISOString().slice(0, 10)
     d.setDate(d.getDate() - 7);
     const startDate = d.toISOString().slice(0, 10);
-    return this.http.get(`https://api.symplified.biz/report-service/v1/store/${localStorage.getItem('storeId')}/report/dailySales?endDate=${endDate}&startDate=${startDate}`).toPromise()
+    return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/daily_sales?from=${startDate}&page=0&pageSize=20&sortBy=date&sortingOrder=ASC&to=${endDate}`).toPromise()
   }
 
   /**
@@ -811,7 +812,7 @@ export class ApiCallsService {
     const endDate = d.toISOString().slice(0, 10)
     d.setDate(d.getDate() - 7);
     const startDate = d.toISOString().slice(0, 10);
-    return this.http.get(`https://api.symplified.biz/report-service/v1/store/${localStorage.getItem('storeId')}/report/dailyTopProducts?endDate=${endDate}&startDate=${startDate}`).toPromise()
+    return this.http.get(`${this.reportService}/store/${localStorage.getItem('storeId')}/report/dailyTopProducts?endDate=${endDate}&startDate=${startDate}`).toPromise()
   }
 
   saveStoreTimmings(timmings) {
@@ -826,7 +827,7 @@ export class ApiCallsService {
     return this.http.put(`${this.productService}/stores/${id}/timings/${day}`, timmings).toPromise();
   }
   getMonthlySales(startMonth, endMonth) {
-    return this.http.get(`${"https://api.symplified.biz/report-service/v1"}/store/${localStorage.getItem('storeId')}/report/monthlySales?endMonth=${endMonth}&startMonth=${startMonth}`).toPromise();
+    return this.http.get(`${this.reportService}/store/${localStorage.getItem('storeId')}/report/monthlySales?endMonth=${endMonth}&startMonth=${startMonth}`).toPromise();
   }
 
   async saveDeliveryDetailsStore(body) {
@@ -839,5 +840,7 @@ export class ApiCallsService {
   async updateDeliveryDetailsStore(storeId, body) {
     return this.http.put(this.productService + `/stores/${storeId}/deliverydetails`, body).toPromise()
   }
-
+  async getStates(regionId) {
+    return this.http.get(this.productService + `/region-country-state?page=0&pageSize=20&regionCountryId=${regionId}`).toPromise()
+  }
 }

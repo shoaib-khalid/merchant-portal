@@ -3,7 +3,8 @@ import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { MatDialog } from '@angular/material/dialog';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import $ from 'jquery';
-import { min } from 'rxjs/operators';
+import { HelperService } from 'src/app/services/helper.service';
+
 
 @Component({
   selector: 'app-store-page',
@@ -24,6 +25,8 @@ export class StorePageComponent implements OnInit {
   openTime: any = "";
   closeTime: any = "";
   minOrderQty: any = "";
+  states: any = [];
+  serviceCharge: any = "0";
   timmings: any = [
     { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
     { day: "TUESDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
@@ -34,17 +37,17 @@ export class StorePageComponent implements OnInit {
     { day: "SUNDAY", isOff: false, openTime: "09:00", closeTime: "17:00" }
   ]
   public Editor = ClassicEditor;
-  constructor(private apiCalls: ApiCallsService, private dialog: MatDialog) { }
+  constructor(private apiCalls: ApiCallsService, private dialog: MatDialog, private helperService: HelperService) { }
 
   ngOnInit(): void {
     this.fetchRegions();
     $("#store-exists").hide();
     $("#store-timmings-table").hide();
-
+    $("#phone-pattern").hide()
   }
 
   async registerStore() {
-    if (this.storeName) {
+    if (this.storeName && (<HTMLInputElement>document.getElementById("phoneNumber")).value) {
       this.apiCalls.loadingAnimation("Registering new store", "280")
       await this.saveDetails();
       this.saveStoreTimmings();
@@ -73,8 +76,11 @@ export class StorePageComponent implements OnInit {
     var arr: any = document.getElementsByClassName('form-control');
     for (var i = 0; i < arr.length; i++) {
       if (arr[i].value == "") {
-        $(arr[i]).val('').css("border-color", "red");
-        break;
+        if ($(arr[i])[0].id == "storeName") {
+          $(arr[i]).val('').css("border-color", "red");
+        } else if ($(arr[i])[0].id == "phoneNumber") {
+          $(arr[i]).val('').css("border-color", "red");
+        }
       } else {
         $(arr[i]).css("border-color", "");
       }
@@ -109,7 +115,10 @@ export class StorePageComponent implements OnInit {
       storeDescription: this.storeInfo,
       clientId: localStorage.getItem("ownerId"),
       domain: this.storeName.replace(/\s+/g, '-').toLowerCase(),
-      regionCountryId: this.region
+      regionCountryId: this.region,
+      regionCountryStateId: (<HTMLInputElement>document.getElementById("state-dropdown")).value,
+      phoneNumber: (<HTMLInputElement>document.getElementById("phoneNumber")).value,
+      serviceChargesPercentage: this.serviceCharge
     })
   }
 
@@ -200,4 +209,35 @@ export class StorePageComponent implements OnInit {
 
   }
 
+  phoneNumberChange(event) {
+    const phNum = event.target.value;
+    if (!/^([0-9]{0,})$/.test(phNum)) {
+      var phoneNumber = (<HTMLInputElement>document.getElementById("phoneNumber")).value.replace(phNum[phNum.length - 1], "");
+      phoneNumber = phoneNumber.replace(/\D/g, '');
+      (<HTMLInputElement>document.getElementById("phoneNumber")).value = phoneNumber;
+      $("#phone-pattern").show(70)
+    } else {
+      $("#phone-pattern").hide()
+    }
+  }
+
+  regionChange(event) {
+    if (event.target.value) {
+      this.fetchStates(event.target.value)
+    } else {
+      this.states = [];
+    }
+  }
+
+  async fetchStates(regionId) {
+    const data: any = await this.apiCalls.getStates(regionId);
+    this.states = data.data.content;
+  }
+  serviceChargesChange(event) {
+    if (event.target.value > 100) {
+      this.serviceCharge = 100;
+    } else if (event.key == "-") {
+      this.serviceCharge = 0;
+    }
+  }
 }

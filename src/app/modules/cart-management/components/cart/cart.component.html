@@ -66,19 +66,10 @@
                                                         style="width:140px; margin-right: 10px;" name="" id="">
                                                 </div>
 
-                                                <div>
-                                                    <select class="mr-2 form-control" style="width:150px">
-                                                        <option> Tagged With</option>
-                                                        <option>Trending</option>
-                                                        <option>Most Popular</option>
-                                                        <option>Cheapest</option>
-                                                    </select>
-                                                </div>
                                             </div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
                                                     <tr>
-                                                        <th class="border-0"><input type="checkbox"></th>
 
                                                         <th class="border-0">Customer Id</th>
                                                         <th class="border-0">Created At</th>
@@ -87,7 +78,6 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr id="{{cart.id}}" *ngFor ="let cart of carts;"  (click)="showCartItems(cart)" class="carts" >
-                                                        <td><input type="checkbox"></td>
                                                         <td class="product">{{cart.customerId}}</td>
                                                         <td>
                                                             <div>{{cart.created}}</div>
