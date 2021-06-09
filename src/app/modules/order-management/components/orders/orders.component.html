@@ -52,7 +52,7 @@
                         <div class="row">
                             <div class="col">
                                 <!-- my items table -->
-                                <div class="card product_item_list mb-4">
+                                <div class="card product_item_list mb-4" style="margin-left: -100px;">
                                     <div class="card-header py-3 border-bottom">
                                         <div class="d-flex align-items-center">
                                             <div>
@@ -64,43 +64,54 @@
                                         <div class="table-responsive">
                                             <div style="display: flex;">
                                                 <div>
-                                                    <input type="text" placeholder="Filter Orders"
-                                                        class="form-control" style="width:140px; margin-right: 10px;"
-                                                        name="" id="" (keyup)="filterOrders($event)">
-                                                </div>   
+                                                    <input type="text" placeholder="Filter Orders" class="form-control"
+                                                        style="width:140px; margin-right: 10px;" name="" id=""
+                                                        (keyup)="filterOrders($event)">
+                                                </div>
                                             </div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
                                                     <tr>
                                                         <!-- <th class="border-0"><input type="checkbox"></th> -->
 
+                                                        <th class="border-0" data-breakpoints="xs">Invoice Id</th>
                                                         <!-- <th class="border-0">Order</th> -->
-                                                        <th class="border-0">Order Status</th>
-                                                        <th class="border-0" data-breakpoints="sm xs">Payment Status</th>
                                                         <th class="border-0" data-breakpoints="xs">Customer Name</th>
                                                         <th class="border-0" data-breakpoints="xs">Customer Email</th>
                                                         <th class="border-0" data-breakpoints="xs">Customer Address</th>
                                                         <th class="border-0" data-breakpoints="xs">Phone No</th>
+                                                        <th class="border-0" data-breakpoints="xs">Date</th>
+                                                        <th class="border-0">Order Status</th>
+                                                        <th class="border-0" data-breakpoints="sm xs">Payment Status
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor='let order of orders;' (click)="showOrderItems(order)" class="orders-list">
+                                                    <tr *ngFor='let order of orders;' (click)="showOrderItems(order)"
+                                                        class="orders-list">
                                                         <!-- <td><input type="checkbox"></td> -->
                                                         <!-- <td class="product">{{order.id}}</td> -->
-                                                        <td  *ngIf="order.orderShipmentDetail">
-                                                            <div >{{order.completionStatus}}</div>
+                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail">
+                                                            {{order.orderShipmentDetail.referenceId}}</td>
+                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail">
+                                                            {{order.orderShipmentDetail.receiverName}}</td>
+                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail">
+                                                            {{order.orderShipmentDetail.email}}</td>
+                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail">
+                                                            {{order.orderShipmentDetail.address}}</td>
+                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail">
+                                                            {{order.orderShipmentDetail.phoneNumber}}</td>
+                                                        <td style="cursor: pointer;max-width: 140px;text-overflow: clip;" *ngIf="order.orderShipmentDetail">
+                                                            {{order.created}}</td>
+                                                        <td *ngIf="order.orderShipmentDetail">
+                                                            <div>{{order.completionStatus}}</div>
                                                         </td>
-                                                        <td  *ngIf="order.orderShipmentDetail">
+                                                        <td *ngIf="order.orderShipmentDetail">
 
                                                             <div>{{order.paymentStatus}}</div>
                                                         </td>
-                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail">{{order.orderShipmentDetail.receiverName}}</td>
-                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail">{{order.orderShipmentDetail.email}}</td>
-                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail">{{order.orderShipmentDetail.address}}</td>
-                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail">{{order.orderShipmentDetail.phoneNumber}}</td>
-                                                        
                                                     </tr>
-                                                   
+
                                                 </tbody>
                                             </table>
                                         </div>

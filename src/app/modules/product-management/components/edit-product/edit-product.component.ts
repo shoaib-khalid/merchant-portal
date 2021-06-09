@@ -245,7 +245,7 @@ export class EditProductComponent implements OnInit {
     this.apiCalls.loadingAnimation('Updating..')
     await this.deleteEntireInventory();
     const body = {
-      "categoryId": this.getCategoryId(),
+      "categoryId": await this.getCategoryId(),
       "name": this.title,
       "status": this.productStatus,
       "stock": 0,
@@ -409,10 +409,26 @@ export class EditProductComponent implements OnInit {
     }
   }
 
-  getCategoryId() {
+  async getCategoryId() {
     const name = $('#categories').val();
     var id = $('#categories-data-list option[value="' + name + '"]').attr('id');
+    if (id) {
+      return id;
+    }
+    id = await this.createNewCategory(name)
     return id;
+  }
+
+  createNewCategory(name) {
+    const body = {
+      "name": name,
+      "storeId": localStorage.getItem("storeId"),
+    }
+    var promise = new Promise(async (resolve, reject) => {
+      const data: any = await this.apiCalls.createCategory(body);
+      resolve(data.data.id);
+    });
+    return promise;
   }
 
   sortObjects(array) {

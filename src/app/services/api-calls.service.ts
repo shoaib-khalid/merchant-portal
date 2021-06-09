@@ -812,7 +812,7 @@ export class ApiCallsService {
     const endDate = d.toISOString().slice(0, 10)
     d.setDate(d.getDate() - 7);
     const startDate = d.toISOString().slice(0, 10);
-    return this.http.get(`${this.reportService}/store/${localStorage.getItem('storeId')}/report/dailyTopProducts?endDate=${endDate}&startDate=${startDate}`).toPromise()
+    return this.http.get(`${this.reportService}/store/${localStorage.getItem('storeId')}/daily_top_products?to=${endDate}&from=${startDate}`).toPromise()
   }
 
   saveStoreTimmings(timmings) {

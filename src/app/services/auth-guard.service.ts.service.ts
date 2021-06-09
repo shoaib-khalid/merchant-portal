@@ -27,7 +27,7 @@ export class AuthGuardService implements CanActivate {
         if (this.allowedUnAuthenticated.includes(route.url[0].path)) {
           return true;
         } else {
-          this.router.navigateByUrl("/")
+          this.router.navigateByUrl("/signin")
         }
       } else {
         return true;

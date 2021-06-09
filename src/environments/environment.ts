@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  url1:"https://designer.symplified.biz",
+  url1:"https://api.symplified.biz/flow-builder/v1",
   url2:"https://api.symplified.biz/v1/user-service",
-  url3:"https://api.symplified.biz/v1/product-service",
+  url3:"https://api.symplified.biz/product-service/v1",
   url4:"https://api.symplified.biz/order-service/v1",
   url5:"https://api.symplified.biz/report-service/v1",
   client_id:'2915126152079198',

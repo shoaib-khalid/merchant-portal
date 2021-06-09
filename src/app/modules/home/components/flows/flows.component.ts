@@ -34,6 +34,7 @@ export class FlowsComponent implements OnInit {
   }
 
   getPublishedChannels() {
+    console.log(this.flows)
     this.flows.forEach(element => {
       if (element.botIds) {
         this.publishedChannels.push({ flowid: element.id, channels: element.botIds })

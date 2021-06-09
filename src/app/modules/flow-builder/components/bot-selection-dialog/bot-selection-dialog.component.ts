@@ -50,7 +50,7 @@ export class BotSelectionDialogComponent implements OnInit {
     this.bots = [];
     var data: any = await this.apiCalls.getUserChannels();
     const content = data.data.content;
-
+    console.log(content)
 
     var j = 0;
     for (var i = 0; i < content.length; i++) {

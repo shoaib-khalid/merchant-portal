@@ -42,9 +42,9 @@ export class DailySalesComponent implements OnInit {
     var n = d.getTime();
     let ts2 = n;
     let dates = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < this.data.length; i++) {
       ts2 = ts2 + 86400000;
-      dates.push([ts2, this.data[i].totalOrders]);
+      dates.push([this.data[i].date, this.data[i].totalOrders]);
     }
 
     this.series = [
@@ -112,6 +112,7 @@ export class DailySalesComponent implements OnInit {
   async setDailySales() {
     const data: any = await this.apiCalls.fetchDailySales();
     this.data = data.data.content;
+    console.log(this.data)
     this.initChartData();
   }
 
@@ -120,16 +121,16 @@ export class DailySalesComponent implements OnInit {
     var data: any = await this.apiCalls.getTopProducts();
     data = data.data;
     console.log(data)
-
-    for (var i = 0; i < data.length; i++) {
-      if (data[i].topProduct.length > 0) {
-        this.topProducts.push({
-          product: this.selectTopProduct(data[0].topProduct), date: data[i].date
-        })
-      } else {
-        this.topProducts.push({ product: { productName: "N/A", totalTransaction: "N/A" }, date: data[i].date })
-      }
-    }
+    this.topProducts=data.content;
+    // for (var i = 0; i < data.length; i++) {
+    //   if (data[i].topProduct.length > 0) {
+    //     this.topProducts.push({
+    //       product: this.selectTopProduct(data[0].topProduct), date: data[i].date
+    //     })
+    //   } else {
+    //     this.topProducts.push({ product: { productName: "N/A", totalTransaction: "N/A" }, date: data[i].date })
+    //   }
+    // }
 
   }
 

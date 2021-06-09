@@ -7,7 +7,9 @@
 }
 
 #graph1{
-    display: inline-block;
-    width: 420px;
     border-right: 1px solid rgb(206, 206, 206);
+}
+
+#dailyTopProducts{
+    margin-top: 10px;
 }
