@@ -7,23 +7,24 @@ import { MatDialog } from '@angular/material/dialog';
 import { SuccessAnimationComponent } from 'src/app/modules/home/components/success-animation/success-animation.component';
 import { LoadingComponent } from 'src/app/modules/home/components/loading/loading.component';
 import { HelperTextService } from 'src/app/helpers/helper-text.service';
+import { AppConfig } from './app.config.ts.service';
 @Injectable({
   providedIn: 'root'
 })
 export class ApiCallsService {
+  protected services = AppConfig.settings.services;
   flowId: any;
   retrievedJson: any;
   data: any = [];
   loadingdialogRef: any;
   vertextType: any;
-  private pathVariable1: string = environment.url1;
-  private userService: string = environment.url2;
-  private productService: string = environment.url3;
-  private pathVariable4: string = environment.url4;
-  private reportService: string = environment.url5;
+  private pathVariable1: string = this.services.flowBuilderService;
+  private userService: string = this.services.userService;
+  private productService: string = this.services.productService;
+  private pathVariable4: string = this.services.orderService;
+  private reportService: string = this.services.reportService;
 
   constructor(private http: HttpClient, private router: Router, private dialog: MatDialog, private helperService: HelperTextService) {
-
 
   }
 
@@ -842,5 +843,8 @@ export class ApiCallsService {
   }
   async getStates(regionId) {
     return this.http.get(this.productService + `/region-country-state?page=0&pageSize=20&regionCountryId=${regionId}`).toPromise()
+  }
+  async getSettlement(from, to) {
+    return this.http.get(this.reportService + `/store/${localStorage.getItem('storeId')}/settlement?from=${from}&page=0&pageSize=20&sortBy=startDate&sortingOrder=ASC&to=${to}`).toPromise()
   }
 }

@@ -4,7 +4,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FlowDialog } from 'src/app/modules/flow-builder/components/flow-dialog/flow-dialog.component';
 import { HttpConfigInterceptor } from 'src/app/services/httpconfig.interceptor';
 import { Helper } from './helpers/graph-helper';
-
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfig } from 'src/app/services/app.config.ts.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { FlowBuilderModule } from './modules/flow-builder/flow-builder.module';
@@ -14,7 +15,11 @@ import { HomeModule } from './modules/home/home.module';
 import { StoreManagementModule } from './modules/store-management/store-management.module';
 import { CartManagementModule } from './modules/cart-management/cart-management.module';
 import { OrderManagementModule } from './modules/order-management/order-management.module';
-import {ReportingModule} from './modules/reporting/reporting.module';
+import { ReportingModule } from './modules/reporting/reporting.module';
+
+export function initializeApp(appConfig: AppConfig) {
+  return () => appConfig.load();
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,8 +36,12 @@ import {ReportingModule} from './modules/reporting/reporting.module';
     OrderManagementModule,
     ReportingModule
   ], entryComponents: [FlowDialog],
-  providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }],
+  providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' }, },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }, AppConfig, {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [AppConfig], multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

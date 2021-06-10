@@ -20,14 +20,15 @@ import { SingleCartComponent } from 'src/app/modules/cart-management/components/
 import { SingleOrderComponent } from 'src/app/modules/order-management/components/order-details/single-order.component';
 import { ManageStoresComponent } from 'src/app/modules/store-management/components/manage-stores/manage-stores.component';
 import { EditProductComponent } from 'src/app/modules/product-management/components/edit-product/edit-product.component'
-import {CategoriesComponent} from 'src/app/modules/product-management/components/categories/categories.component';
-import {EditStoreComponent} from 'src/app/modules/store-management/components/edit-store/edit-store.component';
-import {CustomersComponent} from 'src/app/modules/order-management/components/customers/customers.component';
-import {ChannelsComponent} from 'src/app/modules/user-onboarding/components/channels/channels.component';
-import {AccountsComponent} from 'src/app/modules/user-onboarding/components/accounts/accounts.component';
-import {AddAgentComponent} from 'src/app/modules/user-onboarding/components/add-agent/add-agent.component';
-import {EditAgentComponent} from 'src/app/modules/user-onboarding/components/edit-agent/edit-agent.component'
-import {DailySalesComponent} from 'src/app/modules/reporting/components/daily-sales/daily-sales.component';
+import { CategoriesComponent } from 'src/app/modules/product-management/components/categories/categories.component';
+import { EditStoreComponent } from 'src/app/modules/store-management/components/edit-store/edit-store.component';
+import { CustomersComponent } from 'src/app/modules/order-management/components/customers/customers.component';
+import { ChannelsComponent } from 'src/app/modules/user-onboarding/components/channels/channels.component';
+import { AccountsComponent } from 'src/app/modules/user-onboarding/components/accounts/accounts.component';
+import { AddAgentComponent } from 'src/app/modules/user-onboarding/components/add-agent/add-agent.component';
+import { EditAgentComponent } from 'src/app/modules/user-onboarding/components/edit-agent/edit-agent.component'
+import { DailySalesComponent } from 'src/app/modules/reporting/components/daily-sales/daily-sales.component';
+import { SettlementComponent } from 'src/app/modules/reporting/components/settlement/settlement.component';
 
 const routes: Routes = [
 
@@ -173,6 +174,12 @@ const routes: Routes = [
   {
     path: 'agent-accounts/:id',
     component: EditAgentComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: 'settlement',
+    component: SettlementComponent,
     canActivate: [AuthGuardService],
     children: []
   },

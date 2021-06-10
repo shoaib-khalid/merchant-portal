@@ -122,16 +122,6 @@ export class DailySalesComponent implements OnInit {
     data = data.data;
     console.log(data)
     this.topProducts=data.content;
-    // for (var i = 0; i < data.length; i++) {
-    //   if (data[i].topProduct.length > 0) {
-    //     this.topProducts.push({
-    //       product: this.selectTopProduct(data[0].topProduct), date: data[i].date
-    //     })
-    //   } else {
-    //     this.topProducts.push({ product: { productName: "N/A", totalTransaction: "N/A" }, date: data[i].date })
-    //   }
-    // }
-
   }
 
   /**

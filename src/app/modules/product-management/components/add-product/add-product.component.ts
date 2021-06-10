@@ -111,7 +111,7 @@ export class AddProductComponent implements OnInit {
 
   async saveProduct() {
 
-    if (this.title && this.verifyDetails() && this.verifyDeliveryDetails()) {
+    if (this.title && this.verifyDetails()) {
       this.apiCalls.loadingAnimation("Adding Product")
       const categoryId = await this.getCategoryId()
       const body = {
@@ -125,7 +125,7 @@ export class AddProductComponent implements OnInit {
 
       }
       const data: any = await this.apiCalls.addProduct(body);
-      this.addDeliveryDetails(data.data.id)
+      // this.addDeliveryDetails(data.data.id)
       await this.addInventory(data.data.id)
 
       if (this.options.length > 0) {
@@ -409,15 +409,7 @@ export class AddProductComponent implements OnInit {
     document.getElementById(`product-image-${i}`).style.border = "thick solid #0000FF";
   }
 
-  addDeliveryDetails(productId) {
-    const data = this.getDeliveryElements();
-    const body = {
-      itemType: data.itemType.value,
-      type: data.type.value,
-      weight: data.weight.value
-    }
-    this.apiCalls.saveDeliveryDetails(body, productId)
-  }
+
 
   verifyDeliveryDetails() {
     const data = this.getDeliveryElements();

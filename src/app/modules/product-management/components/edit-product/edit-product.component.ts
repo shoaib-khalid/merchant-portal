@@ -255,7 +255,6 @@ export class EditProductComponent implements OnInit {
       "weight":this.weight
     }
     console.log(body)
-    this.updateDeliveryDetails();
     await this.addInventory();
     this.apiCalls.updateProduct(body, this.product.id)
     this.uploadProductImages();
@@ -547,15 +546,7 @@ export class EditProductComponent implements OnInit {
     }
   }
 
-  updateDeliveryDetails() {
-    const data = this.getDeliveryElements();
-    const body = {
-      itemType: data.itemType.value,
-      type: data.type.value,
-      weight: data.weight.value
-    }
-    this.apiCalls.updateDeliveryDetails(body, this.product.id)
-  }
+
 
   showDefaultInventory() {
     const itemCode = this.product.id + "aa";

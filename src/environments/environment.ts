@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  name:"prod",
   url1:"https://api.symplified.biz/flow-builder/v1",
   url2:"https://api.symplified.biz/v1/user-service",
   url3:"https://api.symplified.biz/product-service/v1",
