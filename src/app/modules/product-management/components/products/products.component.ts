@@ -10,12 +10,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class ProductsComponent implements OnInit {
 
   products: any = [];
-  allProducts: any = [];
   page: any = 0;
   categoryId: any = "";
   categories: any = [];
   categoryWithProduct: any = {};
   hover: boolean = true;
+  pages: any = [];
+  totalPages: number = 0;
   constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) {
 
   }
@@ -29,60 +30,22 @@ export class ProductsComponent implements OnInit {
     this.getCategoriesByStoreId();
     window.scroll(0, 0)
     this.loadProducts();
-    this.getAllProducts();
   }
 
 
   async loadProducts() {
     const products: any = await this.apiCalls.getProducts(0, this.categoryId);
+    console.log(products)
+    this.totalPages=products.data.totalPages;
     this.showThumbnailImage(products.data.content);
+    this.setPagination(products.data.totalPages, 1)
     window.scroll(0, 0)
     window.scroll(0, 0)
 
   }
 
-  async nextPage() {
-    const products: any = await this.apiCalls.getProducts(this.page + 1, this.categoryId);
-    if (products.data.content.length > 0) {
-      this.page++;
-      this.products = products.data.content;
-      this.showThumbnailImage(this.products);
-      window.scroll(0, 0)
-    }
-
-  }
-
-  async previousPage() {
-    this.page--;
-    if (this.page < 0) {
-      this.page = 0;
-      return
-    }
-    this.products = await this.apiCalls.getProducts(this.page, this.categoryId);
-    this.products = this.products.data.content
-    this.showThumbnailImage(this.products);
-    window.scroll(0, 0)
-    window.scroll(0, 0)
-  }
 
 
-  filterProducts(event) {
-    const filter = event.target.value;
-    this.products = this.allProducts.filter(word => word.name.toLowerCase().includes(filter.toLowerCase()));
-    this.showThumbnailImage(this.products);
-  }
-
-  async getAllProducts() {
-    var i = 0;
-    while (true) {
-      const products: any = await this.apiCalls.getProducts(i, this.categoryId);
-      if (products.data.content.length < 1) {
-        break;
-      }
-      this.allProducts = this.allProducts.concat(products.data.content)
-      i = i + 1;
-    }
-  }
 
   showThumbnailImage(products) {
     products.forEach((product, index) => {
@@ -98,7 +61,6 @@ export class ProductsComponent implements OnInit {
       }
     });
     this.products = products;
-    console.log(this.products)
   }
 
   editProduct(id) {
@@ -124,7 +86,6 @@ export class ProductsComponent implements OnInit {
       this.router.navigate(['products'], { queryParams: { categoryId: id } })
     } else {
       this.router.navigate(['products'])
-
     }
     this.loadProducts();
   }
@@ -180,5 +141,82 @@ export class ProductsComponent implements OnInit {
       }
     }
     document.getElementById("" + id).classList.toggle("show");
+  }
+
+
+  /**
+   * This function fetches next 10 products to show
+   * basically it helps pagination
+   */
+   async openPage(page) {
+    const products:any = await this.apiCalls.getProducts(page - 1,null);
+    this.markSelectedPage(page)
+    this.showThumbnailImage(products.data.content)
+    console.log(this.products)
+    this.removeClassIfExist()
+  }
+
+
+  
+
+  removeClassIfExist() {
+    const eles = document.getElementsByClassName('pagination');
+    for (var i = 0; i < eles.length; i++) {
+      if (eles[i].classList.contains('active')) {
+        eles[i].classList.remove("active")
+      }
+    }
+  }
+
+  setPagination(n, page) {
+    this.pages = [];
+    n = this.setPages(n);
+    for (var i = 1; i <= n; i++) {
+      this.pages.push({ no: i, isActive: "non-active" })
+    }
+    this.pages[page - 1].isActive = "active";
+  }
+
+  setPages(n) {
+    const mod = 5 % n;
+    if (n > 5) {
+      return mod;
+    } else {
+      return n;
+    }
+  }
+
+
+  markSelectedPage(page) {
+    const arr = this.setNextPagination(page);
+    const start = arr[0];
+    const end = arr[1];
+    this.pages = [];
+    for (var i = start; i <= end; i++) {
+      if (i == page) {
+        this.pages.push({ no: i, isActive: "active" })
+      } else {
+        this.pages.push({ no: i, isActive: "non-active" })
+      }
+    }
+  }
+
+  setNextPagination(page) {
+    if (page < 5) {
+      if(this.totalPages<5){
+      return [1, this.totalPages];
+      }else{
+        return [1,5]
+      }
+    } else if (page == this.totalPages) {
+      return [page - 4, page]
+    }
+    else {
+      if (this.totalPages > page) {
+        return [page - 4, page + 1]
+      } else {
+        [1, 5]
+      }
+    }
   }
 }

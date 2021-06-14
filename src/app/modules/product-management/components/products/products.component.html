@@ -67,7 +67,7 @@
                                                 <div>
                                                     <input type="text" placeholder="Filter Products"
                                                         class="form-control" style="width:140px; margin-right: 10px;"
-                                                        (keyup)="filterProducts($event)" name="" id="">
+                                                         name="" id="">
                                                 </div>
                                                 <div>
                                                     <select (change)="getProdsByCat($event.target.value)"
@@ -167,20 +167,17 @@
                                         <div class="px-3 py-2">
                                             <nav aria-label="pagin">
                                                 <ul class="pagination pagination-sm">
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="previousPage()">Previous</a>
+                                                    <li class="page-item pagination {{page.isActive}}" *ngFor="let page of pages"
+                                                        style="cursor: pointer;">
+                                                        <a class="page-link" (click)="openPage(page.no)"> {{page.no}}</a>
                                                     </li>
-                                                    <li class="page-item active add-pointer"><a
-                                                            class="page-link">{{page+1}}</a>
+                                                    <!-- <li class="page-item"><a class="page-link" >Previous</a>
                                                     </li>
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="nextPage()">{{page+2}}</a>
+                                                    <li class="page-item active"><a class="page-link">{{page+1}}</a></li>
+                                                    <li class="page-item"><a class="page-link">{{page+2}}</a>
                                                     </li>
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="nextPage()">{{page+3}}</a>
-                                                    </li>
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="nextPage()">Next</a></li>
+                                                    <li class="page-item"><a class="page-link">{{page+3}}</a></li>
+                                                    <li class="page-item"><a class="page-link">Next</a></li> -->
                                                 </ul>
                                             </nav>
                                         </div>

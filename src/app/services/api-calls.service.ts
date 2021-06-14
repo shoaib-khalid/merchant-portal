@@ -380,7 +380,7 @@ export class ApiCallsService {
         Authorization: "asx"
       }),
       params: {
-        "pageSize": "15",
+        "pageSize": "10",
         "page": page + ""
 
       }
@@ -439,14 +439,16 @@ export class ApiCallsService {
       toPromise();
   }
 
-  async getOrders(customerId = null) {
+  async getOrders(customerId = null,page=0) {
     const httpOptions: any = {
       headers: new HttpHeaders({
         Authorization: "asx"
       }),
 
       params: {
-        "storeId": localStorage.getItem("storeId")
+        "storeId": localStorage.getItem("storeId"),
+        "page":page,
+        "pageSize":10
       }
     }
     if (customerId) {

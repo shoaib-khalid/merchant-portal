@@ -136,7 +136,6 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th scope="col">#</th>
-                                                                        <th scope="col">Item Code</th>
                                                                         <th scope="col">Sku</th>
                                                                         <th scope="col">Weight</th>
                                                                         <th scope="col">Quantity</th>
@@ -146,8 +145,6 @@
                                                                 <tbody>
                                                                     <tr *ngFor="let orderItem of orderItems;index as i">
                                                                         <th scope="col">{{i+1}}</th>
-                                                                        <td style="width: 360px;">{{orderItem.itemCode}}
-                                                                        </td>
                                                                         <td>{{orderItem.sku}}</td>
                                                                         <td>{{orderItem.weight}}</td>
                                                                         <td>{{orderItem.quantity}}</td>

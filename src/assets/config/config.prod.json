@@ -4,7 +4,7 @@
     },
     "services": {
         "flowBuilderService":   "https://api.symplified.biz/flow-builder/v1",
-        "userService":          "https://api.symplified.biz/v1/user-service",
+        "userService":          "https://api.symplified.biz/user-service/v1",
         "productService":       "https://api.symplified.biz/product-service/v1",
         "orderService":         "https://api.symplified.biz/order-service/v1",
         "reportService":        "https://api.symplified.biz/report-service/v1"

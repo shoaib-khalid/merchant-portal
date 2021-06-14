@@ -42,13 +42,13 @@ export class SingleOrderComponent implements OnInit {
 
   async getOrderItems() {
     const data: any = await this.apiCalls.getOrderItems(this.orderId);
+    console.log(data)
     this.orderItems = data.data.content;
-    // console.log(this.orderItems)
   }
 
   async setShipmentDetails() {
     const data = await this.apiCalls.getShipmentDetails(this.orderId)
-    const shimpmentDetails = data.data.content[0];
+    const shimpmentDetails = data.data;
     if (shimpmentDetails) {
       this.address = `${shimpmentDetails.address}, ${shimpmentDetails.city}, ${shimpmentDetails.country}`;
     }
@@ -63,8 +63,7 @@ export class SingleOrderComponent implements OnInit {
 
   async setOrderDetails() {
     const data: any = await this.apiCalls.getOrderDetails(this.orderId)
-    const orderDetails = data.data.content[0];
-    // console.log(orderDetails)
+    const orderDetails = data.data;
     this.paymentStatus = orderDetails.paymentStatus;
     this.invoiceNo = this.orderId;
     this.date = orderDetails.created;
