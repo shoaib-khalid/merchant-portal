@@ -9,4 +9,5 @@ export interface IAppConfig {
         orderService:string;
         reportService:string;
     };
+    storeNames:[name:String]
 }

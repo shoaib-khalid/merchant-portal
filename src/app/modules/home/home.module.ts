@@ -13,10 +13,11 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ErrorPopUpComponent } from './components/error-pop-up/error-pop-up.component';
+import { EmailVerifiedComponent } from './components/email-verified/email-verified.component';
 
 
 @NgModule({
-  declarations: [LandingPageComponent, FlowsComponent, SharedHeaderComponent, SharedSidePanelComponent, SuccessAnimationComponent, LoadingComponent, ErrorPopUpComponent],
+  declarations: [LandingPageComponent, FlowsComponent, SharedHeaderComponent, SharedSidePanelComponent, SuccessAnimationComponent, LoadingComponent, ErrorPopUpComponent, EmailVerifiedComponent],
   imports: [
     CommonModule,
     RouterModule,

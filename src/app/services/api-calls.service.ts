@@ -439,7 +439,7 @@ export class ApiCallsService {
       toPromise();
   }
 
-  async getOrders(customerId = null,page=0) {
+  async getOrders(customerId = null, page = 0) {
     const httpOptions: any = {
       headers: new HttpHeaders({
         Authorization: "asx"
@@ -447,8 +447,8 @@ export class ApiCallsService {
 
       params: {
         "storeId": localStorage.getItem("storeId"),
-        "page":page,
-        "pageSize":10
+        "page": page,
+        "pageSize": 10
       }
     }
     if (customerId) {
@@ -848,5 +848,9 @@ export class ApiCallsService {
   }
   async getSettlement(from, to) {
     return this.http.get(this.reportService + `/store/${localStorage.getItem('storeId')}/settlement?from=${from}&page=0&pageSize=20&sortBy=startDate&sortingOrder=ASC&to=${to}`).toPromise()
+  }
+
+  verifyEmail(id, code) {
+    return this.http.get(this.userService + `/clients​/${id}​/email-verification​/${code}​/verify`).toPromise()
   }
 }

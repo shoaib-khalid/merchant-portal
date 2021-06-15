@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { from } from 'rxjs';
 
 
 @Component({
@@ -44,8 +45,6 @@ export class OrdersComponent implements OnInit {
     this.router.navigate(['orders/order-details'], { queryParams: { orderId: order.id } })
   }
 
-  filterOrders(event) {
-  }
 
   /**
    * This function fetches next 10 orders to show
@@ -102,10 +101,10 @@ export class OrdersComponent implements OnInit {
 
   setNextPagination(page) {
     if (page < 5) {
-      if(this.totalPages<5){
-      return [1, this.totalPages];
-      }else{
-        return [1,5]
+      if (this.totalPages < 5) {
+        return [1, this.totalPages];
+      } else {
+        return [1, 5]
       }
     } else if (page == this.totalPages) {
       return [page - 4, page]
@@ -118,5 +117,21 @@ export class OrdersComponent implements OnInit {
       }
     }
   }
+
+  filterOrders() {
+    var fromDate, toDate;
+    var filter: any = document.getElementsByClassName('filter');
+    filter = filter[0].value;
+    console.log(filter);
+    [fromDate, toDate] = this.getDates();
+
+  }
+
+  getDates() {
+    const fromDate: any = document.getElementById('from-date');
+    const toDate: any = document.getElementById('to-date');
+    return [fromDate.value, toDate.value];
+  }
+
 
 }

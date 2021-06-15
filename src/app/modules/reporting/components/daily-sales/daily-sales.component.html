@@ -34,6 +34,37 @@
                                             </apx-chart>
                                         </span>
                                         <hr>
+                                        <div id="dailySales">
+                                            <div style="margin-left: 390px;font-weight: bold;">Daily Sales</div>
+                                            <table class="table">
+                                                <thead>
+                                                    
+                                                    <tr>
+                                                        <th >Total Orders</th>
+                                                        <th >Successful orders</th>
+                                                        <th >Canceled Orders</th>
+                                                        <th >Amount Earned</th>
+                                                        <th >Date</th>
+                                                    </tr>
+                                                </thead>
+
+
+                                                <tbody>
+                                                    <tr *ngFor="let datum of data;">
+                                                        <td >
+                                                            {{datum.totalOrders}}
+                                                        </td>
+                                                        <td>
+                                                            {{datum.successFullOrders}}</td>
+                                                        <td>{{datum.canceledOrders}}</td>
+                                                        <td >{{datum.amountEarned}}</td>
+                                                        <td >{{datum.date}}</td>
+
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
                                         <div id="dailyTopProducts">
                                             <table class="table">
                                                 <thead>

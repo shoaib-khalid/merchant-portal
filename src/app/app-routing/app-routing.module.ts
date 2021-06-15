@@ -29,7 +29,7 @@ import { AddAgentComponent } from 'src/app/modules/user-onboarding/components/ad
 import { EditAgentComponent } from 'src/app/modules/user-onboarding/components/edit-agent/edit-agent.component'
 import { DailySalesComponent } from 'src/app/modules/reporting/components/daily-sales/daily-sales.component';
 import { SettlementComponent } from 'src/app/modules/reporting/components/settlement/settlement.component';
-
+import { EmailVerifiedComponent } from '../modules/home/components/email-verified/email-verified.component';
 const routes: Routes = [
 
   {
@@ -180,6 +180,12 @@ const routes: Routes = [
   {
     path: 'settlement',
     component: SettlementComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: 'email-verified',
+    component: EmailVerifiedComponent,
     canActivate: [AuthGuardService],
     children: []
   },

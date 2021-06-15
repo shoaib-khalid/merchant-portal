@@ -120,7 +120,6 @@ export class DailySalesComponent implements OnInit {
   setTopProducts = async () => {
     var data: any = await this.apiCalls.getTopProducts();
     data = data.data;
-    console.log(data)
     this.topProducts=data.content;
   }
 

@@ -52,7 +52,8 @@
                         <div class="row">
                             <div class="col">
                                 <!-- my items table -->
-                                <div class="card product_item_list mb-4" style="margin-left: -100px;margin-right: -140px;">
+                                <div class="card product_item_list mb-4"
+                                    style="margin-left: -100px;margin-right: -140px;">
                                     <div class="card-header py-3 border-bottom">
                                         <div class="d-flex align-items-center">
                                             <div>
@@ -64,10 +65,20 @@
                                         <div class="table-responsive">
                                             <div style="display: flex;">
                                                 <div>
-                                                    <input type="text" placeholder="Filter Orders" class="form-control"
-                                                        style="width:140px; margin-right: 10px;" name="" id=""
-                                                        (keyup)="filterOrders($event)">
+                                                    <input type="text" placeholder="Customer Name" class="form-control filter"
+                                                        style="width:145px; margin-right: 10px;" name="" 
+                                                        >
                                                 </div>
+                                                <div>
+                                                    <input type="date" placeholder="From - date" class="form-control"
+                                                        style="width:180px; margin-right: 10px;" name="" id="from-date">
+                                                </div>
+                                                <div>
+                                                    <input type="date" placeholder="To - date" class="form-control"
+                                                        style="width:180px; margin-right: 10px;" name="" id="to-date">
+                                                </div>
+                                            <div id="search" (click)="filterOrders()"> Search</div>
+
                                             </div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
@@ -120,9 +131,10 @@
                                         <div class="px-3 py-2">
                                             <nav aria-label="pagin">
                                                 <ul class="pagination pagination-sm">
-                                                    <li class="page-item pagination {{page.isActive}}" *ngFor="let page of pages"
-                                                        style="cursor: pointer;">
-                                                        <a class="page-link" (click)="openPage(page.no)"> {{page.no}}</a>
+                                                    <li class="page-item pagination {{page.isActive}}"
+                                                        *ngFor="let page of pages" style="cursor: pointer;">
+                                                        <a class="page-link" (click)="openPage(page.no)">
+                                                            {{page.no}}</a>
                                                     </li>
                                                     <!-- <li class="page-item"><a class="page-link" >Previous</a>
                                                     </li>

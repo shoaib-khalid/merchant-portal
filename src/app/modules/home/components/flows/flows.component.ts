@@ -27,6 +27,7 @@ export class FlowsComponent implements OnInit {
     this.loading = true;
     this.flows = await this.apiCallsService.getAllflows();
     this.flows = this.flows.data;
+    console.log(this.flows)
     if (this.flows) {
       this.getPublishedChannels
     } this.loading = false;

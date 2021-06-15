@@ -8,5 +8,6 @@
         "productService":       "https://api.symplified.biz/product-service/v1",
         "orderService":         "https://api.symplified.biz/order-service/v1",
         "reportService":        "https://api.symplified.biz/report-service/v1"
-    }
+    },
+    "storeNames":["hi"]
 }
