@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { from } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 
 @Component({
@@ -16,6 +17,8 @@ export class OrdersComponent implements OnInit {
   customerId: any = "";
   pages: any = [];
   totalPages: number = 0;
+  filterObj: any = { pageSize: 10 };
+  totalOrders:any=0;
   constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -25,12 +28,16 @@ export class OrdersComponent implements OnInit {
         this.getOrdersBasedOnCustomerId()
       } else {
         this.getOrders();
+        this.setTodaysDate();
       }
     });
   }
 
   async getOrders() {
     this.orders = await this.apiCalls.getOrders();
+    this.totalOrders = this.orders.data.totalElements;
+    console.log(this.orders)
+
     this.totalPages = this.orders.data.totalPages;
     this.setPagination(this.orders.data.totalPages, 1)
     this.orders = this.orders.data.content;
@@ -51,7 +58,11 @@ export class OrdersComponent implements OnInit {
    * basically it helps pagination
    */
   async openPage(page) {
-    this.orders = await this.apiCalls.getOrders(null, page - 1);
+    const obj: any = this.filterObj;
+    obj.page = page - 1;
+    console.log(obj)
+    this.orders = await this.apiCalls.getFilteredOrders(obj);
+    this.totalOrders = this.orders.data.totalElements;
     this.markSelectedPage(page)
     this.orders = this.orders.data.content;
     this.removeClassIfExist()
@@ -72,7 +83,10 @@ export class OrdersComponent implements OnInit {
     for (var i = 1; i <= n; i++) {
       this.pages.push({ no: i, isActive: "non-active" })
     }
-    this.pages[page - 1].isActive = "active";
+    if (this.pages.length > 0) {
+      this.pages[page - 1].isActive = "active";
+
+    }
   }
 
   setPages(n) {
@@ -118,20 +132,41 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-  filterOrders() {
-    var fromDate, toDate;
-    var filter: any = document.getElementsByClassName('filter');
-    filter = filter[0].value;
-    console.log(filter);
-    [fromDate, toDate] = this.getDates();
+  async filterOrders() {
+    const params: any = this.composeFilterObject(this.getAllFilters())
+    const data: any = await this.apiCalls.getFilteredOrders(params);
+    this.totalPages = data.data.totalPages;
+    this.setPagination(data.data.totalPages, 1)
+    console.log(data)
+    this.totalOrders = data.data.totalElements;
 
+    this.orders = data.data.content;
   }
 
-  getDates() {
-    const fromDate: any = document.getElementById('from-date');
-    const toDate: any = document.getElementById('to-date');
-    return [fromDate.value, toDate.value];
+  getAllFilters() {
+    const filter: any = document.getElementsByClassName('filter');
+    var filterValues = new Array(11).fill('');
+    for (var i = 0; i < filter.length; i++) {
+      filterValues[i] = filter[i].value;
+    }
+    return filterValues;
   }
 
 
+  composeFilterObject(filterValues) {
+    const obj = {
+      receiverName: filterValues[0],
+      phoneNumber: filterValues[1],
+      from: filterValues[2],
+      to: filterValues[3],
+      pageSize: 10
+    }
+    this.filterObj = obj;
+    return obj;
+  }
+
+  setTodaysDate(){
+    const toDate:any=document.getElementsByClassName('filter')[3];
+    toDate.value = new Date().toISOString().replace(/T.*/,'').split('-').join('-');
+  }
 }

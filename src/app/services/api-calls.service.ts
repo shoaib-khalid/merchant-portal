@@ -463,6 +463,22 @@ export class ApiCallsService {
     }
   }
 
+  async getFilteredOrders(parameters) {
+    const httpOptions: any = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      }),
+
+      params: parameters
+    }
+    if (localStorage.getItem("storeId")) {
+      return await this.http.get(this.pathVariable4 + "/orders", httpOptions).toPromise();
+    } else {
+      this.router.navigateByUrl("/store-management");
+      return { data: { content: [] } }
+    }
+  }
+
   async getCarts() {
     const httpOptions = {
       headers: new HttpHeaders({

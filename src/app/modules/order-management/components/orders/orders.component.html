@@ -70,15 +70,19 @@
                                                         >
                                                 </div>
                                                 <div>
-                                                    <input type="date" placeholder="From - date" class="form-control"
-                                                        style="width:180px; margin-right: 10px;" name="" id="from-date">
+                                                    <input type="text" placeholder="Phone Number" class="form-control filter"
+                                                        style="width:180px; margin-right: 10px;" value="" name="">
                                                 </div>
                                                 <div>
-                                                    <input type="date" placeholder="To - date" class="form-control"
+                                                    <input type="date" placeholder="From - date" class="form-control filter"
+                                                        style="width:180px; margin-right: 10px;" name="" id="from-date" value="2021-01-01">
+                                                </div>
+                                                <div>
+                                                    <input type="date" placeholder="To - date" class="form-control filter"
                                                         style="width:180px; margin-right: 10px;" name="" id="to-date">
                                                 </div>
                                             <div id="search" (click)="filterOrders()"> Search</div>
-
+                                                <div style="margin-left: 200px;margin-top: 10px;">Total orders : {{totalOrders}}</div>
                                             </div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
