@@ -34,7 +34,7 @@ export class SingleOrderComponent implements OnInit {
 
   setallDetails() {
     this.getOrderItems();
-    this.setShipmentDetails();
+    // this.setShipmentDetails();
     this.setStoreLogo();
     this.setOrderDetails();
   }
@@ -64,6 +64,8 @@ export class SingleOrderComponent implements OnInit {
   async setOrderDetails() {
     const data: any = await this.apiCalls.getOrderDetails(this.orderId)
     const orderDetails = data.data;
+    this.address=orderDetails.orderShipmentDetail;
+    console.log(orderDetails)
     this.paymentStatus = orderDetails.paymentStatus;
     this.invoiceNo = this.orderId;
     this.date = orderDetails.created;

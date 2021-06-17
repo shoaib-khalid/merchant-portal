@@ -464,6 +464,7 @@ export class ApiCallsService {
   }
 
   async getFilteredOrders(parameters) {
+    parameters.storeId = localStorage.getItem('storeId')
     const httpOptions: any = {
       headers: new HttpHeaders({
         Authorization: "asx"
@@ -867,6 +868,7 @@ export class ApiCallsService {
   }
 
   verifyEmail(id, code) {
-    return this.http.get(this.userService + `/clients​/${id}​/email-verification​/${code}​/verify`).toPromise()
+    const sanitizedParams = this.userService + `/clients​/${id}​/email-verification​/${code}​/verify`.replace(/[^\x00-\x7F]/g, "");
+    return this.http.get(sanitizedParams).toPromise()
   }
 }

@@ -108,11 +108,12 @@
 
                                                 <div class="">
                                                     <div class="invoice-address mb-4">
-                                                        <p class="f-w-5 text-black">Shipment Address : {{address}}</p>
-                                                        <!-- <h6>Company Ltd.</h6>
-                                                        <address>Aleja Lipa <br> Sarajevo, CA 71 000</address>
-                                                        <p>+387 0021 220022</p>
-                                                        <p>company@email.com</p> -->
+                                                        <p class="f-w-5 text-black">Shipment Address : {{address.address}}</p>
+                                                        <p class="f-w-5 text-black">City : {{address.city}}</p>
+                                                        <p class="f-w-5 text-black">Country : {{address.country}}</p>
+                                                        <p class="f-w-5 text-black" style="display: inline-block;">State : {{address.state}} ,</p>
+                                                        <p class="f-w-5 text-black" style="display: inline-block;margin-left: 10px;">Zip code : {{address.zipcode}}</p>
+
                                                     </div>
                                                 </div>
                                                 <!-- <div class="col-sm-6 col-md-6 col-lg-6">

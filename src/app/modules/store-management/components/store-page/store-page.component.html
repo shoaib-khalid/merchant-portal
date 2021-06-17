@@ -129,7 +129,7 @@
                                 file </label>
                         </div>
                         <div *ngIf="this.logo.preview" class="assets">
-                            <img src="{{this.logo.preview}}" alt="" height="100px" width="100px">
+                            <img src="{{this.logo.preview}}" alt="" style="max-width: 400px;max-height: 100px;">
                             <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
                                 (click)="deleteLogo()">
                         </div>
@@ -143,7 +143,7 @@
                         </div>
                     </div>
                     <div *ngIf="this.banner.preview" class="assets">
-                        <img src="{{this.banner.preview}}" alt="" height="100px" width="100px">
+                        <img src="{{this.banner.preview}}" alt="" style="max-width: 400px;max-height: 100px;">
                         <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
                             (click)="deleteBanner()">
                     </div>

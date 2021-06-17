@@ -10,6 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class EmailVerifiedComponent implements OnInit {
   code:any="";
   id:any="";
+  showVerification:any=false;
   constructor(private apiCalls:ApiCallsService,private route:ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -23,7 +24,10 @@ export class EmailVerifiedComponent implements OnInit {
   }
 
   async verifyEmail(){
-    const data = await this.apiCalls.verifyEmail(this.id,this.code)
+    const data:any = await this.apiCalls.verifyEmail(this.id,this.code)
+    if(data.status==200){
+      this.showVerification=true;
+    }
     console.log(data)
   }
 }
