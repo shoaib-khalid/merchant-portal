@@ -66,9 +66,10 @@
                                             <div style="display: flex;">
                                                 <div>
                                                     <input type="text" placeholder="Filter Customers"
-                                                        class="form-control" (keyup)="filterCustomers($event)" style="width:160px; margin-right: 10px;"
+                                                        class="form-control filter1"  style="width:160px; margin-right: 10px;"
                                                          name="" id="">
                                                 </div>
+                                                <div id="search" (click)="searchOrders()"> Search</div>
                                             </div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
@@ -82,7 +83,7 @@
                                                 <tbody>
                                                     <tr *ngFor="let customer of customers">
                                                         <td class="product">
-                                                            {{customer.name}}
+                                                            {{customer.username}}
                                                         </td>
                                                         <td class="product">
                                                             {{customer.email}}
@@ -90,7 +91,7 @@
                                                         <td><button 
                                                             type="button"
                                                             class="btn btn-primary width-150 connect-button"
-                                                           (click)="openOrdersPage(customer.id)">Orders</button></td>
+                                                           (click)="openOrdersPage(customer.name)">Orders</button></td>
                                                     </tr>
 
                                                 </tbody>
@@ -101,19 +102,18 @@
                                             <nav aria-label="pagin">
                                                 <ul class="pagination pagination-sm">
                                                     <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="previousPage()">Previous</a>
+                                                          (click)="previousPage()"  >Previous</a>
                                                     </li>
-                                                    <li class="page-item active add-pointer"><a
-                                                            class="page-link">{{page+1}}</a>
-                                                    </li>
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="nextPage()">{{page+2}}</a>
-                                                    </li>
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="nextPage()">{{page+3}}</a>
+
+                                                    <li class="page-item pagination {{page.isActive}}"
+                                                        *ngFor="let page of pages" style="cursor: pointer;">
+                                                        <a class="page-link" (click)="openPage(page.no)">
+                                                            {{page.no}}</a>
                                                     </li>
                                                     <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="nextPage()">Next</a></li>
+                                                           (click)="nextPage()" >Next</a>
+                                                    </li>
+
                                                 </ul>
                                             </nav>
                                         </div>

@@ -20,3 +20,10 @@
     font-size: 1.2em;
     width: 120px;
   }
+  #search{
+    background-color: rgb(91, 179, 127);
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    padding: 10px;
+}

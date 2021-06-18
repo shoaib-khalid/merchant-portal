@@ -69,9 +69,11 @@
                                         <div class="table-responsive">
                                             <div style="display: flex;">
                                                 <div>
-                                                    <input type="text" placeholder="Filter Agents" class="form-control"
+                                                    <input type="text" placeholder="Filter Agents" class="form-control filter2"
                                                         style="width:140px; margin-right: 10px;" name="" id="">
                                                 </div>
+                                                <div id="search" (click)="searchOrders()"> Search</div>
+
                                             </div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
@@ -110,21 +112,18 @@
                                             <nav aria-label="pagin">
                                                 <ul class="pagination pagination-sm">
                                                     <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="previousPage()">Previous</a>
+                                                          (click)="previousPage()"  >Previous</a>
                                                     </li>
 
+                                                    <li class="page-item pagination {{page.isActive}}"
+                                                        *ngFor="let page of pages" style="cursor: pointer;">
+                                                        <a class="page-link" (click)="openPage(page.no)">
+                                                            {{page.no}}</a>
+                                                    </li>
+                                                    <li class="page-item add-pointer"><a class="page-link"
+                                                           (click)="nextPage()" >Next</a>
+                                                    </li>
 
-                                                    <li class="page-item active add-pointer"><a
-                                                            class="page-link">{{page+1}}</a>
-                                                    </li>
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="nextPage()">{{page+2}}</a>
-                                                    </li>
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="nextPage()">{{page+3}}</a>
-                                                    </li>
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="nextPage()">Next</a></li>
                                                 </ul>
                                             </nav>
                                         </div>

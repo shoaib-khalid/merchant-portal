@@ -47,7 +47,7 @@ export class StorePageComponent implements OnInit {
   }
 
   async registerStore() {
-    if (this.storeName && (<HTMLInputElement>document.getElementById("phoneNumber")).value) {
+    if (this.storeName && (<HTMLInputElement>document.getElementById("phoneNumber")).value&&this.region) {
       this.apiCalls.loadingAnimation("Registering new store", "280")
       await this.saveDetails();
       this.saveStoreTimmings();
@@ -79,6 +79,9 @@ export class StorePageComponent implements OnInit {
         if ($(arr[i])[0].id == "storeName") {
           $(arr[i]).val('').css("border-color", "red");
         } else if ($(arr[i])[0].id == "phoneNumber") {
+          $(arr[i]).val('').css("border-color", "red");
+        }
+        else if ($(arr[i])[0].id == "region") {
           $(arr[i]).val('').css("border-color", "red");
         }
       } else {

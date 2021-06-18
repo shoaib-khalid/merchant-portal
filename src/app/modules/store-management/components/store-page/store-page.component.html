@@ -91,7 +91,7 @@
                         <label class="form-control-label" style="margin-top: 12px;">Region</label>
                         <div class="add-item-img d-flex  border-radius">
                             <select name="Inventory-manager" [(ngModel)]="region" class="form-control"
-                                id="inventory-manage" (change)="regionChange($event)">
+                                id="region" (change)="regionChange($event)">
                                 <option value="">Select region</option>
                                 <option value="{{region.id}}" *ngFor="let region of regions">{{region.name}}</option>
                             </select>
@@ -158,7 +158,7 @@
                                     <th class="border-0">Day</th>
                                     <th class="border-0">Opening time</th>
                                     <th class="border-0" data-breakpoints="sm xs">Close Time</th>
-                                    <th class="border-0" data-breakpoints="xs">On/Off</th>
+                                    <th class="border-0" data-breakpoints="xs">Off days</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -179,7 +179,6 @@
                                         </mat-checkbox>
                                     </td>
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>

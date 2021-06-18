@@ -13,13 +13,13 @@ export class AddAgentComponent implements OnInit {
   storeName: any = '';
   showError: any = '';
   errorText = "";
-  roleId:any="";
-  constructor(private apiCalls:ApiCallsService) { }
+  roleId: any = "";
+  constructor(private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
   }
 
-  
+
 
   createAccount(event) {
     const data = {
@@ -27,14 +27,16 @@ export class AddAgentComponent implements OnInit {
       username: this.username,
       email: this.email,
       password: this.password,
-      storeId:localStorage.getItem('storeId'),
+      storeId: localStorage.getItem('storeId'),
       roleId: this.roleId
     }
 
     if (data.name && data.username && data.email && data.password && data.roleId) {
       if (this.validateEmail(this.email)) {
-        this.apiCalls.loadingAnimation("Adding Agent")
-        this.apiCalls.registerClient(data)
+        if(this.usernameIsValid()){
+          this.apiCalls.loadingAnimation("Adding Agent")
+          this.apiCalls.registerClient(data)
+        }
       } else {
         this.errorText = "Wrong Email Format"
         this.showError = true;
@@ -50,5 +52,11 @@ export class AddAgentComponent implements OnInit {
     var re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
-
+  usernameIsValid() {
+    if(/^[0-9a-zA-Z_.-]+$/.test(this.username)){
+      return true;
+    }else{
+      this.errorText="Username Invalid"
+    }
+  }
 }

@@ -437,6 +437,7 @@ export class EditProductComponent implements OnInit {
   }
 
   async uploadProductImages() {
+    console.log(this.productImages)
     for (var i = 0; i < this.productImages.length; i++) {
       if (this.productImages[i].new) {
         await this.apiCalls.uploadImage(this.product.id, this.productImages[i].file, "", this.productImages[i].isThumbnail ? this.productImages[i].isThumbnail : false)
@@ -503,7 +504,7 @@ export class EditProductComponent implements OnInit {
     }
   }
 
-  setThumbnail(i) {
+  async setThumbnail(i) {
     document.getElementById(`product-image-${i}`).style.border = "thick solid #0000FF";
 
     for (var j = 0; j < this.productImages.length; j++) {
@@ -518,9 +519,12 @@ export class EditProductComponent implements OnInit {
     }
     if (this.productImages[i].new) {
       this.thumbnailUrl = null;
-
     } else {
       this.thumbnailUrl = this.productImages[i].preview;
+      const data=await this.apiCalls.updateProductImage(this.product.id, {
+        "isThumbnail": true,
+      }, this.productImages[i].id)
+      console.log(data)
     }
   }
 

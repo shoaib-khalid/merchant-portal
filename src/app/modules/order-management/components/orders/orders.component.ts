@@ -18,6 +18,7 @@ export class OrdersComponent implements OnInit {
   totalPages: number = 0;
   filterObj: any = { pageSize: 10 };
   totalOrders: any = 0;
+  page:any=1;
   constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -32,6 +33,7 @@ export class OrdersComponent implements OnInit {
     this.totalPages = this.orders.data.totalPages;
     this.setPagination(this.orders.data.totalPages, 1)
     this.orders = this.orders.data.content;
+    console.log(this.orders)
   }
 
   async getOrdersBasedOnCustomerId() {
@@ -49,6 +51,7 @@ export class OrdersComponent implements OnInit {
    * basically it helps pagination
    */
   async openPage(page) {
+    this.page=page;
     const obj: any = this.filterObj;
     obj.page = page - 1;
     this.orders = await this.apiCalls.getFilteredOrders(obj);
@@ -157,9 +160,8 @@ export class OrdersComponent implements OnInit {
   setTodaysDate() {
     const toDate: any = document.getElementsByClassName('filter')[3];
     const fromDate: any = document.getElementsByClassName('filter')[2];
-
-    toDate.value = new Date().toISOString().replace(/T.*/, '').split('-').join('-');
-    fromDate.value = toDate.value;
+    toDate.value = new Date().toISOString().replace(/T.*/, '').split('-').join('-')+"T12:00";
+    fromDate.value =new Date().toISOString().replace(/T.*/, '').split('-').join('-')+"T12:00";
 
   }
 
@@ -219,6 +221,18 @@ export class OrdersComponent implements OnInit {
   searchOrders(){
     const filter: any = document.getElementsByClassName('filter');
     this.router.navigate(['orders'], { queryParams: { receiverName: filter[0].value, phoneNumber: filter[1].value, from: filter[2].value, to: filter[3].value } })
-    
+  }
+
+  previousPage(){
+    if(this.page-1<this.totalPages && this.page-1>0){
+      this.openPage(this.page-1)
+      this.markSelectedPage(this.page)
+    }
+  }
+  nextPage(){
+    if(this.page+1<=this.totalPages){
+      this.openPage(this.page+1)
+      this.markSelectedPage(this.page)
+    }
   }
 }

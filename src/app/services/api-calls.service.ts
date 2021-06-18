@@ -480,6 +480,30 @@ export class ApiCallsService {
     }
   }
 
+  async getFilteredAccounts(parameters) {
+    parameters.storeId = localStorage.getItem('storeId')
+    const httpOptions: any = {
+      headers: new HttpHeaders({
+      }),
+      params: parameters
+    }
+    if (localStorage.getItem("storeId")) {
+      return await this.http.get(this.userService + "/clients/", httpOptions).toPromise();
+    }
+  }
+  async getFilteredCustomers(parameters) {
+    const httpOptions: any = {
+      headers: new HttpHeaders({
+        Authorization: "asx"
+      }),
+
+      params: parameters
+    }
+    if (localStorage.getItem("storeId")) {
+      return await this.http.get(this.userService + "/customers/", httpOptions).toPromise();
+    } 
+  }
+
   async getCarts() {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -565,6 +589,10 @@ export class ApiCallsService {
       + "/products/" + productId + "/assets", formData, httpOptions).toPromise();
   }
 
+  updateProductImage(productId, body, id) {
+    return this.http.put<any>(this.productService + "/stores/" + localStorage.getItem("storeId")
+      + "/products/" + productId + "/assets/" + id, body).toPromise();
+  }
 
   getAccessTokenUsingRefresh() {
     const httpOptions = {
@@ -696,10 +724,9 @@ export class ApiCallsService {
       `${this.userService}/stores/${localStorage.getItem('storeId')}/customers/?page=${page}&pageSize=15`).toPromise();
   }
 
-  getClients(roleId) {
+  getClients() {
     const httpOptions = {
       params: {
-        roleId: roleId,
         storeId: localStorage.getItem('storeId')
       }
     }
