@@ -160,8 +160,8 @@ export class OrdersComponent implements OnInit {
   setTodaysDate() {
     const toDate: any = document.getElementsByClassName('filter')[3];
     const fromDate: any = document.getElementsByClassName('filter')[2];
-    toDate.value = new Date().toISOString().replace(/T.*/, '').split('-').join('-')+"T12:00";
-    fromDate.value =new Date().toISOString().replace(/T.*/, '').split('-').join('-')+"T12:00";
+    toDate.value = new Date().toISOString().replace(/T.*/, '').split('-').join('-');
+    fromDate.value =new Date().toISOString().replace(/T.*/, '').split('-').join('-');
 
   }
 

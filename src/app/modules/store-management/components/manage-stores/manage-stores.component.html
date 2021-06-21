@@ -81,7 +81,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr *ngFor="let store of stores">
-                                                        <td  (click)="selectStore(store.id,store.name)">
+                                                        <td  (click)="selectStore(store.id,store.name,store.domain)">
                                                             {{store.name}}
                                                         </td>
                                                         

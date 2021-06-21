@@ -75,14 +75,14 @@
                                                         style="width:180px; margin-right: 10px;" value="" name="">
                                                 </div>
                                                 <div>
-                                                    <input type="datetime-local" placeholder="From - date"
+                                                    <input type="date" placeholder="From - date"
                                                         class="form-control filter"
-                                                        style="width:240px; margin-right: 10px;" name="" id="from-date">
+                                                        style="width:160px; margin-right: 10px;" name="" id="from-date">
                                                 </div>
                                                 <div>
-                                                    <input type="datetime-local" placeholder="To - date"
+                                                    <input type="date" placeholder="To - date"
                                                         class="form-control filter"
-                                                        style="width:240px; margin-right: 10px;" name="" id="to-date">
+                                                        style="width:160px; margin-right: 10px;" name="" id="to-date">
                                                 </div>
                                                 <div id="search" (click)="searchOrders()"> Search</div>
                                                 <div style="margin-left: 80px;margin-top: 10px;">Total orders :
@@ -132,7 +132,7 @@
                                                             <div>{{order.paymentStatus}}</div>
                                                         </td>
                                                     </tr>
-
+                                                    <div [hidden]="!(orders.length==0)" style="color:red">No data available to view</div>
                                                 </tbody>
                                             </table>
                                         </div>

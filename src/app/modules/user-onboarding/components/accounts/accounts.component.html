@@ -103,7 +103,7 @@
                                                                 class="btn btn-primary width-150" (click)="edit(account.id)">Edit</button>
                                                         </td>
                                                     </tr>
-
+                                                    <div [hidden]="!(accounts.length==0)" style="color: red;">No data available to view</div>
                                                 </tbody>
                                             </table>
                                         </div>

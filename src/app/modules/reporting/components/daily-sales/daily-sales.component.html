@@ -27,38 +27,42 @@
                                     </div>
                                     <div style="display: inline-block;">
 
-                                        <span id="graph1">
+                                        <span id="graph1" [hidden]="dataAvailableToView[0]">
                                             <apx-chart [series]="series" [chart]="chart" [dataLabels]="dataLabels"
                                                 [markers]="markers" [title]="title" [fill]="fill" [yaxis]="yaxis"
                                                 [xaxis]="xaxis" [tooltip]="tooltip" [autoUpdateSeries]="true">
                                             </apx-chart>
                                         </span>
+                                        <div class="note" [hidden]="!dataAvailableToView[0]">No data for daily sales
+                                            available to show graph.</div>
                                         <hr>
                                         <div id="dailySales">
-                                            <div style="margin-left: 390px;font-weight: bold;">Daily Sales</div>
-                                            <table class="table">
+                                            <div style="font-weight: bold;text-align: center;">Daily Sales</div>
+                                            <div [hidden]="!dataAvailableToView[1]" class="note">No data available for
+                                                daily sales to show.</div>
+                                            <table class="table" [hidden]="dataAvailableToView[1]">
                                                 <thead>
-                                                    
+
                                                     <tr>
-                                                        <th >Total Orders</th>
-                                                        <th >Successful orders</th>
-                                                        <th >Canceled Orders</th>
-                                                        <th >Amount Earned</th>
-                                                        <th >Date</th>
+                                                        <th>Total Orders</th>
+                                                        <th>Successful orders</th>
+                                                        <th>Canceled Orders</th>
+                                                        <th>Amount Earned</th>
+                                                        <th>Date</th>
                                                     </tr>
                                                 </thead>
 
 
                                                 <tbody>
                                                     <tr *ngFor="let datum of data;">
-                                                        <td >
+                                                        <td>
                                                             {{datum.totalOrders}}
                                                         </td>
                                                         <td>
                                                             {{datum.successFullOrders}}</td>
                                                         <td>{{datum.canceledOrders}}</td>
-                                                        <td >{{datum.amountEarned}}</td>
-                                                        <td >{{datum.date}}</td>
+                                                        <td>{{datum.amountEarned}}</td>
+                                                        <td>{{datum.date}}</td>
 
                                                     </tr>
                                                 </tbody>
@@ -66,12 +70,14 @@
                                             </table>
                                         </div>
                                         <div id="dailyTopProducts">
-                                            <table class="table">
+                                            <div style="font-weight: bold;text-align: center;">
+                                                Daily Top
+                                                Products</div>
+                                            <div [hidden]="!dataAvailableToView[2]" class="note">No data available for
+                                                daily top products to show.</div>
+                                            <table class="table" [hidden]="dataAvailableToView[2]">
                                                 <thead>
-                                                    <div
-                                                        style="font-weight: bold;text-align: center;margin-left:310px;">
-                                                        Daily Top
-                                                        Products</div>
+
                                                     <tr>
                                                         <th class="column-style">Product Name</th>
                                                         <th class="column-style">Total Transaction</th>

@@ -48,9 +48,9 @@
                                                         <td>
                                                             {{set.storeName}}
                                                         </td>
-                                                        <td>{{set.totalTransactionValue}}   </td>
-                                                        
-                                                        <td >
+                                                        <td>{{set.totalTransactionValue}} </td>
+
+                                                        <td>
                                                             {{set.totaltoBePayed}}
 
                                                         </td>
@@ -79,9 +79,12 @@
                                                         </td>
 
                                                     </tr>
+
                                                 </tbody>
 
                                             </table>
+                                            <div [hidden]="!(settlement.length==0)" style="color: red;">No data
+                                                available to view</div>
                                         </div>
 
                                         <!-- <div style="margin-top: 80px;text-align: center;"> -->

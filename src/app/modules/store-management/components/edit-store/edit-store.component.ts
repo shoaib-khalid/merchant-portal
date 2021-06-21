@@ -123,11 +123,12 @@ export class EditStoreComponent implements OnInit {
       "name": this.storeName,
       "postcode": this.postCode,
       "storeDescription": this.storeInfo,
-      "region": this.region,
+      "regionCountryId": this.region,
       "regionCountryStateId":this.state,
       "phoneNumber": (<HTMLInputElement>document.getElementById("phoneNumber")).value,
       serviceChargesPercentage:this.serviceCharges
     }
+    console.log(store)
     return this.apiCalls.updateStore(store, this.store.id)
   }
 

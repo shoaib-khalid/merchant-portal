@@ -100,7 +100,8 @@ export class SharedHeaderComponent implements OnInit {
 
   }
 
-  selectStore(id, name) {
+  selectStore(id, name,domain) {
+    localStorage.setItem("store-domain", domain)
     localStorage.setItem("storeId", id)
     localStorage.setItem("store", name)
     this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {

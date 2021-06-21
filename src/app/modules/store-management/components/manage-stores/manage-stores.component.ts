@@ -13,12 +13,12 @@ export class ManageStoresComponent implements OnInit {
 
   stores: any;
   loading: any = true;
-  showEdit:any=false;
+  showEdit: any = false;
   constructor(private apiCalls: ApiCallsService, private router: Router) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('storeId')){
-      this.showEdit=true;
+    if (localStorage.getItem('storeId')) {
+      this.showEdit = true;
     }
     this.loadStores();
   }
@@ -28,9 +28,10 @@ export class ManageStoresComponent implements OnInit {
     this.stores = data.data.content;
   }
 
-  selectStore(id, name) {
+  selectStore(id, name, domain) {
     localStorage.setItem("storeId", id)
     localStorage.setItem("store", name)
+    localStorage.setItem("store-domain", domain)
     this.router.navigateByUrl("/products")
   }
   nextPage() {

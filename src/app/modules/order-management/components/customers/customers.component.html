@@ -93,7 +93,7 @@
                                                             class="btn btn-primary width-150 connect-button"
                                                            (click)="openOrdersPage(customer.name)">Orders</button></td>
                                                     </tr>
-
+                                                    <div [hidden]="!(customers.length==0)" style="color:red" >No data available to view</div>
                                                 </tbody>
                                             </table>
                                         </div>

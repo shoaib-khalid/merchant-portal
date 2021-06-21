@@ -47,8 +47,6 @@
                 <div class="row">
                     <app-shared-side-panel></app-shared-side-panel>
                     <div class="col-lg-9">
-
-
                         <div class="row">
                             <div class="col">
                                 <!-- my items table -->
@@ -66,12 +64,12 @@
                                             <div style="display: flex;">
                                                 <div>
                                                     <input type="text" placeholder="Filter Products"
-                                                        class="form-control" style="width:140px; margin-right: 10px;"
-                                                         name="" id="">
+                                                        class="form-control filter3"
+                                                        style="width:140px; margin-right: 10px;" name="" id="">
                                                 </div>
                                                 <div>
                                                     <select (change)="getProdsByCat($event.target.value)"
-                                                        [(ngModel)]='categoryId' class="mr-2 form-control"
+                                                        [(ngModel)]='categoryId' class="mr-2 form-control filter3"
                                                         style="width:170px">
                                                         <option value="">All Categories</option>
                                                         <option *ngFor="let cat of categories" value="{{cat.id}}">
@@ -80,6 +78,7 @@
 
                                                     </select>
                                                 </div>
+                                                <div id="search" (click)="searchOrders()"> Search</div>
                                             </div>
                                             <table class="table table-hover m-b-0" style="margin-bottom: 110px;">
                                                 <thead>
@@ -100,14 +99,14 @@
 
 
                                                             <div style="display: inline-block;"
-                                                                *ngIf="product.productThumbnailUrl">
-                                                                <img src="{{product.productThumbnailUrl}}" height="100"
+                                                                *ngIf="product.thumbnailUrl">
+                                                                <img src="{{product.thumbnailUrl}}" height="100"
                                                                     width="100" alt="(product-img)"
                                                                     class="img-lg rounded">
                                                             </div>
 
                                                             <div style="display: inline-block;"
-                                                                *ngIf="product.productThumbnailUrl==null">
+                                                                *ngIf="product.thumbnailUrl==null">
                                                                 <img src="assets/img/default.png" height="100"
                                                                     width="100" alt="(product-img)"
                                                                     class="img-lg rounded">
@@ -159,7 +158,8 @@
                                                                 class="btn btn-primary width-150">Edit</button> -->
                                                         </td>
                                                     </tr>
-
+                                                    <div [hidden]="!(products.length==0)" style="color: red;">No data
+                                                        available to view</div>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -167,9 +167,10 @@
                                         <div class="px-3 py-2">
                                             <nav aria-label="pagin">
                                                 <ul class="pagination pagination-sm">
-                                                    <li class="page-item pagination {{page.isActive}}" *ngFor="let page of pages"
-                                                        style="cursor: pointer;">
-                                                        <a class="page-link" (click)="openPage(page.no)"> {{page.no}}</a>
+                                                    <li class="page-item pagination {{page.isActive}}"
+                                                        *ngFor="let page of pages" style="cursor: pointer;">
+                                                        <a class="page-link" (click)="openPage(page.no)">
+                                                            {{page.no}}</a>
                                                     </li>
                                                     <!-- <li class="page-item"><a class="page-link" >Previous</a>
                                                     </li>
@@ -253,13 +254,13 @@
                     <div class="row no-gutters d-flex justify-content-between align-items-center">
                         <div class="col-5 col-md-4 affiliate d-flex align-items-center">
                             <div class="aff-btn">
-                                <a  class="btn btn-primary btn-sm">
+                                <a class="btn btn-primary btn-sm">
                                     Version <span style="color: white;"> 2.0</span>
                                 </a>
                             </div>
                             <div>
                                 <p class="text-white d-none d-md-block m-0 w-75 small ml-3">
-                                  
+
                                 </p>
                             </div>
                         </div>

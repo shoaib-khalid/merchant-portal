@@ -4,7 +4,7 @@
          <li>
          <a class="navbar-brand mr-3 swap-link heading" style="cursor: pointer;">{{leftHeading}}</a>
          <div class="dropdown-content-heading">
-            <div class="options" *ngFor="let store of stores" (click)="selectStore(store.id,store.name)">{{store.name}}</div>
+            <div class="options" *ngFor="let store of stores" (click)="selectStore(store.id,store.name,store.domain)">{{store.name}}</div>
          </div>
       </li>
          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"

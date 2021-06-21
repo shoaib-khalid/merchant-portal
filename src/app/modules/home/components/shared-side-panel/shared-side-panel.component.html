@@ -42,13 +42,13 @@
                 <div><a [routerLink]="['/products/add']" class="nav-item">Add Product</a></div>
                 <div><a [routerLink]="['/product-categories']" class="nav-item">Categories</a></div>
             </ul>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
                     [routerLink]="['/carts']">
                     <div><i class="las la-shopping-cart"></i>Cart</div>
 
                 </a>
-            </li>
+            </li> -->
             <li class="nav-item" *ngIf="allowed">
                 <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
                     [routerLink]="['/flows']">
@@ -119,7 +119,7 @@
 
             <li class="nav-item">
                 <a style="float: left;color: #319795;cursor: pointer;"
-                    href="https://symplified.store/?storeId={{onlineStore}}" target="_blank"
+                    href="https://{{storeDomain}}.symplified.store" target="_blank"
                     class="nav-link active d-flex justify-content-between align-items-center text-small"
                     aria-current="page">
                     Preview Store

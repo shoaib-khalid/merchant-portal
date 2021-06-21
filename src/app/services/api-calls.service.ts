@@ -284,6 +284,8 @@ export class ApiCallsService {
           } else if (data.data.content.length == 1) {
             localStorage.setItem("storeId", data.data.content[0].id)
             localStorage.setItem("store", data.data.content[0].name)
+            localStorage.setItem("store-domain", data.data.content[0].domain)
+
             this.router.navigateByUrl('/products')
           } else {
             this.router.navigateByUrl('/store-management')
@@ -381,7 +383,8 @@ export class ApiCallsService {
       }),
       params: {
         "pageSize": "10",
-        "page": page + ""
+        "page": page + "",
+        status:['ACTIVE','DRAFT']
 
       }
     }
@@ -389,6 +392,21 @@ export class ApiCallsService {
     if (categoryId) {
       httpOptions.params["categoryId"] = categoryId;
     }
+    if (localStorage.getItem("storeId")) {
+      return this.http.get(this.productService + "/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
+    }
+    return { data: { content: [] } };
+  }
+
+  getFilteredProducts(parameters) {
+    console.log(parameters)
+    const httpOptions: any = {
+
+      headers: new HttpHeaders({
+      }),
+      params:parameters
+    }
+
     if (localStorage.getItem("storeId")) {
       return this.http.get(this.productService + "/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
     }

@@ -11,6 +11,7 @@ import {
   ApexXAxis,
   ApexTooltip
 } from "ng-apexcharts";
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-daily-sales',
@@ -29,7 +30,7 @@ export class DailySalesComponent implements OnInit {
   public tooltip: ApexTooltip;
   topProducts: any = [];
   data: any = [];
-
+  dataAvailableToView: any = [true, true, true];
   constructor(private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
@@ -112,6 +113,11 @@ export class DailySalesComponent implements OnInit {
   async setDailySales() {
     const data: any = await this.apiCalls.fetchDailySales();
     this.data = data.data.content;
+    if (this.data.length > 0) {
+      this.dataAvailableToView[0] = false;
+      this.dataAvailableToView[1] = false;
+
+    }
     console.log(this.data)
     this.initChartData();
   }
@@ -120,7 +126,10 @@ export class DailySalesComponent implements OnInit {
   setTopProducts = async () => {
     var data: any = await this.apiCalls.getTopProducts();
     data = data.data;
-    this.topProducts=data.content;
+    this.topProducts = data.content;
+    if (this.topProducts.length > 0) {
+      this.dataAvailableToView[2] = false;
+    }
   }
 
   /**
