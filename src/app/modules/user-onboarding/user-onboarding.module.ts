@@ -5,6 +5,7 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HomeModule } from 'src/app/modules/home/home.module';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ChannelsComponent } from './components/channels/channels.component';
@@ -17,9 +18,11 @@ import { AccountsComponent } from './components/accounts/accounts.component';
 import { AddAgentComponent } from './components/add-agent/add-agent.component';
 import { EditAgentComponent } from './components/edit-agent/edit-agent.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MobileAppRocketComponent } from './components/accounts/mobile-app-rocket/mobile-app-rocket.component';
+import { SuggestionPopupComponent } from './components/accounts/suggestion-popup/suggestion-popup.component';
 
 @NgModule({
-  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, ForgotPasswordComponent, ChannelsComponent, CreateNewComponent, AccountsComponent, AddAgentComponent, EditAgentComponent],
+  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, ForgotPasswordComponent, ChannelsComponent, CreateNewComponent, AccountsComponent, AddAgentComponent, EditAgentComponent, MobileAppRocketComponent, SuggestionPopupComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -29,8 +32,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatDialogModule,
     MatMenuModule,
     MatButtonModule,
-    MatSelectModule
-
+    MatSelectModule,
+    ReactiveFormsModule
   ]
 })
 export class UserOnboardingModule { }

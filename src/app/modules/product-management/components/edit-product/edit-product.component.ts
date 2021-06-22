@@ -254,7 +254,6 @@ export class EditProductComponent implements OnInit {
       "thumbnailUrl": this.thumbnailUrl,
       "weight":this.weight
     }
-    console.log(body)
     await this.addInventory();
     this.apiCalls.updateProduct(body, this.product.id)
     this.uploadProductImages();
@@ -437,7 +436,6 @@ export class EditProductComponent implements OnInit {
   }
 
   async uploadProductImages() {
-    console.log(this.productImages)
     for (var i = 0; i < this.productImages.length; i++) {
       if (this.productImages[i].new) {
         await this.apiCalls.uploadImage(this.product.id, this.productImages[i].file, "", this.productImages[i].isThumbnail ? this.productImages[i].isThumbnail : false)
@@ -524,7 +522,7 @@ export class EditProductComponent implements OnInit {
       const data=await this.apiCalls.updateProductImage(this.product.id, {
         "isThumbnail": true,
       }, this.productImages[i].id)
-      console.log(data)
+
     }
   }
 

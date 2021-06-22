@@ -35,10 +35,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     private handleError(error: HttpErrorResponse) {
         console.log(error)
         if (error.error instanceof ErrorEvent) {
-            // A client-side or network error occurred. Handle it accordingly.
         } else {
-            // The backend returned an unsuccessful response code.
-            // The response body may contain clues as to what went wrong.
             if (HttpConfigInterceptor.error) {
             } else {
                 const dialogRef = HttpConfigInterceptor.globalDialog.open(ErrorPopUpComponent, {
@@ -48,10 +45,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                 });
                 HttpConfigInterceptor.error = "error";
             }
-
-
         }
-        // Return an observable with a user-facing error message.
         return throwError(
             '');
     }

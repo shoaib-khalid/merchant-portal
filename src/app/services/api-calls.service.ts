@@ -8,6 +8,8 @@ import { SuccessAnimationComponent } from 'src/app/modules/home/components/succe
 import { LoadingComponent } from 'src/app/modules/home/components/loading/loading.component';
 import { HelperTextService } from 'src/app/helpers/helper-text.service';
 import { AppConfig } from './app.config.ts.service';
+import { SuggestionPopupComponent } from 'src/app/modules/user-onboarding/components/accounts/suggestion-popup/suggestion-popup.component';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -124,7 +126,6 @@ export class ApiCallsService {
   getHttpOptions(authorization) {
     return {
       headers: new HttpHeaders({
-        Authorization: authorization
       }),
       params: {
         "userId": localStorage.getItem("ownerId")
@@ -206,7 +207,6 @@ export class ApiCallsService {
     const httpOptions = {
 
       headers: new HttpHeaders({
-        Authorization: "asx"
       })
     }
     botIds = botIds.filter(String)
@@ -234,13 +234,7 @@ export class ApiCallsService {
 
   async getPublishedBots() {
 
-    const httpOptions = {
-
-      headers: new HttpHeaders({
-        Authorization: "asx"
-      })
-    }
-    var data: any = await this.http.get(this.pathVariable1 + "/mxgraph/publish/" + this.flowId, httpOptions).toPromise();
+    var data: any = await this.http.get(this.pathVariable1 + "/mxgraph/publish/" + this.flowId).toPromise();
   }
 
 
@@ -254,12 +248,21 @@ export class ApiCallsService {
 
           this.loadingdialogRef.close()
           this.router.navigateByUrl('agent-accounts')
+          this.showPopUpIfOneAgent()
         }
       }, error => {
         this.loadingdialogRef.close()
       });
 
   }
+
+  async showPopUpIfOneAgent(){
+    const data:any = await this.getFilteredAccounts({})
+    if(data.data.content.length==1){
+      this.openSuggestionDialog("Please download the Mobile App","","290px","160px")
+    }
+  }
+
   authenticateClient(logInData) {
 
     return this.http.post<any>(this.userService + "/clients/authenticate", logInData).
@@ -321,26 +324,14 @@ export class ApiCallsService {
   }
 
   updateFlowDetails(body) {
-    const httpOptions = {
-
-      headers: new HttpHeaders({
-        Authorization: "asx"
-      })
-    }
-    this.http.patch<any>(this.pathVariable1 + "/flow/" + this.flowId, body, httpOptions).toPromise
+    this.http.patch<any>(this.pathVariable1 + "/flow/" + this.flowId, body).toPromise
       ().then((data) => {
         console.log("Flow Details Updated")
       });
   }
 
   async retrieveFlowDetails(id) {
-    const httpOptions = {
-
-      headers: new HttpHeaders({
-        Authorization: "asx"
-      })
-    }
-    return await this.http.get(this.pathVariable1 + "/flow/" + id, httpOptions).toPromise();
+    return await this.http.get(this.pathVariable1 + "/flow/" + id).toPromise();
   }
 
 
@@ -365,13 +356,7 @@ export class ApiCallsService {
 
 
   addProduct(body) {
-    const httpOptions = {
-
-      headers: new HttpHeaders({
-        Authorization: "asx"
-      })
-    }
-    return this.http.post<any>(this.productService + "/stores/" + localStorage.getItem("storeId") + "/" + "products", body, httpOptions).toPromise();
+    return this.http.post<any>(this.productService + "/stores/" + localStorage.getItem("storeId") + "/" + "products", body).toPromise();
   }
 
 
@@ -384,7 +369,7 @@ export class ApiCallsService {
       params: {
         "pageSize": "10",
         "page": page + "",
-        status:['ACTIVE','DRAFT']
+        status: ['ACTIVE', 'DRAFT']
 
       }
     }
@@ -404,7 +389,7 @@ export class ApiCallsService {
 
       headers: new HttpHeaders({
       }),
-      params:parameters
+      params: parameters
     }
 
     if (localStorage.getItem("storeId")) {
@@ -519,7 +504,7 @@ export class ApiCallsService {
     }
     if (localStorage.getItem("storeId")) {
       return await this.http.get(this.userService + "/customers/", httpOptions).toPromise();
-    } 
+    }
   }
 
   async getCarts() {
@@ -916,4 +901,24 @@ export class ApiCallsService {
     const sanitizedParams = this.userService + `/clients​/${id}​/email-verification​/${code}​/verify`.replace(/[^\x00-\x7F]/g, "");
     return this.http.get(sanitizedParams).toPromise()
   }
+
+  resetPassword(email) {
+    return this.http.get(this.userService + `/clients/${email}/password_reset`).toPromise();
+  }
+
+  newPassword(id, code, body) {
+    return this.http.put(this.userService + `/clients/${id}/password/${code}/reset`, body).toPromise();
+  }
+
+  openSuggestionDialog(title, text, width = '250px', height = '200px') {
+    const dialogRef = this.dialog.open(SuggestionPopupComponent, {
+      width: width,
+      height: height,
+      data: { title: title, message: text }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+
 }
