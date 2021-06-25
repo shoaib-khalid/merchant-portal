@@ -18,6 +18,7 @@ export class SingleOrderComponent implements OnInit {
   paymentStatus: any = "";
   subTotal: any = "";
   total: any = "";
+  order: any = "";
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
@@ -64,10 +65,11 @@ export class SingleOrderComponent implements OnInit {
   async setOrderDetails() {
     const data: any = await this.apiCalls.getOrderDetails(this.orderId)
     const orderDetails = data.data;
-    this.address=orderDetails.orderShipmentDetail;
+    this.order=orderDetails;
+    this.address = orderDetails.orderShipmentDetail;
     console.log(orderDetails)
     this.paymentStatus = orderDetails.paymentStatus;
-    this.invoiceNo = this.orderId;
+    this.invoiceNo = orderDetails.invoiceId;
     this.date = orderDetails.created;
     this.date = this.date.substring(0, 10);
     this.subTotal = orderDetails.subTotal;

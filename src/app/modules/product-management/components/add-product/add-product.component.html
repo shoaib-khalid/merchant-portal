@@ -74,7 +74,8 @@
                                                         <div class="form-group">
                                                             <label for="l301">Title</label>
                                                             <input type="text" style="width: 578px;" [(ngModel)]="title"
-                                                                class="form-control necessary" id="l301" />
+                                                                class="form-control necessary" id="l301"
+                                                                (keyup)="titleChange($event)" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -84,7 +85,7 @@
                                                     <label class="form-control-label" for="l151">Description</label>
                                                     <!-- <textarea class="form-control" [(ngModel)]="description" rows="3"
                                                         id="l151"></textarea> -->
-                                                    <ckeditor 
+                                                    <ckeditor
                                                         [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
                                                         [editor]="Editor" [(ngModel)]="description" rows="3"></ckeditor>
                                                 </div>
@@ -97,12 +98,14 @@
                                                         <label class="custom-file-label" for="inputGroupFile011">Choose
                                                             file(s) </label>
                                                     </div>
-
                                                 </div>
+                                                <p class="text-muted">Dimensions: 100 x 100 </p>
+
                                                 <div *ngFor="let prodImg of productImages;index as i"
                                                     style="display: inline-block;margin-top: 3px;margin-right: 3px;">
                                                     <div class="image-container">
-                                                        <img id ="product-image-{{i}}" src="{{prodImg.preview}}" alt="" class="image">
+                                                        <img id="product-image-{{i}}" src="{{prodImg.preview}}" alt=""
+                                                            class="image" height="768px" width="1336px">
                                                         <div class="overlay" (click)="setThumbnail(i)">Set as thumbnail?
                                                         </div>
                                                     </div>
@@ -118,8 +121,10 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="l30">Price</label>
-                                                            <input id="general-price" type="text" min="0" [disabled]="variantChecked" 
-                                                              (keyup)="priceChange($event)"  class="form-control necessary" />
+                                                            <input id="general-price" type="text" min="0"
+                                                                [disabled]="variantChecked"
+                                                                (keyup)="priceChange($event)"
+                                                                class="form-control necessary" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6" hidden>
@@ -181,7 +186,7 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label for="l30">SKU (Stock Keeping Unit)</label>
-                                                            <input [disabled]="variantChecked"  type="text"
+                                                            <input [disabled]="variantChecked" type="text"
                                                                 [(ngModel)]="sku" class="form-control necessary" />
                                                         </div>
                                                     </div>
@@ -328,6 +333,9 @@
 
                                                 <div class="row">
                                                     <div class="col-lg-6" *ngIf="variantChecked">
+                                                        <p class="text-muted" style="width: 400px;">In order to add a
+                                                            tag, press enter after
+                                                            typing it.</p>
                                                         Options
                                                     </div>
                                                 </div>
@@ -362,8 +370,8 @@
                                                             <div class="col-lg-1 mt-3"
                                                                 style="font-weight: lighter;display: inline-block;cursor: pointer;"
                                                                 (click)="deleteVariant(i)">
-                                                                <img src="assets/red-cross.svg" alt="" height="20px"
-                                                                    width="20px">
+                                                                <img src="assets/red-cross.svg" height="20px"
+                                                                    width="20px" alt="">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -387,11 +395,14 @@
 
                                                     </div>
                                                     <div *ngFor="let combo of combos;index as i;" style="width: 700px;">
-                                                        <div class="body-variant"><img class="i-item-img" src="{{images[i].preview}}" alt="" ></div>
+                                                        <div class="body-variant"><img class="i-item-img"
+                                                                src="{{images[i].preview}}" alt="" height="768px"
+                                                                width="1336px"></div>
                                                         <div class="body-variant">{{combo.variant}}</div>
                                                         <div class="body-variant"><input type="text"
-                                                                class="form-control variant-price" (keyup)="priceChanged($event,i)"
-                                                                value="{{combo.price}}" placeholder="0.00 Rs"></div>
+                                                                class="form-control variant-price"
+                                                                (keyup)="priceChanged($event,i)" value="{{combo.price}}"
+                                                                placeholder="0.00 Rs"></div>
                                                         <div class="body-variant"> <input type="number"
                                                                 class="form-control" value="{{combo.quantity}}"
                                                                 (keyup)="quantityChanged($event,i)" name="" id=""
@@ -408,72 +419,11 @@
                                                                     for="inputGroupFile01"></label>
                                                             </div>
                                                         </div>
-                                                        <!-- <div>
-                                                            <div>
-                                                                <div class="images-row"
-                                                                    *ngFor="let img of images[i];index as j"><img
-                                                                        src="{{img.preview}}" alt="" height="80px"
-                                                                        width="80px">
-                                                                    <div class="col-lg-1 mt-3"
-                                                                        style="font-weight: lighter;display: inline-block;cursor: pointer;"
-                                                                        (click)="deleteVariantImage(i,j)">
-                                                                        <img src="assets/red-cross.svg" alt=""
-                                                                            height="14px" width="14px">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
 
                                                     </div>
 
                                                 </div>
                                                 <div class="row" *ngIf="variantChecked">
-
-                                                    <!-- <table>
-                                                        <tr>
-                                                            <th class="variant-cols">Variant</th>
-                                                            <th class="variant-cols">Price</th>
-                                                            <th class="variant-cols">Quantity</th>
-                                                            <th class="variant-cols">SKU </th>
-                                                            <th>Upload file</th>
-                                                        </tr>
-                                                        <tr *ngFor="let combo of combos;index as i;">
-                                                            <td class="variant-cols" style="font-weight: normal;">
-                                                                {{combo.variant}}</td>
-                                                            <td class="variant-cols"
-                                                                style="font-weight: normal;width: 120px;"><input
-                                                                    type="text" class="form-control"
-                                                                    (keyup)="priceChanged($event,i)"
-                                                                    value="{{combo.price}}" placeholder="0.00 Rs"></td>
-                                                            <td class="variant-cols"
-                                                                style="font-weight: normal;width: 120px;">
-                                                                <input type="number" class="form-control"
-                                                                    value="{{combo.quantity}}"
-                                                                    (keyup)="quantityChanged($event,i)" name="" id=""
-                                                                    min="0">
-                                                            </td>
-                                                            <td class="variant-cols"
-                                                                style="font-weight: normal;width: 150px;"><input
-                                                                    value="{{combo.sku}}" (keyup)="skuChanged($event,i)"
-                                                                    type="text" class="form-control"> </td>
-                                                            <td style="width: 300px;">
-                                                                <div class="custom-file">
-                                                                    <input type="file" multiple
-                                                                        class="custom-file-input"
-                                                                        (change)="onFileChanged($event,i)"
-                                                                        id="inputGroupFile01" />
-                                                                    <label class="custom-file-label"
-                                                                        for="inputGroupFile01">Choose
-                                                                        file(s)</label>
-                                                                </div>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="padding-left: 40px;"
-                                                                ><img src="{{url}}"  alt="" height="80px" width="80px"></td>
-                                                        </tr>
-                                                    </table> -->
                                                 </div>
                                                 <h4 class="text-black mb-3">Search engine listing preview
                                                 </h4>
@@ -549,7 +499,8 @@
                                                     <label for="weight">Weight in KG</label>
 
                                                     <input type="number" id="delivery-weight" name="quantity" min="1"
-                                                        placeholder="Weight in Kg" value="0" max="10000" min="0" [(ngModel)]="weight" class="form-control necessary">
+                                                        placeholder="Weight in Kg" value="0" max="10000" min="0"
+                                                        [(ngModel)]="weight" class="form-control necessary">
                                                 </div>
 
                                             </div>

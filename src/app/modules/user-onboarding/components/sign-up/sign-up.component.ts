@@ -30,24 +30,30 @@ export class SignUpComponent implements OnInit {
     }
 
     if (data.name && data.username && data.email && data.password && data.roleId) {
-      if (this.validateEmail(this.email)) {
+      if (this.validateEmail(this.email) && this.usernameIsValid()) {
         this.apiCalls.loadingAnimation("Signing up")
         this.apiCalls.registerClient(data)
-        // this.apiCalls.successPopUp("Signed Up Successfuflly",1900)
-      } else {
-        this.errorText = "Wrong Email Format"
-        this.showError = true;
-
       }
-    } else {
-      this.errorText = "Please enter all details"
-      this.showError = true;
     }
   }
 
   validateEmail(email) {
     var re = /\S+@\S+\.\S+/;
-    return re.test(email);
+    if (re.test(email)) {
+      return true;
+    } else {
+      this.errorText = "Wrong Email Format"
+      this.showError = true;
+      return false;
+    }
   }
 
+  usernameIsValid() {
+    if (/^[0-9a-zA-Z_.-]+$/.test(this.username)) {
+      return true;
+    } else {
+      this.errorText = "Wrong username Format"
+      this.showError = true;
+    }
+  }
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import $ from 'jquery';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import {HelperService} from 'src/app/services/helper.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -11,26 +12,11 @@ import {HelperService} from 'src/app/services/helper.service';
   styleUrls: ['./edit-product.component.scss']
 })
 export class EditProductComponent implements OnInit {
+  epForm: FormGroup;
   productStatus: any = "";
-  title: string;
-  description: string;
-  price: any="";
-  compareAtPrice: string;
-  costPerItem: any;
-  chargeTax: boolean;
-  inventoryMngdBy: any;
-  sku: any;
-  barcode: any;
-  trackQuantity: any;
-  continueSelling: any;
-  quantity: any;
-  physicalProduct: any;
   weight: any;
   weightType: any;
-  country: any;
-  hsCode: any;
   items: any = [];
-  countries: any = [];
   variantChecked: boolean = false;
   options: any = []
   combos: any = [];
@@ -42,15 +28,22 @@ export class EditProductComponent implements OnInit {
   productImages: any = [];
   newItems: any = [];
   thumbnailUrl: any = null;
+  deletedVariants: any = [];
+  imagesToBeDeleted: any = [];
   public Editor = ClassicEditor;
 
 
-  constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService,private helperService:HelperService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private apiCalls: ApiCallsService,
+    private helperService: HelperService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id) {
         this.loadProduct(params.id)
+        this.setFormGroup();
       }
     });
 
@@ -66,8 +59,9 @@ export class EditProductComponent implements OnInit {
 
   setAllVariables() {
     console.log(this.product)
-    this.title = this.product.name;
-    this.description = this.product.description;
+    this.epForm['controls'].productDetails['controls'].name.setValue(this.product.name)
+    this.epForm['controls'].productDetails['controls'].description.setValue(this.product.description)
+    this.epForm['controls'].productDetails['controls'].stock.setValue(0)
     this.productStatus = this.product.status;
     this.weight = this.product.weight;
     this.setCategory();
@@ -120,6 +114,7 @@ export class EditProductComponent implements OnInit {
     if (this.product.productVariants.length > 0) {
       this.sortObjects(this.product.productVariants)
       this.variantChecked = true;
+      this.toggleDefaultInventory(true)
     }
     this.product.productVariants.forEach((element, index) => {
       this.sortObjects(element.productVariantsAvailable)
@@ -159,6 +154,7 @@ export class EditProductComponent implements OnInit {
 
   variantNameChanged(event, i) {
     this.options[i].name = event.target.value;
+    console.log(this.options)
   }
 
   setProductAssets() {
@@ -174,7 +170,7 @@ export class EditProductComponent implements OnInit {
     var out = "";
     if (n == combos.length) {
       if (result.substring(1) != "") {
-        this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: 0 })
+        this.combos.push({ variant: result.substring(1), price: this.epForm['controls'].defaultInventory['controls'].price.value, quantity: 0, sku: 0 })
         this.images.push([])
       }
       return result.substring(1);
@@ -231,38 +227,44 @@ export class EditProductComponent implements OnInit {
   }
 
   variantChanged(event) {
-
+    this.toggleDefaultInventory(event.target.checked)
   }
 
-  deletethumbnailImage(prodId, i) {
+  deletethumbnailImage(imgId, i) {
     this.productImages.splice(i, 1)
-    this.apiCalls.deleteProductAsset(this.product.id, prodId)
+    this.imagesToBeDeleted.push(imgId);
   }
 
 
 
   async updateProduct() {
-    this.apiCalls.loadingAnimation('Updating..')
-    await this.deleteEntireInventory();
-    const body = {
-      "categoryId": await this.getCategoryId(),
-      "name": this.title,
-      "status": this.productStatus,
-      "stock": 0,
-      "description": this.description,
-      "storeId": localStorage.getItem("storeId"),
-      "thumbnailUrl": this.thumbnailUrl,
-      "weight":this.weight
+
+    const combinedObject = {
+      ...this.epForm['controls'].productDetails.value, ...{
+        "categoryId": await this.getCategoryId(),
+        "status": this.productStatus,
+        "storeId": localStorage.getItem("storeId"),
+        "thumbnailUrl": this.thumbnailUrl,
+        "weight": this.weight
+      }
     }
-    await this.addInventory();
-    this.apiCalls.updateProduct(body, this.product.id)
-    this.uploadProductImages();
-    const variantIds: any = await this.addVariantName();
-    const productAvailableIds = await this.addVariantValues(variantIds);
-    const allIds: any = await this.joinVariantAvailables(productAvailableIds)
-    this.addInventoryItem(allIds);
-    this.uploadVariantImages();
-    this.apiCalls.loadingdialogRef.close();
+    if (this.epForm.status == "VALID") {
+      this.apiCalls.loadingAnimation('Updating..')
+      await this.deleteEntireInventory();
+      const body = combinedObject
+      this.deleteImages();
+      await this.addInventory();
+      this.apiCalls.updateProduct(body, this.product.id)
+      this.uploadProductImages();
+      const variantIds: any = await this.addVariantName();
+      const productAvailableIds = await this.addVariantValues(variantIds);
+      const allIds: any = await this.joinVariantAvailables(productAvailableIds)
+      this.addInventoryItem(allIds);
+      this.uploadVariantImages();
+      this.deleteVariants();
+      this.apiCalls.loadingdialogRef.close();
+    }
+
   }
 
   addAnotherOption() {
@@ -309,10 +311,10 @@ export class EditProductComponent implements OnInit {
       } else {
         const data: any = await this.apiCalls.addInventory(this.product.id, {
           itemCode: this.product.id + "aa",
-          price: this.helperService.removeCharacters(this.price),
-          compareAtPrice: this.compareAtPrice,
-          quantity: this.quantity,
-          sku: this.sku
+          price: this.epForm['controls'].defaultInventory['controls'].price.value,
+          compareAtPrice: 0,
+          quantity: this.epForm['controls'].defaultInventory['controls'].quantity.value,
+          sku: this.epForm['controls'].defaultInventory['controls'].sku.value
         })
       }
       resolve("")
@@ -397,14 +399,14 @@ export class EditProductComponent implements OnInit {
   async deleteVariant(i, variantId) {
     this.items.splice(i, 1)
     this.options.splice(i, 1);
-    if (variantId) {
-      this.apiCalls.deleteVariant(this.product.id, variantId)
-    }
+    this.deletedVariants.push(variantId)
     this.combos = [];
     this.getallCombinations(this.items)
     if (this.items.length == 0) {
       this.variantChecked = false;
+      this.toggleDefaultInventory(this.variantChecked)
     }
+    
   }
 
   async getCategoryId() {
@@ -445,7 +447,7 @@ export class EditProductComponent implements OnInit {
 
   priceChanged(event, i) {
     const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
-    const element:any = document.getElementsByClassName('variant-price')[i]
+    const element: any = document.getElementsByClassName('variant-price')[i]
     element.value = acceptedPrice;
     this.combos[i].price = event.target.value;
   }
@@ -485,6 +487,9 @@ export class EditProductComponent implements OnInit {
 
 
   async onFileChanged(event, i) {
+    if (this.images[i].id) {
+      this.imagesToBeDeleted.push(this.images[i].id)
+    }
     const files = event.target.files;
     const file = files[0];
     this.images[i] = { file: file, preview: await this.previewImage(file), new: true };
@@ -519,7 +524,7 @@ export class EditProductComponent implements OnInit {
       this.thumbnailUrl = null;
     } else {
       this.thumbnailUrl = this.productImages[i].preview;
-      const data=await this.apiCalls.updateProductImage(this.product.id, {
+      const data = await this.apiCalls.updateProductImage(this.product.id, {
         "isThumbnail": true,
       }, this.productImages[i].id)
 
@@ -555,18 +560,75 @@ export class EditProductComponent implements OnInit {
     const productInventories = this.product.productInventories;
     for (var i = 0; i < productInventories.length; i++) {
       if (productInventories[i].itemCode == itemCode) {
-        this.price = productInventories[i].price;
-        this.sku = productInventories[i].sku;
-        this.quantity = productInventories[i].quantity;
+        this.epForm['controls'].defaultInventory['controls'].price.setValue(productInventories[i].price);
+        this.epForm['controls'].defaultInventory['controls'].sku.setValue(productInventories[i].sku);
+        this.epForm['controls'].defaultInventory['controls'].quantity.setValue(productInventories[i].quantity);
         break;
       }
     }
   }
 
-  priceChange(event) {
-    const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
-    const generalPrice: any = document.getElementById('general-price')
-    generalPrice.value = `${acceptedPrice}`
-    this.price=acceptedPrice;
+
+
+
+  titleChange(event) {
+    const prodName = event.target.value;
+    this.epForm['controls'].defaultInventory['controls'].sku.setValue(prodName.replace(/\s+/g, '-').toUpperCase());
   }
+
+
+  /**
+   * Deleted variants if any
+   * when update product is clicked
+   */
+  deleteVariants() {
+    for (var i = 0; i < this.deletedVariants.length; i++) {
+      this.apiCalls.deleteVariant(this.product.id, this.deletedVariants[i])
+    }
+  }
+
+  /**
+   * Deletes images that are deleted by user
+   * on update button click
+   */
+  async deleteImages() {
+    for (var i = 0; i < this.imagesToBeDeleted.length; i++) {
+      await this.apiCalls.deleteProductAsset(this.product.id, this.imagesToBeDeleted[i]);
+    }
+  }
+
+  setFormGroup() {
+    this.epForm = this.fb.group({
+
+      productDetails: this.fb.group({
+        name: ['', [Validators.required, Validators.maxLength(45)]],
+        stock: [0],
+        description: [''],
+        storeId: [localStorage.getItem('storeId')]
+      }),
+      defaultInventory: this.fb.group({
+        price: ['', [Validators.required]],
+        sku: ['', [Validators.required]],
+        quantity: ['', [Validators.required]],
+      }),
+
+    })
+  }
+
+  onSubmit() {
+
+  }
+
+  toggleDefaultInventory(flag) {
+    if (flag) {
+      this.epForm['controls'].defaultInventory['controls'].price.disable()
+      this.epForm['controls'].defaultInventory['controls'].sku.disable()
+      this.epForm['controls'].defaultInventory['controls'].quantity.disable()
+    } else {
+      this.epForm['controls'].defaultInventory['controls'].price.enable()
+      this.epForm['controls'].defaultInventory['controls'].sku.enable()
+      this.epForm['controls'].defaultInventory['controls'].quantity.enable()
+    }
+  }
+
 }

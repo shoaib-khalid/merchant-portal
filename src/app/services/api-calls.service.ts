@@ -497,13 +497,12 @@ export class ApiCallsService {
   async getFilteredCustomers(parameters) {
     const httpOptions: any = {
       headers: new HttpHeaders({
-        Authorization: "asx"
       }),
 
       params: parameters
     }
     if (localStorage.getItem("storeId")) {
-      return await this.http.get(this.userService + "/customers/", httpOptions).toPromise();
+      return await this.http.get(this.userService + `/stores/${localStorage.getItem('storeId')}/customers/`, httpOptions).toPromise();
     }
   }
 
@@ -653,7 +652,7 @@ export class ApiCallsService {
   }
 
   deleteProductAsset(productId, assetId) {
-    this.http.delete<any>(this.productService +
+    return this.http.delete<any>(this.productService +
       `/stores/${localStorage.getItem("storeId")}/products/${productId}/assets/${assetId}`)
       .subscribe((data) => console.log(data));
   }

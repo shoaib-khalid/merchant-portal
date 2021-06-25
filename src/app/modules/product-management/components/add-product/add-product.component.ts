@@ -111,7 +111,7 @@ export class AddProductComponent implements OnInit {
 
   async saveProduct() {
 
-    if (this.title && this.verifyDetails() &&this.sku) {
+    if (this.title && this.verifyDetails() && this.sku) {
       this.apiCalls.loadingAnimation("Adding Product")
       const categoryId = await this.getCategoryId()
       const body = {
@@ -121,7 +121,7 @@ export class AddProductComponent implements OnInit {
         "stock": 0,
         "description": this.description,
         "storeId": localStorage.getItem("storeId"),
-        "weight":this.weight
+        "weight": this.weight
 
       }
       const data: any = await this.apiCalls.addProduct(body);
@@ -165,8 +165,10 @@ export class AddProductComponent implements OnInit {
   async addVariantName(productId) {
     var variantIds = [];
     for (var i = 0; i < this.options.length; i++) {
-      var data: any = await this.apiCalls.addVariant(productId, { name: this.options[i].name, sequenceNumber: i })
-      variantIds.push(data.data.id)
+      if(this.options[i].name){
+        var data: any = await this.apiCalls.addVariant(productId, { name: this.options[i].name, sequenceNumber: i })
+        variantIds.push(data.data.id)
+      }
     }
     return variantIds;
   }
@@ -227,7 +229,7 @@ export class AddProductComponent implements OnInit {
         })
       }
 
-      if (this.images[i]) {
+      if (this.images[i].file) {
         const formdata = new FormData();
         formdata.append("file", this.images[i].file);
         const data = await this.apiCalls.uploadImage(productId, formdata, productId + i, "")
@@ -237,7 +239,7 @@ export class AddProductComponent implements OnInit {
 
   priceChanged(event, i) {
     const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
-    const element:any = document.getElementsByClassName('variant-price')[i]
+    const element: any = document.getElementsByClassName('variant-price')[i]
     element.value = acceptedPrice;
     this.combos[i].price = event.target.value;
   }
@@ -449,7 +451,12 @@ export class AddProductComponent implements OnInit {
     const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
     const generalPrice: any = document.getElementById('general-price')
     generalPrice.value = `${acceptedPrice}`
-    this.price=acceptedPrice;
+    this.price = acceptedPrice;
+  }
+
+  titleChange(event) {
+    const prodName = event.target.value;
+    this.sku = prodName.replace(/\s+/g, '-').toUpperCase();
   }
 
 }

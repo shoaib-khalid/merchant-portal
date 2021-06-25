@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -32,7 +33,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     MatInputModule,
     MatMenuModule,
     MatButtonModule,
-    CKEditorModule
+    CKEditorModule,
+    ReactiveFormsModule
   ]
 })
 export class ProductManagementModule { }

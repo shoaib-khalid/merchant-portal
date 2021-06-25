@@ -108,11 +108,15 @@
 
                                                 <div class="">
                                                     <div class="invoice-address mb-4">
-                                                        <p class="f-w-5 text-black">Shipment Address : {{address.address}}</p>
+                                                        <p class="f-w-5 text-black">Shipment Address :
+                                                            {{address.address}}</p>
                                                         <p class="f-w-5 text-black">City : {{address.city}}</p>
                                                         <p class="f-w-5 text-black">Country : {{address.country}}</p>
-                                                        <p class="f-w-5 text-black" style="display: inline-block;">State : {{address.state}} ,</p>
-                                                        <p class="f-w-5 text-black" style="display: inline-block;margin-left: 10px;">Zip code : {{address.zipcode}}</p>
+                                                        <p class="f-w-5 text-black" style="display: inline-block;">State
+                                                            : {{address.state}} ,</p>
+                                                        <p class="f-w-5 text-black"
+                                                            style="display: inline-block;margin-left: 10px;">Zip code :
+                                                            {{address.zipcode}}</p>
 
                                                     </div>
                                                 </div>
@@ -146,7 +150,7 @@
                                                                 <tbody>
                                                                     <tr *ngFor="let orderItem of orderItems;index as i">
                                                                         <th scope="col">{{i+1}}</th>
-                                                                        <td>{{orderItem.sku}}</td>
+                                                                        <td>{{orderItem.SKU}}</td>
                                                                         <td>{{orderItem.weight}}</td>
                                                                         <td>{{orderItem.quantity}}</td>
                                                                         <td>{{orderItem.price}}</td>
@@ -156,6 +160,7 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
+                                                        <hr>
                                                     </div>
                                                 </div>
                                             </div>
@@ -163,11 +168,16 @@
                                             <div class="row mb-3">
 
                                                 <div class="col-md-12 col-lg-12">
-                                                    <div class="invoice-total text-right font-16">
-                                                        <p>Sub Total : <span class="">{{subTotal}}</span></p>
-                                                        <!-- <p>Taxes (10%) : <span class="">$7</span></p> -->
-                                                        <p>Grand Total : <span
-                                                                class="text-danger font-weight-bold">{{total}}</span>
+                                                    <div class="invoice-total" style="text-align: left;">
+                                                        <p style="text-align: left;">Sub Total : <span
+                                                                class="">{{order.subTotal}}</span></p>
+                                                        <p>Service Charges : <span
+                                                                class="">{{order.serviceCharges==null?0:order.serviceCharges}}</span>
+                                                        </p>
+                                                        <p><span style="color:red">Delivery Charges :
+                                                                {{order.deliveryCharges}}</span></p>
+                                                        <p><span style="color:rgb(9, 180, 3)">Grand Total :
+                                                                {{total}}</span>
                                                         </p>
                                                     </div>
                                                 </div>
