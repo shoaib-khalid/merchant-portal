@@ -66,7 +66,7 @@ export class EditProductComponent implements OnInit {
     this.weight = this.product.weight;
     this.setCategory();
     this.setDeliveryDetails()
-    this.setThumbnailPreview();
+    this.setProductImages();
     this.setVariants();
     this.getallCombinations(this.items)
     this.showDefaultInventory();
@@ -100,13 +100,29 @@ export class EditProductComponent implements OnInit {
     });
   }
 
-  setThumbnailPreview() {
-    this.product.productAssets.forEach(element => {
-      if (element.itemCode == null) {
-        this.productImages.push({ id: element.id, preview: element.url })
+  /**
+ * Sets images of products and adds border to thumbnail image
+ */
+  setProductImages() {
+    var tI = -1;
+    const prodAssets = this.product.productAssets;
+    for (var i = 0; i < prodAssets.length; i++) {
+      if (prodAssets[i].itemCode == null) {
+        this.productImages.push({ id: prodAssets[i].id, preview: prodAssets[i].url })
+        if (prodAssets[i].isThumbnail) {
+          tI = i;
+        }
       }
-    });
+    }
+    setInterval(function () {
+      if (tI != -1) {
+        document.getElementById(`product-image-${tI}`).style.border = "thick solid #0000FF";
+      }
+    }, 100);
+
   }
+
+
 
 
 
@@ -406,7 +422,7 @@ export class EditProductComponent implements OnInit {
       this.variantChecked = false;
       this.toggleDefaultInventory(this.variantChecked)
     }
-    
+
   }
 
   async getCategoryId() {
@@ -601,7 +617,7 @@ export class EditProductComponent implements OnInit {
     this.epForm = this.fb.group({
 
       productDetails: this.fb.group({
-        name: ['', [Validators.required, Validators.maxLength(45)]],
+        name: ['', [Validators.required, Validators.maxLength(50)]],
         stock: [0],
         description: [''],
         storeId: [localStorage.getItem('storeId')]
@@ -630,5 +646,8 @@ export class EditProductComponent implements OnInit {
       this.epForm['controls'].defaultInventory['controls'].quantity.enable()
     }
   }
+
+
+
 
 }

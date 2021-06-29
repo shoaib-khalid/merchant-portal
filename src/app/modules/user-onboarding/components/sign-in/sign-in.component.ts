@@ -9,7 +9,8 @@ export class SignInComponent implements OnInit {
 
   username: any = '';
   password: any = '';
-  error:any=""
+  error:any="";
+  rememberMe:any=true;
   showError:Boolean=false;
   constructor(private apiCalls: ApiCallsService) { }
 
@@ -24,7 +25,7 @@ export class SignInComponent implements OnInit {
 
     if (this.username && this.password) {
       this.apiCalls.loadingAnimation("Logging in")
-      this.apiCalls.authenticateClient(data);
+      this.apiCalls.authenticateClient(data,this.rememberMe);
     }else{
       this.showError_('Please enter all details')
     }

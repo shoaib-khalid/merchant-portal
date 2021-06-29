@@ -2,11 +2,15 @@
    <div class="container">
       <nav class="navbar navbar-expand-lg navbar-dark px-lg-0">
          <li>
-         <a class="navbar-brand mr-3 swap-link heading" style="cursor: pointer;">{{leftHeading}}</a>
-         <div class="dropdown-content-heading">
-            <div class="options" *ngFor="let store of stores" (click)="selectStore(store.id,store.name,store.domain)">{{store.name}}</div>
-         </div>
-      </li>
+            <a class="navbar-brand mr-3 swap-link" style="cursor: pointer;">
+               <div *ngIf="!loggedOut" class="heading">{{store}}</div>
+               <div *ngIf="loggedOut" [routerLink]="['/']">Symplified.biz</div>
+            </a>
+            <div class="dropdown-content-heading" style="margin-left: 20px;">
+               <div class="options" *ngFor="let store of stores"
+                  (click)="selectStore(store.id,store.name,store.domain)">{{store.name}}</div>
+            </div>
+         </li>
          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -18,8 +22,6 @@
                      <a [routerLink]="['/store-management']" class="nav-link" routerLinkActive="active" hidden>
                         fs
                      </a>
-
-
                   </li>
                </ul>
             </div>

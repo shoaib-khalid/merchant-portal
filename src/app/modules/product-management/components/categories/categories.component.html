@@ -64,8 +64,8 @@
                                         <div class="table-responsive">
                                             <div style="display: flex;">
                                                 <div>
-                                                    <input type="text" placeholder="Filter Categories" class="form-control"
-                                                        style="width:140px; margin-right: 10px;" name="" id="">
+                                                    <!-- <input type="text" placeholder="Filter Categories" class="form-control"
+                                                        style="width:140px; margin-right: 10px;" name="" id=""> -->
                                                 </div>
 
                                             </div>
@@ -77,13 +77,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor="let category of categories;index as i"  (click)="openCatgoryProducts(category.id)">
-                                                        <td 
-                                                            style="cursor: pointer;">
+                                                    <tr *ngFor="let category of categories;index as i"
+                                                        (click)="openCatgoryProducts(category.id)">
+                                                        <td style="cursor: pointer;">
                                                             {{category.name}}
                                                         </td>
                                                         <td>
-                                                            <td><button  type="button" class="btn btn-primary width-150 connect-button"
+                                                            <button type="button" class="btn btn-primary connect-button"
                                                                 (click)="deleteCategory(category.id)">Delete</button>
                                                         </td>
                                                 </tbody>
@@ -93,13 +93,6 @@
                                         <div class="px-3 py-2">
                                             <nav aria-label="pagin">
                                                 <ul class="pagination pagination-sm">
-                                                    <li class="page-item"><a class="page-link" >Previous</a>
-                                                    </li>
-                                                    <li class="page-item active"><a class="page-link" >1</a></li>
-                                                    <li class="page-item "><a class="page-link">2</a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link">3</a></li>
-                                                    <li class="page-item"><a class="page-link">Next</a></li>
                                                 </ul>
                                             </nav>
                                         </div>

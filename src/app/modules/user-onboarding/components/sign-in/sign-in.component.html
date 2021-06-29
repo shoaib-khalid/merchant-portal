@@ -23,9 +23,8 @@
                                 <form action="#">
                                     <div class="form-group mb-3">
                                         <label for="username">Username or Email</label>
-                                        <input class="form-control" name="username" type="text"
-                                        id="username" [(ngModel)]="username"  required=""
-                                            placeholder="Enter your username">
+                                        <input class="form-control" name="username" type="text" id="username"
+                                            [(ngModel)]="username" required="" placeholder="Enter your username">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="password">Password</label>
@@ -33,27 +32,31 @@
                                             type="password" required="" [(ngModel)]="password" id="password"
                                             placeholder="Enter your password">
                                     </div>
-                                    <div class="form-group mb-3">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox-signin"
-                                                checked="">
-                                            <label class="custom-control-label" for="checkbox-signin">Remember
-                                                me</label>
-                                        </div>
-                                    </div>
-                                    <div *ngIf="showError" style="color: red;font-size: 14px;margin-left: 3px;margin-bottom: 9px;">* {{error}}</div>
-                                    <div class="form-group mb-0 text-center">
-                                        <a class="btn btn-primary btn-block" (click)="authenticateClient()">
-                                            Log In </a>
-                                    </div>
                                 </form>
+
+                                <div class="form-group mb-3">
+                                    <div class="custom-control custom-checkbox">
+                                        <input [(ngModel)]="rememberMe" type="checkbox" class="custom-control-input"
+                                            id="checkbox-signin" checked="">
+                                        <label class="custom-control-label" for="checkbox-signin">Remember
+                                            me</label>
+                                    </div>
+                                </div>
+                                <div *ngIf="showError"
+                                    style="color: red;font-size: 14px;margin-left: 3px;margin-bottom: 9px;">* {{error}}
+                                </div>
+                                <div class="form-group mb-0 text-center">
+                                    <a class="btn btn-primary btn-block" (click)="authenticateClient()">
+                                        Log In </a>
+                                </div>
                             </div>
                             <!-- end card-body -->
                         </div>
                         <!-- end card -->
                         <div class="row mt-3">
                             <div class="col-12 text-center">
-                                <p> <a  [routerLink]="['/forgot-password']" class="text-muted ml-1">Forgot your password?</a></p>
+                                <p> <a [routerLink]="['/forgot-password']" class="text-muted ml-1">Forgot your
+                                        password?</a></p>
                                 <p class="text-muted">Don't have an account? <a [routerLink]="['/signup']"
                                         class="text-primary font-weight-medium ml-1">Sign Up</a></p>
                             </div>

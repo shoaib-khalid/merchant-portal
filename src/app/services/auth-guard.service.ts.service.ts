@@ -14,14 +14,7 @@ export class AuthGuardService implements CanActivate {
   constructor(public router: Router, private apiCalls: ApiCallsService) { }
   canActivate(route: ActivatedRouteSnapshot): boolean {
     if (localStorage.getItem("accessToken")) {
-      const d = new Date();
-      if (new Date(localStorage.getItem("expiry")) > new Date(d.toUTCString())) {
-        return this.storeSelected(route.url[0] ? route.url[0].path : "");
-      } else {
-        this.apiCalls.loadingAnimation("Updating session")
-        this.getFreshAccessToken(route.url[0] ? route.url[0].path : "");
-      }
-
+      return this.validateToken(route)
     } else {
       if (route.url[0]) {
         if (this.allowedUnAuthenticated.includes(route.url[0].path)) {
@@ -49,7 +42,6 @@ export class AuthGuardService implements CanActivate {
 
 
   storeSelected(route) {
-
     if (route == "chooseverticle" || route == "store" || route == "store-management") {
       return true;
     } else {
@@ -63,6 +55,19 @@ export class AuthGuardService implements CanActivate {
         this.router.navigate(["/store-management"]);
       }
     }
+  }
 
+
+  validateToken(route) {
+    const d = new Date();
+    if (new Date(localStorage.getItem("expiry")) > new Date(d.toUTCString())) {
+      return this.storeSelected(route.url[0] ? route.url[0].path : "");
+    } else if (localStorage.getItem('rememberMe') == "true") {
+      this.apiCalls.loadingAnimation("Updating session")
+      this.getFreshAccessToken(route.url[0] ? route.url[0].path : "");
+    } else {
+      localStorage.clear();
+      this.router.navigateByUrl('/signin')
+    }
   }
 }

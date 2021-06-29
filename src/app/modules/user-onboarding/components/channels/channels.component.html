@@ -97,10 +97,6 @@
                                                                 type="button"
                                                                 class="btn btn-primary width-150 connect-button"
                                                                 (click)="connectToFbPage(channel.access_token,channel.id,i,channel.name)">Connect</button>
-                                                            <!-- <button type="button"
-                                                                style="display: none;"
-                                                                class="btn btn-primary width-150 connect-button1"
-                                                                (click)="deleteUserChannel(channel.id)">Delete</button> -->
                                                         </td>
                                                     </tr>
 
@@ -114,22 +110,6 @@
                                         <div class="px-3 py-2">
                                             <nav aria-label="pagin">
                                                 <ul class="pagination pagination-sm">
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="previousPage()">Previous</a>
-                                                    </li>
-
-
-                                                    <li class="page-item active add-pointer"><a
-                                                            class="page-link">{{page+1}}</a>
-                                                    </li>
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="nextPage()">{{page+2}}</a>
-                                                    </li>
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="nextPage()">{{page+3}}</a>
-                                                    </li>
-                                                    <li class="page-item add-pointer"><a class="page-link"
-                                                            (click)="nextPage()">Next</a></li>
                                                 </ul>
                                             </nav>
                                         </div>

@@ -176,4 +176,5 @@ export class HelperService {
     }
     return price;
   }
+
 }

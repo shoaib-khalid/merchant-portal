@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SuccessAnimationComponent } from 'src/app/modules/home/components/success-animation/success-animation.component';
 import { LoadingComponent } from 'src/app/modules/home/components/loading/loading.component';
 import { HelperTextService } from 'src/app/helpers/helper-text.service';
+import { HelperMethodsService } from './helper-methods.service';
 import { AppConfig } from './app.config.ts.service';
 import { SuggestionPopupComponent } from 'src/app/modules/user-onboarding/components/accounts/suggestion-popup/suggestion-popup.component';
 
@@ -26,7 +27,11 @@ export class ApiCallsService {
   private pathVariable4: string = this.services.orderService;
   private reportService: string = this.services.reportService;
 
-  constructor(private http: HttpClient, private router: Router, private dialog: MatDialog, private helperService: HelperTextService) {
+  constructor(private http: HttpClient,
+    private router: Router,
+    private dialog: MatDialog,
+    private helperService: HelperTextService,
+    private helperService2: HelperMethodsService) {
 
   }
 
@@ -256,30 +261,24 @@ export class ApiCallsService {
 
   }
 
-  async showPopUpIfOneAgent(){
-    const data:any = await this.getFilteredAccounts({})
-    if(data.data.content.length==1){
-      this.openSuggestionDialog("Please download the Mobile App","","290px","160px")
+  async showPopUpIfOneAgent() {
+    const data: any = await this.getFilteredAccounts({})
+    if (data.data.content.length == 1) {
+      this.openSuggestionDialog("Please download the Mobile App", "", "290px", "160px")
     }
   }
 
-  authenticateClient(logInData) {
+  authenticateClient(logInData, rememberMe = true) {
 
     return this.http.post<any>(this.userService + "/clients/authenticate", logInData).
       subscribe(async data => {
         if (data.status == 202) {
-          localStorage.setItem('accessToken', data.data.session.accessToken)
-          localStorage.setItem('ownerId', data.data.session.ownerId)
-          localStorage.setItem('username', data.data.session.username)
-          localStorage.setItem('refreshToken', data.data.session.refreshToken)
-          localStorage.setItem("created", data.data.session.created)
-          localStorage.setItem("expiry", data.data.session.expiry)
+          this.helperService2.setUserDetailsOnAuthentication(data, rememberMe);
           const httpOptions = {
             params: {
               clientId: localStorage.getItem("ownerId")
             }
           }
-
           var data: any = await this.http.get(this.productService + "/stores", httpOptions).toPromise();
           this.loadingdialogRef.close();
           if (data.data.content.length == 0) {
@@ -288,11 +287,9 @@ export class ApiCallsService {
             localStorage.setItem("storeId", data.data.content[0].id)
             localStorage.setItem("store", data.data.content[0].name)
             localStorage.setItem("store-domain", data.data.content[0].domain)
-
             this.router.navigateByUrl('/products')
           } else {
             this.router.navigateByUrl('/store-management')
-
           }
         }
       }, error => this.loadingdialogRef.close());

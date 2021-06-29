@@ -11,16 +11,23 @@ import $ from "jquery";
 
 export class SharedHeaderComponent implements OnInit {
   stores: any;
+  store:any="";
+  loggedOut: boolean = true;
   constructor(private router: Router, private apiCalls: ApiCallsService) {
     if (localStorage.getItem("store") == undefined) {
-      localStorage.setItem("store", "Symplified.biz")
+      this.loggedOut=true;
+    }else{
+      this.loggedOut=false;
+      this.store = localStorage.getItem('store');
     }
   }
+
   username: any;
   navOptionalHeadings: any = {
     signedIn: [],
     signedUp: []
   }
+
   navHeadings: any = [];
   @HostListener('document:click', ['$event.target'])
   onClick(btn) {
@@ -49,7 +56,7 @@ export class SharedHeaderComponent implements OnInit {
   }
 
   logOut() {
-    if(this.apiCalls.loadingdialogRef){
+    if (this.apiCalls.loadingdialogRef) {
       this.apiCalls.loadingdialogRef.close();
     }
     localStorage.clear();
@@ -76,8 +83,8 @@ export class SharedHeaderComponent implements OnInit {
     }
 
     if (btn.classList.value.includes("heading")) {
-      const disp = $(".dropdown-content-header-content").css("display");
-
+      const disp = $(".dropdown-content-heading").css("display");
+      console.log(disp)
       if (disp == "block") {
         $(".dropdown-content-heading").css("display", "none");
 
@@ -89,18 +96,16 @@ export class SharedHeaderComponent implements OnInit {
       $(".dropdown-content-heading").css("display", "none");
 
     }
-
-
   }
+
   async loadStores() {
     if (localStorage.getItem("accessToken")) {
       const data: any = await this.apiCalls.getStoresByOwnerId();
       this.stores = data.data.content;
     }
-
   }
 
-  selectStore(id, name,domain) {
+  selectStore(id, name, domain) {
     localStorage.setItem("store-domain", domain)
     localStorage.setItem("storeId", id)
     localStorage.setItem("store", name)

@@ -4,37 +4,16 @@
         <ul class="nav flex-column dash-nav">
             <li class="nav-item">
                 <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
-                    [routerLink]="['/']">
-                    <div><svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 1px;margin-bottom: 3px;"
-                            width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
-                            <path fill-rule="evenodd"
-                                d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
-                        </svg><i class="bi bi-house"></i>Home</div>
+                    (click)="storeSettings()" style="color: #319795;cursor: pointer;">
+                    <div> <img src="assets/store-icon-menu.svg" alt="" height="24" width="24" class="filter-green">
+                        Store Settings</div>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
-                    [routerLink]="['/orders']">
-                    <div><i class="las la-check"></i>Orders</div>
-                </a>
-                <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
-                    [routerLink]="['/customers']">
-                    <div><i class="las la-user"></i>Customers</div>
-                </a>
-                <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
-                    href="/user-channels">
-                    <div><i class="las la-receipt"></i>Channels</div>
-                </a>
-                <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
-                    [routerLink]="['/agent-accounts']">
-                    <div><i class="las la-folder"></i>Accounts</div>
-                </a>
-            <li class="nav-item">
-                <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
                     style="color: #319795;cursor: pointer;" (click)="openSubMenu()">
-                    <div><i class="las la-list"></i>Products</div>
+                    <div> <img src="assets/products-icon-menu.svg" alt="" height="24" width="24" class="filter-green">
+                        Products</div>
                 </a>
             </li>
             <ul class="submenu">
@@ -42,25 +21,42 @@
                 <div><a [routerLink]="['/products/add']" class="nav-item">Add Product</a></div>
                 <div><a [routerLink]="['/product-categories']" class="nav-item">Categories</a></div>
             </ul>
-            <!-- <li class="nav-item">
-                <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
-                    [routerLink]="['/carts']">
-                    <div><i class="las la-shopping-cart"></i>Cart</div>
-
-                </a>
-            </li> -->
             <li class="nav-item" *ngIf="allowed">
                 <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
                     [routerLink]="['/flows']">
-                    <div><i class="las la-plus"></i>Flows</div>
+                    <div> <img src="assets/favicon.png" height="20" width="24" alt="" style="margin-right: 19px;"> Flows</div>
 
                 </a>
             </li>
+
+            <li class="nav-item"> <a class="nav-link active d-flex justify-content-between align-items-center"
+                    aria-current="page" href="/user-channels">
+                    <div> <img src="assets/social-icons-menu.svg" alt="" height="34" width="34"
+                            style="margin-right: 11px;">Channels</div>
+                </a>
+                <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
+                    [routerLink]="['/agent-accounts']">
+                    <div><img src="assets/users-icon-menu.svg" alt="" height="24" width="24" class="filter-green">Users</div>
+                </a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
+                    [routerLink]="['/orders']">
+                    <div> <img src="assets/order-icon-menu.svg" alt="" height="24" width="24"
+                            class="filter-green">Orders</div>
+                </a>
+                <a class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
+                    [routerLink]="['/customers']">
+                    <div><img src="assets/customer-icon-menu.svg" alt="" height="24" width="24" class="filter-green">Customers</div>
+                </a>
+
             <li class="nav-item">
                 <a style="color: #319795;cursor: pointer;"
                     class="nav-link active d-flex justify-content-between align-items-center" aria-current="page"
                     (click)="openSubMenu2()">
-                    <div><i class="las la-cog"></i>Analytics</div>
+                    <div><img style="margin-bottom: 10px;" src="assets/analytics-menu-icon.svg" alt="" height="20"
+                            width="20" class="filter-green">Analytics</div>
 
                 </a>
             </li>
@@ -118,9 +114,8 @@
         <ul class="nav flex-column dash-nav">
 
             <li class="nav-item">
-                <a style="float: left;color: #319795;cursor: pointer;"
-                    href="https://{{storeDomain}}.symplified.store" target="_blank"
-                    class="nav-link active d-flex justify-content-between align-items-center text-small"
+                <a style="float: left;color: #319795;cursor: pointer;" href="https://{{storeDomain}}.symplified.store"
+                    target="_blank" class="nav-link active d-flex justify-content-between align-items-center text-small"
                     aria-current="page">
                     Preview Store
 
