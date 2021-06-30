@@ -17,11 +17,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EditCategoryComponent } from './components/categories/edit-category/edit-category.component';
 
 
 
 @NgModule({
-  declarations: [AddProductComponent, ProductsComponent, ChooseVerticleComponent, EditProductComponent, CategoriesComponent, CreateNewComponent],
+  declarations: [AddProductComponent, ProductsComponent, ChooseVerticleComponent, EditProductComponent, CategoriesComponent, CreateNewComponent, EditCategoryComponent],
   imports: [
     CommonModule,
     RouterModule,

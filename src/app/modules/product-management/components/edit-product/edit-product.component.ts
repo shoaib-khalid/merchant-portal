@@ -114,11 +114,9 @@ export class EditProductComponent implements OnInit {
         }
       }
     }
-    setInterval(function () {
       if (tI != -1) {
-        document.getElementById(`product-image-${tI}`).style.border = "thick solid #0000FF";
+        // document.getElementById(`product-image-${tI}`).style.border = "thick solid #0000FF";
       }
-    }, 100);
 
   }
 
@@ -436,12 +434,8 @@ export class EditProductComponent implements OnInit {
   }
 
   createNewCategory(name) {
-    const body = {
-      "name": name,
-      "storeId": localStorage.getItem("storeId"),
-    }
     var promise = new Promise(async (resolve, reject) => {
-      const data: any = await this.apiCalls.createCategory(body);
+      const data: any = await this.apiCalls.createCategory(null, name);
       resolve(data.data.id);
     });
     return promise;

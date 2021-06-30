@@ -165,7 +165,7 @@ export class AddProductComponent implements OnInit {
   async addVariantName(productId) {
     var variantIds = [];
     for (var i = 0; i < this.options.length; i++) {
-      if(this.options[i].name){
+      if (this.options[i].name) {
         var data: any = await this.apiCalls.addVariant(productId, { name: this.options[i].name, sequenceNumber: i })
         variantIds.push(data.data.id)
       }
@@ -276,12 +276,8 @@ export class AddProductComponent implements OnInit {
   }
 
   createNewCategory(name) {
-    const body = {
-      "name": name,
-      "storeId": localStorage.getItem("storeId"),
-    }
     var promise = new Promise(async (resolve, reject) => {
-      const data: any = await this.apiCalls.createCategory(body);
+      const data: any = await this.apiCalls.createCategory(new FormData(), name);
       resolve(data.data.id);
     });
     return promise;
@@ -390,9 +386,11 @@ export class AddProductComponent implements OnInit {
 
 
   verifyDetails() {
+    const name = $('#categories').val();
+
     if (this.variantChecked) {
       return true;
-    } else if (this.price && this.quantity) {
+    } else if (this.price && this.quantity && name.trim()) {
       return true;
     } else {
       return false;

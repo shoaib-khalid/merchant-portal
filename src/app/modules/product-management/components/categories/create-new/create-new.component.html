@@ -1,12 +1,22 @@
 <h1 mat-dialog-title style="text-align: center;">Create New Category</h1>
-<div mat-dialog-content>
+<div mat-dialog-content class="container">
   <mat-form-field id="category">
     <mat-label>Category Name</mat-label>
     <input matInput [(ngModel)]="category">
   </mat-form-field>
+  <br>
+  <mat-label>Upload Category Image</mat-label>
+  <br>
+  <div class="custom-file">
+    <input type="file" class="custom-file-input" (change)="onFileChanged($event)" />
+    <label class="custom-file-label" for="inputGroupFile011">Choose
+      file </label>
+  </div>
+  <br>
+  <br>
+  <img src="{{catImage.preview}}" alt="" height="30px" width="30px" id="category-image">
 
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="create()">Create New Category</button>
+  <button mat-button (click)="create()">Create New Category</button>
 </div>
-

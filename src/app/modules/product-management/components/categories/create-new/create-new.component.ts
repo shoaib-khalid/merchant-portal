@@ -7,22 +7,43 @@ import { ApiCallsService } from 'src/app/services/api-calls.service';
   styleUrls: ['./create-new.component.css']
 })
 export class CreateNewComponent implements OnInit {
-  category: any = [];
-  constructor(public dialogRef: MatDialogRef<CreateNewComponent>, 
+  category: any = []="";
+  catImage: any = { file: "", preview: "assets/img/default.png" };
+  constructor(public dialogRef: MatDialogRef<CreateNewComponent>,
     private apiCalls: ApiCallsService,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
   }
 
   async create() {
-    const body = {
-      "name": this.category,
-      "storeId": localStorage.getItem("storeId"),
+    if (this.category.trim()) {
+      this.apiCalls.successPopUp("Category Added Successfully")
+      const data: any = await this.apiCalls.createCategory(this.uploadCategoryImage(), this.category);
+      this.dialogRef.close();
     }
-    this.apiCalls.successPopUp("Category Added Successfully")
-    const data: any = await this.apiCalls.createCategory(body);
-    this.dialogRef.close();
+  }
 
+  async onFileChanged(event) {
+    const file = event.target.files[0];
+    this.catImage.file = file;
+    this.catImage.preview = await this.previewImage(file);
+  }
+
+  previewImage(file) {
+    var promise = new Promise(async (resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (_event) => {
+        resolve(reader.result)
+      }
+    });
+    return promise;
+  }
+
+  uploadCategoryImage() {
+    const formData = new FormData();
+    formData.append("file", this.catImage.file);
+    return formData;
   }
 }

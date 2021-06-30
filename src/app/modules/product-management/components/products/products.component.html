@@ -96,17 +96,17 @@
                                                     <tr *ngFor="let product of products">
                                                         <td class="product">
 
-                                                                <div style="display: inline-block;"
-                                                                    *ngIf="product.thumbnailUrl!=null">
-                                                                    <img src="{{product.thumbnailUrl}}"
-                                                                        height="100" width="100" alt="(product-img)"
-                                                                        class="img-lg rounded">
-                                                                </div>
+                                                            <div style="display: inline-block;"
+                                                                *ngIf="product.thumbnailUrl!=null">
+                                                                <img src="{{product.thumbnailUrl}}" height="100"
+                                                                    width="100" alt="(product-img)"
+                                                                    class="img-lg rounded">
+                                                            </div>
                                                             <div style="display: inline-block;"
                                                                 *ngIf="product.thumbnailUrl==null">
-                                                                    <img src="assets/img/default.png" height="100"
-                                                                        width="100" alt="(product-img)"
-                                                                        class="img-lg rounded">
+                                                                <img src="assets/img/default.png" height="100"
+                                                                    width="100" alt="(product-img)"
+                                                                    class="img-lg rounded">
                                                             </div>
 
                                                             <div class="product-name">{{product.name}}</div>
@@ -148,7 +148,8 @@
                                                                     <a style="color: red;" id="{{product.id}}"
                                                                         class="options"
                                                                         (click)="deleteProduct(product.id)">Delete
-                                                                        Product</a>
+                                                                        Product
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                             <!-- <button type="button"

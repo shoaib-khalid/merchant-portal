@@ -542,27 +542,38 @@ export class ApiCallsService {
   getStoreCategories(page) {
     const httpOptions = {
       headers: new HttpHeaders({
-        Authorization: "asx"
       }),
-
       params: {
         "storeId": localStorage.getItem("storeId"),
         "page": "" + page
       }
     }
-
     return this.http.get(this.productService + "/store-categories", httpOptions).toPromise();
+
+  }
+  getStoreCategoryById(storeCategoryId) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+      }),
+      params: {
+        "storeId": localStorage.getItem("storeId")
+      }
+    }
+    return this.http.get(this.productService + `/store-categories/${storeCategoryId}`, httpOptions).toPromise();
 
   }
 
 
-  createCategory(body) {
+  createCategory(body, name) {
     const httpOptions = {
       headers: new HttpHeaders({
-        Authorization: "asx"
-      })
+      }),
+      params: {
+        name: name,
+        storeId: localStorage.getItem('storeId')
+      }
     }
-    return this.http.post<any>(this.productService + "/store-categories", body, httpOptions).
+    return this.http.post<any>(this.productService + `/store-categories`, body, httpOptions).
       toPromise();
   }
 
@@ -586,6 +597,19 @@ export class ApiCallsService {
     }
     return this.http.post<any>(this.productService + "/stores/" + localStorage.getItem("storeId")
       + "/products/" + productId + "/assets", formData, httpOptions).toPromise();
+  }
+
+  updateStoreCategory(body,name,id){
+    const httpOptions = {
+      headers: new HttpHeaders({
+      }),
+      params: {
+        name: name,
+        storeId: localStorage.getItem('storeId')
+      }
+    }
+    return this.http.put<any>(this.productService + `/store-categories/${id}`, body, httpOptions).
+    toPromise();
   }
 
   updateProductImage(productId, body, id) {

@@ -80,11 +80,24 @@
                                                     <tr *ngFor="let category of categories;index as i"
                                                         (click)="openCatgoryProducts(category.id)">
                                                         <td style="cursor: pointer;">
+                                                            <div style="display: inline-block;"
+                                                                *ngIf="category.thumbnailUrl!=null"><img
+                                                                    src="{{category.thumbnailUrl}}" alt=""
+                                                                    class="category-image"></div>
+                                                            <div style="display: inline-block;"
+                                                                *ngIf="category.thumbnailUrl==null"><img
+                                                                    src="assets/img/default.png" alt=""
+                                                                    class="category-image"></div>
                                                             {{category.name}}
                                                         </td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary connect-button"
-                                                                (click)="deleteCategory(category.id)">Delete</button>
+                                                            <button class="btn btn-primary connect-button" mat-button
+                                                                [matMenuTriggerFor]="menu" (click)="actionClick()">Action</button>
+                                                            <mat-menu #menu="matMenu">
+                                                                <button mat-menu-item (click)="editCategory(category.id)">Edit</button>
+                                                                <button mat-menu-item
+                                                                    (click)="deleteCategory(category.id)" style="color: red;">Delete</button>
+                                                            </mat-menu>
                                                         </td>
                                                 </tbody>
                                             </table>

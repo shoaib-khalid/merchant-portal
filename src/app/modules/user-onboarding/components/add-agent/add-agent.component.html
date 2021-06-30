@@ -23,55 +23,56 @@
 
                                 <!-- end:Social logins-->
                                 <hr class="divider divider-fade">
-                                    <div class="form-group input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"> <i class="las la-user"></i> </span>
-                                        </div>
-                                        <input name="name" required [(ngModel)]="name" class="form-control"
-                                            placeholder="Name" type="text">
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="las la-user"></i> </span>
                                     </div>
-                                    <div class="form-group input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"> <i class="las la-user"></i> </span>
-                                        </div>
-                                        <input name="username" required [(ngModel)]="username" class="form-control"
-                                            placeholder="Username" type="text">
+                                    <input name="name" required [(ngModel)]="name" class="form-control"
+                                        placeholder="Name" type="text">
+                                </div>
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="las la-user"></i> </span>
                                     </div>
-                                    <div class="form-group input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"> <i class="las la-envelope"></i> </span>
-                                        </div>
-                                        <input name="email" required [(ngModel)]="email" class="form-control"
-                                            placeholder="Email address" type="email">
+                                    <input name="username" required [(ngModel)]="username" class="form-control"
+                                        placeholder="Username" type="text">
+                                </div>
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="las la-envelope"></i> </span>
                                     </div>
-                                    <div class="form-group input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"> <i class="las la-eye"></i> </span>
-                                        </div>
-                                        <select id="role"  class="mr-2 form-control" aria-placeholder="Roles" [(ngModel)]="roleId" >
-                                            <option value="">Role</option>
-                                            <option value="STORE_CSR_COMPLAINT">CSRs</option>
-                                            <option value="STORE_CSR_ORDER">Orders</option>
-                                        </select>
+                                    <input name="email" required [(ngModel)]="email" class="form-control"
+                                        placeholder="Email address" type="email">
+                                </div>
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="las la-eye"></i> </span>
                                     </div>
-                        
-                                    <div class="form-group input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"> <i class="las la-key"></i> </span>
-                                        </div>
-                                        <input class="form-control" name="password"
-                                            (keyup.enter)="createAccount($event)" required [(ngModel)]="password"
-                                            placeholder="Create password" type="password">
-                                    </div>
-                                    <div *ngIf="showError"
-                                        style="color: red;font-size: 14px;margin-left: 3px;margin-bottom: 9px;">*
-                                        {{errorText}}</div>
+                                    <select id="role" class="mr-2 form-control" aria-placeholder="Roles"
+                                        [(ngModel)]="roleId">
+                                        <option value="">Role</option>
+                                        <option value="STORE_CSR_COMPLAINT">Customer Service</option>
+                                        <option value="STORE_CSR_ORDER">Order Service</option>
+                                        <option value="STORE_CSR_ADMIN">Order Service + Customer Service</option>\
+                                    </select>
+                                </div>
 
-                                    <div class="form-group">
-
-                                        <a class="btn btn-primary btn-block" (click)="createAccount($event)">Create
-                                            Account</a>
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="las la-key"></i> </span>
                                     </div>
+                                    <input class="form-control" name="password" (keyup.enter)="createAccount($event)"
+                                        required [(ngModel)]="password" placeholder="Create password" type="password">
+                                </div>
+                                <div *ngIf="showError"
+                                    style="color: red;font-size: 14px;margin-left: 3px;margin-bottom: 9px;">*
+                                    {{errorText}}</div>
+
+                                <div class="form-group">
+
+                                    <a class="btn btn-primary btn-block" (click)="createAccount($event)">Create
+                                        Account</a>
+                                </div>
 
                             </div>
                         </div>
@@ -90,7 +91,7 @@
     </main>
     <footer class="footer footer-alt text-center bg-dark text-white">
         <div class="container">
-            
+
         </div>
     </footer> <!-- build:js -->
 

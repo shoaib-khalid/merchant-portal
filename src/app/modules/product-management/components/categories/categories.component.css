@@ -6,3 +6,10 @@
     cursor: pointer;
     color: white;
   }
+
+  .category-image{
+    border-radius: 10px;
+    border :2px;
+    height: 80px;
+    width: 80px;
+  }

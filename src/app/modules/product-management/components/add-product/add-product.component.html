@@ -475,7 +475,7 @@
                                                         <div class="add-item-img d-flex  border-radius">
                                                         </div>
                                                         <input list="categories-data-list" id="categories"
-                                                            [(ngModel)]='category' type="text" class="form-control" />
+                                                            [(ngModel)]='category' type="text" class="form-control necessary" />
                                                         <datalist id="categories-data-list">
                                                             <option value="{{cat.name}}" id="{{cat.id}}"
                                                                 *ngFor="let cat of categories;"></option>
@@ -500,7 +500,7 @@
 
                                                     <input type="number" id="delivery-weight" name="quantity" min="1"
                                                         placeholder="Weight in Kg" value="0" max="10000" min="0"
-                                                        [(ngModel)]="weight" class="form-control necessary">
+                                                        [(ngModel)]="weight" class="form-control">
                                                 </div>
 
                                             </div>
