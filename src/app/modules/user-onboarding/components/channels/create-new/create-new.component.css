@@ -5,7 +5,9 @@
 #channels-dropdown{
     width: 320px;
 }
-
+#wa-contact{
+    max-width: 300px;
+}
 #fb-button-custom{
     width: 200px;
     border-radius: 5px;

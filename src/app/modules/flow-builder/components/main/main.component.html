@@ -54,41 +54,44 @@
 
             <div class="container">
                 <div class="row">
-                    <app-shared-side-panel></app-shared-side-panel>
+                    <app-shared-side-panel hidden></app-shared-side-panel>
                     <div class="col-lg-9">
 
 
                         <div class="row">
                             <div class="col">
                                 <!-- my items table -->
-                                <div class="card product_item_list" style="
+                                <div class="card product_item_list" 
+                                style="
                                     margin-bottom: 3rem !important;
-                                    margin-left: -170px;
-                                    margin-right: -65px;
                                     margin-top: -10px;
-                                ">
+                                    margin-left: -98px;
+                                    width: 155%;">
                                     <div class="card-header py-1 border-bottom">
                                         <div class="d-flex align-items-center">
                                             <div>
                                                 <h6 class="card-title">{{flowTitle}}</h6>
                                             </div>
-                                            <div id="publish-flow" (click)="publish()">Publish Flow</div>
+                                            <div id="btn-container">
+                                                <div class="flow-btns" (click)="save()" style="background-color: rgb(6, 164, 255);">Update</div>
+                                                <div class="flow-btns" (click)="publish()">Publish Flow</div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="card-body" style="padding-top: 700px;">
 
 
-                                            <div #outlineContainer
-                                                style="z-index:1;position:absolute;overflow:hidden;top:55px;right:0px;width:160px;height:120px;background:transparent;border-style:solid;border-color:lightgray;">
-                            
-                                            </div>
-                                            <div #graphContainer id="graphContainer">
-                                                <side-nav></side-nav>
-                                                <side-nav-action></side-nav-action>
-                                                <side-nav-handover></side-nav-handover>
-                                                <side-nav-condition></side-nav-condition>
-                                                <app-side-nav-quick-reply></app-side-nav-quick-reply>
-                                            </div>
+                                        <div #outlineContainer
+                                            style="z-index:1;position:absolute;overflow:hidden;top:55px;right:0px;width:160px;height:120px;background:transparent;border-style:solid;border-color:lightgray;">
+
+                                        </div>
+                                        <div #graphContainer id="graphContainer">
+                                            <side-nav></side-nav>
+                                            <side-nav-action></side-nav-action>
+                                            <side-nav-handover></side-nav-handover>
+                                            <side-nav-condition></side-nav-condition>
+                                            <app-side-nav-quick-reply></app-side-nav-quick-reply>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- end: My items table-->

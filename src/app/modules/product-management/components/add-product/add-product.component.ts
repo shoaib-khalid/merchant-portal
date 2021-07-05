@@ -187,33 +187,37 @@ export class AddProductComponent implements OnInit {
   }
 
   async addInventory(productId) {
-
-    if (this.combos.length > 0) {
-      for (var i = 0; i < this.combos.length; i++) {
-        const itemCode = productId + i
+    var promise = new Promise(async (resolve, reject) => {
+      if (this.combos.length > 0) {
+        for (var i = 0; i < this.combos.length; i++) {
+          const itemCode = productId + i
+          const data: any = await this.apiCalls.addInventory(productId, {
+            itemCode: itemCode,
+            price: this.helperService.removeCharacters(this.combos[i].price),
+            compareAtPrice: 0,
+            quantity: this.combos[i].quantity,
+            sku: this.combos[i].sku
+          })
+  
+        }
+      } else {
         const data: any = await this.apiCalls.addInventory(productId, {
-          itemCode: itemCode,
-          price: this.helperService.removeCharacters(this.combos[i].price),
-          compareAtPrice: 0,
-          quantity: this.combos[i].quantity,
-          sku: this.combos[i].sku
+          itemCode: productId + "aa",
+          price: this.helperService.removeCharacters(this.price),
+          compareAtPrice: this.compareAtPrice,
+          quantity: this.quantity,
+          sku: this.sku
         })
-
       }
-    } else {
-      const data: any = await this.apiCalls.addInventory(productId, {
-        itemCode: productId + "aa",
-        price: this.helperService.removeCharacters(this.price),
-        compareAtPrice: this.compareAtPrice,
-        quantity: this.quantity,
-        sku: this.sku
-      })
-    }
+  
+      //uploading product images
+      for (var i = 0; i < this.productImages.length; i++) {
+        await this.apiCalls.uploadImage(productId, this.productImages[i].file, "", this.productImages[i].isThumbnail)
+      }
+      resolve("")
+    });
+    return promise;
 
-    //uploading product images
-    for (var i = 0; i < this.productImages.length; i++) {
-      await this.apiCalls.uploadImage(productId, this.productImages[i].file, "", this.productImages[i].isThumbnail)
-    }
   }
 
   async addInventoryItem(productId, productVariantAvailableIds) {

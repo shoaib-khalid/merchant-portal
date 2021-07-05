@@ -29,6 +29,7 @@ export class ProductsComponent implements OnInit {
       this.checkForParams(params);
     });
     this.getCategoriesByStoreId();
+    this.apiCalls.checkCountry()
   }
 
 

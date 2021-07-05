@@ -65,7 +65,13 @@ export class CreateNewComponent implements OnInit {
       this.fbButton = false;
       $("#wa-contact").hide();
       $("#refId").hide();
-
+      const s = window.open(`https://tgo.symplified.biz/?userid=${localStorage.getItem("ownerId")}`,'popup','width=600,height=600')
+      var timer = setInterval(()=> { 
+        if(s.closed) {
+            clearInterval(timer);
+            location.reload()
+        }
+    }, 500);
     }
   }
 

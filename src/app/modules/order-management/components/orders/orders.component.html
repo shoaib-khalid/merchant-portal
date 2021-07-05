@@ -141,7 +141,7 @@
                                             <nav aria-label="pagin">
                                                 <ul class="pagination pagination-sm">
                                                     <li class="page-item add-pointer"><a class="page-link"
-                                                          (click)="previousPage()"  >Previous</a>
+                                                          (click)="previousPage()"  *ngIf="totalPages>0">Previous</a>
                                                     </li>
 
                                                     <li class="page-item pagination {{page.isActive}}"
@@ -150,7 +150,7 @@
                                                             {{page.no}}</a>
                                                     </li>
                                                     <li class="page-item add-pointer"><a class="page-link"
-                                                           (click)="nextPage()" >Next</a>
+                                                           (click)="nextPage()" *ngIf="totalPages>0">Next</a>
                                                     </li>
 
                                                 </ul>

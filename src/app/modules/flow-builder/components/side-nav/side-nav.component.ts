@@ -28,7 +28,6 @@ export class SideNav {
   }
 
   toggle() {
-
     this.description = this.getDescriptionOfVertex();
     this.dataVariable = "";
     this.apiCalls.data.forEach((element, index) => {
@@ -126,16 +125,16 @@ export class SideNav {
   }
 
   triggerFocusOut(event, i) {
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1.children[i + 2]))
+    // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1.children[i + 2]))
   }
 
   titleFocusOut(event) {
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+    // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
   }
 
   descriptionFocusOut(event) {
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+    // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
 
   }
 
@@ -182,7 +181,7 @@ export class SideNav {
       })
 
     }
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+    // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
   }
   getDescriptionOfVertex() {
@@ -230,7 +229,7 @@ export class SideNav {
     // Send updated buttons array
     var vertexIndex = this.helperService.getVertexIndex();
     this.apiCalls.data[vertexIndex].buttons = this.btnValues;
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+    // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
   }
 
@@ -245,7 +244,7 @@ export class SideNav {
     for (var i = 0; i < this.helper.v1.children.length; i++) {
       if (this.helper.v1.children[i].value.localName == "triggers") {
       len=len+1;
-        this.apiCalls.autoSaveDelete(JsonCodec.getIndividualJson(this.helper.v1.children[i]));
+        // this.apiCalls.autoSaveDelete(JsonCodec.getIndividualJson(this.helper.v1.children[i]));
       }
     }
     this.buttonsArray=[];

@@ -604,7 +604,7 @@ export class Helper {
 		trigger.setConnectable(false);
 		var ConnectionStart = doc.createElement('ConnectionStart');
 		var ConnectionStart = this.graph.insertVertex(trigger, null, ConnectionStart, 140, 10, 20, 20, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
-		this.apiCalls.autoSaveAdd(JsonCodec.getIndividualJson(ConnectionStart), "")
+		// this.apiCalls.autoSaveAdd(JsonCodec.getIndividualJson(ConnectionStart), "")
 		this.graph.refresh();
 	}
 
@@ -623,7 +623,7 @@ export class Helper {
 		flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
 		flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
 		this.graph.cellsResized([cell], [current], false);
-		this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.v1))		
+		// this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.v1))		
 	}
 
 
@@ -650,7 +650,7 @@ export class Helper {
 		conditionLine.setConnectable(false);
 		var ConnectionStart = doc.createElement('ConnectionStart');
 		var ConnectionStart = this.graph.insertVertex(conditionLine, null, ConnectionStart, 60, 7, 20, 20, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
-		this.apiCalls.autoSaveAdd(JsonCodec.getIndividualJson(ConnectionStart), "")
+		// this.apiCalls.autoSaveAdd(JsonCodec.getIndividualJson(ConnectionStart), "")
 		this.graph.refresh();
 	}
 

@@ -87,12 +87,12 @@ export class SideNavConditionComponent {
 
 
     titleFocusOut(event) {
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
     }
     valueFocusOut(event) {
         this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
     }
     addGroup(j) {
         this.conditions.conditions[j].groups.push({
@@ -102,21 +102,21 @@ export class SideNavConditionComponent {
             "value": ""
         })
         this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
     }
     addCondition() {
         this.conditions.conditions.push({ operator: "AND", groups: [] })
         this.helper.addConditionUsingSidePanel();
         this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
 
     }
 
     fieldNameChange(event, j, i) {
         this.conditions.conditions[j].groups[i].field = event.target.value;
         this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
 
     }
 
@@ -127,18 +127,18 @@ export class SideNavConditionComponent {
     conditionChanged(event, j, i) {
         this.conditions.conditions[j].groups[i].match = event.target.value;
         this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
 
     }
 
     operatorChange(event, j) {
         this.conditions.conditions[j].operator = event.target.value;
         this.apiCalls.data[this.currentVertexIndex].conditions = this.conditions.conditions;
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
 
     }
     descriptionFocusOut($event) {
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
     }
     descriptionChange(event) {
         var strDigit = this.getStrDigit();

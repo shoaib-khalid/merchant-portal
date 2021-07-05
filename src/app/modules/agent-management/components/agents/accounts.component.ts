@@ -171,4 +171,10 @@ export class AccountsComponent implements OnInit {
       }
     }
   }
+
+  async deleteAgent(id){
+    await this.apiCalls.deleteAgentAccount(id);
+    this.apiCalls.successPopUp("Agent Account deleted Successfully")
+    this.loadAccounts();
+  }
 }

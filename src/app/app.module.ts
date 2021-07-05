@@ -16,7 +16,7 @@ import { StoreManagementModule } from './modules/store-management/store-manageme
 import { CartManagementModule } from './modules/cart-management/cart-management.module';
 import { OrderManagementModule } from './modules/order-management/order-management.module';
 import { ReportingModule } from './modules/reporting/reporting.module';
-
+import { AgentManagementModule } from './modules/agent-management/agent-management.module';
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
 }
@@ -34,7 +34,8 @@ export function initializeApp(appConfig: AppConfig) {
     StoreManagementModule,
     CartManagementModule,
     OrderManagementModule,
-    ReportingModule
+    ReportingModule,
+    AgentManagementModule
   ], entryComponents: [FlowDialog],
   providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' }, },
     { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }, AppConfig, {

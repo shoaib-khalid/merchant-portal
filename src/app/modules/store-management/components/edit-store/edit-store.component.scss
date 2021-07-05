@@ -112,8 +112,6 @@ body {
 }
 
 #container{
-  width: 600px;
-  margin: auto;
   border-radius: 10px;
   background-color: white;
   height: 100%;
@@ -168,4 +166,15 @@ color:black
 #phone-pattern{
   color:red;
   font-size: 15px;
+}
+
+#form-container{
+  width: 75%;
+  margin-left: 22%;
+  margin-top: 80px;
+}
+
+#ssp{
+  float: left;
+  margin-left: 7.25%;
 }

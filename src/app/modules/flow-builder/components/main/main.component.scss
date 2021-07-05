@@ -100,11 +100,21 @@
     white-space: nowrap;
 
   }
-#publish-flow{
+.flow-btns{
   margin-left: auto;
   background-color: rgb(91, 179, 127);
   padding: 8px;
   border-radius: 6px;
   cursor: pointer;
   color: white;
+  display: inline-block;
+  margin-right: 10px;
+  width: 120px;
+  text-align: center;
 }
+
+
+#btn-container{
+  margin-left: auto;
+}
+

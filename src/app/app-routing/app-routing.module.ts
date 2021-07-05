@@ -24,9 +24,9 @@ import { CategoriesComponent } from 'src/app/modules/product-management/componen
 import { EditStoreComponent } from 'src/app/modules/store-management/components/edit-store/edit-store.component';
 import { CustomersComponent } from 'src/app/modules/order-management/components/customers/customers.component';
 import { ChannelsComponent } from 'src/app/modules/user-onboarding/components/channels/channels.component';
-import { AccountsComponent } from 'src/app/modules/user-onboarding/components/accounts/accounts.component';
-import { AddAgentComponent } from 'src/app/modules/user-onboarding/components/add-agent/add-agent.component';
-import { EditAgentComponent } from 'src/app/modules/user-onboarding/components/edit-agent/edit-agent.component'
+import { AccountsComponent } from 'src/app/modules/agent-management/components/agents/accounts.component';
+import { AddAgentComponent } from 'src/app/modules/agent-management/components/add-agent/add-agent.component';
+import { EditAgentComponent } from 'src/app/modules/agent-management/components/edit-agent/edit-agent.component'
 import { DailySalesComponent } from 'src/app/modules/reporting/components/daily-sales/daily-sales.component';
 import { SettlementComponent } from 'src/app/modules/reporting/components/settlement/settlement.component';
 import { EmailVerifiedComponent } from '../modules/home/components/email-verified/email-verified.component';

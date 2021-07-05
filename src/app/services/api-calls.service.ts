@@ -9,7 +9,7 @@ import { LoadingComponent } from 'src/app/modules/home/components/loading/loadin
 import { HelperTextService } from 'src/app/helpers/helper-text.service';
 import { HelperMethodsService } from './helper-methods.service';
 import { AppConfig } from './app.config.ts.service';
-import { SuggestionPopupComponent } from 'src/app/modules/user-onboarding/components/accounts/suggestion-popup/suggestion-popup.component';
+import { SuggestionPopupComponent } from 'src/app/modules/agent-management/components/agents/suggestion-popup/suggestion-popup.component';
 
 @Injectable({
   providedIn: 'root'
@@ -37,36 +37,22 @@ export class ApiCallsService {
 
 
   async getAllflows() {
-    const httpOptions = this.getHttpOptions("asx");
-    return await this.http.get(this.pathVariable1 + "/flow/getall/" + localStorage.getItem("ownerId"), httpOptions).toPromise();
+    return await this.http.get(this.pathVariable1 + "/flow/getall/" + localStorage.getItem("ownerId")).toPromise();
   }
 
   async retrieveGraph() {
-    const httpOptions = this.getHttpOptions("asx");
-    return await this.http.get(this.pathVariable1 + "/mxgraph/" + this.flowId, httpOptions)
+    return await this.http.get(this.pathVariable1 + "/mxgraph/" + this.flowId)
       .toPromise();
   }
 
   postNewFlowDefaultJson(json) {
-    const httpOptions = this.getHttpOptions("asx");
     const body: any = json;
-    console.log("flow id when posting: " + this.flowId)
-    try {
-      return this.http.post<any>(this.pathVariable1 + "/mxgraph/" + this.flowId, body, httpOptions).toPromise();
-    } catch (ex) {
-      if (ex.status == "401") {
-        this.status401();
-      }
-      else if (ex.status == "403") {
-        this.status403();
-      }
-    }
-
+    console.log("Flow id when posting: " + this.flowId)
+    return this.http.post<any>(this.pathVariable1 + "/mxgraph/" + this.flowId, body).toPromise();
   }
 
 
   async getFlowId(title, description) {
-    const httpOptions = this.getHttpOptions("asx");
 
     var body = {
       "botId": "",
@@ -75,88 +61,31 @@ export class ApiCallsService {
       "topVertexId": "",
       "ownerId": localStorage.getItem("ownerId"),
       'storeId': localStorage.getItem('storeId')
+    }
 
-    }
-    try {
-      var data = await this.http.post<any>(this.pathVariable1 + "/flow/", body, httpOptions).toPromise();
-    } catch (ex) {
-      if (ex.status == "401") {
-        this.status401();
-      }
-      else if (ex.status == "403") {
-        this.status403();
-      }
-    }
+    var data = await this.http.post<any>(this.pathVariable1 + "/flow/", body).toPromise();
+
     this.flowId = data.data.id;
-
-    this.data = [
-      {
-        "type": "TEXT_MESSAGE",
-        "vertexId": "2",
-        "buttons": [],
-        "dataVariables": [
-          {
-            "id": 0,
-            "dataVariable": "",
-            "path": "",
-            "optional": ""
-          }
-        ]
-      },
-      {
-        "type": "TEXT_MESSAGE",
-        "buttons": [],
-        "vertexId": "5",
-        "dataVariables": [
-          {
-            "id": 1,
-            "dataVariable": "",
-            "path": "",
-            "optional": ""
-          }
-        ]
-      }
-    ]
-
     const json = {
-
       "data": this.helperService.verticesData,
       "mxGraphModel": this.helperService.defaultJson.mxGraphModel
     };
 
     return this.postNewFlowDefaultJson(json);
-
-  }
-
-  getHttpOptions(authorization) {
-    return {
-      headers: new HttpHeaders({
-      }),
-      params: {
-        "userId": localStorage.getItem("ownerId")
-      }
-    };
   }
 
 
   async autoSaveAdd(object, type) {
 
-    const httpOptions = this.getHttpOptions("asx");
     object = JSON.parse(object);
     var body = { "data": this.data, object };
 
     if (this.flowId) {
       console.log("Updating after addition")
       try {
-        return await this.http.patch<any>(this.pathVariable1 + "/mxgraph/ADD/" + this.flowId, body, httpOptions).toPromise
+        return await this.http.patch<any>(this.pathVariable1 + "/mxgraph/ADD/" + this.flowId, body).toPromise
           ();
       } catch (ex) {
-        if (ex.status == "401") {
-          this.status401();
-        }
-        else if (ex.status == "403") {
-          this.status403();
-        }
       }
     }
   }
@@ -164,45 +93,31 @@ export class ApiCallsService {
 
   autoSaveDelete(object) {
 
-    const httpOptions = this.getHttpOptions("asx");
     object = JSON.parse(object)
     var body = { object };
     if (this.flowId) {
 
       try {
-        this.http.patch<any>(this.pathVariable1 + "/mxgraph/DELETE/" + this.flowId, body, httpOptions).toPromise
+        this.http.patch<any>(this.pathVariable1 + "/mxgraph/DELETE/" + this.flowId, body).toPromise
           ().then((data) => {
             console.log("Flow updated after deletion!")
           });
       } catch (ex) {
-        if (ex.status == "401") {
-          this.status401();
-        }
-        else if (ex.status == "403") {
-          this.status403();
-        }
       }
     }
   }
 
 
   autoSaveUpdate(object) {
-    const httpOptions = this.getHttpOptions("asx");
     object = JSON.parse(object);
     var body = { "data": this.data, object };
     if (this.flowId) {
       try {
-        this.http.patch<any>(this.pathVariable1 + "/mxgraph/UPDATE/" + this.flowId, body, httpOptions).toPromise
+        this.http.patch<any>(this.pathVariable1 + "/mxgraph/UPDATE/" + this.flowId, body).toPromise
           ().then((data) => {
             console.log("Flow Updated after change!")
           });
       } catch (ex) {
-        if (ex.status == "401") {
-          this.status401();
-        }
-        else if (ex.status == "403") {
-          this.status403();
-        }
       }
     }
   }
@@ -366,7 +281,7 @@ export class ApiCallsService {
       params: {
         "pageSize": "10",
         "page": page + "",
-        status: ['ACTIVE', 'DRAFT']
+        status: ['ACTIVE', 'DRAFT', 'INACTIVE']
 
       }
     }
@@ -599,7 +514,7 @@ export class ApiCallsService {
       + "/products/" + productId + "/assets", formData, httpOptions).toPromise();
   }
 
-  updateStoreCategory(body,name,id){
+  updateStoreCategory(body, name, id) {
     const httpOptions = {
       headers: new HttpHeaders({
       }),
@@ -609,7 +524,7 @@ export class ApiCallsService {
       }
     }
     return this.http.put<any>(this.productService + `/store-categories/${id}`, body, httpOptions).
-    toPromise();
+      toPromise();
   }
 
   updateProductImage(productId, body, id) {
@@ -939,6 +854,16 @@ export class ApiCallsService {
     dialogRef.afterClosed().subscribe(result => {
 
     });
+  }
+
+  deleteAgentAccount(id) {
+    return this.http.delete(this.userService + `/clients/${id}`).toPromise();
+  }
+
+  checkCountry() {
+    this.http.get("https://extreme-ip-lookup.com/json").subscribe(data => {
+      console.log(data)
+    })
   }
 
 }

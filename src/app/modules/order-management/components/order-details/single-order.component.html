@@ -142,6 +142,7 @@
                                                                     <tr>
                                                                         <th scope="col">#</th>
                                                                         <th scope="col">Sku</th>
+                                                                        <th scope="col">Special Instruction</th>
                                                                         <th scope="col">Weight</th>
                                                                         <th scope="col">Quantity</th>
                                                                         <th scope="col">Price</th>
@@ -151,6 +152,7 @@
                                                                     <tr *ngFor="let orderItem of orderItems;index as i">
                                                                         <th scope="col">{{i+1}}</th>
                                                                         <td>{{orderItem.SKU}}</td>
+                                                                        <td>{{orderItem.specialInstruction}}</td>
                                                                         <td>{{orderItem.weight}}</td>
                                                                         <td>{{orderItem.quantity}}</td>
                                                                         <td>{{orderItem.price}}</td>

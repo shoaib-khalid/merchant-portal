@@ -35,8 +35,10 @@ export class EditCategoryComponent implements OnInit {
 
   async update() {
     if (this.name.trim()) {
-      this.apiCalls.successPopUp("Category Updated Successfully")
+      this.apiCalls.loadingAnimation("Updating Category");
       const data: any = await this.apiCalls.updateStoreCategory(this.uploadCategoryImage(), this.name, this.catId);
+      this.apiCalls.loadingdialogRef.close();
+      this.apiCalls.successPopUp("Category Updated Successfully")
       this.dialogRef.close();
     }
   }

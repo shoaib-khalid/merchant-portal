@@ -18,8 +18,8 @@ export class CreateNewComponent implements OnInit {
 
   async create() {
     if (this.category.trim()) {
-      this.apiCalls.successPopUp("Category Added Successfully")
       const data: any = await this.apiCalls.createCategory(this.uploadCategoryImage(), this.category);
+      this.apiCalls.successPopUp("Category Added Successfully")
       this.dialogRef.close();
     }
   }

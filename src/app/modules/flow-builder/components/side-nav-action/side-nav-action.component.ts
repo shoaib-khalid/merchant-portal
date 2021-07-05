@@ -33,7 +33,7 @@ export class SideNavAction {
     removeRequest(i) {
         this.helperService.fetchExternalRequests().splice(i, 1);
         this.requestsArray.splice(i, 1);
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
     }
 
@@ -77,13 +77,13 @@ export class SideNavAction {
         }
     }
     titleFocusOut($event) {
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
     }
 
     addRequest() {
         this.requestsArray.push("Add your request");
         this.insertIntoExternalRequests();
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
     }
     getStrDigit() {
@@ -129,7 +129,7 @@ export class SideNavAction {
                         }
                     }
                 }, i)
-                this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+                // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
 
             }

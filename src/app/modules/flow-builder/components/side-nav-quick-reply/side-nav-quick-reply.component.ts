@@ -70,7 +70,7 @@ handleClick(event) {
 }
 
 descriptionFocusOut(event) {
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+    // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
 
 }
 
@@ -95,7 +95,7 @@ getDescriptionOfVertex() {
 
 
 titleFocusOut(event) {
-    this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+    // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
   }
 }

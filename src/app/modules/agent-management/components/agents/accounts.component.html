@@ -2,10 +2,8 @@
 <html lang="en">
 
 <head>
-    <script
-    src="https://code.jquery.com/jquery-1.12.4.min.js"
-    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-    crossorigin="anonymous"> alert("sad")</script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"> alert("sad")</script>
 </head>
 
 <body>
@@ -69,7 +67,8 @@
                                         <div class="table-responsive">
                                             <div style="display: flex;">
                                                 <div>
-                                                    <input type="text" placeholder="Filter Agents" class="form-control filter2"
+                                                    <input type="text" placeholder="Filter Agents"
+                                                        class="form-control filter2"
                                                         style="width:140px; margin-right: 10px;" name="" id="">
                                                 </div>
                                                 <div id="search" (click)="searchOrders()"> Search</div>
@@ -96,14 +95,22 @@
                                                             {{account.roleId}}
                                                         </td>
                                                         <td class="product">
-                                                             **********
+                                                            **********
                                                         </td>
                                                         <td class="product">
-                                                            <button type="button"
-                                                                class="btn btn-primary width-150" (click)="edit(account.id)">Edit</button>
+                                                            <button class="btn btn-primary connect-button" mat-button
+                                                                [matMenuTriggerFor]="menu"
+                                                                (click)="actionClick()">Action</button>
+                                                            <mat-menu #menu="matMenu">
+                                                                <button mat-menu-item
+                                                                    (click)="edit(account.id)">Edit</button>
+                                                                <button mat-menu-item (click)="deleteAgent(account.id)"
+                                                                    style="color: red;">Delete</button>
+                                                            </mat-menu>
                                                         </td>
                                                     </tr>
-                                                    <div [hidden]="!(accounts.length==0)" style="color: red;">No data available to view</div>
+                                                    <div [hidden]="!(accounts.length==0)" style="color: red;">No data
+                                                        available to view</div>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -112,7 +119,7 @@
                                             <nav aria-label="pagin">
                                                 <ul class="pagination pagination-sm">
                                                     <li class="page-item add-pointer"><a class="page-link"
-                                                          (click)="previousPage()"  >Previous</a>
+                                                            (click)="previousPage()">Previous</a>
                                                     </li>
 
                                                     <li class="page-item pagination {{page.isActive}}"
@@ -121,7 +128,7 @@
                                                             {{page.no}}</a>
                                                     </li>
                                                     <li class="page-item add-pointer"><a class="page-link"
-                                                           (click)="nextPage()" >Next</a>
+                                                            (click)="nextPage()">Next</a>
                                                     </li>
 
                                                 </ul>
@@ -139,7 +146,7 @@
 
         </div>
     </main>
-       
+
     <footer class="section-footer bg-dark position-relative">
         <section class="footer py-5">
             <div class="container">

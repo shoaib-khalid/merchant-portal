@@ -50,9 +50,10 @@ export class ChannelsComponent implements OnInit {
 
   addChannel() {
     const dialogRef = this.dialog.open(CreateNewComponent, {
-      width: '368px',
+
     });
     dialogRef.afterClosed().subscribe(result => {
+      this.loadUserChannels()
     });
   }
 

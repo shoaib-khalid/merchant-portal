@@ -76,7 +76,7 @@ export class SideNavHandOverComponent {
     }
 
     descriptionFocusOut(event) {
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1));
 
     }
 
@@ -131,11 +131,11 @@ export class SideNavHandOverComponent {
             })
 
         }
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
     }
     titleFocusOut(event) {
-        this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+        // this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
     
       }
 }

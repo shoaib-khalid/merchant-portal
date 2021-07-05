@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BotSelectionDialogComponent } from 'src/app/modules/flow-builder/components/bot-selection-dialog/bot-selection-dialog.component';
 import { Helper } from 'src/app/helpers/graph-helper';
 import { JsonCodec } from 'src/app/helpers/json-codec';
@@ -8,6 +8,7 @@ import { ApiCallsService } from "src/app/services/api-calls.service";
 import { MatDialog } from '@angular/material/dialog';
 import { HelperService } from 'src/app/services/helper.service';
 import { FlowDialog } from 'src/app/modules/flow-builder/components/flow-dialog/flow-dialog.component';
+import { HelperTextService } from 'src/app/helpers/helper-text.service';
 
 declare var mxUtils: any;
 declare var mxGraphHandler: any;
@@ -32,7 +33,13 @@ export class MainComponent implements OnInit, AfterViewInit {
    opened: boolean;
    flowTitle: any = "";
    flowDescription: any;
-   constructor(private helperService: HelperService, private helper: Helper, private route: ActivatedRoute, private configService: ApiCallsService, public dialog: MatDialog) {
+   constructor(
+      private helperService: HelperService,
+      private helper: Helper,
+      private route: ActivatedRoute,
+      private configService: ApiCallsService,
+      public dialog: MatDialog,
+      private helperTextService: HelperTextService) {
    }
 
    ngOnInit() {
@@ -58,14 +65,14 @@ export class MainComponent implements OnInit, AfterViewInit {
          v11.geometry.offset = new mxPoint(-7, -45);
          v11.geometry.relative = true;
          v11.setConnectable(true);
-         this.configService.autoSaveAdd(JsonCodec.getIndividualJson(v11), "")
+         // this.configService.autoSaveAdd(JsonCodec.getIndividualJson(v11), "")
 
          var ConnectionStart = doc.createElement('ConnectionEnd');
          var v11 = this.graph.insertVertex(vertext, null, ConnectionStart, 0, 0, 20, 20, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;port=1;", null);
          v11.geometry.offset = new mxPoint(0, 45);
          v11.geometry.relative = true;
          v11.setConnectable(true);
-         this.configService.autoSaveAdd(JsonCodec.getIndividualJson(v11), "")
+         // this.configService.autoSaveAdd(JsonCodec.getIndividualJson(v11), "")
 
          this.graph.refresh();
 
@@ -90,61 +97,60 @@ export class MainComponent implements OnInit, AfterViewInit {
          undoManager.undoableEditHappened(evt.getProperty('edit'));
          try {
 
-            if (undoManager.history[undoManager.history.length - 1].changes[0].geometry) {
-               //On vertex move json will be posted
-               this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+            // if (undoManager.history[undoManager.history.length - 1].changes[0].geometry) {
+            //    //On vertex move json will be posted
+            //    this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
 
-            }
+            // }
 
-            else if (undoManager.history[undoManager.history.length - 1].changes[0].parent === null) {
-               this.configService.autoSaveDelete(JsonCodec.getIndividualJson(this.helper.v1))
-               this.configService.data.forEach((element, index) => {
-                  if (element.vertexId == this.helper.v1.id) {
-                     this.configService.data.splice(index, 1)
-                  }
-               });
-               return
-            }
+            //  if (undoManager.history[undoManager.history.length - 1].changes[0].parent === null) {
+            //    this.configService.autoSaveDelete(JsonCodec.getIndividualJson(this.helper.v1))
+            //    this.configService.data.forEach((element, index) => {
+            //       if (element.vertexId == this.helper.v1.id) {
+            //          this.configService.data.splice(index, 1)
+            //       }
+            //    });
+            //    return
+            // }
 
             const objJson = this.individualJson(undoManager.history[undoManager.history.length - 1].changes[0].child);
-            if (objJson.includes(`@edge":"1"`)) {
-               this.configService.autoSaveAdd(objJson, "")
-            }
-            else if (objJson.includes(`"triggers":`)) {
-               await this.configService.autoSaveAdd(objJson, "")
-               this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
-            }
-            else if (this.helper.copyAction) {
-               this.configService.autoSaveAdd(objJson, "")
-               this.configService.data.forEach((element, index) => {
-                  if (element.vertexId == this.helper.v1.id) {
-                     var len = 0;
-                     var parent = this.graph.getDefaultParent();
-                     var vertices = this.graph.getChildVertices(parent);
-                     for (var i = 0; i < vertices.length; i++) {
-                        len = len + (this.graph.getChildVertices(vertices[i])).length
-                     }
-                     this.configService.data.push({
-                        "type": element.type,
-                        "vertexId": String(vertices.length + 2 + len),
-                        "dataVariables": [
-                           {
-                              "id": this.helperService.getLastId(),
-                              "dataVariable": element.dataVariables[0].dataVariable,
-                              "path": "",
-                              "optional": ""
-                           }
-                        ]
-                     })
+            // if (objJson.includes(`@edge":"1"`)) {
+            //    this.configService.autoSaveAdd(objJson, "")
+            // }
+            // else if (objJson.includes(`"triggers":`)) {
+            //    await this.configService.autoSaveAdd(objJson, "")
+            //    this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+            // }
+            // else if (this.helper.copyAction) {
+            //    this.configService.autoSaveAdd(objJson, "")
+            //    this.configService.data.forEach((element, index) => {
+            //       if (element.vertexId == this.helper.v1.id) {
+            //          var len = 0;
+            //          var parent = this.graph.getDefaultParent();
+            //          var vertices = this.graph.getChildVertices(parent);
+            //          for (var i = 0; i < vertices.length; i++) {
+            //             len = len + (this.graph.getChildVertices(vertices[i])).length
+            //          }
+            //          this.configService.data.push({
+            //             "type": element.type,
+            //             "vertexId": String(vertices.length + 2 + len),
+            //             "dataVariables": [
+            //                {
+            //                   "id": this.helperService.getLastId(),
+            //                   "dataVariable": element.dataVariables[0].dataVariable,
+            //                   "path": "",
+            //                   "optional": ""
+            //                }
+            //             ]
+            //          })
 
-                  }
-               });
-               this.helper.copyAction = false;
-            } else if (objJson.includes(`"conditions":{"@id"`)) {
-               await this.configService.autoSaveAdd(objJson, "")
-               this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
-
-            }
+            //       }
+            //    });
+            //    this.helper.copyAction = false;
+            // } else if (objJson.includes(`"conditions":{"@id"`)) {
+            //    await this.configService.autoSaveAdd(objJson, "")
+            //    this.configService.autoSaveUpdate(JsonCodec.getIndividualJson(this.helper.v1))
+            // }
 
 
          } catch (ex) { }
@@ -258,13 +264,6 @@ export class MainComponent implements OnInit, AfterViewInit {
 
          reader.onload = () => {
             JsonCodec.loadJson(this.graph, reader.result);
-            // var parent = this.graph.getDefaultParent();
-            // var edges = this.graph.getChildEdges(parent);
-            // if (edges) {
-            //    this.graph.orderCells(false, edges)
-            // }
-            // need to run CD since file load runs outside of zone
-            // this.cd.markForCheck();
          };
       }
    }
@@ -309,6 +308,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       } else {
          lastId = -1;
       }
+
       if (type === "ACTION") {
          this.configService.data.push({
             "type": type,
@@ -353,7 +353,7 @@ export class MainComponent implements OnInit, AfterViewInit {
             ]
          });
       }
-      this.configService.autoSaveAdd(JsonCodec.getIndividualJson(this.helper.v1), type)
+      // this.configService.autoSaveAdd(JsonCodec.getIndividualJson(this.helper.v1), type)
       return v1;
    }
 
@@ -382,9 +382,16 @@ export class MainComponent implements OnInit, AfterViewInit {
       var flowDetails: any = await this.configService.retrieveFlowDetails(this.configService.flowId);
       this.flowTitle = flowDetails.data.title;
       this.flowDescription = flowDetails.data.description;
+   }
 
-
-
-
+   async save() {
+      const newStartJson:any = this.getStartJson();
+      const json = {
+         "data": this.configService.data,
+         "mxGraphModel": JSON.parse(newStartJson).mxGraphModel
+      };
+      this.configService.loadingAnimation("Updating...")
+      const data = await this.configService.postNewFlowDefaultJson(json)
+      this.configService.loadingdialogRef.close();
    }
 }

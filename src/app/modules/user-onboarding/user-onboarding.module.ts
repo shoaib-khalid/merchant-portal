@@ -14,15 +14,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { AccountsComponent } from './components/accounts/accounts.component';
-import { AddAgentComponent } from './components/add-agent/add-agent.component';
-import { EditAgentComponent } from './components/edit-agent/edit-agent.component';
 import { MatSelectModule } from '@angular/material/select';
-import { MobileAppRocketComponent } from './components/accounts/mobile-app-rocket/mobile-app-rocket.component';
-import { SuggestionPopupComponent } from './components/accounts/suggestion-popup/suggestion-popup.component';
+
 
 @NgModule({
-  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, ForgotPasswordComponent, ChannelsComponent, CreateNewComponent, AccountsComponent, AddAgentComponent, EditAgentComponent, MobileAppRocketComponent, SuggestionPopupComponent],
+  declarations: [SignUpComponent, SignInComponent, PageNotFoundComponent, ForgotPasswordComponent, ChannelsComponent, CreateNewComponent],
   imports: [
     CommonModule,
     FormsModule,
