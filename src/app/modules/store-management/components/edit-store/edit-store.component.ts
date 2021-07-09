@@ -14,6 +14,8 @@ export class EditStoreComponent implements OnInit {
 
   storeName: any;
   storeInfo: any;
+  email: any = "";
+  paymentType: any = "";
   region: any = "";
   regions: any = [];
   address: any;
@@ -28,7 +30,7 @@ export class EditStoreComponent implements OnInit {
   minOrderQty: any = "";
   states: any = [];
   state: any = "";
-  serviceCharges:any="0";
+  serviceCharges: any = "0";
   public Editor = ClassicEditor;
 
   constructor(private apiCalls: ApiCallsService, private route: ActivatedRoute, private helperService: HelperService) { }
@@ -83,6 +85,8 @@ export class EditStoreComponent implements OnInit {
   setTextualDetails() {
     this.storeName = this.store.name;
     this.storeInfo = this.store.storeDescription;
+    this.email = this.store.email;
+    this.paymentType = this.store.paymentType;
     this.address = this.store.address;
     this.city = this.store.city;
     this.postCode = this.store.postcode;
@@ -121,14 +125,15 @@ export class EditStoreComponent implements OnInit {
       "city": this.city,
       "clientId": localStorage.getItem('ownerId'),
       "name": this.storeName,
+      "email": this.email,
+      "paymentType": this.paymentType,
       "postcode": this.postCode,
       "storeDescription": this.storeInfo,
       "regionCountryId": this.region,
-      "regionCountryStateId":this.state,
+      "regionCountryStateId": this.state,
       "phoneNumber": (<HTMLInputElement>document.getElementById("phoneNumber")).value,
-      serviceChargesPercentage:this.serviceCharges
+      serviceChargesPercentage: this.serviceCharges
     }
-    console.log(store)
     return this.apiCalls.updateStore(store, this.store.id)
   }
 

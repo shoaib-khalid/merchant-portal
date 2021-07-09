@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import $ from 'jquery';
 import { HelperService } from 'src/app/services/helper.service';
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-store-page',
@@ -13,7 +13,9 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class StorePageComponent implements OnInit {
   storeName: any;
+  email: any = "";
   region: any = "";
+  paymentType:any="";
   regions: any = [];
   city: any = "";
   address: any = "";
@@ -27,6 +29,8 @@ export class StorePageComponent implements OnInit {
   minOrderQty: any = "";
   states: any = [];
   serviceCharge: any = "0";
+  verticleCode: any = "";
+
   timmings: any = [
     { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
     { day: "TUESDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
@@ -37,17 +41,20 @@ export class StorePageComponent implements OnInit {
     { day: "SUNDAY", isOff: false, openTime: "09:00", closeTime: "17:00" }
   ]
   public Editor = ClassicEditor;
-  constructor(private apiCalls: ApiCallsService, private dialog: MatDialog, private helperService: HelperService) { }
+  constructor(
+    private apiCalls: ApiCallsService,
+    private dialog: MatDialog,
+    private helperService: HelperService,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.fetchRegions();
-    $("#store-exists").hide();
-    $("#store-timmings-table").hide();
-    $("#phone-pattern").hide()
+    this.initialStoreActions();
+    this.extractVerticleCode();
+    this.setRegionUsingClientIpAddress();
   }
 
   async registerStore() {
-    if (this.storeName && (<HTMLInputElement>document.getElementById("phoneNumber")).value&&this.region) {
+    if (this.storeName && (<HTMLInputElement>document.getElementById("phoneNumber")).value) {
       this.apiCalls.loadingAnimation("Registering new store", "280")
       await this.saveDetails();
       this.saveStoreTimmings();
@@ -116,12 +123,15 @@ export class StorePageComponent implements OnInit {
       address: this.address,
       postcode: this.postCode,
       storeDescription: this.storeInfo,
+      email: this.email,
       clientId: localStorage.getItem("ownerId"),
       domain: this.storeName.replace(/\s+/g, '-').toLowerCase(),
       regionCountryId: this.region,
       regionCountryStateId: (<HTMLInputElement>document.getElementById("state-dropdown")).value,
       phoneNumber: (<HTMLInputElement>document.getElementById("phoneNumber")).value,
-      serviceChargesPercentage: this.serviceCharge
+      serviceChargesPercentage: this.serviceCharge,
+      verticalCode: this.verticleCode,
+      paymentType:this.paymentType
     })
   }
 
@@ -150,6 +160,7 @@ export class StorePageComponent implements OnInit {
   async fetchRegions() {
     var regions: any = await this.apiCalls.getStoreRegions();
     this.regions = regions.data.content;
+    console.log(this.regions)
   }
 
   async storeExists(event) {
@@ -243,4 +254,33 @@ export class StorePageComponent implements OnInit {
       this.serviceCharge = 0;
     }
   }
+
+  extractVerticleCode() {
+    this.route.params.subscribe(params => {
+      if (params.verticleCode) {
+        this.verticleCode = params.verticleCode
+      }
+    });
+  }
+
+  initialStoreActions() {
+    this.fetchRegions();
+    $("#store-exists").hide();
+    $("#store-timmings-table").hide();
+    $("#phone-pattern").hide()
+  }
+
+  async setRegionUsingClientIpAddress() {
+    const data: any = await this.apiCalls.checkCountry();
+    const country = data.country;
+    var regionId = "";
+    if (country == "Pakistan") {
+      regionId = "PAK"
+    } else if (country == "Malaysia") {
+      regionId = "MYS";
+    }
+    this.region = regionId;
+    this.fetchStates(regionId)
+  }
+
 }

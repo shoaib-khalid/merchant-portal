@@ -54,6 +54,11 @@
                             id="car" value="{{minOrderQty}}" readonly>
                     </div>
                     <div class="form-group mb-3">
+                        <label for="email">Email</label>
+                        <input class="form-control" name="phoneNumber" type="tel" id="email" required=""
+                            placeholder="Enter Email" [(ngModel)]="email">
+                    </div>
+                    <div class="form-group mb-3">
                         <label for="address">Phone Number</label>
                         <input class="form-control" name="phoneNumber" type="tel" id="phoneNumber" required=""
                             placeholder="Enter Phone number" (keyup)="phoneNumberChange($event)">
@@ -116,6 +121,15 @@
                         <input class="form-control" name="city" type="username" [(ngModel)]="postCode" id="cit"
                             required="" placeholder="Enter post code" (keypress)="showPostWarning()">
                     </div>
+                    <div class="add-item-img d-flex  border-radius">
+                        <select name="payment-type" class="form-control" [(ngModel)]="paymentType">
+                            <option value="">Select Payment type</option>
+                            <option value="CoD">Cash On delivery</option>
+                            <option value="OnlinePayment">Online Payment</option>
+                        </select>
+                    </div>
+                    <br>
+
                     <div class="form-group mb-3">
                         <label for="city">Logo</label>
                         <div class="custom-file">
@@ -123,12 +137,15 @@
                             <label class="custom-file-label">Choose
                                 file </label>
                         </div>
+
+
                         <div *ngIf="this.logo.preview" class="assets">
                             <img src="{{this.logo.preview}}" alt="" style="max-width: 400px;max-height: 100px;">
                             <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
                                 (click)="deleteLogo()">
                         </div>
                     </div>
+
                     <div class="form-group mb-3">
                         <label for="city">Banner</label>
                         <div class="custom-file">

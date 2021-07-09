@@ -95,8 +95,26 @@
                                                             </li>
                                                             <br>
                                                             <li class="list-inline-item">
-                                                                <p class="mb-0">Status : <span
+                                                                <p class="mb-0">Payment Status : <span
                                                                         class="text-success f-w-5 ml-2">{{paymentStatus}}</span>
+                                                                </p>
+                                                                <p class="mb-0">Completion Status : <span
+                                                                        class="text-success f-w-5 ml-2">{{this.order.completionStatus}}</span>
+                                                                </p>
+                                                                <p>
+                                                                <button 
+                                                                *ngIf="order.completionStatus=='PAYMENT_CONFIRMED'"
+                                                                style="
+                                                                width: 180px;
+                                                                background-color: #32e06c;
+                                                                border-radius: 25px;
+                                                                color: white;
+                                                                border: none;
+                                                                height: 40px;
+                                                                margin-top: 10px;
+                                                                margin-bottom: 19px;
+                                                                font-size: larger;" (click)="readyForPickup()">Ready
+                                                                        for Pickup</button>
                                                                 </p>
                                                             </li>
                                                         </ul>

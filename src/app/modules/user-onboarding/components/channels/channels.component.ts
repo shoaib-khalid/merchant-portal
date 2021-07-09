@@ -118,13 +118,13 @@ export class ChannelsComponent implements OnInit {
         }
       }
       this.channels.push(page)
+      this.apiCalls.loadingdialogRef.close();
       if (flag) {
         this.connect = true;
         document.getElementById(`${page.id}`).style.display = "block"
       } else {
         this.connect = false;
       }
-      this.apiCalls.loadingdialogRef.close();
     })
 
   }
@@ -139,10 +139,8 @@ export class ChannelsComponent implements OnInit {
 
   facebookBtnToggle() {
     if (localStorage.getItem('fb-user-id')) {
-      // document.getElementById('fb-button-custom').style.display = "none";
       this.loadPages()
     } else {
-      // document.getElementById('fb-button-custom').style.display = "block";
     }
   }
 
@@ -212,7 +210,6 @@ export class ChannelsComponent implements OnInit {
       this.apiCalls.loadingdialogRef.close();
     } else {
       this.checkForConnectedPages(page)
-      // this.apiCalls.loadingdialogRef.close();
     }
   }
 

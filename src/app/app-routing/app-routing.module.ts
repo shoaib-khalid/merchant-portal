@@ -96,7 +96,7 @@ const routes: Routes = [
     children: []
   },
   {
-    path: 'store',
+    path: 'store/:verticleCode',
     component: StorePageComponent,
     canActivate: [AuthGuardService],
     children: []

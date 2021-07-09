@@ -357,7 +357,6 @@ export class ApiCallsService {
   async getOrders(customerId = null, page = 0) {
     const httpOptions: any = {
       headers: new HttpHeaders({
-        Authorization: "asx"
       }),
 
       params: {
@@ -382,7 +381,6 @@ export class ApiCallsService {
     parameters.storeId = localStorage.getItem('storeId')
     const httpOptions: any = {
       headers: new HttpHeaders({
-        Authorization: "asx"
       }),
 
       params: parameters
@@ -446,7 +444,6 @@ export class ApiCallsService {
   getOrderItems(cartId) {
     const httpOptions = {
       headers: new HttpHeaders({
-        Authorization: "asx"
       }),
 
     }
@@ -621,7 +618,6 @@ export class ApiCallsService {
   getVariantAvailables(productId) {
     const httpOptions = {
       headers: new HttpHeaders({
-        Authorization: "asx"
       })
     }
 
@@ -861,9 +857,16 @@ export class ApiCallsService {
   }
 
   checkCountry() {
-    this.http.get("https://extreme-ip-lookup.com/json").subscribe(data => {
-      console.log(data)
-    })
+    return this.http.get("https://extreme-ip-lookup.com/json").toPromise();
+  }
+
+
+  getRegionVerticles() {
+    return this.http.get(this.productService + `/region-verticals`).toPromise()
+  }
+
+  orderUpdationCompletionStatus(orderId) {
+    return this.http.put(this.pathVariable4 + `/orders/${orderId}/completion-status-updates/request-delivery`, {}).toPromise()
   }
 
 }

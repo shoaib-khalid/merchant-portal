@@ -7,12 +7,22 @@ import { SuccessAnimationComponent } from 'src/app/modules/home/components/succe
 import { MatDialog } from '@angular/material/dialog';
 import { HelperService } from 'src/app/services/helper.service'
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+
+
+
 
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.scss']
 })
+
+
+
+
 export class AddProductComponent implements OnInit {
 
   productStatus: any = "ACTIVE";
@@ -43,9 +53,14 @@ export class AddProductComponent implements OnInit {
   category: any;
   images: any = [];
   productImages: any = [];
+  myControl = new FormControl("Size");
+  //vos purpose is to show suggestions for variant names
+  vos: string[] = ['Size', 'Color', 'Material', 'Style', 'Title'];
+  filteredOptions: Observable<string[]>;
   public Editor = ClassicEditor;
 
   constructor(private dialog: MatDialog,
+
     private helperTextService: HelperTextService,
     private apiCalls: ApiCallsService,
     private router: Router,
@@ -54,27 +69,29 @@ export class AddProductComponent implements OnInit {
   ngOnInit(): void {
     this.countries = this.helperTextService.countriesList;
     this.getCategoriesByStoreId();
-
   }
 
   addAnotherOption() {
     if (this.items.length == this.options.length) {
-      this.options.push({ name: "" })
+      this.options.push({ name: this.myControl.value })
     }
   }
 
   variantChanged(event) {
+    this.autoCompleteInitialization()
     if (event.target.checked) {
-      this.options.push({ name: "" })
+      this.options.push({ name: this.myControl.value })
     } else {
       this.options = [];
     }
   }
 
-  variantsChanged(i) {
+  variantsChanged(event) {
+    if (event.key == "Enter" || event.key == "," || event.key == " ") {
+      this.combos = [];
+      this.getallCombinations(this.items)
+    }
 
-    this.combos = [];
-    this.getallCombinations(this.items)
 
   }
 
@@ -118,10 +135,11 @@ export class AddProductComponent implements OnInit {
         "categoryId": categoryId,
         "name": this.title,
         "status": this.productStatus,
-        "stock": 0,
         "description": this.description,
         "storeId": localStorage.getItem("storeId"),
-        "weight": this.weight
+        "allowOutOfStockPurchases": 1,
+        "trackQuantity": 0,
+        "minQuantityForAlarm": 0
 
       }
       const data: any = await this.apiCalls.addProduct(body);
@@ -198,7 +216,7 @@ export class AddProductComponent implements OnInit {
             quantity: this.combos[i].quantity,
             sku: this.combos[i].sku
           })
-  
+
         }
       } else {
         const data: any = await this.apiCalls.addInventory(productId, {
@@ -209,7 +227,7 @@ export class AddProductComponent implements OnInit {
           sku: this.sku
         })
       }
-  
+
       //uploading product images
       for (var i = 0; i < this.productImages.length; i++) {
         await this.apiCalls.uploadImage(productId, this.productImages[i].file, "", this.productImages[i].isThumbnail)
@@ -461,4 +479,19 @@ export class AddProductComponent implements OnInit {
     this.sku = prodName.replace(/\s+/g, '-').toUpperCase();
   }
 
+  autoCompleteInitialization() {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.vos.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  optionSelectedAutoComplete(option, i) {
+    this.options[i].name = option.value;
+  }
 }

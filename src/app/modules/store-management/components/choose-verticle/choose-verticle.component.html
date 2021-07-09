@@ -1,80 +1,26 @@
 <html>
 
-<head>
-
-</head>
+<head></head>
 
 <body>
-
-
-<app-shared-header></app-shared-header>
-<br>
-<br>
-<br>
-<span>
-<h1 style="text-align: center;margin-top: 10px;">Step 1 of 2: Choose a verticle...</h1>
-    <div class="l-container" id="container">
-        <div>Food and beverages</div>
-        <div>Hotel and tourism</div>
-        <div>Healthcare</div>
-        <div>Education</div>
-        <a [routerLink]="['/store']">
-            <div class="b-game-card">
-                <div class="b-game-card__cover" style="background-image: url(assets/food.jpg);">
-                </div>
-            </div>
-        </a>
-
-        <a [routerLink]="['/store']">
-            <div class="b-game-card">
-                <div class="b-game-card__cover" style="background-image: url(assets/hotel.jpg);">
-                </div>
-            </div>
-
-        </a>
-        <a [routerLink]="['/store']">
-            <div class="b-game-card">
-                <div class="b-game-card__cover" style="background-image: url(assets/healthcare.jpg);">
-                </div>
-            </div>
-        </a>
-        <a [routerLink]="['/store']">
-            <div class="b-game-card">
-                <div class="b-game-card__cover" style="background-image: url(assets/education.jpg);">
-                </div>
-            </div>
-
-        </a>
-        <div>Construction</div>
-        <div>Electronics</div>
-        <div>Consumer Goods</div>
-        <div>Others</div>
-        <a [routerLink]="['/store']">
-            <div class="b-game-card">
-                <div class="b-game-card__cover" style="background-image: url(assets/construction.jpg);">
-                </div>
-            </div>
-        </a>
-        <a [routerLink]="['/store']">
-            <div class="b-game-card">
-                <div class="b-game-card__cover" style="background-image: url(assets/electronics.jpg);">
-                </div>
-            </div>
-        </a>
-        <a [routerLink]="['/store']">
-            <div class="b-game-card">
-                <div class="b-game-card__cover" style="background-image: url(assets/consumer-goods.jpg);">
-                </div>
-            </div>
-        </a>
-        <a [routerLink]="['/store']">
-            <div class="b-game-card">
-                <div class="b-game-card__cover" style="background-image: url(assets/other-products.png);">
-                </div>
-            </div>
-        </a>
-    </div>
-</span>
+    <app-shared-header></app-shared-header>
+    <br>
+    <br>
+    <br>
+    <span>
+        <h1 style="text-align: center;margin-top: 10px;">Step 1 of 2: Choose a verticle...</h1>
+        <div class="l-container" id="container">
+            <ng-container *ngFor="let verticle of verticles;">
+                <div>{{verticle.name}}</div>
+                <a  (click)="storePage(verticle.code)" >
+                    <div class="b-game-card">
+                        <div class="b-game-card__cover" style="background-image: url({{verticle.thumbnailUrl}});">
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
+        </div>
+    </span>
 </body>
 
 </html>

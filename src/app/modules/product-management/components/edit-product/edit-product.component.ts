@@ -114,9 +114,9 @@ export class EditProductComponent implements OnInit {
         }
       }
     }
-      if (tI != -1) {
-        // document.getElementById(`product-image-${tI}`).style.border = "thick solid #0000FF";
-      }
+    if (tI != -1) {
+      // document.getElementById(`product-image-${tI}`).style.border = "thick solid #0000FF";
+    }
 
   }
 
@@ -160,7 +160,9 @@ export class EditProductComponent implements OnInit {
           break;
         }
       }
-      this.apiCalls.deleteVariantValue(this.product.id, id)
+      if (id) {
+        this.apiCalls.deleteVariantValue(this.product.id, id)
+      }
     }
     this.combos = [];
     this.getallCombinations(this.items)
@@ -259,7 +261,6 @@ export class EditProductComponent implements OnInit {
         "status": this.productStatus,
         "storeId": localStorage.getItem("storeId"),
         "thumbnailUrl": this.thumbnailUrl,
-        "weight": this.weight
       }
     }
     if (this.epForm.status == "VALID") {

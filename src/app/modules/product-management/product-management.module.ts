@@ -18,7 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EditCategoryComponent } from './components/categories/edit-category/edit-category.component';
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -35,7 +35,8 @@ import { EditCategoryComponent } from './components/categories/edit-category/edi
     MatMenuModule,
     MatButtonModule,
     CKEditorModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatAutocompleteModule
   ]
 })
 export class ProductManagementModule { }

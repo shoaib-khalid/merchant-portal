@@ -22,14 +22,7 @@ export class SingleOrderComponent implements OnInit {
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      if (params["orderId"]) {
-        this.orderId = params["orderId"];
-        this.setallDetails();
-      } else {
-
-      }
-    });
+    this.initializeStoreDetails();
   }
 
 
@@ -85,6 +78,24 @@ export class SingleOrderComponent implements OnInit {
     setTimeout(function () {
       newWin.close();
     }, 10);
+  }
+
+  async readyForPickup(){
+    this.apiCalls.loadingAnimation("Loading...");
+    const data = await this.apiCalls.orderUpdationCompletionStatus(this.order.id);
+    this.apiCalls.loadingdialogRef.close();
+    this.initializeStoreDetails()
+  }
+
+
+  initializeStoreDetails(){
+    this.route.queryParams.subscribe(params => {
+      if (params["orderId"]) {
+        this.orderId = params["orderId"];
+        this.setallDetails();
+      } else {
+      }
+    });
   }
 
 }

@@ -14,26 +14,29 @@ export class AddAgentComponent implements OnInit {
   showError: any = '';
   errorText = "";
   roleId: any = "";
+  storeDomain: any = "";
   constructor(private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
+    this.setStoreDomain();
   }
 
 
 
   createAccount(event) {
+    debugger
     const data = {
       name: this.name,
-      username: this.username,
+      username: `${this.username}-${this.storeDomain}`,
       email: this.email,
       password: this.password,
       storeId: localStorage.getItem('storeId'),
       roleId: this.roleId
     }
-
+    console.log(data)
     if (data.name && data.username && data.email && data.password && data.roleId) {
       if (this.validateEmail(this.email)) {
-        if(this.usernameIsValid()){
+        if (this.usernameIsValid()) {
           this.apiCalls.loadingAnimation("Adding Agent")
           this.apiCalls.registerClient(data)
         }
@@ -53,10 +56,16 @@ export class AddAgentComponent implements OnInit {
     return re.test(email);
   }
   usernameIsValid() {
-    if(/^[0-9a-zA-Z_.-]+$/.test(this.username)){
+    if (/^[0-9a-zA-Z_.-]+$/.test(this.username)) {
       return true;
-    }else{
-      this.errorText="Username Invalid"
+    } else {
+      this.errorText = "Username Invalid"
     }
+  }
+
+
+  async setStoreDomain() {
+    const data: any = await this.apiCalls.getStoreDetails(localStorage.getItem('storeId'));
+    this.storeDomain = data.data.domain
   }
 }

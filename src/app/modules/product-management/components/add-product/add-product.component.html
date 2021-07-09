@@ -352,17 +352,34 @@
                                                         <div class="row">
                                                             <div class="col-lg-3" style="font-weight: lighter;">
                                                                 <div class="form-group">
-                                                                    <input type="text" value="{{options[i].name}}"
+                                                                    <input type="text"
                                                                         (keyup)="variantNameChanged($event,i)"
-                                                                        class="form-control necessary" />
+                                                                        (change)="variantNameChanged($event,i)"
+                                                                        placeholder="Size"
+                                                                        class="form-control necessary"
+                                                                        [formControl]="myControl"
+                                                                        [matAutocomplete]="auto" />
+                                                                    <mat-autocomplete autoActiveFirstOption
+                                                                        #auto="matAutocomplete"
+                                                                        (optionSelected)="optionSelectedAutoComplete($event.option,i)">
+                                                                        <mat-option
+                                                                            *ngFor="let option of filteredOptions | async"
+                                                                            [value]="option">
+                                                                            {{option}}
+                                                                        </mat-option>
+                                                                    </mat-autocomplete>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6" style="font-weight: lighter;">
+                                                            <div class="col-lg-7" style="font-weight: lighter;">
                                                                 <div class="form-group">
                                                                     <tag-input [(ngModel)]="items[i]"
-                                                                        (keyup.enter)="variantsChanged(i)"
+                                                                        [placeholder]="'+Option'"
+                                                                        (keyup.enter)="variantsChanged($event)"
+                                                                        (keyup)="variantsChanged($event)"
+                                                                        [separatorKeyCodes]="[32, 188]"
                                                                         (onRemove)="onRemove($event,i)"
-                                                                        [modelAsStrings]="true">
+                                                                        [modelAsStrings]="true"
+                                                                        [secondaryPlaceholder]="'Split options with comma'">
                                                                     </tag-input>
                                                                 </div>
 
@@ -477,7 +494,8 @@
                                                         <div class="add-item-img d-flex  border-radius">
                                                         </div>
                                                         <input list="categories-data-list" id="categories"
-                                                            [(ngModel)]='category' type="text" class="form-control necessary" />
+                                                            [(ngModel)]='category' type="text"
+                                                            class="form-control necessary" />
                                                         <datalist id="categories-data-list">
                                                             <option value="{{cat.name}}" id="{{cat.id}}"
                                                                 *ngFor="let cat of categories;"></option>
@@ -498,11 +516,11 @@
                                                             class="form-control" />
                                                     </div>
                                                     <br>
-                                                    <label for="weight">Weight in KG</label>
+                                                    <!-- <label for="weight">Weight in KG</label>
 
                                                     <input type="number" id="delivery-weight" name="quantity" min="1"
                                                         placeholder="Weight in Kg" value="0" max="10000" min="0"
-                                                        [(ngModel)]="weight" class="form-control">
+                                                        [(ngModel)]="weight" class="form-control"> -->
                                                 </div>
 
                                             </div>

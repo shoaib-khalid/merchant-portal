@@ -44,8 +44,9 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="service-charges">Service Charges %</label>
-                        <input class="form-control" name="service-charges" type="number" id="service-charges" required=""
-                            placeholder="Enter Service Charge" [(ngModel)]="serviceCharge" (keyup)="serviceChargesChange($event)" min="0" max="100">
+                        <input class="form-control" name="service-charges" type="number" id="service-charges"
+                            required="" placeholder="Enter Service Charge" [(ngModel)]="serviceCharge"
+                            (keyup)="serviceChargesChange($event)" min="0" max="100">
                     </div>
                     <label class="form-control-label" style="margin-top: 10px;">Delivery Details</label>
                     <div class="form-group mb-3">
@@ -60,6 +61,11 @@
                                 width="30px"> <span style="margin-left:5px;">Greater Than</span></div>
                         <input class="form-control" name="minOrderCar" type="number" (keyup)="minOrderQtyChange($event)"
                             id="car" value="{{minOrderQty}}" readonly>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="address">Email</label>
+                        <input class="form-control" name="email" type="tel" id="email" required=""
+                            placeholder="Enter Email" [(ngModel)]="email">
                     </div>
                     <div class="form-group mb-3">
                         <label for="address">Phone Number</label>
@@ -90,8 +96,8 @@
                     <div class="form-group">
                         <label class="form-control-label" style="margin-top: 12px;">Region</label>
                         <div class="add-item-img d-flex  border-radius">
-                            <select name="Inventory-manager" [(ngModel)]="region" class="form-control"
-                                id="region" (change)="regionChange($event)">
+                            <select name="Inventory-manager" [(ngModel)]="region" class="form-control" id="region"
+                                (change)="regionChange($event)">
                                 <option value="">Select region</option>
                                 <option value="{{region.id}}" *ngFor="let region of regions">{{region.name}}</option>
                             </select>
@@ -142,6 +148,15 @@
                                 file </label>
                         </div>
                     </div>
+                    <label class="form-control-label" style="margin-top: 12px;">Payment Type</label>
+                    <div class="add-item-img d-flex  border-radius">
+                        <select name="payment-type" class="form-control" [(ngModel)]="paymentType">
+                            <option value="">Select Payment type</option>
+                            <option value="CoD">Cash On delivery</option>
+                            <option value="OnlinePayment">Online Payment</option>
+                        </select>
+                    </div>
+                    <br>
                     <div *ngIf="this.banner.preview" class="assets">
                         <img src="{{this.banner.preview}}" alt="" style="max-width: 400px;max-height: 100px;">
                         <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
