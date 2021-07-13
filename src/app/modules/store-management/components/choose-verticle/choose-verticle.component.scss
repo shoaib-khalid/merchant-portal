@@ -21,7 +21,7 @@ body {
 
 .l-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);  // nazrul : set from 4 to 2, albert did't want to much space if only return 2 vertical
   grid-gap: 30px;
   width: 100%;
   max-width: 1200px;
@@ -112,7 +112,7 @@ body {
 }
 
 #container{
-  width: 600px;
+  width: 400px;
   margin: auto;
   border-radius: 10px;
   background-color: white;
