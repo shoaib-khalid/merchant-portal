@@ -26,10 +26,11 @@ export class StorePageComponent implements OnInit {
   banner: any = { file: "", preview: "" };
   openTime: any = "";
   closeTime: any = "";
-  minOrderQty: any = "";
+  minOrderQty: any = "5";  // nazrul : albert wants default value to start with 5
   states: any = [];
   serviceCharge: any = "0";
   verticleCode: any = "";
+  packType:string="";
 
   timmings: any = [
     { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
@@ -51,6 +52,10 @@ export class StorePageComponent implements OnInit {
     this.initialStoreActions();
     this.extractVerticleCode();
     this.setRegionUsingClientIpAddress();
+
+    if(this.verticleCode == "FnB"){
+        this.packType = "Food"
+    }
   }
 
   async registerStore() {
@@ -266,7 +271,7 @@ export class StorePageComponent implements OnInit {
   initialStoreActions() {
     this.fetchRegions();
     $("#store-exists").hide();
-    $("#store-timmings-table").hide();
+    $("#store-timmings-table").show();  // nazrul: albert said he want by default opened
     $("#phone-pattern").hide()
   }
 
@@ -281,6 +286,19 @@ export class StorePageComponent implements OnInit {
     }
     this.region = regionId;
     this.fetchStates(regionId)
+  }
+
+
+  onlyAlphaNum(event){
+        const input = String.fromCharCode(event.keyCode);
+
+        // nazrul : only enable alphanumeric and special char of underscore_ and dash-
+        if (/[a-zA-Z0-9_-]/.test(input)) {
+            return true;
+        } else {
+            event.preventDefault();
+            return false;
+        }
   }
 
 }

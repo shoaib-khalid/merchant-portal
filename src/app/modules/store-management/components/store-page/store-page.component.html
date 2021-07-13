@@ -28,7 +28,19 @@
                     <div class="form-group mb-3">
                         <label for="storeName">Store Name</label>
                         <input class="form-control" name="storeName" type="username" [(ngModel)]="storeName"
-                            id="storeName" required="" placeholder="Enter Store Name" (focusout)="storeExists($event)">
+                            id="storeName" required="" placeholder="Enter Store Name" (focusout)="storeExists($event)" (keypress)="onlyAlphaNum($event)">
+                        <div class="alert alert-warning text-center" role="alert" 
+                        style="
+                        padding: 5px; 
+                        margin-top: 10px; 
+                        font-size: 10px;"
+                        >
+                            Note : Store name can only contain letters, numbers, Dash (-)  and underscore (_).
+                            <!-- <small class="text-muted" style="font-size: 10px;">
+                                Note : Store name can only contain letters, numbers, Dash (-)  and underscore (_).
+                            </small> -->
+                        </div>
+                        
                         <p id="store-exists"> <img src="assets/error-icon.svg" style="margin-bottom: 2px;" height="15px"
                                 width="15px" alt=""> Store Name already exists! Try another name</p>
                     </div>
@@ -54,7 +66,7 @@
                                 width="30px"><span style="margin-left:0px;">Maximum Order</span></div>
                         <input class="form-control" name="minOrderQty" type="number" [(ngModel)]="minOrderQty"
                             (keyup)="minOrderQtyChange($event)" id="bike" placeholder="Maximum Order Quantity" min="0"
-                            max="1000">
+                            max="1000" required="">
                     </div>
                     <div class="form-group mb-3">
                         <div style="display: inline-block;"><img src="assets/car-icon.svg" alt="" height="30px"
@@ -75,9 +87,9 @@
                                 height="15px" width="15px" alt="">Only digits are allowed in Phone Number</p>
                     </div>
                     <div class="add-item-img d-flex  border-radius">
-                        <select name="delivery-type" class="form-control necessary" id="delivery-type">
-                            <option value="">Type</option>
-                            <option value="Self">Self</option>\
+                        <select name="delivery-type" class="form-control necessary" id="delivery-type" required>
+                            <option value="" selected="true" disabled="">Delivery Type</option>
+                            <option value="Self">Self Delivery</option>\
                             <option value="Scheduled">Scheduled</option>
                             <option value="Ad-Hoc">Ad-Hoc</option>
                         </select>
@@ -85,8 +97,8 @@
                     <br>
 
                     <div class="add-item-img d-flex  border-radius">
-                        <select name="delivery-package" class="form-control necessary" id="delivery-package">
-                            <option value="">Packaging</option>
+                        <select name="delivery-package" class="form-control necessary" [(ngModel)]='packType' id="delivery-package" required>
+                            <option value="" selected="true" disabled="">Packaging</option>
                             <option value="Parcel">Parcel</option>
                             <option value="Document">Document</option>
                             <option value="Food">Food</option>
@@ -97,7 +109,7 @@
                         <label class="form-control-label" style="margin-top: 12px;">Region</label>
                         <div class="add-item-img d-flex  border-radius">
                             <select name="Inventory-manager" [(ngModel)]="region" class="form-control" id="region"
-                                (change)="regionChange($event)">
+                                (change)="regionChange($event)" required>
                                 <option value="">Select region</option>
                                 <option value="{{region.id}}" *ngFor="let region of regions">{{region.name}}</option>
                             </select>
@@ -106,7 +118,7 @@
                     <div class="form-group">
                         <label class="form-control-label" style="margin-top: 12px;">States</label>
                         <div class="add-item-img d-flex  border-radius">
-                            <select name="Inventory-manager" class="form-control" id="state-dropdown">
+                            <select name="Inventory-manager" class="form-control" id="state-dropdown" required>
                                 <option value="">Select state</option>
                                 <option value="{{state.id}}" *ngFor="let state of states">{{state.name}}</option>
                             </select>
@@ -150,7 +162,7 @@
                     </div>
                     <label class="form-control-label" style="margin-top: 12px;">Payment Type</label>
                     <div class="add-item-img d-flex  border-radius">
-                        <select name="payment-type" class="form-control" [(ngModel)]="paymentType">
+                        <select name="payment-type" class="form-control" [(ngModel)]="paymentType" required>
                             <option value="">Select Payment type</option>
                             <option value="CoD">Cash On delivery</option>
                             <option value="OnlinePayment">Online Payment</option>

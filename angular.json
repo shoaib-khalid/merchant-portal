@@ -44,7 +44,6 @@
               "src/assets/vendor/css/swiper.min.css",
               "src/assets/css/bootstrap-custom.css",
               "src/assets/css/custom.css"
-
             ],
             "scripts": [
               "src/assets/js/mxgraph.conf.js",
@@ -147,5 +146,8 @@
       }
     }
   },
-  "defaultProject": "latest-mxGraph"
+  "defaultProject": "latest-mxGraph",
+  "cli": {
+    "analytics": false
+  }
 }

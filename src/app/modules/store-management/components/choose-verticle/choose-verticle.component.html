@@ -8,15 +8,15 @@
     <br>
     <br>
     <span>
-        <h1 style="text-align: center;margin-top: 10px;">Step 1 of 2: Choose a verticle...</h1>
+        <h1 style="text-align: center;margin-top: 10px;">Step 1 of 2: Choose a business type...</h1>
         <div class="l-container" id="container">
             <ng-container *ngFor="let verticle of verticles;">
-                <div>{{verticle.name}}</div>
                 <a  (click)="storePage(verticle.code)" >
                     <div class="b-game-card">
                         <div class="b-game-card__cover" style="background-image: url({{verticle.thumbnailUrl}});">
                         </div>
                     </div>
+                    <div>{{verticle.name}}</div>
                 </a>
             </ng-container>
         </div>
