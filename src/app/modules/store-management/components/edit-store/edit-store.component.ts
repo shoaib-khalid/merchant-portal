@@ -39,7 +39,7 @@ export class EditStoreComponent implements OnInit {
 
     $("#warning-address").hide();
     $("#warning-postcode").hide();
-    $("#store-timmings-table").hide();
+    // $("#store-timmings-table").hide();
     $("#phone-pattern").hide()
     this.route.params.subscribe(params => {
       if (params.id) {
@@ -234,6 +234,7 @@ export class EditStoreComponent implements OnInit {
   async setDeliveryDetails() {
     console.log(this.store)
     var data: any = await this.apiCalls.getDeliveryDetailsStore(this.store.id);
+    console.log(data)
     data = data.data;
     const dType: any = document.getElementById('delivery-type');
     const dPackage: any = document.getElementById('delivery-package');

@@ -50,19 +50,23 @@
                     </div>
                 </div>
             </div>
-
-
+            <ul style="display: inline-block;float: left;">
+                <li class="dev-options" (click)="showJson()">Download Json</li>
+                <li class="dev-options"> <a href="javascript:void(0);" class="p-0"><label for="file-jsonUpload">Load
+                            Json</label></a>
+                    <input id="file-jsonUpload" type="file" accept="application/JSON" name="jsonUpload"
+                        (change)="loadJson($event)" hidden />
+                </li>
+            </ul>
             <div class="container">
+
                 <div class="row">
-                    <app-shared-side-panel hidden></app-shared-side-panel>
+
                     <div class="col-lg-9">
-
-
                         <div class="row">
                             <div class="col">
                                 <!-- my items table -->
-                                <div class="card product_item_list" 
-                                style="
+                                <div class="card product_item_list" style="
                                     margin-bottom: 3rem !important;
                                     margin-top: -10px;
                                     margin-left: -98px;
@@ -73,14 +77,13 @@
                                                 <h6 class="card-title">{{flowTitle}}</h6>
                                             </div>
                                             <div id="btn-container">
-                                                <div class="flow-btns" (click)="save()" style="background-color: rgb(6, 164, 255);">Update</div>
+                                                <div class="flow-btns" (click)="save()"
+                                                    style="background-color: rgb(6, 164, 255);">Update</div>
                                                 <div class="flow-btns" (click)="publish()">Publish Flow</div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card-body" style="padding-top: 700px;">
-
-
                                         <div #outlineContainer
                                             style="z-index:1;position:absolute;overflow:hidden;top:55px;right:0px;width:160px;height:120px;background:transparent;border-style:solid;border-color:lightgray;">
 

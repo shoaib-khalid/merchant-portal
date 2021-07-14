@@ -5,6 +5,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import $ from 'jquery';
 import { HelperService } from 'src/app/services/helper.service';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '../store.model'
 
 @Component({
   selector: 'app-store-page',
@@ -12,15 +13,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./store-page.component.scss']
 })
 export class StorePageComponent implements OnInit {
-  storeName: any;
-  email: any = "";
-  region: any = "";
-  paymentType:any="";
   regions: any = [];
-  city: any = "";
-  address: any = "";
-  storeInfo: any = "";
-  postCode: any = "";
   requiredError: any = false;
   logo: any = { file: "", preview: "" };
   banner: any = { file: "", preview: "" };
@@ -28,9 +21,8 @@ export class StorePageComponent implements OnInit {
   closeTime: any = "";
   minOrderQty: any = "5";  // nazrul : albert wants default value to start with 5
   states: any = [];
-  serviceCharge: any = "0";
   verticleCode: any = "";
-  packType:string="";
+  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "");
 
   timmings: any = [
     { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
@@ -41,11 +33,10 @@ export class StorePageComponent implements OnInit {
     { day: "SATURDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
     { day: "SUNDAY", isOff: false, openTime: "09:00", closeTime: "17:00" }
   ]
+
   public Editor = ClassicEditor;
   constructor(
     private apiCalls: ApiCallsService,
-    private dialog: MatDialog,
-    private helperService: HelperService,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -53,19 +44,20 @@ export class StorePageComponent implements OnInit {
     this.extractVerticleCode();
     this.setRegionUsingClientIpAddress();
 
-    if(this.verticleCode == "FnB"){
-        this.packType = "Food"
+    if (this.verticleCode == "FnB") {
+      this.storeModel.packType = "Food"
     }
   }
 
-  async registerStore() {
-    if (this.storeName && (<HTMLInputElement>document.getElementById("phoneNumber")).value) {
+  async registerStore(form) {
+    if (form.valid) {
       this.apiCalls.loadingAnimation("Registering new store", "280")
       await this.saveDetails();
       this.saveStoreTimmings();
       this.uploadAssets();
       this.saveStoreDeliveryDetails();
-    } else {
+    }
+    else {
       this.emptyFields();
     }
   }
@@ -88,16 +80,12 @@ export class StorePageComponent implements OnInit {
     var arr: any = document.getElementsByClassName('form-control');
     for (var i = 0; i < arr.length; i++) {
       if (arr[i].value == "") {
-        if ($(arr[i])[0].id == "storeName") {
-          $(arr[i]).val('').css("border-color", "red");
-        } else if ($(arr[i])[0].id == "phoneNumber") {
-          $(arr[i]).val('').css("border-color", "red");
-        }
-        else if ($(arr[i])[0].id == "region") {
+        const a = $(arr[i])[0].id;
+        if (a == "storeName" || a == "phoneNumber" || a == "region" || a == "state-dropdown" || a == "city" || a == "postCode" || a == "address" || a == "delivery-type" || a == "delivery-package" || a == "payment-type") {
           $(arr[i]).val('').css("border-color", "red");
         }
       } else {
-        $(arr[i]).css("border-color", "");
+        $(arr[i]).css("border-color", "#EAEDF2");
       }
     }
   }
@@ -123,20 +111,20 @@ export class StorePageComponent implements OnInit {
 
   saveDetails() {
     return this.apiCalls.registerStore({
-      name: this.storeName,
-      city: this.city,
-      address: this.address,
-      postcode: this.postCode,
-      storeDescription: this.storeInfo,
-      email: this.email,
+      name: this.storeModel.storeName,
+      city: this.storeModel.city,
+      address: this.storeModel.address,
+      postcode: this.storeModel.postCode,
+      storeDescription: this.storeModel.storeInfo,
+      email: this.storeModel.email,
       clientId: localStorage.getItem("ownerId"),
-      domain: this.storeName.replace(/\s+/g, '-').toLowerCase(),
-      regionCountryId: this.region,
+      domain: this.storeModel.storeName.replace(/\s+/g, '-').toLowerCase(),
+      regionCountryId: this.storeModel.region,
       regionCountryStateId: (<HTMLInputElement>document.getElementById("state-dropdown")).value,
       phoneNumber: (<HTMLInputElement>document.getElementById("phoneNumber")).value,
-      serviceChargesPercentage: this.serviceCharge,
+      serviceChargesPercentage: this.storeModel.serviceCharge,
       verticalCode: this.verticleCode,
-      paymentType:this.paymentType
+      paymentType: this.storeModel.paymentType
     })
   }
 
@@ -254,9 +242,9 @@ export class StorePageComponent implements OnInit {
   }
   serviceChargesChange(event) {
     if (event.target.value > 100) {
-      this.serviceCharge = 100;
+      this.storeModel.serviceCharge = 100;
     } else if (event.key == "-") {
-      this.serviceCharge = 0;
+      this.storeModel.serviceCharge = 0;
     }
   }
 
@@ -284,21 +272,21 @@ export class StorePageComponent implements OnInit {
     } else if (country == "Malaysia") {
       regionId = "MYS";
     }
-    this.region = regionId;
+    this.storeModel.region = regionId;
     this.fetchStates(regionId)
   }
 
 
-  onlyAlphaNum(event){
-        const input = String.fromCharCode(event.keyCode);
+  onlyAlphaNum(event) {
+    const input = String.fromCharCode(event.keyCode);
 
-        // nazrul : only enable alphanumeric and special char of underscore_ and dash-
-        if (/[a-zA-Z0-9_-]/.test(input)) {
-            return true;
-        } else {
-            event.preventDefault();
-            return false;
-        }
+    // nazrul : only enable alphanumeric and special char of underscore_ and dash-
+    if (/[a-zA-Z0-9_-]/.test(input)) {
+      return true;
+    } else {
+      event.preventDefault();
+      return false;
+    }
   }
 
 }

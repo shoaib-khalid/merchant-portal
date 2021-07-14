@@ -44,7 +44,7 @@
                         <div style="display: inline-block;"><img src="assets/motor-bike-icon.svg" alt="" height="30px"
                                 width="30px"> <span style="margin-left:0px;">Maximum Order</span> </div>
                         <input class="form-control" name="minOrderQty" type="number" [(ngModel)]="minOrderQty"
-                            (keyup)="minOrderQtyChange($event)" id="bike" placeholder="Maximum order quantity" min="0"
+                            (keyup)="minOrderQtyChange($event)" id="bike" placeholder="Maximum order quantity" min="5"
                             max="1000">
                     </div>
                     <div class="form-group mb-3">
@@ -65,20 +65,28 @@
                         <p id="phone-pattern"> <img src="assets/error-icon.svg" style="margin-bottom: 2px;"
                                 height="15px" width="15px" alt="">Only digits are allowed in Phone Number</p>
                     </div>
-                    <div class="add-item-img d-flex  border-radius">
+                    <!-- <div class="add-item-img d-flex  border-radius">
                         <select name="delivery-type" class="form-control necessary" id="delivery-type">
-                            <option value="">Type</option>
-                            <option value="Self">Self</option>
+                            <option value="">Delivery Type</option>
+                            <option value="Self">Self Delivery</option>
                             <option value="Scheduled">Scheduled</option>
                             <option value="Ad-Hoc">Ad-Hoc</option>
+                        </select>
+                    </div> -->
+                    <div class="add-item-img d-flex  border-radius">
+                        <select name="delivery-type" class="form-control necessary" id="delivery-type">
+                            <option value="">Delivery Type</option>
+                            <option value="SELF">Self Delivery</option>
+                            <option value="SCHEDULED">Scheduled</option>
+                            <option value="ADHOC">Ad-Hoc</option>
                         </select>
                     </div>
                     <br>
                     <div class="add-item-img d-flex  border-radius">
                         <select name="delivery-package" class="form-control necessary" id="delivery-package">
-                            <option value="">Packaging</option>
-                            <option value="Parcel">Parcel</option>
-                            <option value="Document">Document</option>
+                            <option value="">Item Packaging</option>
+                            <option value="parcel">Parcel</option>
+                            <option value="DOCUMENT">Document</option>
                             <option value="Food">Food</option>
 
                         </select>
@@ -124,8 +132,8 @@
                     <div class="add-item-img d-flex  border-radius">
                         <select name="payment-type" class="form-control" [(ngModel)]="paymentType">
                             <option value="">Select Payment type</option>
-                            <option value="CoD">Cash On delivery</option>
-                            <option value="OnlinePayment">Online Payment</option>
+                            <option value="COD">Cash On delivery</option>
+                            <option value="ONLINEPAYMENT">Online Payment</option>
                         </select>
                     </div>
                     <br>
