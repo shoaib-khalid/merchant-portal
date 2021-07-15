@@ -20,7 +20,7 @@ export class ChooseVerticleComponent implements OnInit {
   async getVerticles(region) {
     const data1: any = await this.apiCalls.getRegionVerticles();
     console.log(data1)
-    const data2= data1.data.content;
+    const data2= data1.data;
     this.verticles = data2.filter(ele=>ele.regionId==region)
   }
 
