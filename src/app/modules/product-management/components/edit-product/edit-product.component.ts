@@ -55,6 +55,7 @@ export class EditProductComponent implements OnInit {
     const data: any = await this.apiCalls.getStoreProductById(id);
     this.product = data.data;
     this.setAllVariables()
+    this.findInventory();
   }
 
   setAllVariables() {
@@ -643,6 +644,29 @@ export class EditProductComponent implements OnInit {
   }
 
 
-
+  findInventory() {
+    var inventory;
+    var toFind = ["44b364d7-f638-471b-bc3b-a3b04a08d285", "RedmiNote10_Color_LakeGreen"]
+    var inventories = this.product.productInventories;
+    var flag = true;
+    for (var i = 0; i < inventories.length; i++) {
+      flag=true;
+      inventory = inventories[i];
+      for (var j = 0; j < inventories[i].inventoryItems; j++) {
+        if(toFind.includes(inventories[j].productVariantAvailableId)){
+          continue;
+        }else{
+          flag=false;
+          break;
+      }
+    }
+    if(flag){
+      console.log("----------------------")
+      console.log(inventory);
+      console.log("----------------------")
+      break;
+    }
+  }
+}
 
 }
