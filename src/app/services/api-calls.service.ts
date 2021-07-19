@@ -24,7 +24,7 @@ export class ApiCallsService {
   private pathVariable1: string = this.services.flowBuilderService;
   private userService: string = this.services.userService;
   private productService: string = this.services.productService;
-  private pathVariable4: string = this.services.orderService;
+  private orderService: string = this.services.orderService;
   private reportService: string = this.services.reportService;
 
   constructor(private http: HttpClient,
@@ -370,7 +370,7 @@ export class ApiCallsService {
     }
     if (localStorage.getItem("storeId")) {
 
-      return await this.http.get(this.pathVariable4 + "/orders", httpOptions).toPromise();
+      return await this.http.get(this.orderService + "/orders", httpOptions).toPromise();
     } else {
       this.router.navigateByUrl("/store-management");
       return { data: { content: [] } }
@@ -386,7 +386,7 @@ export class ApiCallsService {
       params: parameters
     }
     if (localStorage.getItem("storeId")) {
-      return await this.http.get(this.pathVariable4 + "/orders", httpOptions).toPromise();
+      return await this.http.get(this.orderService + "/orders", httpOptions).toPromise();
     } else {
       this.router.navigateByUrl("/store-management");
       return { data: { content: [] } }
@@ -428,7 +428,7 @@ export class ApiCallsService {
     }
 
     if (localStorage.getItem("storeId")) {
-      return await this.http.get(this.pathVariable4 + "/carts", httpOptions).toPromise();
+      return await this.http.get(this.orderService + "/carts", httpOptions).toPromise();
     } else {
 
       this.router.navigateByUrl("/store-management");
@@ -438,7 +438,7 @@ export class ApiCallsService {
 
 
   getCartItems(cartId) {
-    return this.http.get(this.pathVariable4 + "/carts/" + cartId + "/items").toPromise();
+    return this.http.get(this.orderService + "/carts/" + cartId + "/items").toPromise();
   }
 
   getOrderItems(cartId) {
@@ -447,7 +447,7 @@ export class ApiCallsService {
       }),
 
     }
-    return this.http.get(this.pathVariable4 + "/orders/" + cartId + "/items", httpOptions).toPromise();
+    return this.http.get(this.orderService + "/orders/" + cartId + "/items", httpOptions).toPromise();
   }
 
 
@@ -720,11 +720,11 @@ export class ApiCallsService {
   }
 
   getOrderDetails(orderId) {
-    return this.http.get<any>(this.pathVariable4 + `/orders/${orderId}`).toPromise();
+    return this.http.get<any>(this.orderService + `/orders/${orderId}`).toPromise();
   }
 
   getShipmentDetails(orderId) {
-    return this.http.get<any>(this.pathVariable4 + `/orders/${orderId}/shipment-details`).toPromise();
+    return this.http.get<any>(this.orderService + `/orders/${orderId}/shipment-details`).toPromise();
   }
 
 
@@ -779,9 +779,13 @@ export class ApiCallsService {
   fetchDailySales() {
     var d = new Date();
     const endDate = d.toISOString().slice(0, 10)
-    d.setDate(d.getDate() - 7);
+    d.setDate(d.getDate() - 6);
     const startDate = d.toISOString().slice(0, 10);
-    return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/daily_sales?from=${startDate}&page=0&pageSize=20&sortBy=date&sortingOrder=ASC&to=${endDate}`).toPromise()
+    return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/daily_sales?from=${startDate}&to=${endDate}`).toPromise()
+  }
+
+  fetchDetailedDailySales(startDate,endDate) {
+    return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/report/detailedDailySales?startDate=${startDate}&endDate=${endDate}`).toPromise()
   }
 
   /**
@@ -791,9 +795,9 @@ export class ApiCallsService {
   getTopProducts() {
     var d = new Date();
     const endDate = d.toISOString().slice(0, 10)
-    d.setDate(d.getDate() - 7);
+    d.setDate(d.getDate() - 6);
     const startDate = d.toISOString().slice(0, 10);
-    return this.http.get(`${this.reportService}/store/${localStorage.getItem('storeId')}/daily_top_products?to=${endDate}&from=${startDate}`).toPromise()
+    return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/report/dailyTopProducts?startDate=${startDate}&endDate=${endDate}`).toPromise()
   }
 
   saveStoreTimmings(timmings) {
@@ -866,7 +870,7 @@ export class ApiCallsService {
   }
 
   orderUpdationCompletionStatus(orderId) {
-    return this.http.put(this.pathVariable4 + `/orders/${orderId}/completion-status-updates/request-delivery`, {}).toPromise()
+    return this.http.put(this.orderService + `/orders/${orderId}/completion-status-updates/request-delivery`, {}).toPromise()
   }
 
 }

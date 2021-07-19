@@ -28,9 +28,9 @@ export class SettlementComponent implements OnInit {
 
   async getSettlement() {
     const dates = this.last28days();
-    console.log(dates)
     var data: any = await this.apiCalls.getSettlement(dates[0], dates[1]);
-    data = data.data.content;
+    console.log(data)
+    data = data.data;
     this.settlement=data;
   }
 

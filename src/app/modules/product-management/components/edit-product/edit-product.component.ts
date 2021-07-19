@@ -63,6 +63,9 @@ export class EditProductComponent implements OnInit {
     this.epForm['controls'].productDetails['controls'].name.setValue(this.product.name)
     this.epForm['controls'].productDetails['controls'].description.setValue(this.product.description)
     this.epForm['controls'].productDetails['controls'].stock.setValue(0)
+    this.epForm['controls'].defaultInventory['controls'].trackQuantity.setValue(this.product.trackQuantity)
+    this.epForm['controls'].defaultInventory['controls'].continueSelling.setValue(this.product.allowOutOfStockPurchases)
+    this.epForm['controls'].defaultInventory['controls'].minQtyAlarm.setValue(this.product.minQuantityForAlarm)
     this.productStatus = this.product.status;
     this.weight = this.product.weight;
     this.setCategory();
@@ -262,6 +265,9 @@ export class EditProductComponent implements OnInit {
         "status": this.productStatus,
         "storeId": localStorage.getItem("storeId"),
         "thumbnailUrl": this.thumbnailUrl,
+        "minQuantityForAlarm":this.epForm['controls'].defaultInventory['controls'].minQtyAlarm.value,
+        "allowOutOfStockPurchases":this.epForm['controls'].defaultInventory['controls'].continueSelling.value,
+        "trackQuantity": this.epForm['controls'].defaultInventory['controls'].trackQuantity.value
       }
     }
     if (this.epForm.status == "VALID") {
@@ -616,12 +622,16 @@ export class EditProductComponent implements OnInit {
         name: ['', [Validators.required, Validators.maxLength(50)]],
         stock: [0],
         description: [''],
-        storeId: [localStorage.getItem('storeId')]
+        storeId: [localStorage.getItem('storeId')],
+
       }),
       defaultInventory: this.fb.group({
         price: ['', [Validators.required]],
         sku: ['', [Validators.required]],
         quantity: ['', [Validators.required]],
+        continueSelling:[false],
+        trackQuantity:[false],
+        minQtyAlarm:[0]
       }),
 
     })

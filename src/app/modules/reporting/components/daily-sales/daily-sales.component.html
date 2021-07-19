@@ -36,35 +36,112 @@
                                         <div class="note" [hidden]="!dataAvailableToView[0]">No data for daily sales
                                             available to show graph.</div>
                                         <hr>
-                                        <div id="dailySales">
-                                            <div style="font-weight: bold;text-align: center;">Daily Sales</div>
+                                        <div id="summary-sales">
+                                            <div style="font-weight: bold;text-align: center;">Summary Sales</div>
                                             <div [hidden]="!dataAvailableToView[1]" class="note">No data available for
                                                 daily sales to show.</div>
                                             <table class="table" [hidden]="dataAvailableToView[1]">
                                                 <thead>
 
                                                     <tr>
-                                                        <th>Total Orders</th>
-                                                        <th>Successful orders</th>
-                                                        <th>Canceled Orders</th>
-                                                        <th>Amount Earned</th>
                                                         <th>Date</th>
+                                                        <th>Total orders</th>
+                                                        <th>Successful Orders</th>
+                                                        <th>Canceled Orders</th>
+                                                        <th>Amount earned</th>
                                                     </tr>
                                                 </thead>
 
 
                                                 <tbody>
-                                                    <tr *ngFor="let datum of data;">
-                                                        <td>
-                                                            {{datum.totalOrders}}
-                                                        </td>
-                                                        <td>
-                                                            {{datum.successFullOrders}}</td>
-                                                        <td>{{datum.canceledOrders}}</td>
-                                                        <td>{{datum.amountEarned}}</td>
-                                                        <td>{{datum.date}}</td>
+                                                    <ng-container *ngFor="let ss of summary_sales;">
 
+                                                        <tr>
+                                                            <td>{{ss.date}}</td>
+                                                            <td>
+                                                                {{ss.totalOrders}}
+                                                            </td>
+                                                            <td>{{ss.successFullOrders}}</td>
+                                                            <td>{{ss.cancelledOrders}}</td>
+                                                            <td>{{ss.amountEarned}}</td>
+
+                                                        </tr>
+                                                    </ng-container>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                        
+                                        <div>
+                                            <div style="font-weight: bold;text-align: center;">Daily Detailed Sales
+                                            </div>
+                                            <input type="date" placeholder="From - date" class="form-control filter"
+                                                style="width:160px; margin-right: 10px;display: inline-block;" name=""
+                                                id="from-date-detailed">
+                                            <input type="date" placeholder="From - date" class="form-control filter"
+                                                style="width:160px; margin-right: 10px;display: inline-block;" name="" id="to-date-detailed">
+                                                <div class="search-btn" (click)="searchSummary()">Search</div>
+                                        </div>
+                                        <div id="dailySales">
+
+                                            <div [hidden]="!dataAvailableToView[1]" class="note">No data available for
+                                                daily sales to show.</div>
+                                            <table class="table" [hidden]="dataAvailableToView[1]">
+                                                <thead>
+
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Store Name</th>
+                                                        <th>Customer Name</th>
+
+                                                        <th>Sub-total</th>
+                                                        <th>Service Charge</th>
+                                                        <th>Delivery Charge</th>
+                                                        <th>Commission</th>
+                                                        <th>Total Amount</th>
+                                                        <th>Order Status</th>
+                                                        <th>Delivery Status</th>
                                                     </tr>
+                                                </thead>
+
+
+                                                <tbody>
+                                                    <ng-container *ngFor="let datum of data;">
+
+                                                        <tr *ngFor="let sale of datum.sales;">
+                                                            <td style="min-width: 120px;">{{datum.date}}</td>
+                                                            <td>
+                                                                {{ sale.storeName}}
+                                                            </td>
+                                                            <td>
+                                                                {{ sale.customerName}}
+                                                            </td>
+                                                            <td>{{sale.subTotal}}</td>
+                                                            <td>
+                                                                {{sale.serviceCharge}}</td>
+                                                            <td>{{sale.deliveryCharge}}</td>
+
+                                                            <td>{{sale.commission}}</td>
+                                                            <td>{{sale.total}}</td>
+                                                            <td>{{sale.orderStatus}}</td>
+                                                            <td style="max-width: 130px;">{{sale.deliveryStatus}}</td>
+                                                        </tr>
+
+                                                        <tr *ngIf="datum.sales.length==0">
+                                                            <td>{{datum.date}}</td>
+                                                            <td>
+                                                                -
+                                                            </td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                        </tr>
+                                                    </ng-container>
                                                 </tbody>
 
                                             </table>
@@ -79,23 +156,37 @@
                                                 <thead>
 
                                                     <tr>
+                                                        <th class="column-style">Date</th>
                                                         <th class="column-style">Product Name</th>
                                                         <th class="column-style">Total Transaction</th>
-                                                        <th class="column-style">Date</th>
                                                     </tr>
                                                 </thead>
 
 
                                                 <tbody>
-                                                    <tr *ngFor="let prod of topProducts;">
-                                                        <td class="body-cols column-style"
-                                                            style="text-overflow: clip;max-width: 150px;">
-                                                            {{prod.name}}
-                                                        </td>
-                                                        <td class="body-cols column-style">
-                                                            {{prod.totalOrders}}</td>
-                                                        <td class="body-cols column-style">{{prod.date}}</td>
-                                                    </tr>
+                                                    <ng-container *ngFor="let prod of topProducts;">
+
+                                                        <tr *ngFor="let tP of prod.topProduct">
+                                                            <td class="body-cols column-style">{{prod.date}}</td>
+                                                            <td class="body-cols column-style"
+                                                                style="text-overflow: clip;max-width: 150px;">
+                                                                {{tP.productName}}
+                                                            </td>
+                                                            <td class="body-cols column-style">
+                                                                {{tP.totalTransaction}}</td>
+                                                        </tr>
+
+                                                        <tr *ngIf="prod.topProduct.length==0">
+                                                            <td class="body-cols column-style">{{prod.date}}</td>
+
+                                                            <td class="body-cols column-style"
+                                                                style="text-overflow: clip;max-width: 150px;">
+                                                                -
+                                                            </td>
+                                                            <td class="body-cols column-style">
+                                                                -</td>
+                                                        </tr>
+                                                    </ng-container>
                                                 </tbody>
 
                                             </table>

@@ -202,22 +202,21 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
-                                                            <label for="l30" hidden>Barcode (ISBN, UPC, GTIN,
-                                                                etc.)</label>
-                                                            <input type="text" [(ngModel)]="barcode" hidden
+                                                            <label for="l30" >Minimum Quantity For alarm</label>
+                                                            <input type="text" [(ngModel)]="minQtyAlarm" 
                                                                 class="form-control" />
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row" hidden>
+                                                <div class="row" >
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" hidden
+                                                                <input class="form-check-input" 
                                                                     [(ngModel)]="trackQuantity" type="checkbox" value=""
                                                                     id="flexCheckDefault">
                                                                 <label class="form-check-label" for="flexCheckDefault"
-                                                                    hidden>
+                                                                    >
 
                                                                     Track quantity
                                                                 </label>
@@ -228,10 +227,10 @@
                                                         <div class="form-group">
                                                             <div class="form-check">
                                                                 <input class="form-check-input"
-                                                                    [(ngModel)]="continueSelling" type="checkbox" hidden
+                                                                    [(ngModel)]="continueSelling" type="checkbox" 
                                                                     value="" id="flexCheckDefault">
                                                                 <label class="form-check-label" for="flexCheckDefault"
-                                                                    hidden>
+                                                                    >
 
                                                                     Continue selling when out of stock
                                                                 </label>

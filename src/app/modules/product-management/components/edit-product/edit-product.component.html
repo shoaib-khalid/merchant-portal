@@ -139,7 +139,7 @@
                                                                     <label for="l30">Price</label>
                                                                     <input id="general-price" type="number" min="0"
                                                                         formControlName="price" class="form-control" />
-                                                                        <span
+                                                                    <span
                                                                         *ngIf="epForm.get('defaultInventory').get('price').invalid"
                                                                         style="color: red;">Price is required</span>
                                                                 </div>
@@ -165,13 +165,56 @@
                                                                     <input type="number" formControlName="quantity"
                                                                         id="quantity" class="form-control"
                                                                         name="quantity" min="1" max="10000">
-                                                                        <span
+                                                                    <span
                                                                         *ngIf="epForm.get('defaultInventory').get('quantity').invalid"
                                                                         style="color: red;">Quantity is required</span>
                                                                 </div>
                                                             </div>
-
                                                         </div>
+
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            value="" formControlName="trackQuantity">
+                                                                        <label class="form-check-label"
+                                                                            for="flexCheckDefault">
+
+                                                                            Track quantity
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            value="" id="flexCheckDefault"
+                                                                            formControlName="continueSelling">
+                                                                        <label class="form-check-label"
+                                                                            for="flexCheckDefault">
+
+                                                                            Continue selling when out of stock
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="quantity">Minimum Quantity For
+                                                                        alarm</label>
+                                                                    <br>
+                                                                    <input type="number" formControlName="minQtyAlarm"
+                                                                        class="form-control" name="quantity" min="1"
+                                                                        max="10000">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </form>
 

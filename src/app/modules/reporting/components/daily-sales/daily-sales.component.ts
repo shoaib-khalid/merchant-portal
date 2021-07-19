@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
+import $ from 'jquery';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -31,11 +32,13 @@ export class DailySalesComponent implements OnInit {
   topProducts: any = [];
   data: any = [];
   dataAvailableToView: any = [true, true, true];
+  summary_sales:any=[]
+
   constructor(private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
-    this.setDailySales();
     this.setTopProducts();
+    this.setDefaultDetailedSalesDates()
   }
   public initChartData(): void {
     var d = new Date();
@@ -110,23 +113,13 @@ export class DailySalesComponent implements OnInit {
     };
   }
 
-  async setDailySales() {
-    const data: any = await this.apiCalls.fetchDailySales();
-    this.data = data.data.content;
-    if (this.data.length > 0) {
-      this.dataAvailableToView[0] = false;
-      this.dataAvailableToView[1] = false;
-
-    }
-    console.log(this.data)
-    this.initChartData();
-  }
-
 
   setTopProducts = async () => {
     var data: any = await this.apiCalls.getTopProducts();
+    console.log(data)
+
     data = data.data;
-    this.topProducts = data.content;
+    this.topProducts = data;
     if (this.topProducts.length > 0) {
       this.dataAvailableToView[2] = false;
     }
@@ -141,6 +134,46 @@ export class DailySalesComponent implements OnInit {
       if (dailyTopProducts[i].rank == 1) {
         return dailyTopProducts[i]
       }
+    }
+  }
+
+  async getDetailedDailySales(fromDate,toDate) {
+    const data: any = await this.apiCalls.fetchDetailedDailySales(fromDate,toDate);
+
+    this.data = data.data;
+    if (this.data.length > 0) {
+      this.dataAvailableToView[0] = false;
+      this.dataAvailableToView[1] = false;
+
+    }
+    const data1:any = await this.apiCalls.fetchDailySales();
+    this.summary_sales=data1.data.content;
+    console.log(data)
+
+  }
+
+  setDefaultDetailedSalesDates(){
+    var d = new Date();
+    const endDate = d.toISOString().slice(0, 10)
+    d.setDate(d.getDate() - 6);
+    const startDate = d.toISOString().slice(0, 10);
+    const fromDate:any = document.getElementById('from-date-detailed');
+    const toDate:any = document.getElementById('to-date-detailed');
+    fromDate.value = startDate;
+    toDate.value = endDate
+    this.getDetailedDailySales(startDate,endDate)
+  }
+
+  async searchSummary(){
+    const fromDate:any = $('#from-date-detailed').val();
+    const toDate:any = $('#to-date-detailed').val();
+    console.log(fromDate)
+    console.log(toDate)
+    const data: any = await this.apiCalls.fetchDetailedDailySales(fromDate,toDate);
+    this.data = data.data;
+    if (this.data.length > 0) {
+      this.dataAvailableToView[0] = false;
+      this.dataAvailableToView[1] = false;
     }
   }
 

@@ -30,15 +30,13 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Store Name</th>
-                                                        <th>Total Transaction Value</th>
-                                                        <th>Total to be paid</th>
-                                                        <th>Total refund</th>
-                                                        <th>Total Service Fee</th>
-                                                        <th>Commission Fee</th>
-                                                        <th>Settlement Status</th>
-                                                        <th>Start Date</th>
-                                                        <th>End Date</th>
+                                                        <th>Settlement Date</th>
+                                                        <th>Commission</th>
+                                                        <th>Fees</th>
+                                                        <th>Gross</th>
+                                                        <th>Total</th>
+                                                        <th>refund</th>
+                                                        <th>Service Fee</th>
                                                     </tr>
                                                 </thead>
 
@@ -46,27 +44,27 @@
                                                 <tbody>
                                                     <tr *ngFor="let set of settlement">
                                                         <td>
-                                                            {{set.storeName}}
+                                                            {{set.settlementDate}}
                                                         </td>
-                                                        <td>{{set.totalTransactionValue}} </td>
+                                                        <td>{{set.commission}} </td>
 
                                                         <td>
-                                                            {{set.totaltoBePayed}}
-
-                                                        </td>
-                                                        <td>
-                                                            {{set.totalRefund}}
+                                                            {{set.fees}}
 
                                                         </td>
                                                         <td>
-                                                            {{set.totalServiceFee}}
+                                                            {{set.gross}}
 
                                                         </td>
                                                         <td>
-                                                            {{set.commisionFee}}
+                                                            {{set.nett}}
+
                                                         </td>
                                                         <td>
-                                                            {{set.settlementStatus}}
+                                                            {{set.refund}}
+                                                        </td>
+                                                        <td>
+                                                            {{set.serviceFee}}
 
                                                         </td>
                                                         <td>

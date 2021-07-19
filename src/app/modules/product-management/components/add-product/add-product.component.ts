@@ -37,6 +37,7 @@ export class AddProductComponent implements OnInit {
   barcode: any;
   trackQuantity: any;
   continueSelling: any;
+  minQtyAlarm:any;
   quantity: any;
   physicalProduct: any;
   weight: any;
@@ -137,9 +138,9 @@ export class AddProductComponent implements OnInit {
         "status": this.productStatus,
         "description": this.description,
         "storeId": localStorage.getItem("storeId"),
-        "allowOutOfStockPurchases": 1,
-        "trackQuantity": 0,
-        "minQuantityForAlarm": 0
+        "allowOutOfStockPurchases": this.continueSelling,
+        "trackQuantity": this.trackQuantity,
+        "minQuantityForAlarm": this.minQtyAlarm
 
       }
       const data: any = await this.apiCalls.addProduct(body);
