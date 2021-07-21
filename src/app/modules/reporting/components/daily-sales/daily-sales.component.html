@@ -42,8 +42,8 @@
                                             <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">Summary Sales</div>
                                             <div [hidden]="!dataAvailableToView[1]" class="note">No data available for
                                                 daily sales to show.</div>
-                                            <!-- <table [hidden]="dataAvailableToView[1]" datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" class="row-border hover table"> -->
-                                            <table datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" class="row-border hover table">
+                                            <table [hidden]="dataAvailableToView[1]" datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" class="row-border hover table">
+                                            <!-- <table datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" class="row-border hover table"> -->
                                                 <thead>
 
                                                     <tr>
@@ -252,7 +252,7 @@
                                                             </td>
 
                                                             <td *ngIf="prod.totalTransaction" class="body-cols column-style">
-                                                                {{tP.totalTransaction}}
+                                                                {{prod.totalTransaction}}
                                                             </td>
                                                             <td *ngIf="!prod.totalTransaction" class="body-cols column-style">
                                                                 -

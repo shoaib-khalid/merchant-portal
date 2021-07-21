@@ -56,10 +56,7 @@ export class DailySalesComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.setTopProducts();
-    this.setDefaultDetailedSalesDates()
-
-
+    
     // test dt 
 
     // this.dtOptions = {
@@ -127,6 +124,9 @@ export class DailySalesComponent implements OnInit {
     // });
 
     // end test dt 
+
+    this.setTopProducts();
+    this.setDefaultDetailedSalesDates()
 
   }
   public initChartData(): void {
@@ -237,7 +237,7 @@ export class DailySalesComponent implements OnInit {
                 date: ''+date+'',
                 productName: "",
                 rank: "",
-                totalTransaction: ""
+                totalTransaction: "",
             }
 
             this.newTopCollection.push(custom_obj)
@@ -246,9 +246,9 @@ export class DailySalesComponent implements OnInit {
     });
 
     console.log('newTopCollection: ', this.newTopCollection)
+    console.log("topProducts: ", this.topProducts)
 
     this.dtTrigger3.next();
-    console.log("topProducts: ", this.topProducts)
   }
 
   /**
