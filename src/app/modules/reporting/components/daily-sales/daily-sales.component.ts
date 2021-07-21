@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
+import { Subject } from 'rxjs';
 import $ from 'jquery';
+// import 'rxjs/add/operator/map';
+
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -13,6 +16,7 @@ import {
   ApexTooltip
 } from "ng-apexcharts";
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+// import { HttpClient } from '@angular/common/http';  // dt test
 
 @Component({
   selector: 'app-daily-sales',
@@ -30,15 +34,100 @@ export class DailySalesComponent implements OnInit {
   public xaxis: ApexXAxis;
   public tooltip: ApexTooltip;
   topProducts: any = [];
+  newTopCollection = [];
+  
   data: any = [];
   dataAvailableToView: any = [true, true, true];
   summary_sales:any=[]
 
-  constructor(private apiCalls: ApiCallsService) { }
+//   test dt
+  titledt = 'datatables';
+  dtOptions: DataTables.Settings = {};
+  dtOptions2: DataTables.Settings = {};
+  dtOptions3: DataTables.Settings = {};
+  posts;
+  dtTrigger: Subject<any> = new Subject<any>();
+  dtTrigger2: Subject<any> = new Subject<any>();
+  dtTrigger3: Subject<any> = new Subject<any>();
+  // end dt test
+
+  constructor(
+      private apiCalls: ApiCallsService
+    ) { }
 
   ngOnInit(): void {
     this.setTopProducts();
     this.setDefaultDetailedSalesDates()
+
+
+    // test dt 
+
+    // this.dtOptions = {
+    //     pagingType: 'full_numbers',
+    //     searching: false,
+    //     pageLength: 10,
+    //     processing: true
+    //   };
+    this.dtOptions = {
+        pagingType: 'full_numbers',
+        pageLength: 7,
+        order: [[ 0, "desc" ]],
+        searching: false,
+        // info: false,
+        // paging: false,
+        lengthChange: false,
+        responsive: {
+            details: true
+        },
+        columnDefs: [ {
+            targets: 'no-sort',
+            orderable: false,
+        }]
+    };
+
+    this.dtOptions2 = {
+        pagingType: 'full_numbers',
+        pageLength: 7,
+        order: [[ 0, "desc" ]],
+        searching: false,
+        // info: false,
+        // paging: false,
+        lengthChange: false,
+        responsive: {
+            details: true
+        },
+        columnDefs: [ {
+            targets: 'no-sort',
+            orderable: false,
+        }]
+    };
+
+    this.dtOptions3 = {
+        pagingType: 'full_numbers',
+        pageLength: 7,
+        order: [[ 0, "desc" ]],
+        searching: false,
+        // info: false,
+        // paging: false,
+        lengthChange: false,
+        responsive: {
+            details: true
+        },
+        columnDefs: [ {
+            targets: 'no-sort',
+            orderable: false,
+        }]
+    };
+
+    // this.http.get('http://jsonplaceholder.typicode.com/posts')
+    // .subscribe(posts => {
+    //     // this.posts = this.data;
+    //     this.posts = this.data;
+    //     this.dtTrigger.next();
+    // });
+
+    // end test dt 
+
   }
   public initChartData(): void {
     var d = new Date();
@@ -116,13 +205,50 @@ export class DailySalesComponent implements OnInit {
 
   setTopProducts = async () => {
     var data: any = await this.apiCalls.getTopProducts();
-    console.log(data)
+    console.log("getTopProducts: ", data)
 
     data = data.data;
     this.topProducts = data;
     if (this.topProducts.length > 0) {
       this.dataAvailableToView[2] = false;
     }
+
+    // hard reset newTopCollection
+    this.newTopCollection = [];
+
+    // create new topProducts Collection 
+    this.topProducts.forEach( obj => {
+        const date = obj.date
+        const subObj = obj.topProduct
+
+        if(subObj.length > 0){
+            subObj.forEach(el => {
+                let custom_obj = {
+                    date: ''+date+'',
+                    productName: el.productName,
+                    rank: el.rank,
+                    totalTransaction: el.totalTransaction
+                }
+
+                this.newTopCollection.push(custom_obj)
+            });
+        }else{
+            let custom_obj = {
+                date: ''+date+'',
+                productName: "",
+                rank: "",
+                totalTransaction: ""
+            }
+
+            this.newTopCollection.push(custom_obj)
+        }
+
+    });
+
+    console.log('newTopCollection: ', this.newTopCollection)
+
+    this.dtTrigger3.next();
+    console.log("topProducts: ", this.topProducts)
   }
 
   /**
@@ -141,6 +267,10 @@ export class DailySalesComponent implements OnInit {
     const data: any = await this.apiCalls.fetchDetailedDailySales(fromDate,toDate);
 
     this.data = data.data;
+
+    this.posts = this.data;
+    this.dtTrigger.next();
+
     if (this.data.length > 0) {
       this.dataAvailableToView[0] = false;
       this.dataAvailableToView[1] = false;
@@ -148,7 +278,9 @@ export class DailySalesComponent implements OnInit {
     }
     const data1:any = await this.apiCalls.fetchDailySales();
     this.summary_sales=data1.data.content;
+    this.dtTrigger2.next();
     console.log(data)
+    console.log('summary_sales: ', this.summary_sales)
 
   }
 

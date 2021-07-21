@@ -54,6 +54,8 @@ export class AddProductComponent implements OnInit {
   category: any;
   images: any = [];
   productImages: any = [];
+  id: any;
+  namenew: any;
   myControl = new FormControl("Size");
   //vos purpose is to show suggestions for variant names
   vos: string[] = ['Size', 'Color', 'Material', 'Style', 'Title'];
@@ -289,12 +291,12 @@ export class AddProductComponent implements OnInit {
 
   async getCategoryId() {
     const name = $('#categories').val();
-    var id = $('#categories-data-list option[value="' + name + '"]').attr('id');
-    if (id) {
-      return id;
+    this.id = $('#categories-data-list option[value="' + name + '"]').attr('id');
+    if (this.id) {
+      return this.id;
     }
-    id = await this.createNewCategory(name)
-    return id;
+    this.id = await this.createNewCategory(name)
+    return this.id;
 
   }
 
@@ -409,11 +411,12 @@ export class AddProductComponent implements OnInit {
 
 
   verifyDetails() {
-    const name = $('#categories').val();
+    this.namenew = $('#categories').val();
 
     if (this.variantChecked) {
       return true;
-    } else if (this.price && this.quantity && name.trim()) {
+    } else if (this.price && this.quantity && this.namenew.trim()) {
+        // else if (this.price && this.quantity && name.trim()) {
       return true;
     } else {
       return false;

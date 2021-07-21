@@ -12,8 +12,13 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "es2018",
+      "es2019",
+      "es2020",
+      "es2017",
+      "es2016",
       "dom"
     ]
   }

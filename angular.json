@@ -43,7 +43,8 @@
               "src/assets/vendor/css/line-awesome.css",
               "src/assets/vendor/css/swiper.min.css",
               "src/assets/css/bootstrap-custom.css",
-              "src/assets/css/custom.css"
+              "src/assets/css/custom.css",
+              "node_modules/datatables.net-dt/css/jquery.dataTables.css"
             ],
             "scripts": [
               "src/assets/js/mxgraph.conf.js",
@@ -51,7 +52,8 @@
               "src/assets/js/json2xml.js",
               "src/assets/js/xml2json.js",
               "src/assets/js/fb-login.js",
-              "node_modules/jquery/dist/jquery.min.js"
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js"
             ]
           },
           "configurations": {

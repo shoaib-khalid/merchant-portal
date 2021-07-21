@@ -9,6 +9,8 @@
 
     <app-shared-header></app-shared-header>
 
+    
+
     <main role="main" style="margin-top:80px;">
         <div class="wrapper">
             <div class="container">
@@ -17,7 +19,7 @@
                     <div class="col-lg-9">
                         <div class="row">
                             <div class="col">
-                                <div class="card mb-5" style="min-height: 550px;">
+                                <div class="card mb-5" style="min-height: 550px; width: 1050px;">
                                     <div class="card-header border-bottom">
                                         <div class="d-flex align-items-center">
                                             <div>
@@ -36,19 +38,20 @@
                                         <div class="note" [hidden]="!dataAvailableToView[0]">No data for daily sales
                                             available to show graph.</div>
                                         <hr>
-                                        <div id="summary-sales">
-                                            <div style="font-weight: bold;text-align: center;">Summary Sales</div>
+                                        <div id="summary-sales" style="padding-top: 50px;">
+                                            <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">Summary Sales</div>
                                             <div [hidden]="!dataAvailableToView[1]" class="note">No data available for
                                                 daily sales to show.</div>
-                                            <table class="table" [hidden]="dataAvailableToView[1]">
+                                            <!-- <table [hidden]="dataAvailableToView[1]" datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" class="row-border hover table"> -->
+                                            <table datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" class="row-border hover table">
                                                 <thead>
 
                                                     <tr>
                                                         <th>Date</th>
-                                                        <th>Total orders</th>
-                                                        <th>Successful Orders</th>
-                                                        <th>Canceled Orders</th>
-                                                        <th>Amount earned</th>
+                                                        <th class="no-sort">Total orders</th>
+                                                        <th class="no-sort">Successful Orders</th>
+                                                        <th class="no-sort">Canceled Orders</th>
+                                                        <th class="no-sort">Amount earned</th>
                                                     </tr>
                                                 </thead>
 
@@ -66,14 +69,16 @@
                                                             <td>{{ss.amountEarned}}</td>
 
                                                         </tr>
+
                                                     </ng-container>
                                                 </tbody>
 
                                             </table>
+
                                         </div>
                                         
-                                        <div>
-                                            <div style="font-weight: bold;text-align: center;">Daily Detailed Sales
+                                        <div style="padding-top: 50px;">
+                                            <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">Daily Detailed Sales
                                             </div>
                                             <input type="date" placeholder="From - date" class="form-control filter"
                                                 style="width:160px; margin-right: 10px;display: inline-block;" name=""
@@ -82,9 +87,66 @@
                                                 style="width:160px; margin-right: 10px;display: inline-block;" name="" id="to-date-detailed">
                                                 <div class="search-btn" (click)="searchSummary()">Search</div>
                                         </div>
-                                        <div id="dailySales">
+                                        <div id="dailySales" style="padding-top: 5px;">
 
-                                            <div [hidden]="!dataAvailableToView[1]" class="note">No data available for
+                                            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th class="no-sort">Store Name</th>
+                                                        <th class="no-sort">Customer Name</th>
+
+                                                        <th class="no-sort">Sub-total</th>
+                                                        <th class="no-sort">Service Charge</th>
+                                                        <th class="no-sort">Delivery Charge</th>
+                                                        <th class="no-sort">Commission</th>
+                                                        <th class="no-sort">Total Amount</th>
+                                                        <th class="no-sort">Order Status</th>
+                                                        <th class="no-sort">Delivery Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <ng-container *ngFor="let datum of posts;">
+
+                                                        <tr *ngFor="let sale of datum.sales;">
+                                                        <!-- <tr *ngFor="let post of posts.sales"> -->
+                                                            <td style="min-width: 120px;">{{datum.date}}</td>
+                                                            <td>
+                                                                {{ sale.storeName}}
+                                                            </td>
+                                                            <td>
+                                                                {{ sale.customerName}}
+                                                            </td>
+                                                            <td>{{sale.subTotal}}</td>
+                                                            <td>
+                                                                {{sale.serviceCharge}}</td>
+                                                            <td>{{sale.deliveryCharge}}</td>
+
+                                                            <td>{{sale.commission}}</td>
+                                                            <td>{{sale.total}}</td>
+                                                            <td>{{sale.orderStatus}}</td>
+                                                            <td style="max-width: 50px;">{{sale.deliveryStatus}}</td>
+                                                        </tr>
+
+                                                        <tr *ngIf="datum.sales.length==0">
+                                                            <td>{{datum.date}}</td>
+                                                            <td>
+                                                                -
+                                                            </td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                        </tr>
+                                                    </ng-container>
+                                                </tbody>
+                                              </table>
+
+                                            <!-- <div [hidden]="!dataAvailableToView[1]" class="note">No data available for
                                                 daily sales to show.</div>
                                             <table class="table" [hidden]="dataAvailableToView[1]">
                                                 <thead>
@@ -102,6 +164,7 @@
                                                         <th>Order Status</th>
                                                         <th>Delivery Status</th>
                                                     </tr>
+                                                    
                                                 </thead>
 
 
@@ -144,39 +207,59 @@
                                                     </ng-container>
                                                 </tbody>
 
-                                            </table>
+                                            </table> -->
                                         </div>
-                                        <div id="dailyTopProducts">
-                                            <div style="font-weight: bold;text-align: center;">
+                                        <div id="dailyTopProducts" style="padding-top: 50px;">
+                                            <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">
                                                 Daily Top
                                                 Products</div>
                                             <div [hidden]="!dataAvailableToView[2]" class="note">No data available for
                                                 daily top products to show.</div>
-                                            <table class="table" [hidden]="dataAvailableToView[2]">
+                                            <!-- <table [hidden]="dataAvailableToView[2]" datatable [dtOptions]="dtOptions3" [dtTrigger]="dtTrigger3" class="row-border hover table"> -->
+                                            <table datatable [dtOptions]="dtOptions3" [dtTrigger]="dtTrigger3" class="row-border hover table">
                                                 <thead>
 
                                                     <tr>
                                                         <th class="column-style">Date</th>
-                                                        <th class="column-style">Product Name</th>
-                                                        <th class="column-style">Total Transaction</th>
+                                                        <th class="column-style no-sort">Product Name</th>
+                                                        <th class="column-style no-sort">Rank</th>
+                                                        <th class="column-style no-sort">Total Sold</th>
                                                     </tr>
                                                 </thead>
 
 
                                                 <tbody>
-                                                    <ng-container *ngFor="let prod of topProducts;">
-
-                                                        <tr *ngFor="let tP of prod.topProduct">
+                                                    <!-- <ng-container *ngFor="let prod of newTopCollection;"> -->
+                                                        <tr *ngFor="let prod of newTopCollection;">
                                                             <td class="body-cols column-style">{{prod.date}}</td>
-                                                            <td class="body-cols column-style"
+
+                                                            <td *ngIf="prod.productName" class="body-cols column-style"
                                                                 style="text-overflow: clip;max-width: 150px;">
-                                                                {{tP.productName}}
+                                                                {{prod.productName}}
                                                             </td>
-                                                            <td class="body-cols column-style">
-                                                                {{tP.totalTransaction}}</td>
+                                                            <td *ngIf="!prod.productName" class="body-cols column-style"
+                                                                style="text-overflow: clip;max-width: 150px;">
+                                                                -
+                                                            </td>
+
+                                                            <td *ngIf="prod.rank" class="body-cols column-style"
+                                                                style="text-overflow: clip;max-width: 150px;">
+                                                                {{prod.rank}}
+                                                            </td>
+                                                            <td *ngIf="!prod.rank" class="body-cols column-style"
+                                                                style="text-overflow: clip;max-width: 150px;">
+                                                                -
+                                                            </td>
+
+                                                            <td *ngIf="prod.totalTransaction" class="body-cols column-style">
+                                                                {{tP.totalTransaction}}
+                                                            </td>
+                                                            <td *ngIf="!prod.totalTransaction" class="body-cols column-style">
+                                                                -
+                                                            </td>
                                                         </tr>
 
-                                                        <tr *ngIf="prod.topProduct.length==0">
+                                                        <!-- <tr *ngIf="prod.topProduct.length==0">
                                                             <td class="body-cols column-style">{{prod.date}}</td>
 
                                                             <td class="body-cols column-style"
@@ -185,8 +268,8 @@
                                                             </td>
                                                             <td class="body-cols column-style">
                                                                 -</td>
-                                                        </tr>
-                                                    </ng-container>
+                                                        </tr> -->
+                                                    <!-- </ng-container> -->
                                                 </tbody>
 
                                             </table>

@@ -30,6 +30,7 @@ export class EditProductComponent implements OnInit {
   thumbnailUrl: any = null;
   deletedVariants: any = [];
   imagesToBeDeleted: any = [];
+  id: any;
   public Editor = ClassicEditor;
 
 
@@ -433,12 +434,12 @@ export class EditProductComponent implements OnInit {
 
   async getCategoryId() {
     const name = $('#categories').val();
-    var id = $('#categories-data-list option[value="' + name + '"]').attr('id');
-    if (id) {
-      return id;
+    this.id = $('#categories-data-list option[value="' + name + '"]').attr('id');
+    if (this.id) {
+      return this.id;
     }
-    id = await this.createNewCategory(name)
-    return id;
+    this.id = await this.createNewCategory(name)
+    return this.id;
   }
 
   createNewCategory(name) {

@@ -23,10 +23,12 @@ export class SharedSidePanelComponent implements OnInit {
   }
 
   openSubMenu() {
-    $('.submenu').toggle('visible');
+    // $('.submenu').toggle('visible');
+    $('.submenu').toggle('slow');
   }
   openSubMenu2() {
-    $('.submenu2').toggle('visible');
+    // $('.submenu2').toggle('visible');
+    $('.submenu2').toggle('slow');
   }
 
   hideStoreIfInProdJson() {
