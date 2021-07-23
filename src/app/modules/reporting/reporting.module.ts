@@ -6,7 +6,8 @@ import {HomeModule} from 'src/app/modules/home/home.module';
 import { MonthlySalesComponent } from './components/monthly-sales/monthly-sales.component';
 import { SettlementComponent } from './components/settlement/settlement.component';
 // import { BrowserModule } from "@angular/platform-browser";
-import { DataTablesModule } from "angular-datatables";
+// import { DataTablesModule } from "angular-datatables";
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [DailySalesComponent, MonthlySalesComponent, SettlementComponent],
@@ -15,7 +16,8 @@ import { DataTablesModule } from "angular-datatables";
     NgApexchartsModule,
     HomeModule,
     // BrowserModule,
-    DataTablesModule
+    // DataTablesModule,
+    NgxDatatableModule
   ],
   bootstrap: [DailySalesComponent],
 })

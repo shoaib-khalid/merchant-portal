@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
-import { Subject } from 'rxjs';
 import $ from 'jquery';
-// import 'rxjs/add/operator/map';
+
 
 import {
   ApexAxisChartSeries,
@@ -16,7 +15,9 @@ import {
   ApexTooltip
 } from "ng-apexcharts";
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-// import { HttpClient } from '@angular/common/http';  // dt test
+
+import { ColumnMode } from 'projects/swimlane/ngx-datatable/src/public-api';
+
 
 @Component({
   selector: 'app-daily-sales',
@@ -24,6 +25,8 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./daily-sales.component.css']
 })
 export class DailySalesComponent implements OnInit {
+
+
   public series: ApexAxisChartSeries;
   public chart: ApexChart;
   public dataLabels: ApexDataLabels;
@@ -33,102 +36,31 @@ export class DailySalesComponent implements OnInit {
   public yaxis: ApexYAxis;
   public xaxis: ApexXAxis;
   public tooltip: ApexTooltip;
+
   topProducts: any = [];
   newTopCollection = [];
+  detailsCollection = [];
   
   data: any = [];
   dataAvailableToView: any = [true, true, true];
   summary_sales:any=[]
 
-//   test dt
-  titledt = 'datatables';
-  dtOptions: DataTables.Settings = {};
-  dtOptions2: DataTables.Settings = {};
-  dtOptions3: DataTables.Settings = {};
-  posts;
-  dtTrigger: Subject<any> = new Subject<any>();
-  dtTrigger2: Subject<any> = new Subject<any>();
-  dtTrigger3: Subject<any> = new Subject<any>();
-  // end dt test
+    rows = [];
+    rows2 = [];
+    rows3 = [];
+    ColumnMode = ColumnMode;
 
   constructor(
       private apiCalls: ApiCallsService
-    ) { }
+    ) {}
 
   ngOnInit(): void {
-    
-    // test dt 
-
-    // this.dtOptions = {
-    //     pagingType: 'full_numbers',
-    //     searching: false,
-    //     pageLength: 10,
-    //     processing: true
-    //   };
-    this.dtOptions = {
-        pagingType: 'full_numbers',
-        pageLength: 7,
-        order: [[ 0, "desc" ]],
-        searching: false,
-        // info: false,
-        // paging: false,
-        lengthChange: false,
-        responsive: {
-            details: true
-        },
-        columnDefs: [ {
-            targets: 'no-sort',
-            orderable: false,
-        }]
-    };
-
-    this.dtOptions2 = {
-        pagingType: 'full_numbers',
-        pageLength: 7,
-        order: [[ 0, "desc" ]],
-        searching: false,
-        // info: false,
-        // paging: false,
-        lengthChange: false,
-        responsive: {
-            details: true
-        },
-        columnDefs: [ {
-            targets: 'no-sort',
-            orderable: false,
-        }]
-    };
-
-    this.dtOptions3 = {
-        pagingType: 'full_numbers',
-        pageLength: 7,
-        order: [[ 0, "desc" ]],
-        searching: false,
-        // info: false,
-        // paging: false,
-        lengthChange: false,
-        responsive: {
-            details: true
-        },
-        columnDefs: [ {
-            targets: 'no-sort',
-            orderable: false,
-        }]
-    };
-
-    // this.http.get('http://jsonplaceholder.typicode.com/posts')
-    // .subscribe(posts => {
-    //     // this.posts = this.data;
-    //     this.posts = this.data;
-    //     this.dtTrigger.next();
-    // });
-
-    // end test dt 
 
     this.setTopProducts();
     this.setDefaultDetailedSalesDates()
 
   }
+
   public initChartData(): void {
     var d = new Date();
     d.setDate(d.getDate() - 7);
@@ -235,9 +167,9 @@ export class DailySalesComponent implements OnInit {
         }else{
             let custom_obj = {
                 date: ''+date+'',
-                productName: "",
-                rank: "",
-                totalTransaction: "",
+                productName: "N/A",
+                rank: "N/A",
+                totalTransaction: "N/A",
             }
 
             this.newTopCollection.push(custom_obj)
@@ -248,7 +180,8 @@ export class DailySalesComponent implements OnInit {
     console.log('newTopCollection: ', this.newTopCollection)
     console.log("topProducts: ", this.topProducts)
 
-    this.dtTrigger3.next();
+    this.rows3 = this.newTopCollection
+
   }
 
   /**
@@ -268,17 +201,63 @@ export class DailySalesComponent implements OnInit {
 
     this.data = data.data;
 
-    this.posts = this.data;
-    this.dtTrigger.next();
+    console.log('detailsCollection: ', this.data)
+    // hard reset newTopCollection
+    this.detailsCollection = [];
+
+    // create new topProducts Collection 
+    this.data.forEach( obj => {
+        const date = obj.date
+        const subObj = obj.sales
+
+        if(subObj.length > 0){
+            subObj.forEach(el => {
+                let custom_obj = {
+                    date: ''+date+'',
+                    storeName: el.storeName,
+                    customerName: el.customerName,
+                    subTotal: el.subTotal,
+                    serviceCharge: el.serviceCharge,
+                    deliveryCharge: el.deliveryCharge,
+                    commission: el.commission,
+                    total: el.total,
+                    orderStatus: el.orderStatus,
+                    deliveryStatus: el.deliveryStatus,
+                }
+
+                this.detailsCollection.push(custom_obj)
+            });
+        }else{
+            let custom_obj = {
+                date: ''+date+'',
+                storeName: "N/A",
+                customerName: "N/A",
+                subTotal: "N/A",
+                serviceCharge: "N/A",
+                deliveryCharge: "N/A",
+                commission: "N/A",
+                total: "N/A",
+                orderStatus: "N/A",
+                deliveryStatus: "N/A"
+            }
+
+            this.detailsCollection.push(custom_obj)
+        }
+
+    });
+
+    console.log('detailsCollection[] : ', this.detailsCollection)
+
+    this.rows = this.detailsCollection;
 
     if (this.data.length > 0) {
       this.dataAvailableToView[0] = false;
       this.dataAvailableToView[1] = false;
-
     }
     const data1:any = await this.apiCalls.fetchDailySales();
     this.summary_sales=data1.data.content;
-    this.dtTrigger2.next();
+
+    this.rows2 = this.summary_sales
     console.log(data)
     console.log('summary_sales: ', this.summary_sales)
 
@@ -292,11 +271,13 @@ export class DailySalesComponent implements OnInit {
     const fromDate:any = document.getElementById('from-date-detailed');
     const toDate:any = document.getElementById('to-date-detailed');
     fromDate.value = startDate;
-    toDate.value = endDate
+    toDate.value = endDate;
+    // const endDate = "2021-07-22";
+    // const startDate = "2021-07-01";
     this.getDetailedDailySales(startDate,endDate)
   }
 
-  async searchSummary(){
+  async searchDailyDetails(){
     const fromDate:any = $('#from-date-detailed').val();
     const toDate:any = $('#to-date-detailed').val();
     console.log(fromDate)
@@ -307,6 +288,118 @@ export class DailySalesComponent implements OnInit {
       this.dataAvailableToView[0] = false;
       this.dataAvailableToView[1] = false;
     }
+
+    // hard reset newTopCollection
+    this.detailsCollection = [];
+
+    // create new topProducts Collection 
+    this.data.forEach( obj => {
+        const date = obj.date
+        const subObj = obj.sales
+
+        if(subObj.length > 0){
+            subObj.forEach(el => {
+                let custom_obj = {
+                    date: ''+date+'',
+                    storeName: el.storeName,
+                    customerName: el.customerName,
+                    subTotal: el.subTotal,
+                    serviceCharge: el.serviceCharge,
+                    deliveryCharge: el.deliveryCharge,
+                    commission: el.commission,
+                    total: el.total,
+                    orderStatus: el.orderStatus,
+                    deliveryStatus: el.deliveryStatus,
+                }
+
+                this.detailsCollection.push(custom_obj)
+            });
+        }else{
+            let custom_obj = {
+                date: ''+date+'',
+                storeName: "N/A",
+                customerName: "N/A",
+                subTotal: "N/A",
+                serviceCharge: "N/A",
+                deliveryCharge: "N/A",
+                commission: "N/A",
+                total: "N/A",
+                orderStatus: "N/A",
+                deliveryStatus: "N/A"
+            }
+
+            this.detailsCollection.push(custom_obj)
+        }
+
+    });
+
+    console.log('detailsCollection[] : ', this.detailsCollection)
+
+    this.rows = this.detailsCollection;
+
+
+  }
+
+
+
+  async searchSummary(){
+    const fromDate:any = $('#from-date-detailed2').val();
+    const toDate:any = $('#to-date-detailed2').val();
+    console.log(fromDate)
+    console.log(toDate)
+    const data: any = await this.apiCalls.fetchDetailedDailySalesByDates(fromDate,toDate);
+
+    this.summary_sales=data.data.content;
+    this.rows2 = this.summary_sales
+
+  }
+
+
+  async searchTopProduct(){
+
+    const fromDate:any = $('#from-date-detailed3').val();
+    const toDate:any = $('#to-date-detailed3').val();
+    console.log(fromDate)
+    console.log(toDate)
+    const data: any = await this.apiCalls.getTopProductsByDates(fromDate,toDate);
+
+    console.log('data: ', data.data)
+    this.topProducts = data.data;
+
+    // hard reset newTopCollection
+    this.newTopCollection = [];
+
+    // create new topProducts Collection 
+    this.topProducts.forEach( obj => {
+        const date = obj.date
+        const subObj = obj.topProduct
+
+        if(subObj.length > 0){
+            subObj.forEach(el => {
+                let custom_obj = {
+                    date: ''+date+'',
+                    productName: el.productName,
+                    rank: el.rank,
+                    totalTransaction: el.totalTransaction
+                }
+
+                this.newTopCollection.push(custom_obj)
+            });
+        }else{
+            let custom_obj = {
+                date: ''+date+'',
+                productName: "N/A",
+                rank: "N/A",
+                totalTransaction: "N/A"
+            }
+
+            this.newTopCollection.push(custom_obj)
+        }
+
+    });
+
+    this.rows3 = this.newTopCollection
+
   }
 
 }

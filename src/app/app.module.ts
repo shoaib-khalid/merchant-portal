@@ -18,7 +18,7 @@ import { OrderManagementModule } from './modules/order-management/order-manageme
 import { ReportingModule } from './modules/reporting/reporting.module';
 import { AgentManagementModule } from './modules/agent-management/agent-management.module';
 import { BrowserModule } from "@angular/platform-browser";
-import { DataTablesModule } from "angular-datatables";
+// import { DataTablesModule } from "angular-datatables";
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -39,8 +39,8 @@ export function initializeApp(appConfig: AppConfig) {
     OrderManagementModule,
     ReportingModule,
     AgentManagementModule,
-    BrowserModule,
-    DataTablesModule.forRoot()
+    BrowserModule
+    // DataTablesModule.forRoot()
   ], entryComponents: [FlowDialog],
   providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' }, },
     { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }, AppConfig, {

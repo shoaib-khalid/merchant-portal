@@ -779,8 +779,14 @@ export class ApiCallsService {
   fetchDailySales() {
     var d = new Date();
     const endDate = d.toISOString().slice(0, 10)
+    // const endDate = "2021-07-22"
     d.setDate(d.getDate() - 6);
     const startDate = d.toISOString().slice(0, 10);
+    // const startDate = "2021-07-01"
+    return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/daily_sales?from=${startDate}&to=${endDate}`).toPromise()
+  }
+
+  fetchDetailedDailySalesByDates(startDate,endDate) {
     return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/daily_sales?from=${startDate}&to=${endDate}`).toPromise()
   }
 
@@ -797,6 +803,10 @@ export class ApiCallsService {
     const endDate = d.toISOString().slice(0, 10)
     d.setDate(d.getDate() - 6);
     const startDate = d.toISOString().slice(0, 10);
+    return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/report/dailyTopProducts?startDate=${startDate}&endDate=${endDate}`).toPromise()
+  }
+
+  getTopProductsByDates(startDate,endDate) {
     return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/report/dailyTopProducts?startDate=${startDate}&endDate=${endDate}`).toPromise()
   }
 

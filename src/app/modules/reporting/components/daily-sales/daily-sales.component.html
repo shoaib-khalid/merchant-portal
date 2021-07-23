@@ -38,42 +38,38 @@
                                         <div class="note" [hidden]="!dataAvailableToView[0]">No data for daily sales
                                             available to show graph.</div>
                                         <hr>
+
                                         <div id="summary-sales" style="padding-top: 50px;">
-                                            <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">Summary Sales</div>
+                                            <!-- <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">Summary Sales</div>
                                             <div [hidden]="!dataAvailableToView[1]" class="note">No data available for
-                                                daily sales to show.</div>
-                                            <table [hidden]="dataAvailableToView[1]" datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" class="row-border hover table">
-                                            <!-- <table datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" class="row-border hover table"> -->
-                                                <thead>
+                                                daily sales to show.</div> -->
 
-                                                    <tr>
-                                                        <th>Date</th>
-                                                        <th class="no-sort">Total orders</th>
-                                                        <th class="no-sort">Successful Orders</th>
-                                                        <th class="no-sort">Canceled Orders</th>
-                                                        <th class="no-sort">Amount earned</th>
-                                                    </tr>
-                                                </thead>
+                                            <div style="padding-top: 50px; padding-bottom: 15px;">
+                                                <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">Summary Sales
+                                                </div>
+                                                <input type="date" placeholder="From - date" class="form-control filter"
+                                                    style="width:160px; margin-right: 10px;display: inline-block;" name=""
+                                                    id="from-date-detailed2">
+                                                <input type="date" placeholder="From - date" class="form-control filter"
+                                                    style="width:160px; margin-right: 10px;display: inline-block;" name="" id="to-date-detailed2">
+                                                    <div class="search-btn" (click)="searchSummary()">Search</div>
+                                            </div>
 
-
-                                                <tbody>
-                                                    <ng-container *ngFor="let ss of summary_sales;">
-
-                                                        <tr>
-                                                            <td>{{ss.date}}</td>
-                                                            <td>
-                                                                {{ss.totalOrders}}
-                                                            </td>
-                                                            <td>{{ss.successFullOrders}}</td>
-                                                            <td>{{ss.cancelledOrders}}</td>
-                                                            <td>{{ss.amountEarned}}</td>
-
-                                                        </tr>
-
-                                                    </ng-container>
-                                                </tbody>
-
-                                            </table>
+                                            <ngx-datatable
+                                                class="material"
+                                                [rows]="rows2"
+                                                [columns]="[
+                                                { name: 'Date' }, 
+                                                { name: 'Total orders' }, 
+                                                { name: 'Amount earned' }
+                                                ]"
+                                                [columnMode]="ColumnMode.force"
+                                                [headerHeight]="50"
+                                                [footerHeight]="50"
+                                                rowHeight="auto"
+                                                [limit]="5"
+                                              >
+                                            </ngx-datatable>
 
                                         </div>
                                         
@@ -85,194 +81,69 @@
                                                 id="from-date-detailed">
                                             <input type="date" placeholder="From - date" class="form-control filter"
                                                 style="width:160px; margin-right: 10px;display: inline-block;" name="" id="to-date-detailed">
-                                                <div class="search-btn" (click)="searchSummary()">Search</div>
+                                                <div class="search-btn" (click)="searchDailyDetails()">Search</div>
                                         </div>
                                         <div id="dailySales" style="padding-top: 5px;">
 
-                                            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Date</th>
-                                                        <th class="no-sort">Store Name</th>
-                                                        <th class="no-sort">Customer Name</th>
-
-                                                        <th class="no-sort">Sub-total</th>
-                                                        <th class="no-sort">Service Charge</th>
-                                                        <th class="no-sort">Delivery Charge</th>
-                                                        <th class="no-sort">Commission</th>
-                                                        <th class="no-sort">Total Amount</th>
-                                                        <th class="no-sort">Order Status</th>
-                                                        <th class="no-sort">Delivery Status</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <ng-container *ngFor="let datum of posts;">
-
-                                                        <tr *ngFor="let sale of datum.sales;">
-                                                        <!-- <tr *ngFor="let post of posts.sales"> -->
-                                                            <td style="min-width: 120px;">{{datum.date}}</td>
-                                                            <td>
-                                                                {{ sale.storeName}}
-                                                            </td>
-                                                            <td>
-                                                                {{ sale.customerName}}
-                                                            </td>
-                                                            <td>{{sale.subTotal}}</td>
-                                                            <td>
-                                                                {{sale.serviceCharge}}</td>
-                                                            <td>{{sale.deliveryCharge}}</td>
-
-                                                            <td>{{sale.commission}}</td>
-                                                            <td>{{sale.total}}</td>
-                                                            <td>{{sale.orderStatus}}</td>
-                                                            <td style="max-width: 50px;">{{sale.deliveryStatus}}</td>
-                                                        </tr>
-
-                                                        <tr *ngIf="datum.sales.length==0">
-                                                            <td>{{datum.date}}</td>
-                                                            <td>
-                                                                -
-                                                            </td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                        </tr>
-                                                    </ng-container>
-                                                </tbody>
-                                              </table>
-
-                                            <!-- <div [hidden]="!dataAvailableToView[1]" class="note">No data available for
-                                                daily sales to show.</div>
-                                            <table class="table" [hidden]="dataAvailableToView[1]">
-                                                <thead>
-
-                                                    <tr>
-                                                        <th>Date</th>
-                                                        <th>Store Name</th>
-                                                        <th>Customer Name</th>
-
-                                                        <th>Sub-total</th>
-                                                        <th>Service Charge</th>
-                                                        <th>Delivery Charge</th>
-                                                        <th>Commission</th>
-                                                        <th>Total Amount</th>
-                                                        <th>Order Status</th>
-                                                        <th>Delivery Status</th>
-                                                    </tr>
-                                                    
-                                                </thead>
-
-
-                                                <tbody>
-                                                    <ng-container *ngFor="let datum of data;">
-
-                                                        <tr *ngFor="let sale of datum.sales;">
-                                                            <td style="min-width: 120px;">{{datum.date}}</td>
-                                                            <td>
-                                                                {{ sale.storeName}}
-                                                            </td>
-                                                            <td>
-                                                                {{ sale.customerName}}
-                                                            </td>
-                                                            <td>{{sale.subTotal}}</td>
-                                                            <td>
-                                                                {{sale.serviceCharge}}</td>
-                                                            <td>{{sale.deliveryCharge}}</td>
-
-                                                            <td>{{sale.commission}}</td>
-                                                            <td>{{sale.total}}</td>
-                                                            <td>{{sale.orderStatus}}</td>
-                                                            <td style="max-width: 130px;">{{sale.deliveryStatus}}</td>
-                                                        </tr>
-
-                                                        <tr *ngIf="datum.sales.length==0">
-                                                            <td>{{datum.date}}</td>
-                                                            <td>
-                                                                -
-                                                            </td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                            <td>-</td>
-                                                        </tr>
-                                                    </ng-container>
-                                                </tbody>
-
-                                            </table> -->
+                                            <ngx-datatable
+                                                class="material"
+                                                [rows]="rows"
+                                                [columns]="[
+                                                { name: 'Date' }, 
+                                                { name: 'Store Name' }, 
+                                                { name: 'Customer Name' }, 
+                                                { name: 'Sub-total' }, 
+                                                { name: 'Service Charge' }, 
+                                                { name: 'Delivery Charge' }, 
+                                                { name: 'Commission' },
+                                                { name: 'Total' },
+                                                { name: 'Order Status' },
+                                                { name: 'Delivery Status' }
+                                                ]"
+                                                [columnMode]="ColumnMode.force"
+                                                [headerHeight]="50"
+                                                [footerHeight]="50"
+                                                rowHeight="auto"
+                                                [limit]="5"
+                                              >
+                                            </ngx-datatable>
+                                           
                                         </div>
                                         <div id="dailyTopProducts" style="padding-top: 50px;">
-                                            <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">
+                                            <!-- <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">
                                                 Daily Top
                                                 Products</div>
                                             <div [hidden]="!dataAvailableToView[2]" class="note">No data available for
-                                                daily top products to show.</div>
+                                                daily top products to show.</div> -->
                                             <!-- <table [hidden]="dataAvailableToView[2]" datatable [dtOptions]="dtOptions3" [dtTrigger]="dtTrigger3" class="row-border hover table"> -->
-                                            <table datatable [dtOptions]="dtOptions3" [dtTrigger]="dtTrigger3" class="row-border hover table">
-                                                <thead>
+                                            <div style="padding-top: 50px; padding-bottom: 15px;">
+                                                <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">Daily Top Products
+                                                </div>
+                                                <input type="date" placeholder="From - date" class="form-control filter"
+                                                    style="width:160px; margin-right: 10px;display: inline-block;" name=""
+                                                    id="from-date-detailed3">
+                                                <input type="date" placeholder="From - date" class="form-control filter"
+                                                    style="width:160px; margin-right: 10px;display: inline-block;" name="" id="to-date-detailed3">
+                                                    <div class="search-btn" (click)="searchTopProduct()">Search</div>
+                                            </div>
 
-                                                    <tr>
-                                                        <th class="column-style">Date</th>
-                                                        <th class="column-style no-sort">Product Name</th>
-                                                        <th class="column-style no-sort">Rank</th>
-                                                        <th class="column-style no-sort">Total Sold</th>
-                                                    </tr>
-                                                </thead>
-
-
-                                                <tbody>
-                                                    <!-- <ng-container *ngFor="let prod of newTopCollection;"> -->
-                                                        <tr *ngFor="let prod of newTopCollection;">
-                                                            <td class="body-cols column-style">{{prod.date}}</td>
-
-                                                            <td *ngIf="prod.productName" class="body-cols column-style"
-                                                                style="text-overflow: clip;max-width: 150px;">
-                                                                {{prod.productName}}
-                                                            </td>
-                                                            <td *ngIf="!prod.productName" class="body-cols column-style"
-                                                                style="text-overflow: clip;max-width: 150px;">
-                                                                -
-                                                            </td>
-
-                                                            <td *ngIf="prod.rank" class="body-cols column-style"
-                                                                style="text-overflow: clip;max-width: 150px;">
-                                                                {{prod.rank}}
-                                                            </td>
-                                                            <td *ngIf="!prod.rank" class="body-cols column-style"
-                                                                style="text-overflow: clip;max-width: 150px;">
-                                                                -
-                                                            </td>
-
-                                                            <td *ngIf="prod.totalTransaction" class="body-cols column-style">
-                                                                {{prod.totalTransaction}}
-                                                            </td>
-                                                            <td *ngIf="!prod.totalTransaction" class="body-cols column-style">
-                                                                -
-                                                            </td>
-                                                        </tr>
-
-                                                        <!-- <tr *ngIf="prod.topProduct.length==0">
-                                                            <td class="body-cols column-style">{{prod.date}}</td>
-
-                                                            <td class="body-cols column-style"
-                                                                style="text-overflow: clip;max-width: 150px;">
-                                                                -
-                                                            </td>
-                                                            <td class="body-cols column-style">
-                                                                -</td>
-                                                        </tr> -->
-                                                    <!-- </ng-container> -->
-                                                </tbody>
-
-                                            </table>
+                                            <ngx-datatable
+                                                class="material"
+                                                [rows]="rows3"
+                                                [columns]="[
+                                                { name: 'Date' }, 
+                                                { name: 'Product Name' }, 
+                                                { name: 'Rank' },
+                                                { name: 'Total Transaction' }
+                                                ]"
+                                                [columnMode]="ColumnMode.force"
+                                                [headerHeight]="50"
+                                                [footerHeight]="50"
+                                                rowHeight="auto"
+                                                [limit]="5"
+                                              >
+                                            </ngx-datatable>
+                                            
                                         </div>
 
                                         <!-- <div style="margin-top: 80px;text-align: center;"> -->
