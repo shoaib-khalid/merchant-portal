@@ -4,51 +4,16 @@
 <head>
 </head>
 
-<body>
-    <app-shared-header></app-shared-header>
-    <main role="main">
-        <div class="wrapper">
+<body style="margin-top: 80px;">
+    <app-shared-header ></app-shared-header>
+    <app-shared-side-panel id="ssp"></app-shared-side-panel>
 
-            <div class="breadcrumb-wrap">
-                <div class="container py-3">
-                    <div class="row d-flex justify-content-md-between justify-content-sm-center">
-                        <div class="col-md-4">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item mr-1 font-weight-bold"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item ml-1 font-weight-bold active" aria-current="page">
-                                        Library
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
-                        <div class="header-actions">
-                            <button class="btn btn-ghost grey-dark font-weight-bold">
-                                <i class="las la-share-alt"></i>
-                                <span>Share</span>
-                            </button>
-                            <button class="btn btn-ghost grey-dark like-button font-weight-bold">
-                                <i class="las la-hand-holding-heart"></i>
-                                <span>150 Likes</span>
-                            </button>
-                            <button class="btn btn-ghost grey-dark font-weight-bold">
-                                <i class="las la-bookmark"></i>
-                                <span><span>Save for Later</span></span>
-                            </button>
-
-                            <!---->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="container">
+        <div>
+            <div class="form-container">
                 <div class="row">
-                    <app-shared-side-panel></app-shared-side-panel>
-                    <div class="col-lg-9">
+                    <div class="col-lg-11">
                         <div class="row">
-                            <div class="col">
+                            <div class="col" style="margin-bottom: 100px;">
                                 <!-- my items table -->
                                 <div class="card product_item_list mb-4">
                                     <div class="card-header py-3 border-bottom">
@@ -60,7 +25,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body pt-4">
-                                        <div class="table-responsive">
+                                        <div >
                                             <div style="display: flex;">
                                                 <div>
                                                     <input type="text" placeholder="Filter Products"
@@ -191,7 +156,6 @@
             </div>
 
         </div>
-    </main>
     <footer class="section-footer bg-dark position-relative">
         <section class="footer py-5">
             <div class="container">

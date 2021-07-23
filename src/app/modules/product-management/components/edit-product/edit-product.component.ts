@@ -56,7 +56,7 @@ export class EditProductComponent implements OnInit {
     const data: any = await this.apiCalls.getStoreProductById(id);
     this.product = data.data;
     this.setAllVariables()
-    this.findInventory();
+    // this.findInventory();
   }
 
   setAllVariables() {
@@ -672,9 +672,6 @@ export class EditProductComponent implements OnInit {
       }
     }
     if(flag){
-      console.log("----------------------")
-      console.log(inventory);
-      console.log("----------------------")
       break;
     }
   }

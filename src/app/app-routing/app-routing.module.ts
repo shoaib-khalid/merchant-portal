@@ -30,6 +30,8 @@ import { EditAgentComponent } from 'src/app/modules/agent-management/components/
 import { DailySalesComponent } from 'src/app/modules/reporting/components/daily-sales/daily-sales.component';
 import { SettlementComponent } from 'src/app/modules/reporting/components/settlement/settlement.component';
 import { EmailVerifiedComponent } from '../modules/home/components/email-verified/email-verified.component';
+import { ProfileComponent } from '../modules/user-onboarding/components/profile/profile.component';
+
 const routes: Routes = [
 
   {
@@ -63,6 +65,12 @@ const routes: Routes = [
   {
     path: "products/add",
     component: AddProductComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: "profile",
+    component: ProfileComponent,
     canActivate: [AuthGuardService],
     children: []
   },

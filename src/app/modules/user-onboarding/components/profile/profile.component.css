@@ -1,0 +1,98 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+body {
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+
+.l-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 30px;
+  
+  @media screen and (max-width: 760px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+}
+
+#container{
+  border-radius: 10px;
+  background-color: white;
+  height: 100%;
+}
+
+body{
+  background-color: rgb(243, 243, 243);
+}
+
+.assets{
+  margin-top: 5px;
+  margin-bottom:15px;
+  text-align: center;
+}
+
+#warning-address{
+  color:red;
+  font-size: 13px;
+}
+
+#warning-postcode{
+  color:red;
+  font-size: 13px;
+}
+
+#store-timmings-text{
+  cursor: pointer;
+  background-color: rgb(48, 180, 152);
+  padding: 5px;
+  background-size: 100px;
+  border-radius: 12px;
+  color: white;
+  margin: auto auto 20px auto;
+  width: 45%;
+}
+
+#store-timmings-text:hover{
+color:black
+}
+#bike{
+  display: inline-block;
+  width: 200px;
+  margin-left: 5px;
+  margin-top: 10px;
+}
+
+#car{
+  display: inline-block;
+  width: 200px;
+  margin-left: 25px;
+}
+#phone-pattern{
+  color:red;
+  font-size: 15px;
+}
+
+#form-container{
+  width: 75%;
+  margin-left: 22%;
+  margin-top: 80px;
+}
+
+#ssp{
+  float: left;
+  margin-left: 7.25%;
+}
+#update-btn{
+    color:white;height: 40px;padding: 10px;width: 150px;display: inline; margin-right: 10px;
+}

@@ -201,7 +201,8 @@ export class ApiCallsService {
           } else if (data.data.content.length == 1) {
             localStorage.setItem("storeId", data.data.content[0].id)
             localStorage.setItem("store", data.data.content[0].name)
-            localStorage.setItem("store-domain", data.data.content[0].domain)
+            localStorage.setItem('store-domain',data.data.content[0].domain)
+            localStorage.setItem('phoneNumber',data.data.content[0].phoneNumber)
             this.router.navigateByUrl('/products')
           } else {
             this.router.navigateByUrl('/store-management')
@@ -252,9 +253,12 @@ export class ApiCallsService {
 
       this.http.post<any>(this.productService + "/stores", body).
         subscribe(data => {
-          resolve("")
+
           localStorage.setItem("storeId", data.data.id)
           localStorage.setItem("store", data.data.name)
+          localStorage.setItem("store-domain", data.data.domain)
+          localStorage.setItem("phoneNumber", data.data.phoneNumber)
+          resolve("")
           this.router.navigateByUrl('/products');
         });
     });

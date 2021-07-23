@@ -139,7 +139,7 @@ export class EditStoreComponent implements OnInit {
 
   async updateAssets() {
     const formData = new FormData();
-    if (this.banner.file && this.logo.file) {
+    if (this.banner.file || this.logo.file) {
       formData.append("banner", this.banner.file);
       formData.append("logo", this.logo.file);
       return this.apiCalls.uploadStoreAssets(formData, this.store.id)

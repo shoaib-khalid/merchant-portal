@@ -74,11 +74,21 @@ export class SideNav {
     }
   }
 
+  
+  digitFromString(str) {
+		const digit = parseInt(str.match(/(\d+)/));
+		return String(digit);
+	}
   handleClick(event) {
     if (this.helperService.vertexClicked() === "TEXT_MESSAGE" || this.helperService.vertexClicked() === "MENU_MESSAGE") {
       if (event.target.id.includes("header") || event.target.id.includes("card")) {
         var id = event.target.id;
-        var text = (<HTMLInputElement>document.getElementById("header" + id.match(/\d/g)[0])).innerHTML;
+        console.log(id)
+        id  = this.digitFromString(id);
+        console.log(id)
+        var text:any = document.getElementById(`header${id}`);
+        text = text.innerHTML;
+        console.log(`header${id}`);
         (<HTMLInputElement>document.getElementById("vertex-title")).value = text;
         this.toggle();
       } else if (event.target.localName === "svg") {

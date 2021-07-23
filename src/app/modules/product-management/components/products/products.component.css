@@ -163,3 +163,18 @@ flex-container{
     color: white;
     padding: 10px;
 }
+#ssp{
+  float: left;
+  margin-left: 9%;
+}
+
+
+#form-container{
+  width: 100%;
+  margin-left: 22%;
+  margin-top: 200px;
+}
+
+#sh{
+  margin-top: 100px;
+}

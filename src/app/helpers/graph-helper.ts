@@ -149,7 +149,7 @@ export class Helper {
 							className.includes("card-body") || className.includes("card-header"))
 							&& !(document.getElementById("flow" + targetId).style.borderColor === ("rgb(116, 252, 161)"))) {
 
-							document.getElementById("flow" + evt.target.id.match(/\d/g)[0]).style.borderColor = "blue";
+							document.getElementById("flow" + this.digitFromString(evt.target.id)).style.borderColor = "blue";
 						} else {
 							this.setColorToTransparent();
 						}
@@ -452,7 +452,9 @@ export class Helper {
 		var cached = true;
 		graph.convertValueToString = (cell) => {
 			const objJson = JsonCodec.getIndividualJson(cell);
-			this.cardId = graph.getChildVertices(graph.getDefaultParent()).length - 1;
+			if(this.cardId<1){
+			this.cardId = this.findLatestId(graph.getChildVertices(graph.getDefaultParent()));
+			}
 
 			if (cached && cell.div != null) {
 				// Uses cached label
@@ -587,7 +589,7 @@ export class Helper {
 		var yAxis = 0;
 
 		yAxis = 120;
-		
+
 		var childHegiht = 55;
 		yAxis = yAxis + (childLength * childHegiht);
 		var current = cell.getGeometry();
@@ -609,14 +611,13 @@ export class Helper {
 	}
 
 
-	deleteTriggerUsingSidePanel(length){
+	deleteTriggerUsingSidePanel(length) {
 		var cell = this.v1;
 		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
-		var childHegiht = -(length*(55));
-		console.log(childHegiht)
+		var childHegiht = -(length * (55));
 		var current = cell.getGeometry();
 		if (childLength > 0) {
-			current.height = current.heightchildHegiht +childHegiht;
+			current.height = current.heightchildHegiht + childHegiht;
 		}
 		let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
 		let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
@@ -656,11 +657,27 @@ export class Helper {
 
 
 	digitFromString(str) {
-		const digit = parseInt(str.match(/\d/g)[0]);
+		const digit = parseInt(str.match(/(\d+)/));
 		return digit;
 	}
 
 
+	/**
+	 * This function goes through all cards and checks their header id to get the largest
+	 * id.
+	 */
+	findLatestId(children) {
+		var largest = -1;
+		var digit=-1;
+		for (var i = 0; i < children.length; i++) {
+				var digit = this.digitFromString(children[i].div.firstChild.id);
+
+			if (digit > largest) {
+				largest = digit;
+			}
+		}
+		return largest+1;
+	}
 
 
 

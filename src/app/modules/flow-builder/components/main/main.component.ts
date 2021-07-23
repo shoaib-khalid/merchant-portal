@@ -285,7 +285,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
       this.configService.data = data.data.data;
       data = JSON.stringify({ mxGraphModel: data.data.mxGraphModel });
-
+      console.log(this.configService.data)
       JsonCodec.loadJson(this.graph, data)
       this.setFlowDetails();
 
@@ -353,6 +353,8 @@ export class MainComponent implements OnInit, AfterViewInit {
             ]
          });
       }
+      console.log('-----------------------------------------')
+      console.log(this.configService.data)
       // this.configService.autoSaveAdd(JsonCodec.getIndividualJson(this.helper.v1), type)
       return v1;
    }

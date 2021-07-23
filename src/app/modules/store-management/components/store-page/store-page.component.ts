@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
-import { MatDialog } from '@angular/material/dialog';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import $ from 'jquery';
-import { HelperService } from 'src/app/services/helper.service';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '../store.model'
 
@@ -98,7 +96,7 @@ export class StorePageComponent implements OnInit {
   }
 
   uploadAssets() {
-    if (this.banner.file && this.logo.file) {
+    if (this.banner.file || this.logo.file) {
       const formData = new FormData();
       formData.append("banner", this.banner.file);
       formData.append("logo", this.logo.file);

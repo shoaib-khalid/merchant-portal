@@ -32,6 +32,8 @@
                   <a class="text-white username" role="button">{{username}}</a>
                   <div class="dropdown-content-header">
                      <div class="options" [routerLink]="['/store-management']">Manage Stores</div>
+                     <div class="options" [routerLink]="['/profile']">Profile</div>
+
                      <div class="options" id="logOut" [routerLink]="['/signin']" (click)="logOut()">Log Out</div>
                   </div>
                </li>

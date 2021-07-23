@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router } from '@angular/router';
-
+import { HelperTextService } from 'src/app/helpers/helper-text.service';
 
 
 @Component({
@@ -14,7 +14,7 @@ export class ManageStoresComponent implements OnInit {
   stores: any;
   loading: any = true;
   showEdit: any = false;
-  constructor(private apiCalls: ApiCallsService, private router: Router) { }
+  constructor(private apiCalls: ApiCallsService, private router: Router,private helperTextSvc:HelperTextService) { }
 
   ngOnInit(): void {
     if (localStorage.getItem('storeId')) {
@@ -28,10 +28,12 @@ export class ManageStoresComponent implements OnInit {
     this.stores = data.data.content;
   }
 
-  selectStore(id, name, domain) {
+  selectStore(id, name, domain,phoneNumber) {
+    console.log(phoneNumber)
     localStorage.setItem("storeId", id)
     localStorage.setItem("store", name)
-    localStorage.setItem("store-domain", domain)
+    localStorage.setItem('store-domain',domain)
+    localStorage.setItem('phoneNumber',phoneNumber)
     this.router.navigateByUrl("/products")
   }
   nextPage() {
