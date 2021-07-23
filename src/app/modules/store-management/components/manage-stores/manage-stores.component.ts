@@ -32,8 +32,7 @@ export class ManageStoresComponent implements OnInit {
     console.log(phoneNumber)
     localStorage.setItem("storeId", id)
     localStorage.setItem("store", name)
-    localStorage.setItem('store-domain',domain)
-    localStorage.setItem('phoneNumber',phoneNumber)
+    this.helperTextSvc.setDefaultJson(phoneNumber,domain,name)
     this.router.navigateByUrl("/products")
   }
   nextPage() {

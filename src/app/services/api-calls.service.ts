@@ -32,7 +32,7 @@ export class ApiCallsService {
     private dialog: MatDialog,
     private helperService: HelperTextService,
     private helperService2: HelperMethodsService) {
-
+    this.updateFlowBuilderJson();
   }
 
 
@@ -201,8 +201,7 @@ export class ApiCallsService {
           } else if (data.data.content.length == 1) {
             localStorage.setItem("storeId", data.data.content[0].id)
             localStorage.setItem("store", data.data.content[0].name)
-            localStorage.setItem('store-domain',data.data.content[0].domain)
-            localStorage.setItem('phoneNumber',data.data.content[0].phoneNumber)
+            this.helperService.setDefaultJson(data.data.content[0].phoneNumber, data.data.content[0].domain,data.data.content[0].name)
             this.router.navigateByUrl('/products')
           } else {
             this.router.navigateByUrl('/store-management')
@@ -253,11 +252,9 @@ export class ApiCallsService {
 
       this.http.post<any>(this.productService + "/stores", body).
         subscribe(data => {
-
           localStorage.setItem("storeId", data.data.id)
           localStorage.setItem("store", data.data.name)
-          localStorage.setItem("store-domain", data.data.domain)
-          localStorage.setItem("phoneNumber", data.data.phoneNumber)
+          this.helperService.setDefaultJson(data.data.phoneNumber, data.data.domain, data.data.name)
           resolve("")
           this.router.navigateByUrl('/products');
         });
@@ -790,11 +787,11 @@ export class ApiCallsService {
     return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/daily_sales?from=${startDate}&to=${endDate}`).toPromise()
   }
 
-  fetchDetailedDailySalesByDates(startDate,endDate) {
+  fetchDetailedDailySalesByDates(startDate, endDate) {
     return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/daily_sales?from=${startDate}&to=${endDate}`).toPromise()
   }
 
-  fetchDetailedDailySales(startDate,endDate) {
+  fetchDetailedDailySales(startDate, endDate) {
     return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/report/detailedDailySales?startDate=${startDate}&endDate=${endDate}`).toPromise()
   }
 
@@ -810,7 +807,7 @@ export class ApiCallsService {
     return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/report/dailyTopProducts?startDate=${startDate}&endDate=${endDate}`).toPromise()
   }
 
-  getTopProductsByDates(startDate,endDate) {
+  getTopProductsByDates(startDate, endDate) {
     return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/report/dailyTopProducts?startDate=${startDate}&endDate=${endDate}`).toPromise()
   }
 
@@ -885,6 +882,13 @@ export class ApiCallsService {
 
   orderUpdationCompletionStatus(orderId) {
     return this.http.put(this.orderService + `/orders/${orderId}/completion-status-updates/request-delivery`, {}).toPromise()
+  }
+
+  async updateFlowBuilderJson() {
+    if (localStorage.getItem('storeId')) {
+      const data = await this.getStoreDetails(localStorage.getItem('storeId'));
+      this.helperService.setDefaultJson(data.data.phoneNumber, data.data.domain, data.data.name);
+    }
   }
 
 }
