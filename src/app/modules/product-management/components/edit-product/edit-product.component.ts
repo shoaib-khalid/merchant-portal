@@ -191,7 +191,7 @@ export class EditProductComponent implements OnInit {
     var out = "";
     if (n == combos.length) {
       if (result.substring(1) != "") {
-        this.combos.push({ variant: result.substring(1), price: this.epForm['controls'].defaultInventory['controls'].price.value, quantity: 0, sku: 0 })
+        this.combos.push({ variant: result.substring(1), price: this.epForm['controls'].defaultInventory['controls'].price.value, quantity: 0, sku: 0, status:"AVAILABLE" })
         this.images.push([])
       }
       return result.substring(1);
@@ -217,6 +217,7 @@ export class EditProductComponent implements OnInit {
           this.combos[index].price = element.price;
           this.combos[index].sku = element.sku;
           this.combos[index].quantity = element.quantity;
+          this.combos[index].status = element.status;
         }
 
       }
@@ -675,6 +676,14 @@ export class EditProductComponent implements OnInit {
       break;
     }
   }
+}
+
+inventoryUnAvailable(event, index) {
+  if (event.target.checked) {
+    this.combos[index].status = "NOTAVAILABLE";
+    return;
+  }
+  this.combos[index].status = "AVAILABLE"
 }
 
 }

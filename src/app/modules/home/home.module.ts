@@ -14,8 +14,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ErrorPopUpComponent } from './components/error-pop-up/error-pop-up.component';
 import { EmailVerifiedComponent } from './components/email-verified/email-verified.component';
-
-
+import {MatIconModule} from '@angular/material/icon';
+import { MatIconRegistry } from '@angular/material/icon';
 @NgModule({
   declarations: [LandingPageComponent, FlowsComponent, SharedHeaderComponent, SharedSidePanelComponent, SuccessAnimationComponent, LoadingComponent, ErrorPopUpComponent, EmailVerifiedComponent],
   imports: [
@@ -25,8 +25,10 @@ import { EmailVerifiedComponent } from './components/email-verified/email-verifi
     MatMenuModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
-  exports: [SharedHeaderComponent,SharedSidePanelComponent,SuccessAnimationComponent]
+  exports: [SharedHeaderComponent,SharedSidePanelComponent,SuccessAnimationComponent],
+  providers:[MatIconRegistry]
 })
 export class HomeModule { }

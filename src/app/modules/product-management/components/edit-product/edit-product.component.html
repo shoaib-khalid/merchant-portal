@@ -323,55 +323,66 @@
 
 
                                                 <h4 class="text-black mb-3" *ngIf="variantChecked">Preview</h4>
-                                                <div>
 
-                                                    <div *ngIf="variantChecked" style="width: 700px;">
-                                                        <div class="head-variant">Image</div>
-                                                        <div class="head-variant">Variant</div>
-                                                        <div class="head-variant">Price</div>
-                                                        <div class="head-variant">Quantity</div>
-                                                        <div class="head-variant">Sku</div>
-                                                        <div class="head-variant">Upload</div>
-
-                                                    </div>
-                                                    <div *ngFor="let combo of combos;index as i;" style="width: 700px;">
-                                                        <div class="body-variant"><img class="i-item-img"
-                                                                src="{{images[i].preview}}" alt=""></div>
-                                                        <div class="body-variant">{{combo.variant}}</div>
-                                                        <div class="body-variant"><input type="text"
-                                                                class="form-control variant-price"
-                                                                (keyup)="priceChanged($event,i)" value="{{combo.price}}"
-                                                                placeholder="0.00 Rs"></div>
-                                                        <div class="body-variant"> <input type="number"
-                                                                class="form-control" value="{{combo.quantity}}"
-                                                                (keyup)="quantityChanged($event,i)" name="" id=""
-                                                                min="0"></div>
-                                                        <div class="body-variant"><input value="{{combo.sku}}"
-                                                                (keyup)="skuChanged($event,i)" type="text"
-                                                                class="form-control"> </div>
-                                                        <div class="body-variant">
-                                                            <div class="custom-file">
-                                                                <input type="file" class="custom-file-input"
-                                                                    (change)="onFileChanged($event,i)"
-                                                                    id="inputGroupFile01" />
-                                                                <label class="custom-file-label"
-                                                                    for="inputGroupFile01"></label>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-                                                <div class="row" *ngIf="variantChecked">
-                                                </div>
-                                                <h4 class="text-black mb-3">Search engine listing preview
+                                                <table *ngIf="variantChecked" id="table-inventory">
+                                                    <thead>
+                                                        <th>Image</th>
+                                                        <th>Variant</th>
+                                                        <th>Price</th>
+                                                        <th>Quantity</th>
+                                                        <th>Sku</th>
+                                                        <th>Upload</th>
+                                                        <th>Unavailable</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let combo of combos;index as i;">
+                                                            <td>
+                                                                <img class="i-item-img" src="{{images[i].preview}}"
+                                                                    alt="">
+                                                            </td>
+                                                            <td>
+                                                                {{combo.variant}}
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control tc"
+                                                                    (keyup)="priceChanged($event,i)"
+                                                                    value="{{combo.price}}" placeholder="0.00 Rs">
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" class="form-control"
+                                                                    value="{{combo.quantity}}"
+                                                                    (keyup)="quantityChanged($event,i)" name="" id=""
+                                                                    min="0">
+                                                            </td>
+                                                            <td>
+                                                                <input value="{{combo.sku}}"
+                                                                    (keyup)="skuChanged($event,i)" type="text"
+                                                                    class="form-control tc">
+                                                            </td>
+                                                            <td>
+                                                                <div class="custom-file">
+                                                                    <input type="file" class="custom-file-input"
+                                                                        (change)="onFileChanged($event,i)"
+                                                                        id="inputGroupFile01" />
+                                                                    <label class="custom-file-label"
+                                                                        for="inputGroupFile01"></label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control available" type="checkbox"
+                                                                    name="" (change)="inventoryUnAvailable($event,i)">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <!-- <h4 class="text-black mb-3">Search engine listing preview
                                                 </h4>
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <p>Add a title and description to see how this product might
                                                             appear in a search engine listing</p>
                                                     </div>
-                                                </div>
+                                                </div> -->
 
                                                 <div class="form-actions my-4">
                                                     <button type="button" class="btn btn-primary width-150"

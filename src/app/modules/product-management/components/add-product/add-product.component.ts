@@ -37,7 +37,7 @@ export class AddProductComponent implements OnInit {
   barcode: any;
   trackQuantity: any;
   continueSelling: any;
-  minQtyAlarm:any;
+  minQtyAlarm: any;
   quantity: any;
   physicalProduct: any;
   weight: any;
@@ -109,9 +109,9 @@ export class AddProductComponent implements OnInit {
 
     if (n == combos.length) {
       if (result.substring(1) != "") {
-        this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: 0 })
+        this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: 0, status: "AVAILABLE" })
         this.images.push({ file: "", preview: "" })
-        console.log(this.combos)
+        // console.log(this.combos)
       }
       return result.substring(1);
     }
@@ -154,8 +154,8 @@ export class AddProductComponent implements OnInit {
         const productAvailableIds = await this.addVariantValues(data.data.id, variantIds);
         await this.addInventoryItem(data.data.id, productAvailableIds)
       }
-      console.log("product Id: " + data.data.id)
-      console.log("store Id: " + localStorage.getItem("storeId"))
+      // console.log("product Id: " + data.data.id)
+      // console.log("store Id: " + localStorage.getItem("storeId"))
 
       this.apiCalls.loadingdialogRef.close();
       await this.showVerifyIcon();
@@ -217,9 +217,9 @@ export class AddProductComponent implements OnInit {
             price: this.helperService.removeCharacters(this.combos[i].price),
             compareAtPrice: 0,
             quantity: this.combos[i].quantity,
-            sku: this.combos[i].sku
+            sku: this.combos[i].sku,
+            status: this.combos[i].status
           })
-
         }
       } else {
         const data: any = await this.apiCalls.addInventory(productId, {
@@ -273,7 +273,6 @@ export class AddProductComponent implements OnInit {
   }
   quantityChanged(event, i) {
     this.combos[i].quantity = event.target.value;
-
   }
 
   async getCategoriesByStoreId() {
@@ -416,7 +415,7 @@ export class AddProductComponent implements OnInit {
     if (this.variantChecked) {
       return true;
     } else if (this.price && this.quantity && this.namenew.trim()) {
-        // else if (this.price && this.quantity && name.trim()) {
+      // else if (this.price && this.quantity && name.trim()) {
       return true;
     } else {
       return false;
@@ -497,5 +496,13 @@ export class AddProductComponent implements OnInit {
 
   optionSelectedAutoComplete(option, i) {
     this.options[i].name = option.value;
+  }
+
+  inventoryUnAvailable(event, index) {
+    if (event.target.checked) {
+      this.combos[index].status = "NOTAVAILABLE";
+      return;
+    }
+    this.combos[index].status = "AVAILABLE"
   }
 }
