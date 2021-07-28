@@ -412,9 +412,9 @@
                                                                 <td><img class="i-item-img" src="{{images[i].preview}}"
                                                                         alt="" height="768px" width="1336px"></td>
                                                                 <td>{{combo.variant}}</td>
-                                                                <td><input type="text" class="form-control tc"
+                                                                <td><input type="number" class="form-control tc"
                                                                         (keyup)="priceChanged($event,i)"
-                                                                        value="{{combo.price}}" placeholder="0.00 Rs">
+                                                                        value="{{combo.prices}}" placeholder="RM 0.00"  />
                                                                 </td>
                                                                 <td> <input type="number" class="form-control"
                                                                         value="{{combo.quantity}}"
@@ -428,7 +428,7 @@
                                                                         <input type="file" multiple
                                                                             class="custom-file-input"
                                                                             (change)="onFileChanged($event,i)"
-                                                                            id="inputGroupFile01" />
+                                                                             />
                                                                         <label class="custom-file-label"
                                                                             for="inputGroupFile01"></label>
                                                                     </div>

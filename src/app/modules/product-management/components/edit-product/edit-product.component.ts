@@ -175,13 +175,19 @@ export class EditProductComponent implements OnInit {
 
   variantNameChanged(event, i) {
     this.options[i].name = event.target.value;
-    console.log(this.options)
   }
 
+
+  /**
+   * checks digits after productId of itemCode,
+   * extracts them and then sets images using index
+   * obtained using these digits
+   */
   setProductAssets() {
+    const pIdLen = this.product.id.length;
     this.product.productAssets.forEach(element => {
       if (element.itemCode) {
-        this.images[parseInt(element.itemCode.slice(-1))] = ({ preview: element.url, id: element.id })
+        this.images[parseInt(element.itemCode.substring(pIdLen))] = ({ preview: element.url, id: element.id })
       }
     });
   }
@@ -191,7 +197,7 @@ export class EditProductComponent implements OnInit {
     var out = "";
     if (n == combos.length) {
       if (result.substring(1) != "") {
-        this.combos.push({ variant: result.substring(1), price: this.epForm['controls'].defaultInventory['controls'].price.value, quantity: 0, sku: 0, status:"AVAILABLE" })
+        this.combos.push({ variant: result.substring(1), price: this.epForm['controls'].defaultInventory['controls'].price.value, quantity: 0, sku: 0, status: "AVAILABLE" })
         this.images.push([])
       }
       return result.substring(1);
@@ -219,7 +225,6 @@ export class EditProductComponent implements OnInit {
           this.combos[index].quantity = element.quantity;
           this.combos[index].status = element.status;
         }
-
       }
     });
   }
@@ -267,8 +272,8 @@ export class EditProductComponent implements OnInit {
         "status": this.productStatus,
         "storeId": localStorage.getItem("storeId"),
         "thumbnailUrl": this.thumbnailUrl,
-        "minQuantityForAlarm":this.epForm['controls'].defaultInventory['controls'].minQtyAlarm.value,
-        "allowOutOfStockPurchases":this.epForm['controls'].defaultInventory['controls'].continueSelling.value,
+        "minQuantityForAlarm": this.epForm['controls'].defaultInventory['controls'].minQtyAlarm.value,
+        "allowOutOfStockPurchases": this.epForm['controls'].defaultInventory['controls'].continueSelling.value,
         "trackQuantity": this.epForm['controls'].defaultInventory['controls'].trackQuantity.value
       }
     }
@@ -308,7 +313,7 @@ export class EditProductComponent implements OnInit {
           variantIds.push(data.data.id)
         }
       }
-      ;
+
       resolve(variantIds)
     });
 
@@ -328,9 +333,9 @@ export class EditProductComponent implements OnInit {
             price: this.helperService.removeCharacters(this.combos[i].price),
             compareAtPrice: 0,
             quantity: this.combos[i].quantity,
-            sku: this.combos[i].sku
+            sku: this.combos[i].sku,
+            status:this.combos[i].status
           })
-
         }
       } else {
         const data: any = await this.apiCalls.addInventory(this.product.id, {
@@ -466,9 +471,9 @@ export class EditProductComponent implements OnInit {
   }
 
   priceChanged(event, i) {
-    const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
-    const element: any = document.getElementsByClassName('variant-price')[i]
-    element.value = acceptedPrice;
+    // const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
+    // const element: any = document.getElementsByClassName('variant-price')[i]
+    // element.value = acceptedPrice;
     this.combos[i].price = event.target.value;
   }
   skuChanged(event, i) {
@@ -621,7 +626,7 @@ export class EditProductComponent implements OnInit {
     this.epForm = this.fb.group({
 
       productDetails: this.fb.group({
-        name: ['', [Validators.required, Validators.maxLength(50)]],
+        name: ['', [Validators.required, Validators.maxLength(80)]],
         stock: [0],
         description: [''],
         storeId: [localStorage.getItem('storeId')],
@@ -631,9 +636,9 @@ export class EditProductComponent implements OnInit {
         price: ['', [Validators.required]],
         sku: ['', [Validators.required]],
         quantity: ['', [Validators.required]],
-        continueSelling:[false],
-        trackQuantity:[false],
-        minQtyAlarm:[0]
+        continueSelling: [false],
+        trackQuantity: [false],
+        minQtyAlarm: [0]
       }),
 
     })
@@ -662,28 +667,28 @@ export class EditProductComponent implements OnInit {
     var inventories = this.product.productInventories;
     var flag = true;
     for (var i = 0; i < inventories.length; i++) {
-      flag=true;
+      flag = true;
       inventory = inventories[i];
       for (var j = 0; j < inventories[i].inventoryItems; j++) {
-        if(toFind.includes(inventories[j].productVariantAvailableId)){
+        if (toFind.includes(inventories[j].productVariantAvailableId)) {
           continue;
-        }else{
-          flag=false;
+        } else {
+          flag = false;
           break;
+        }
+      }
+      if (flag) {
+        break;
       }
     }
-    if(flag){
-      break;
-    }
   }
-}
 
-inventoryUnAvailable(event, index) {
-  if (event.target.checked) {
-    this.combos[index].status = "NOTAVAILABLE";
-    return;
+  inventoryUnAvailable(event, index) {
+    if (event.target.checked) {
+      this.combos[index].status = "NOTAVAILABLE";
+      return;
+    }
+    this.combos[index].status = "AVAILABLE"
   }
-  this.combos[index].status = "AVAILABLE"
-}
 
 }

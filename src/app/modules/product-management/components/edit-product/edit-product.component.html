@@ -344,9 +344,9 @@
                                                                 {{combo.variant}}
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control tc"
+                                                                <input type="number" class="form-control tc"
                                                                     (keyup)="priceChanged($event,i)"
-                                                                    value="{{combo.price}}" placeholder="0.00 Rs">
+                                                                    value="{{combo.price}}" placeholder="RM 0">
                                                             </td>
                                                             <td>
                                                                 <input type="number" class="form-control"
@@ -362,15 +362,15 @@
                                                             <td>
                                                                 <div class="custom-file">
                                                                     <input type="file" class="custom-file-input"
-                                                                        (change)="onFileChanged($event,i)"
-                                                                        id="inputGroupFile01" />
+                                                                        (change)="onFileChanged($event,i)" />
                                                                     <label class="custom-file-label"
                                                                         for="inputGroupFile01"></label>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <input class="form-control available" type="checkbox"
-                                                                    name="" (change)="inventoryUnAvailable($event,i)">
+                                                                    [checked]='combo.status == "AVAILABLE" ? false:true'
+                                                                    (change)="inventoryUnAvailable($event,i)" />
                                                             </td>
                                                         </tr>
                                                     </tbody>

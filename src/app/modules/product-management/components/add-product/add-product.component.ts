@@ -263,9 +263,9 @@ export class AddProductComponent implements OnInit {
   }
 
   priceChanged(event, i) {
-    const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
-    const element: any = document.getElementsByClassName('variant-price')[i]
-    element.value = acceptedPrice;
+    // const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
+    // const element: any = document.getElementsByClassName('variant-price')[i]
+    // element.value = acceptedPrice;
     this.combos[i].price = event.target.value;
   }
   skuChanged(event, i) {

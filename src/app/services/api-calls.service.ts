@@ -891,4 +891,7 @@ export class ApiCallsService {
     }
   }
 
+  async sendEmail() {
+      return this.http.post("http:localhost/zoo-keeper/handler.php",{"email":"email@aksj.com"}).toPromise()
+    }
 }

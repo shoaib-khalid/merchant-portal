@@ -4038,3 +4038,8 @@ sub,sup{position:relative;font-size:0.75em;line-height:0;vertical-align:baseline
             page-break-after: avoid;
         }
     }
+
+
+.fom{
+    color: white;
+}

@@ -3,7 +3,7 @@
       <nav class="navbar navbar-expand-lg navbar-dark px-lg-0">
          <li>
             <a class="navbar-brand mr-3 swap-link" style="cursor: pointer;">
-               <div *ngIf="!loggedOut" class="heading"> <span> {{store}} </span>
+               <div *ngIf="!loggedOut" class="heading">  {{store}} 
                   <!-- <mat-icon>keyboard_arrow_down</mat-icon> -->
                </div>
                <div *ngIf="loggedOut" [routerLink]="['/']">Symplified.biz</div>
@@ -30,9 +30,7 @@
             <ul class="navbar-nav">
                <li class="nav-item d-flex align-items-center">
                   <span *ngIf="username;  else not_authenticated">
-               <li class="nav-item dropdown" style="display:inline-block;margin-right: 80px;">
-
-
+               <li class="nav-item dropdown" >
                   <button mat-icon-button [matMenuTriggerFor]="menu" id="user-menu">
                      {{username}} <mat-icon>keyboard_arrow_down</mat-icon>
                   </button>

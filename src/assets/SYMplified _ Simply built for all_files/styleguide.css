@@ -163,6 +163,13 @@
   font-style: normal;
   font-weight: 400;
 }
+.barlow-normal-white-28px {
+  color: var(--white);
+  font-family: var(--font-family-barlow);
+  font-size: var(--font-size-l);
+  font-style: normal;
+  font-weight: 400;
+}
 .barlow-medium-white-37px {
   color: var(--white);
   font-family: var(--font-family-barlow);
@@ -197,6 +204,13 @@
   font-size: 40px;
   font-style: normal;
   font-weight: 700;
+}
+.barlow-normal-abbey-30px {
+  color: var(--abbey);
+  font-family: var(--font-family-barlow);
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
 }
 .barlow-normal-abbey-37px {
   color: var(--abbey);
@@ -249,6 +263,13 @@
 }
 .barlow-light-big-stone-50px {
   color: var(--big-stone);
+  font-family: var(--font-family-barlow);
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 300;
+}
+.barlow-light-white-50px {
+  color: #fff;
   font-family: var(--font-family-barlow);
   font-size: 50px;
   font-style: normal;
