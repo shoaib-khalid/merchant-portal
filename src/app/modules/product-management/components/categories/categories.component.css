@@ -13,3 +13,11 @@
     height: 80px;
     width: 80px;
   }
+  .custom-container{
+    margin-top: 90px;
+  }
+
+  #ssp{
+    float: left;
+    margin-left: 9%;
+  }
