@@ -4,6 +4,8 @@ import { HelperService } from 'src/app/services/helper.service';
 import $ from 'jquery';
 import { ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Store } from '../store.model'
+
 
 @Component({
   selector: 'app-edit-store',
@@ -32,20 +34,24 @@ export class EditStoreComponent implements OnInit {
   state: any = "";
   serviceCharges: any = "0";
   public Editor = ClassicEditor;
+  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "", "", {stateCharges:[],stateIds:[],deletedStateIds:[]});
+
 
   constructor(private apiCalls: ApiCallsService, private route: ActivatedRoute, private helperService: HelperService) { }
 
   ngOnInit(): void {
-
-    $("#warning-address").hide();
-    $("#warning-postcode").hide();
-    // $("#store-timmings-table").hide();
-    $("#phone-pattern").hide()
+    this.initialHidingOfElements();
     this.route.params.subscribe(params => {
       if (params.id) {
         this.loadStore(params.id)
       }
     });
+  }
+
+  initialHidingOfElements() {
+    $("#warning-address").hide();
+    $("#warning-postcode").hide();
+    $("#phone-pattern").hide()
   }
 
   async loadStore(id) {
@@ -56,6 +62,7 @@ export class EditStoreComponent implements OnInit {
     this.fetchRegions();
     this.setStoreTimmings(id);
     this.setDeliveryDetails();
+    this.setStateCharges();
     if (this.store.regionCountry) {
       this.fetchStates(this.store.regionCountry.id);
     }
@@ -79,6 +86,8 @@ export class EditStoreComponent implements OnInit {
     await this.updateAssets();
     await this.updateStoreTimmings(this.store.id)
     await this.updateDeliveryDetails();
+    this.deleteStateCharges();
+    this.updateStateCharges();
     this.apiCalls.loadingdialogRef.close();
   }
 
@@ -234,12 +243,10 @@ export class EditStoreComponent implements OnInit {
   async setDeliveryDetails() {
     console.log(this.store)
     var data: any = await this.apiCalls.getDeliveryDetailsStore(this.store.id);
-    console.log(data)
     data = data.data;
-    const dType: any = document.getElementById('delivery-type');
     const dPackage: any = document.getElementById('delivery-package');
     const bikeOrderQty: any = document.getElementById('bike');
-    dType.value = data.type;
+    this.storeModel.deliveryType = data.type;
     dPackage.value = data.itemType;
     bikeOrderQty.value = data.maxOrderQuantityForBike;
     (<HTMLInputElement>document.getElementById("car")).value = bikeOrderQty.value;
@@ -290,4 +297,86 @@ export class EditStoreComponent implements OnInit {
       this.serviceCharges = 0;
     }
   }
+  addStateCharges() {
+    if (this.storeModel.stateCharges.length == 0) {
+      this.storeModel.stateCharges = { stateCharges: [{ stateId: '', price: '' }], stateIds: [], deletedStateIds: [] }
+      // this.storeModel.stateCharges.push({ stateId: '', price: '', stateIds: [] });
+    } else if (this.storeModel.stateCharges.stateCharges.length < this.states.length) {
+      this.storeModel.stateCharges.stateCharges.push({ stateId: '', price: '' });
+    }
+  }
+
+  removeStateCharge(i) {
+    // this.storeModel.stateCharges[0].stateIds[i] = "";
+    const dbId = this.storeModel.stateCharges.stateCharges[i].dbId;
+    if (dbId) {
+      this.storeModel.stateCharges.deletedStateIds.push(dbId)
+    }
+    this.storeModel.stateCharges.stateIds[i] = "";
+    console.log(this.storeModel.stateCharges)
+    this.storeModel.stateCharges.stateCharges.splice(i, 1)
+  }
+
+  stateChargeChange(event, i) {
+    this.storeModel.stateCharges.stateCharges[i].stateId = event.target.value;
+    if (this.storeModel.stateCharges.stateIds[i]) {
+      this.storeModel.stateCharges.stateIds[i] = (event.target.value);
+    } else {
+      this.storeModel.stateCharges.stateIds.push(event.target.value);
+    }
+  }
+
+  stateChargePriceChange(event, i) {
+    this.storeModel.stateCharges.stateCharges[i].price = event.target.value;
+  }
+
+  async updateStateDeliveryCharges() {
+    for (var i = 0; i < this.storeModel.stateCharges.length; i++) {
+      await this.apiCalls.updateStoreStateCharges({
+        "delivery_charges": this.storeModel.stateCharges.stateCharges[i].price,
+        "region_country_state_id": this.storeModel.stateCharges.stateCharges[i].stateId
+      }, "")
+    }
+  }
+
+  async setStateCharges() {
+    var data: any = await this.apiCalls.getStoreStateCharges();
+    data = data.data;
+    const stateIds = [];
+    for (var i = 0; i < data.length; i++) {
+      this.storeModel.stateCharges.stateCharges.push({ dbId: data[i].id, stateId: data[i].region_country_state_id, price: data[i].delivery_charges });
+      stateIds.push(data[i].region_country_state_id);
+    }
+    this.storeModel.stateCharges.stateIds = stateIds;
+    this.storeModel.stateCharges.deletedStateIds = [];
+    console.log(this.storeModel.stateCharges)
+  }
+
+  async deleteStateCharges() {
+    const deleteIds = this.storeModel.stateCharges.deletedStateIds;
+    for (var i = 0; i < deleteIds.length; i++) {
+      await this.apiCalls.deleteStateCharge(deleteIds[i]);
+    }
+  }
+
+  async updateStateCharges() {
+    const stateCharges = this.storeModel.stateCharges.stateCharges;
+    for (var i = 0; i < stateCharges.length; i++) {
+      if (this.storeModel.stateCharges.deletedStateIds.includes(stateCharges[i].dbId)) {
+        continue;
+      }
+      if (stateCharges[i].dbId == undefined) {
+        await this.apiCalls.saveStoreStateCharges({
+          "delivery_charges": this.storeModel.stateCharges.stateCharges[i].price,
+          "region_country_state_id": this.storeModel.stateCharges.stateCharges[i].stateId
+        })
+        continue;
+      }
+      await this.apiCalls.updateStoreStateCharges({
+        "delivery_charges": stateCharges[i].price,
+        "region_country_state_id": stateCharges[i].stateId
+      }, stateCharges[i].dbId)
+    }
+  }
+
 }

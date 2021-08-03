@@ -584,7 +584,7 @@ export class EditProductComponent implements OnInit {
     const itemCode = this.product.id + "aa";
     const productInventories = this.product.productInventories;
     for (var i = 0; i < productInventories.length; i++) {
-      if (productInventories[i].itemCode == itemCode) {
+      if (productInventories[i].productInventoryItems.length==0) {
         this.epForm['controls'].defaultInventory['controls'].price.setValue(productInventories[i].price);
         this.epForm['controls'].defaultInventory['controls'].sku.setValue(productInventories[i].sku);
         this.epForm['controls'].defaultInventory['controls'].quantity.setValue(productInventories[i].quantity);

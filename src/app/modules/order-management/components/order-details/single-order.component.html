@@ -102,9 +102,9 @@
                                                                         class="text-success f-w-5 ml-2">{{this.order.completionStatus}}</span>
                                                                 </p>
                                                                 <p>
-                                                                <button 
-                                                                *ngIf="order.completionStatus=='PAYMENT_CONFIRMED'"
-                                                                style="
+                                                                    <button
+                                                                        *ngIf="order.completionStatus=='PAYMENT_CONFIRMED'"
+                                                                        style="
                                                                 width: 180px;
                                                                 background-color: #32e06c;
                                                                 border-radius: 25px;
@@ -160,6 +160,8 @@
                                                                     <tr>
                                                                         <th scope="col">#</th>
                                                                         <th scope="col">Sku</th>
+                                                                        <th scope="col">Product Name</th>
+
                                                                         <th scope="col">Special Instruction</th>
                                                                         <th scope="col">Weight</th>
                                                                         <th scope="col">Quantity</th>
@@ -170,6 +172,8 @@
                                                                     <tr *ngFor="let orderItem of orderItems;index as i">
                                                                         <th scope="col">{{i+1}}</th>
                                                                         <td>{{orderItem.SKU}}</td>
+                                                                        <td class="prod-name">{{orderItem.productName}}
+                                                                        </td>
                                                                         <td>{{orderItem.specialInstruction}}</td>
                                                                         <td>{{orderItem.weight}}</td>
                                                                         <td>{{orderItem.quantity}}</td>
@@ -192,12 +196,19 @@
                                                         <p style="text-align: left;">Sub Total : <span
                                                                 class="">{{order.subTotal}}</span></p>
                                                         <p>Service Charges : <span
-                                                                class="">{{order.serviceCharges==null?0:order.serviceCharges}}</span>
+                                                                class="">{{order.storeServiceCharges==null?0:order.storeServiceCharges}}</span>
                                                         </p>
                                                         <p><span style="color:red">Delivery Charges :
                                                                 {{order.deliveryCharges}}</span></p>
+                                                        <p><span>Symplified commission :
+                                                                {{order.klCommission}}</span>
+                                                        </p>
                                                         <p><span style="color:rgb(9, 180, 3)">Grand Total :
                                                                 {{total}}</span>
+                                                        </p>
+                                                        <hr>
+                                                        <p><span>Store Share :
+                                                                {{order.storeShare}}</span>
                                                         </p>
                                                     </div>
                                                 </div>

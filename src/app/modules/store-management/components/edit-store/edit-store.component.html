@@ -74,7 +74,8 @@
                         </select>
                     </div> -->
                     <div class="add-item-img d-flex  border-radius">
-                        <select name="delivery-type" class="form-control necessary" id="delivery-type">
+                        <select name="delivery-type" class="form-control necessary" id="delivery-type" 
+                        [(ngModel)] = "storeModel.deliveryType">
                             <option value="">Delivery Type</option>
                             <option value="SELF">Self Delivery</option>
                             <option value="SCHEDULED">Scheduled</option>
@@ -82,6 +83,30 @@
                         </select>
                     </div>
                     <br>
+                    <div class="form-group mb-3" *ngIf="storeModel.deliveryType=='SELF'">
+                        <div id="add-state-charge" (click)='addStateCharges()'>+ Add State Charges</div>
+                        <br>
+                        <ng-container *ngFor="let stateCharge of storeModel.stateCharges.stateCharges;index as j">
+                            <div style="margin-bottom: 20px;">
+                                <select name="state-charges" class="form-control state-charges" required
+                                [(ngModel)]="this.storeModel.stateCharges.stateCharges[j].stateId"
+                                    (change)="stateChargeChange($event,j)">
+                                    <option value="" selected="true" disabled="">States</option>
+                                    <option value="{{state.id}}" *ngFor="let state of states"
+                                        [disabled]="storeModel.stateCharges.stateIds.includes(state.id)">
+                                        {{state.name}}
+                                    </option>
+                                </select>
+                                <input class="form-control delivery-state-price" required
+                                    name="delivery-state-price" type="number" placeholder="Enter state charge"
+                                    min="0" [(ngModel)]="this.storeModel.stateCharges.stateCharges[j].price"
+                                    (change)="stateChargePriceChange($event,j)">
+                                <span style="margin-left: 5px;cursor: pointer;" (click)='removeStateCharge(j)'>
+                                    <mat-icon>remove_circle_outline</mat-icon>
+                                </span>
+                            </div>
+                        </ng-container>
+                    </div>
                     <div class="add-item-img d-flex  border-radius">
                         <select name="delivery-package" class="form-control necessary" id="delivery-package">
                             <option value="">Item Packaging</option>
@@ -169,14 +194,9 @@
                     </div>
 
                     <div class="form-group">
-                        <div style="text-align: center;" (click)='revealTimeTable()' id="store-timmings-text">
-                            <span id="store-timmings-text">Change store timmings</span>
-                        </div>
-
                         <table class="table" id="store-timmings-table" style="margin-bottom: 10px;">
                             <thead>
                                 <tr>
-
                                     <th class="border-0">Day</th>
                                     <th class="border-0">Opening time</th>
                                     <th class="border-0" data-breakpoints="sm xs">Close Time</th>

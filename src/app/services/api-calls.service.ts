@@ -201,7 +201,7 @@ export class ApiCallsService {
           } else if (data.data.content.length == 1) {
             localStorage.setItem("storeId", data.data.content[0].id)
             localStorage.setItem("store", data.data.content[0].name)
-            this.helperService.setDefaultJson(data.data.content[0].phoneNumber, data.data.content[0].domain,data.data.content[0].name)
+            this.helperService.setDefaultJson(data.data.content[0].phoneNumber, data.data.content[0].domain, data.data.content[0].name)
             this.router.navigateByUrl('/products')
           } else {
             this.router.navigateByUrl('/store-management')
@@ -892,6 +892,23 @@ export class ApiCallsService {
   }
 
   async sendEmail() {
-      return this.http.post("http:localhost/zoo-keeper/handler.php",{"email":"email@aksj.com"}).toPromise()
-    }
+    return this.http.post("http:localhost/zoo-keeper/handler.php", { "email": "email@aksj.com" }).toPromise()
+  }
+
+  async saveStoreStateCharges(body) {
+    return this.http.post(this.productService + `/stores/${localStorage.getItem('storeId')}/stateDeliveryCharge`, body).toPromise()
+  }
+
+  async updateStoreStateCharges(body, id) {
+    return this.http.put(this.productService + `/stores/${localStorage.getItem('storeId')}/stateDeliveryCharge/${id}`, body).toPromise()
+  }
+  
+  async getStoreStateCharges() {
+    return this.http.get(this.productService + `/stores/${localStorage.getItem('storeId')}/stateDeliveryCharge`).toPromise()
+  }
+
+  async deleteStateCharge(id) {
+    return this.http.delete(this.productService + `/stores/${localStorage.getItem('storeId')}/stateDeliveryCharge/${id}`).toPromise()
+  }
+
 }

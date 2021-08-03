@@ -165,3 +165,23 @@ color:black
   color:red;
   font-size: 15px;
 }
+
+.state-charges{
+  display: inline-block;
+  width: 200px;
+}
+
+.delivery-state-price{
+  display: inline-block;
+  width: 200px;
+  margin-left: 10px;
+}
+
+#add-product{
+  background-color: rgb(91, 179, 127);
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  width: 170px;
+}

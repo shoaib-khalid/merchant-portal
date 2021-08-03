@@ -8,6 +8,7 @@ import { HomeModule } from 'src/app/modules/home/home.module';
 import { EditStoreComponent } from './components/edit-store/edit-store.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     HomeModule,
     FormsModule,
     CKEditorModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule
   ]
 })
 export class StoreManagementModule { }

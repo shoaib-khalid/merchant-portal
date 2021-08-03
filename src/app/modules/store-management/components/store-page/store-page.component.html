@@ -28,7 +28,7 @@
                     <form #storeForm="ngForm">
                         <div class="form-group mb-3">
                             <label for="storeName">Store Name</label>
-                            <input class="form-control" name="storeName" type="username" required
+                            <input class="form-control necessary" name="storeName" type="username" required
                                 [(ngModel)]="storeModel.storeName" id="storeName" placeholder="Enter Store Name"
                                 (focusout)="storeExists($event)" (keypress)="onlyAlphaNum($event)" #storeName="ngModel">
                             <div class="alert alert-warning text-center" role="alert" style="
@@ -49,7 +49,6 @@
                         <div class="form-group">
                             <label class="form-control-label">Store Info</label>
                             <ckeditor
-                                
                                 [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
                                 [editor]="Editor" [(ngModel)]="storeModel.storeInfo" name="sddsds" rows="3"></ckeditor>
 
@@ -58,14 +57,14 @@
                         <div class="form-group mb-3">
                             <label for="service-charges">Service Charges %</label>
                             <input class="form-control" name="service-charges" type="number" id="service-charges"
-                                 placeholder="Enter Service Charge" [(ngModel)]="storeModel.serviceCharge"
+                                placeholder="Enter Service Charge" [(ngModel)]="storeModel.serviceCharge"
                                 (keyup)="serviceChargesChange($event)" min="0" max="100">
                         </div>
                         <label class="form-control-label" style="margin-top: 10px;">Delivery Details</label>
                         <div class="form-group mb-3">
                             <div style="display: inline-block;"><img src="assets/motor-bike-icon.svg" alt=""
                                     height="30px" width="30px"><span style="margin-left:0px;">Maximum Order</span></div>
-                            <input class="form-control" name="minOrderQty" type="number" 
+                            <input class="form-control necessary" name="minOrderQty" type="number"
                                 [(ngModel)]="storeModel.minOrderQty" (keyup)="minOrderQtyChange($event)" id="bike"
                                 placeholder="Maximum Order Quantity" min="0" max="1000" required>
                         </div>
@@ -78,26 +77,51 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="address">Email</label>
-                            <input class="form-control" name="email" type="email" id="email" 
-                                placeholder="Enter Email" [(ngModel)]="storeModel.email">
+                            <input class="form-control" name="email" type="email" id="email" placeholder="Enter Email"
+                                [(ngModel)]="storeModel.email">
                         </div>
                         <div class="form-group mb-3">
                             <label for="address">Phone Number</label>
-                            <input class="form-control" required name="phoneNumber"  type="tel" id="phoneNumber" 
-                                placeholder="Enter Phone number" (keyup)="phoneNumberChange($event)" ngModel>
+                            <input class="form-control necessary" required name="phoneNumber" type="tel"
+                                id="phoneNumber" placeholder="Enter Phone number" (keyup)="phoneNumberChange($event)"
+                                ngModel>
                             <p id="phone-pattern"> <img src="assets/error-icon.svg" style="margin-bottom: 2px;"
                                     height="15px" width="15px" alt="">Only digits are allowed in Phone Number</p>
                         </div>
                         <div class="add-item-img d-flex  border-radius">
-                            <select name="delivery-type" class="form-control necessary" id="delivery-type" required>
+                            <select name="delivery-type" class="form-control necessary" id="delivery-type" required
+                                [(ngModel)]="storeModel.deliveryType">
                                 <option value="" selected="true" disabled="">Delivery Type</option>
-                                <option value="SELF">Self Delivery</option>\
+                                <option value="SELF">Self Delivery</option>
                                 <option value="SCHEDULED">Scheduled</option>
                                 <option value="ADHOC">Ad-Hoc</option>
                             </select>
                         </div>
                         <br>
-
+                        <div class="form-group mb-3" *ngIf="storeModel.deliveryType=='SELF'">
+                            <div id="add-product" (click)='addStateCharges()'>+ Add State Charges</div>
+                            <br>
+                            <ng-container *ngFor="let stateCharge of storeModel.stateCharges.stateCharges;index as j">
+                                <div style="margin-bottom: 20px;">
+                                    <select name="state-charges" class="form-control state-charges" required
+                                        value="this.storeModel.stateCharges[j].stateId"
+                                        (change)="stateChargeChange($event,j)">
+                                        <option value="" selected="true" disabled="">States</option>
+                                        <option value="{{state.id}}" *ngFor="let state of states"
+                                            [disabled]="storeModel.stateCharges.stateIds.includes(state.id)">
+                                            {{state.name}}
+                                        </option>
+                                    </select>
+                                    <input class="form-control delivery-state-price" required
+                                        name="delivery-state-price" type="number" placeholder="Enter state charge"
+                                        min="0" value="this.storeModel.stateCharges.stateCharges[j].price"
+                                        (change)="stateChargePriceChange($event,j)">
+                                    <span style="margin-left: 5px;cursor: pointer;" (click)='removeStateCharge(j)'>
+                                        <mat-icon>remove_circle_outline</mat-icon>
+                                    </span>
+                                </div>
+                            </ng-container>
+                        </div>
                         <div class="add-item-img d-flex  border-radius">
                             <select name="delivery-package" class="form-control necessary"
                                 [(ngModel)]='storeModel.packType' id="delivery-package" required>
@@ -110,8 +134,8 @@
                         <div class="form-group">
                             <label class="form-control-label" style="margin-top: 12px;">Region</label>
                             <div class="add-item-img d-flex  border-radius">
-                                <select name="Inventory-manager" [(ngModel)]="storeModel.region" class="form-control"
-                                    id="region" (change)="regionChange($event)" required>
+                                <select name="Inventory-manager" [(ngModel)]="storeModel.region"
+                                    class="form-control necessary" id="region" (change)="regionChange($event)" required>
                                     <option value="">Select region</option>
                                     <option value="{{region.id}}" *ngFor="let region of regions">{{region.name}}
                                     </option>
@@ -121,7 +145,8 @@
                         <div class="form-group">
                             <label class="form-control-label" style="margin-top: 12px;">States</label>
                             <div class="add-item-img d-flex  border-radius">
-                                <select name="Inventory-manager" class="form-control" required id="state-dropdown" >
+                                <select name="Inventory-manager" class="form-control necessary" required
+                                    id="state-dropdown">
                                     <option value="" disabled="">Select state</option>
                                     <option value="{{state.id}}" *ngFor="let state of states">{{state.name}}</option>
                                 </select>
@@ -129,18 +154,18 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="address" style="margin-top: 12px;">Address</label>
-                            <input class="form-control" name="address" type="username" [(ngModel)]="storeModel.address"
-                                id="address" required placeholder="Enter Address">
+                            <input class="form-control necessary" name="address" type="username"
+                                [(ngModel)]="storeModel.address" id="address" required placeholder="Enter Address">
                         </div>
                         <div class="form-group mb-3">
                             <label for="city">City</label>
-                            <input class="form-control" name="city" type="username" [(ngModel)]="storeModel.city"
-                                id="city" required placeholder="Enter City Name">
+                            <input class="form-control necessary" name="city" type="username"
+                                [(ngModel)]="storeModel.city" id="city" required placeholder="Enter City Name">
                         </div>
                         <div class="form-group mb-3">
                             <label for="city">Post Code</label>
-                            <input class="form-control" name="city" type="username" [(ngModel)]="storeModel.postCode"
-                                id="postCode" required placeholder="Enter post code">
+                            <input class="form-control necessary" name="city" type="username"
+                                [(ngModel)]="storeModel.postCode" id="postCode" required placeholder="Enter post code">
                         </div>
                         <div class="form-group mb-3">
                             <label for="city">Logo</label>
@@ -172,8 +197,8 @@
                         </div>
                         <label class="form-control-label" style="margin-top: 12px;">Payment Type</label>
                         <div class="add-item-img d-flex  border-radius">
-                            <select name="payment-type" class="form-control" [(ngModel)]="storeModel.paymentType"
-                                id="payment-type" required>
+                            <select name="payment-type" class="form-control necessary"
+                                [(ngModel)]="storeModel.paymentType" id="payment-type" required>
                                 <option value="">Select Payment type</option>
                                 <option value="CoD">Cash On delivery</option>
                                 <option value="OnlinePayment">Online Payment</option>
@@ -182,9 +207,7 @@
                         <br>
 
                         <div class="form-group">
-                            <!-- <div style="text-align: center;" (click)='revealTimeTable()' id="store-timmings-text">
-                                <span id="store-timmings-text">Set store timmings</span>
-                            </div> -->
+
                             <table class="table" id="store-timmings-table">
                                 <thead>
                                     <tr>
@@ -220,8 +243,7 @@
                         <div class="form-group mb-0 text-center" style="margin-top:10px">
                             <input type="button" class="btn btn-primary btn-block"
                                 style="height: 40px;padding: 5px;width: 150px;display: inline; margin-right: 10px;"
-                                (click)="registerStore(storeForm.form)" name="Register Store"
-                                value="Register" />
+                                (click)="registerStore(storeForm.form)" name="Register Store" value="Register" />
                             <a class="btn btn-block"
                                 style="height: 40px;padding: 10px;width: 150px;display: inline;background-color: red;color: white;"
                                 [routerLink]="['/chooseverticle']">

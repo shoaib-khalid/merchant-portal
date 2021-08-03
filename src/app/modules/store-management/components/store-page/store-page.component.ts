@@ -20,7 +20,7 @@ export class StorePageComponent implements OnInit {
   minOrderQty: any = "5";  // nazrul : albert wants default value to start with 5
   states: any = [];
   verticleCode: any = "";
-  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "");
+  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "", "",  {stateCharges:[],stateIds:[]});
 
   timmings: any = [
     { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
@@ -54,6 +54,7 @@ export class StorePageComponent implements OnInit {
       this.saveStoreTimmings();
       this.uploadAssets();
       this.saveStoreDeliveryDetails();
+      this.addStateDeliveryCharges();
     }
     else {
       this.emptyFields();
@@ -75,13 +76,10 @@ export class StorePageComponent implements OnInit {
 
 
   highlightEmptyFields() {
-    var arr: any = document.getElementsByClassName('form-control');
+    var arr: any = document.getElementsByClassName('necessary');
     for (var i = 0; i < arr.length; i++) {
       if (arr[i].value == "") {
-        const a = $(arr[i])[0].id;
-        if (a == "storeName" || a == "phoneNumber" || a == "region" || a == "state-dropdown" || a == "city" || a == "postCode" || a == "address" || a == "delivery-type" || a == "delivery-package" || a == "payment-type") {
-          $(arr[i]).val('').css("border-color", "red");
-        }
+        $(arr[i]).val('').css("border-color", "red");
       } else {
         $(arr[i]).css("border-color", "#EAEDF2");
       }
@@ -151,7 +149,6 @@ export class StorePageComponent implements OnInit {
   async fetchRegions() {
     var regions: any = await this.apiCalls.getStoreRegions();
     this.regions = regions.data.content;
-    console.log(this.regions)
   }
 
   async storeExists(event) {
@@ -176,7 +173,6 @@ export class StorePageComponent implements OnInit {
 
   changeOpenTime(event, i) {
     this.timmings[i].openTime = event.target.value;
-    console.log(event.target.value)
   }
   changeCloseTime(event, i) {
     this.timmings[i].closeTime = event.target.value;
@@ -184,12 +180,6 @@ export class StorePageComponent implements OnInit {
   }
   changeOn_Off(event, i) {
     this.timmings[i].isOff = event.checked;
-    console.log(this.timmings)
-  }
-
-  revealTimeTable() {
-    $("#store-timmings-table").show(1000);
-
   }
 
   minOrderQtyChange(event) {
@@ -200,12 +190,10 @@ export class StorePageComponent implements OnInit {
   }
 
   async saveStoreDeliveryDetails() {
-    const dType: any = document.getElementById('delivery-type');
     const dPackage: any = document.getElementById('delivery-package');
     const bikeOrderQty: any = document.getElementById('bike');
-
     const data = await this.apiCalls.saveDeliveryDetailsStore({
-      "type": dType.value,
+      "type": this.storeModel.deliveryType,
       "itemType": dPackage.value,
       "maxOrderQuantityForBike": bikeOrderQty.value
     })
@@ -229,6 +217,7 @@ export class StorePageComponent implements OnInit {
   regionChange(event) {
     if (event.target.value) {
       this.fetchStates(event.target.value)
+      this.storeModel.stateCharges = [];
     } else {
       this.states = [];
     }
@@ -287,4 +276,35 @@ export class StorePageComponent implements OnInit {
     }
   }
 
+
+  addStateCharges() {
+      this.storeModel.stateCharges.stateCharges.push({ stateId: '', price: ''});
+  }
+
+  removeStateCharge(i) {
+    this.storeModel.stateCharges.stateCharges.splice(i, 1)
+    this.storeModel.stateCharges.stateIds[i] = "";
+  }
+
+  stateChargeChange(event, i) {
+    this.storeModel.stateCharges.stateCharges[i].stateId = event.target.value;
+    if (this.storeModel.stateCharges.stateIds[i]) {
+      this.storeModel.stateCharges.stateIds[i] = (event.target.value);
+    } else {
+      this.storeModel.stateCharges.stateIds.push(event.target.value);
+    }
+  }
+
+  stateChargePriceChange(event, i) {
+    this.storeModel.stateCharges.stateCharges[i].price = event.target.value;
+  }
+
+  async addStateDeliveryCharges() {
+    for (var i = 0; i < this.storeModel.stateCharges.stateCharges.length; i++) {
+      await this.apiCalls.saveStoreStateCharges({
+        "delivery_charges": this.storeModel.stateCharges.stateCharges[i].price,
+        "region_country_state_id": this.storeModel.stateCharges.stateCharges[i].stateId
+      })
+    }
+  }
 }
