@@ -20,7 +20,7 @@ export class StorePageComponent implements OnInit {
   minOrderQty: any = "5";  // nazrul : albert wants default value to start with 5
   states: any = [];
   verticleCode: any = "";
-  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "", "",  {stateCharges:[],stateIds:[]});
+  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "", "",  {stateCharges:[],stateIds:[]},false);
 
   timmings: any = [
     { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
@@ -195,7 +195,8 @@ export class StorePageComponent implements OnInit {
     const data = await this.apiCalls.saveDeliveryDetailsStore({
       "type": this.storeModel.deliveryType,
       "itemType": dPackage.value,
-      "maxOrderQuantityForBike": bikeOrderQty.value
+      "maxOrderQuantityForBike": bikeOrderQty.value,
+      "allowsStorePickup" : this.storeModel.storePickUp
     })
     console.log(data)
     this.apiCalls.loadingdialogRef.close();

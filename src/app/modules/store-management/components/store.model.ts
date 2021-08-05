@@ -13,7 +13,8 @@ export class Store {
         public verticleCode: string,
         public packType: string,
         public deliveryType: string,
-        public stateCharges:any
+        public stateCharges:any,
+        public storePickUp:boolean
     ) {
 
     }

@@ -1,6 +1,6 @@
 {
-  "name": "latest-mx-graph",
-  "version": "0.0.0",
+  "name": "merchant-portal",
+  "version": "1.0-FINAL",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

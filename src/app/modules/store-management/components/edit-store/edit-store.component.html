@@ -54,6 +54,12 @@
                             id="car" value="{{minOrderQty}}" readonly>
                     </div>
                     <div class="form-group mb-3">
+                        <div style="width: 150px;display: inline-block;">Allow Store Pickup</div>
+                        <input type="checkbox" class="form-control" id="store-pickup-checkbox"
+                            [checked]="storeModel.storePickUp"
+                            (change)="storeModel.storePickUp = !storeModel.storePickUp">
+                    </div>
+                    <div class="form-group mb-3">
                         <label for="email">Email</label>
                         <input class="form-control" name="phoneNumber" type="tel" id="email" required=""
                             placeholder="Enter Email" [(ngModel)]="email">
@@ -74,8 +80,8 @@
                         </select>
                     </div> -->
                     <div class="add-item-img d-flex  border-radius">
-                        <select name="delivery-type" class="form-control necessary" id="delivery-type" 
-                        [(ngModel)] = "storeModel.deliveryType">
+                        <select name="delivery-type" class="form-control necessary" id="delivery-type"
+                            [(ngModel)]="storeModel.deliveryType">
                             <option value="">Delivery Type</option>
                             <option value="SELF">Self Delivery</option>
                             <option value="SCHEDULED">Scheduled</option>
@@ -89,7 +95,7 @@
                         <ng-container *ngFor="let stateCharge of storeModel.stateCharges.stateCharges;index as j">
                             <div style="margin-bottom: 20px;">
                                 <select name="state-charges" class="form-control state-charges" required
-                                [(ngModel)]="this.storeModel.stateCharges.stateCharges[j].stateId"
+                                    [(ngModel)]="this.storeModel.stateCharges.stateCharges[j].stateId"
                                     (change)="stateChargeChange($event,j)">
                                     <option value="" selected="true" disabled="">States</option>
                                     <option value="{{state.id}}" *ngFor="let state of states"
@@ -97,9 +103,9 @@
                                         {{state.name}}
                                     </option>
                                 </select>
-                                <input class="form-control delivery-state-price" required
-                                    name="delivery-state-price" type="number" placeholder="Enter state charge"
-                                    min="0" [(ngModel)]="this.storeModel.stateCharges.stateCharges[j].price"
+                                <input class="form-control delivery-state-price" required name="delivery-state-price"
+                                    type="number" placeholder="Enter state charge" min="0"
+                                    [(ngModel)]="this.storeModel.stateCharges.stateCharges[j].price"
                                     (change)="stateChargePriceChange($event,j)">
                                 <span style="margin-left: 5px;cursor: pointer;" (click)='removeStateCharge(j)'>
                                     <mat-icon>remove_circle_outline</mat-icon>

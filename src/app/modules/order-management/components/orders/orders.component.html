@@ -103,36 +103,50 @@
                                                         <th class="border-0">Order Status</th>
                                                         <th class="border-0" data-breakpoints="sm xs">Payment Status
                                                         </th>
+                                                        <th class="border-0" data-breakpoints="sm xs">Store Pickup
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor='let order of orders;' (click)="showOrderItems(order)"
-                                                        class="orders-list">
+                                                    <tr *ngFor='let order of orders;' class="orders-list">
                                                         <!-- <td><input type="checkbox"></td> -->
                                                         <!-- <td class="product">{{order.id}}</td> -->
-                                                        <td style="cursor: pointer;max-width: 110px;" *ngIf="order.orderShipmentDetail">
+                                                        <td style="cursor: pointer;max-width: 110px;"
+                                                            *ngIf="order.orderShipmentDetail"
+                                                            (click)="showOrderItems(order)">
                                                             {{order.invoiceId}}</td>
-                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail">
+                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail"
+                                                            (click)="showOrderItems(order)">
                                                             {{order.orderShipmentDetail.receiverName}}</td>
                                                         <td style="cursor: pointer;max-width: 120px;"
-                                                            *ngIf="order.orderShipmentDetail">
+                                                            *ngIf="order.orderShipmentDetail"
+                                                            (click)="showOrderItems(order)">
                                                             {{order.orderShipmentDetail.email}}</td>
-                                                        <td style="cursor: pointer;;" *ngIf="order.orderShipmentDetail">
+                                                        <td style="cursor: pointer;;" *ngIf="order.orderShipmentDetail"
+                                                            (click)="showOrderItems(order)">
                                                             {{order.orderShipmentDetail.address}}</td>
-                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail">
+                                                        <td style="cursor: pointer;" *ngIf="order.orderShipmentDetail"
+                                                            (click)="showOrderItems(order)">
                                                             {{order.orderShipmentDetail.phoneNumber}}</td>
                                                         <td style="cursor: pointer;max-width: 140px;text-overflow: clip;"
-                                                            *ngIf="order.orderShipmentDetail">
+                                                            *ngIf="order.orderShipmentDetail"
+                                                            (click)="showOrderItems(order)">
                                                             {{order.created}}</td>
-                                                        <td *ngIf="order.orderShipmentDetail" style="max-width: 130px;">
+                                                        <td *ngIf="order.orderShipmentDetail" style="max-width: 130px;"
+                                                            (click)="showOrderItems(order)">
                                                             <div>{{order.completionStatus}}</div>
                                                         </td>
-                                                        <td *ngIf="order.orderShipmentDetail">
-
+                                                        <td *ngIf="order.orderShipmentDetail"
+                                                            (click)="showOrderItems(order)">
                                                             <div>{{order.paymentStatus}}</div>
                                                         </td>
+                                                        <td *ngIf="order.orderShipmentDetail">
+                                                            <div><input class="form-control" type="checkbox" 
+                                                                    style="width: 16px;"></div>
+                                                        </td>
                                                     </tr>
-                                                    <div [hidden]="!(orders.length==0)" style="color:red">No data available to view</div>
+                                                    <div [hidden]="!(orders.length==0)" style="color:red">No data
+                                                        available to view</div>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -141,7 +155,7 @@
                                             <nav aria-label="pagin">
                                                 <ul class="pagination pagination-sm">
                                                     <li class="page-item add-pointer"><a class="page-link"
-                                                          (click)="previousPage()"  *ngIf="totalPages>0">Previous</a>
+                                                            (click)="previousPage()" *ngIf="totalPages>0">Previous</a>
                                                     </li>
 
                                                     <li class="page-item pagination {{page.isActive}}"
@@ -150,7 +164,7 @@
                                                             {{page.no}}</a>
                                                     </li>
                                                     <li class="page-item add-pointer"><a class="page-link"
-                                                           (click)="nextPage()" *ngIf="totalPages>0">Next</a>
+                                                            (click)="nextPage()" *ngIf="totalPages>0">Next</a>
                                                     </li>
 
                                                 </ul>
