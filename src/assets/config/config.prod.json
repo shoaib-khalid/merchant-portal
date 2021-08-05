@@ -1,6 +1,6 @@
 {
     "env": {
-        "name": "DEV"
+        "name": "PROD"
     },
     "services": {
         "flowBuilderService":   "https://api.symplified.biz/flow-builder/v1",
