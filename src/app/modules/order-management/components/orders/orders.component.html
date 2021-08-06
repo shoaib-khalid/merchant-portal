@@ -72,7 +72,7 @@
                                                 <div>
                                                     <input type="text" placeholder="Phone Number"
                                                         class="form-control filter"
-                                                        style="width:180px; margin-right: 10px;" value="" name="">
+                                                        style="width:160px; margin-right: 10px;" value="" name="">
                                                 </div>
                                                 <div>
                                                     <input type="date" placeholder="From - date"
@@ -84,6 +84,13 @@
                                                         class="form-control filter"
                                                         style="width:160px; margin-right: 10px;" name="" id="to-date">
                                                 </div>
+                                                <select name="state-charges" class="form-control state-charges filter"
+                                                    style="width: 160px;" id="paymentStatus" [ngModel]="status">
+                                                    <option disabled>Payment Status</option>
+                                                    <option value="">All</option>
+                                                    <option *ngFor="let status of paymentStatuses;"
+                                                        value="{{status.status}}"> {{status.status}}</option>
+                                                </select>
                                                 <div id="search" (click)="searchOrders()"> Search</div>
                                                 <div style="margin-left: 80px;margin-top: 10px;">Total orders :
                                                     {{totalOrders}}</div>
@@ -131,7 +138,7 @@
                                                         <td style="cursor: pointer;max-width: 140px;text-overflow: clip;"
                                                             *ngIf="order.orderShipmentDetail"
                                                             (click)="showOrderItems(order)">
-                                                            {{order.created}}</td>
+                                                            {{order.created| date:'medium'  }}</td>
                                                         <td *ngIf="order.orderShipmentDetail" style="max-width: 130px;"
                                                             (click)="showOrderItems(order)">
                                                             <div>{{order.completionStatus}}</div>
@@ -141,7 +148,7 @@
                                                             <div>{{order.paymentStatus}}</div>
                                                         </td>
                                                         <td *ngIf="order.orderShipmentDetail">
-                                                            <div><input class="form-control" type="checkbox" 
+                                                            <div><input class="form-control" type="checkbox"
                                                                     style="width: 16px;"></div>
                                                         </td>
                                                     </tr>
