@@ -87,12 +87,13 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     children: []
   },
-  {
-    path: '',
-    component: LandingPageComponent,
-    canActivate: [AuthGuardService],
-    children: []
-  },
+//   {
+//     path: '',
+//     component: LandingPageComponent,
+//     canActivate: [AuthGuardService],
+//     children: []
+//   },
+  { path: '', redirectTo: "signin", pathMatch: "full" },
   {
     path: 'f-and-b',
     component: FAndBComponent,
