@@ -18,13 +18,18 @@ export class OrdersComponent implements OnInit {
   totalPages: number = 0;
   filterObj: any = { pageSize: 10 };
   totalOrders: any = 0;
-  page:any=1;
+  page: any = 1;
+  paymentStatuses: any = [];
+  status: any = "";
   constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.populatePaymentStatus();
     this.route.queryParams.subscribe(params => {
       this.checkForParams(params);
     });
+    const d = new Date();
+    console.log(d.toUTCString())
   }
 
   async getOrders() {
@@ -51,7 +56,7 @@ export class OrdersComponent implements OnInit {
    * basically it helps pagination
    */
   async openPage(page) {
-    this.page=page;
+    this.page = page;
     const obj: any = this.filterObj;
     obj.page = page - 1;
     this.orders = await this.apiCalls.getFilteredOrders(obj);
@@ -127,6 +132,7 @@ export class OrdersComponent implements OnInit {
 
   async filterOrders() {
     const params: any = this.composeFilterObject(this.getAllFilters())
+    console.log(params)
     const data: any = await this.apiCalls.getFilteredOrders(params);
     this.totalPages = data.data.totalPages;
     this.setPagination(data.data.totalPages, 1)
@@ -140,6 +146,7 @@ export class OrdersComponent implements OnInit {
     for (var i = 0; i < filter.length; i++) {
       filterValues[i] = filter[i].value;
     }
+    filterValues[4] = this.status;
     return filterValues;
   }
 
@@ -150,6 +157,7 @@ export class OrdersComponent implements OnInit {
       phoneNumber: filterValues[1],
       from: filterValues[2],
       to: filterValues[3],
+      paymentStatus: filterValues[4],
       pageSize: 10
     }
 
@@ -161,7 +169,7 @@ export class OrdersComponent implements OnInit {
     const toDate: any = document.getElementsByClassName('filter')[3];
     const fromDate: any = document.getElementsByClassName('filter')[2];
     toDate.value = new Date().toISOString().replace(/T.*/, '').split('-').join('-');
-    fromDate.value =new Date().toISOString().replace(/T.*/, '').split('-').join('-');
+    fromDate.value = new Date().toISOString().replace(/T.*/, '').split('-').join('-');
 
   }
 
@@ -201,7 +209,7 @@ export class OrdersComponent implements OnInit {
    * object and them to backend for searching
    */
   urlContainsSearchParams(params) {
-    if ('receiverName' in params && 'phoneNumber' in params && 'from' in params && 'to' in params) {
+    if ('receiverName' in params && 'phoneNumber' in params && 'from' in params && 'to' in params && 'paymentStatus' in params) {
       return true;
     } else {
       return false;
@@ -210,29 +218,35 @@ export class OrdersComponent implements OnInit {
 
   populateSearchFields(params) {
     const filter: any = document.getElementsByClassName('filter');
-    filter[0].value=params['receiverName'];
-    filter[1].value=params['phoneNumber'];
-    filter[2].value=params['from'];
-    filter[3].value=params['to'];
-    
+    filter[0].value = params['receiverName'];
+    filter[1].value = params['phoneNumber'];
+    filter[2].value = params['from'];
+    filter[3].value = params['to'];
+    filter[4].value = params['paymentStatus'];
+    this.status = params['paymentStatus'];
     this.filterOrders();
   }
 
-  searchOrders(){
+  searchOrders() {
     const filter: any = document.getElementsByClassName('filter');
-    this.router.navigate(['orders'], { queryParams: { receiverName: filter[0].value, phoneNumber: filter[1].value, from: filter[2].value, to: filter[3].value } })
+    this.router.navigate(['orders'], { queryParams: { receiverName: filter[0].value, phoneNumber: filter[1].value, from: filter[2].value, to: filter[3].value, paymentStatus: filter[4].value } })
   }
 
-  previousPage(){
-    if(this.page-1<this.totalPages && this.page-1>0){
-      this.openPage(this.page-1)
+  previousPage() {
+    if (this.page - 1 < this.totalPages && this.page - 1 > 0) {
+      this.openPage(this.page - 1)
       this.markSelectedPage(this.page)
     }
   }
-  nextPage(){
-    if(this.page+1<=this.totalPages){
-      this.openPage(this.page+1)
+  nextPage() {
+    if (this.page + 1 <= this.totalPages) {
+      this.openPage(this.page + 1)
       this.markSelectedPage(this.page)
     }
+  }
+
+  async populatePaymentStatus() {
+    const statuses: any = await this.apiCalls.getPaymentStatuses();
+    this.paymentStatuses = statuses.data.content;
   }
 }

@@ -10,7 +10,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-
+import { Product } from '../product.model';
 
 
 
@@ -35,8 +35,8 @@ export class AddProductComponent implements OnInit {
   inventoryMngdBy: any;
   sku: any;
   barcode: any;
-  trackQuantity: any;
-  continueSelling: any;
+  trackQuantity: any = false;
+  continueSelling: any = false;
   minQtyAlarm: any;
   quantity: any;
   physicalProduct: any;
@@ -56,12 +56,14 @@ export class AddProductComponent implements OnInit {
   productImages: any = [];
   id: any;
   namenew: any;
+  generateAlarm: any = false;
   myControl = new FormControl("Size");
   //vos purpose is to show suggestions for variant names
   vos: string[] = ['Size', 'Color', 'Material', 'Style', 'Title'];
   filteredOptions: Observable<string[]>;
   public Editor = ClassicEditor;
 
+  productModel = new Product("yoo", "", "", "", "", false, false, 0)
   constructor(private dialog: MatDialog,
 
     private helperTextService: HelperTextService,
@@ -142,7 +144,7 @@ export class AddProductComponent implements OnInit {
         "storeId": localStorage.getItem("storeId"),
         "allowOutOfStockPurchases": this.continueSelling,
         "trackQuantity": this.trackQuantity,
-        "minQuantityForAlarm": this.minQtyAlarm
+        "minQuantityForAlarm": this.minQtyAlarm ? this.minQtyAlarm : -1
 
       }
       const data: any = await this.apiCalls.addProduct(body);
@@ -154,8 +156,8 @@ export class AddProductComponent implements OnInit {
         const productAvailableIds = await this.addVariantValues(data.data.id, variantIds);
         await this.addInventoryItem(data.data.id, productAvailableIds)
       }
-      // console.log("product Id: " + data.data.id)
-      // console.log("store Id: " + localStorage.getItem("storeId"))
+      console.log("product Id: " + data.data.id)
+      console.log("store Id: " + localStorage.getItem("storeId"))
 
       this.apiCalls.loadingdialogRef.close();
       await this.showVerifyIcon();

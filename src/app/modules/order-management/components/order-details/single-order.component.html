@@ -135,6 +135,12 @@
                                                         <p class="f-w-5 text-black"
                                                             style="display: inline-block;margin-left: 10px;">Zip code :
                                                             {{address.zipcode}}</p>
+                                                        <p class="f-w-5 text-black">
+                                                            Customer Name :
+                                                            <ng-container *ngIf="order.orderShipmentDetail">
+                                                                {{order.orderShipmentDetail.receiverName}}
+                                                            </ng-container>
+                                                        </p>
 
                                                     </div>
                                                 </div>

@@ -902,13 +902,18 @@ export class ApiCallsService {
   async updateStoreStateCharges(body, id) {
     return this.http.put(this.productService + `/stores/${localStorage.getItem('storeId')}/stateDeliveryCharge/${id}`, body).toPromise()
   }
-  
+
   async getStoreStateCharges() {
     return this.http.get(this.productService + `/stores/${localStorage.getItem('storeId')}/stateDeliveryCharge`).toPromise()
   }
 
   async deleteStateCharge(id) {
     return this.http.delete(this.productService + `/stores/${localStorage.getItem('storeId')}/stateDeliveryCharge/${id}`).toPromise()
+  }
+
+  getPaymentStatuses() {
+    return this.http.get(this.orderService + `/orders/payment-statuseses`).toPromise()
+
   }
 
 }

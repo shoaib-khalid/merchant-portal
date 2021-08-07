@@ -29,7 +29,6 @@ export class ManageStoresComponent implements OnInit {
   }
 
   selectStore(id, name, domain,phoneNumber) {
-    console.log(phoneNumber)
     localStorage.setItem("storeId", id)
     localStorage.setItem("store", name)
     this.helperTextSvc.setDefaultJson(phoneNumber,domain,name)

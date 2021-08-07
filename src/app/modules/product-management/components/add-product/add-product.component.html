@@ -62,341 +62,376 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-lg-8">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
+                                    <form>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-8">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
 
-                                                        <p style="color: red;" *ngIf="requiredError"> * Please complete
-                                                            all fields</p>
+                                                            <p style="color: red;" *ngIf="requiredError"> * Please
+                                                                complete
+                                                                all fields</p>
 
-                                                        <div class="form-group">
-                                                            <label for="l301">Title</label>
-                                                            <input type="text" style="width: 578px;" [(ngModel)]="title"
-                                                                class="form-control necessary" id="l301"
-                                                                (keyup)="titleChange($event)" />
+                                                            <div class="form-group">
+                                                                <label for="l301">Title</label>
+                                                                <input type="text" style="width: 578px;"
+                                                                    name="product-title" [(ngModel)]="title"
+                                                                    class="form-control necessary" id="l301"
+                                                                    (keyup)="titleChange($event)" />
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
 
-                                                <div class="form-group">
-                                                    <label class="form-control-label" for="l151">Description</label>
-                                                    <!-- <textarea class="form-control" [(ngModel)]="description" rows="3"
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="l151">Description</label>
+                                                        <!-- <textarea class="form-control" [(ngModel)]="description" rows="3"
                                                         id="l151"></textarea> -->
-                                                    <ckeditor
-                                                        [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
-                                                        [editor]="Editor" [(ngModel)]="description" rows="3"></ckeditor>
-                                                </div>
-                                                <h4 class="mt-4 mb-3">Media</h4>
-                                                <div class="input-group mb-3">
-                                                    <div class="custom-file">
-                                                        <input type="file" multiple class="custom-file-input"
-                                                            (change)="onThumbnailChanged($event,0)"
-                                                            id="inputGroupFile011" />
-                                                        <label class="custom-file-label" for="inputGroupFile011">Choose
-                                                            file(s) </label>
+                                                        <ckeditor name='product-desc'
+                                                            [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
+                                                            [editor]="Editor" [(ngModel)]="description" rows="3">
+                                                        </ckeditor>
                                                     </div>
-                                                </div>
-                                                <p class="text-muted">Dimensions: 100 x 100 </p>
+                                                    <h4 class="mt-4 mb-3">Media</h4>
+                                                    <div class="input-group mb-3">
+                                                        <div class="custom-file">
+                                                            <input type="file" multiple name="file-upload-product"
+                                                                class="custom-file-input"
+                                                                (change)="onThumbnailChanged($event,0)"
+                                                                id="inputGroupFile011" />
+                                                            <label class="custom-file-label"
+                                                                for="inputGroupFile011">Choose
+                                                                file(s) </label>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-muted">Dimensions: 100 x 100 </p>
 
-                                                <div *ngFor="let prodImg of productImages;index as i"
-                                                    style="display: inline-block;margin-top: 3px;margin-right: 3px;">
-                                                    <div class="image-container">
-                                                        <img id="product-image-{{i}}" src="{{prodImg.preview}}" alt=""
-                                                            class="image" height="768px" width="1336px">
-                                                        <div class="overlay" (click)="setThumbnail(i)">Set as thumbnail?
-                                                        </div>
-                                                    </div>
-                                                    <img src="assets/red-cross.svg"
-                                                        style="margin-left: 5px;margin-bottom: 100px;" alt=""
-                                                        height="14px" width="14px" (click)="deleteProductImages(i)">
-                                                </div>
-
-                                                <br />
-
-                                                <h4 class="text-black mb-3">Pricing</h4>
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label for="l30">Price</label>
-                                                            <input id="general-price" type="text" min="0"
-                                                                [disabled]="variantChecked"
-                                                                (keyup)="priceChange($event)"
-                                                                class="form-control necessary" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6" hidden>
-                                                        <div class="form-group">
-                                                            <label for="l31">Compare at price</label>
-                                                            <input type="number" min="0" [(ngModel)]="compareAtPrice"
-                                                                class="form-control" id="l31" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-6" hidden>
-                                                        <div class="form-group">
-                                                            <label for="l30">Cost per item</label>
-                                                            <input type="number" min="0" [(ngModel)]="costPerItem"
-                                                                class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6" hidden>
-                                                        <div>
-                                                            <div>
-                                                                <div>Margin</div>
-                                                                <div>-</div>
+                                                    <div *ngFor="let prodImg of productImages;index as i"
+                                                        style="display: inline-block;margin-top: 3px;margin-right: 3px;">
+                                                        <div class="image-container">
+                                                            <img id="product-image-{{i}}" src="{{prodImg.preview}}"
+                                                                alt="" class="image" height="768px" width="1336px">
+                                                            <div class="overlay" (click)="setThumbnail(i)">Set as
+                                                                thumbnail?
                                                             </div>
                                                         </div>
-                                                        <div>
-                                                            <div>
-                                                                <div>Profit</div>
-                                                                <div>-</div>
+                                                        <img src="assets/red-cross.svg"
+                                                            style="margin-left: 5px;margin-bottom: 100px;" alt=""
+                                                            height="14px" width="14px" (click)="deleteProductImages(i)">
+                                                    </div>
+
+                                                    <br />
+
+                                                    <h4 class="text-black mb-3">Pricing</h4>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label for="l30">Price</label>
+                                                                <input id="general-price" type="text" min="0"
+                                                                    name="price" [disabled]="variantChecked"
+                                                                    (keyup)="priceChange($event)"
+                                                                    class="form-control necessary" />
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-6 ml-3">
-                                                        <input hidden class="form-check-input" [(ngModel)]="chargeTax"
-                                                            type="checkbox" value="">
-                                                        <label for="" hidden>Charge Tax on this product</label>
-                                                    </div>
-                                                </div>
-                                                <br />
-                                                <h4 class="text-black mb-3">Inventory</h4>
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label for="l30" hidden>Inventory Managed by</label>
-                                                            <div>
-                                                                <select name="Inventory-manager" hidden
-                                                                    [(ngModel)]="inventoryMngdBy" id="inventory-manage">
-                                                                    <option value="shopify">Shopify</option>
-                                                                    <option value="dropshipman">Dropshipman</option>
-                                                                </select>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label for="l30">SKU (Stock Keeping Unit)</label>
-                                                            <input [disabled]="variantChecked" type="text"
-                                                                [(ngModel)]="sku" class="form-control necessary" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label for="quantity">Quantity</label>
-                                                            <br>
-                                                            <input [disabled]="variantChecked" type="number"
-                                                                [(ngModel)]="quantity" id="quantity"
-                                                                class="form-control necessary" name="quantity" min="1"
-                                                                max="10000">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label for="l30">Minimum Quantity For alarm</label>
-                                                            <input type="text" [(ngModel)]="minQtyAlarm"
-                                                                class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input"
-                                                                    [(ngModel)]="trackQuantity" type="checkbox" value=""
-                                                                    id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault">
-
-                                                                    Track quantity
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input"
-                                                                    [(ngModel)]="continueSelling" type="checkbox"
-                                                                    value="" id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault">
-
-                                                                    Continue selling when out of stock
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <h4 hidden class="text-black mb-3">Shipping</h4>
-                                                <div hidden class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input"
-                                                                    [(ngModel)]="physicalProduct" type="checkbox"
-                                                                    value="" id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault">
-
-                                                                    This is a physical product
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row" hidden>
-                                                    <div class="col-lg-10">
-                                                        <div class="form-group">
-                                                            <div>Weight</div>
-                                                            <p style="font-weight: normal;">Used to calculate shipping
-                                                                rates at checkout and label prices during fulfillment.
-                                                            </p>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="quantity">Weight</label>
-                                                            <br>
-                                                            <input type="number" id="quantity" name="quantity" min="1"
-                                                                value="0.0" max="10000">
-                                                            <select name="" [(ngModel)]="weight"
-                                                                id="weight-type-dropdown">
-                                                                <option value="">lb</option>
-                                                                <option value="">oz</option>
-                                                                <option value="">kg</option>
-                                                                <option value="">g</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row" hidden>
-                                                    <div class="col-lg-6">
-                                                        Customs information
-                                                    </div>
-                                                    <div class="col-lg-12" style="font-weight: normal;">
-                                                        Used by border officers to calculate duties when shipping
-                                                        internationally. Shown on customs forms you print during
-                                                        fulfillment.
-                                                    </div>
-                                                </div>
-                                                <div class="row" hidden>
-                                                    <div class="col-lg-6">
-                                                        Country/Region of origin
-                                                    </div>
-                                                    <div class="col-lg-12" style="font-weight: normal;">
-                                                        <select name="countries" [(ngModel)]="country">
-                                                            <option value="{{country.code}}"
-                                                                *ngFor="let country of countries">{{country.name}}
-                                                            </option>
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-10" style="font-weight:normal">In most cases,
-                                                        where the product is manufactured.</div>
-                                                    <div class="col-lg-10">
-                                                        <div class="form-group">
-                                                            <label for="l30">HS (Harmonized System) code</label>
-                                                            <input type="text" [(ngModel)]="hsCode"
-                                                                placeholder="Search by product keyword or HS code"
-                                                                class="form-control" id="l30" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <h4 class="text-black mb-3">Variants</h4>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input"
-                                                                    [(ngModel)]="variantChecked"
-                                                                    (change)="variantChanged($event)" type="checkbox"
-                                                                    value="" id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault">
-
-                                                                    This product has multiple options, like different
-                                                                    sizes or colors
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-lg-6" *ngIf="variantChecked">
-                                                        <p class="text-muted" style="width: 400px;">In order to add a
-                                                            tag, press enter after
-                                                            typing it.</p>
-                                                        Options
-                                                    </div>
-                                                </div>
-
-                                                <div *ngIf="variantChecked">
-                                                    <div *ngFor="let option of options; index as i;">
-                                                        <div class="row">
-                                                            <div class="col-lg-6" style="font-weight: lighter;">
-                                                                Option {{i+1}}
-                                                            </div>
-                                                        </div>
-
-
-                                                        <div class="row">
-                                                            <div class="col-lg-3" style="font-weight: lighter;">
-                                                                <div class="form-group">
-                                                                    <input type="text"
-                                                                        (keyup)="variantNameChanged($event,i)"
-                                                                        (change)="variantNameChanged($event,i)"
-                                                                        placeholder="Size"
-                                                                        class="form-control necessary"
-                                                                        [formControl]="myControl"
-                                                                        [matAutocomplete]="auto" />
-                                                                    <mat-autocomplete autoActiveFirstOption
-                                                                        #auto="matAutocomplete"
-                                                                        (optionSelected)="optionSelectedAutoComplete($event.option,i)">
-                                                                        <mat-option
-                                                                            *ngFor="let option of filteredOptions | async"
-                                                                            [value]="option">
-                                                                            {{option}}
-                                                                        </mat-option>
-                                                                    </mat-autocomplete>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-7" style="font-weight: lighter;">
-                                                                <div class="form-group">
-                                                                    <tag-input [(ngModel)]="items[i]"
-                                                                        [placeholder]="'+Option'"
-                                                                        (keyup.enter)="variantsChanged($event)"
-                                                                        (keyup)="variantsChanged($event)"
-                                                                        [separatorKeyCodes]="[32, 188]"
-                                                                        (onRemove)="onRemove($event,i)"
-                                                                        [modelAsStrings]="true"
-                                                                        [secondaryPlaceholder]="'Split options with comma'">
-                                                                    </tag-input>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="col-lg-1 mt-3"
-                                                                style="font-weight: lighter;display: inline-block;cursor: pointer;"
-                                                                (click)="deleteVariant(i)">
-                                                                <img src="assets/red-cross.svg" height="20px"
-                                                                    width="20px" alt="">
+                                                        <div class="col-lg-6" hidden>
+                                                            <div class="form-group">
+                                                                <label for="l31">Compare at price</label>
+                                                                <input type="number" min="0" name="compareAtPrice"
+                                                                    [(ngModel)]="compareAtPrice" class="form-control"
+                                                                    id="l31" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="add-option" (click)="addAnotherOption()">Add another
-                                                            option</div>
+                                                        <div class="col-lg-6" hidden>
+                                                            <div class="form-group">
+                                                                <label for="l30">Cost per item</label>
+                                                                <input type="number" min="0" name="cost-per-item"
+                                                                    [(ngModel)]="costPerItem" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6" hidden>
+                                                            <div>
+                                                                <div>
+                                                                    <div>Margin</div>
+                                                                    <div>-</div>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <div>
+                                                                    <div>Profit</div>
+                                                                    <div>-</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6 ml-3">
+                                                            <input hidden class="form-check-input" name="chargeTax"
+                                                                [(ngModel)]="chargeTax" type="checkbox" value="">
+                                                            <label for="" hidden>Charge Tax on this product</label>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <h4 class="text-black mb-3">Inventory</h4>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label for="l30" hidden>Inventory Managed by</label>
+                                                                <div>
+                                                                    <select name="Inventory-manager" hidden
+                                                                        [(ngModel)]="inventoryMngdBy"
+                                                                        >
+                                                                        <option value="shopify">Shopify</option>
+                                                                        <option value="dropshipman">Dropshipman</option>
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label for="l30">SKU (Stock Keeping Unit)</label>
+                                                                <input [disabled]="variantChecked" type="text"
+                                                                    name="variant-checked-sku" [(ngModel)]="sku"
+                                                                    class="form-control necessary" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label for="quantity">Quantity</label>
+                                                                <br>
+                                                                <input [disabled]="variantChecked" type="number"
+                                                                    name="quantity" [(ngModel)]="quantity" id="quantity"
+                                                                    class="form-control necessary" name="quantity"
+                                                                    min="1" max="10000">
+                                                            </div>
+                                                        </div>
+                                                        <div style="margin-left: 12px;">
+                                                            <input type="checkbox" id="alarmCheckBox"
+                                                                class="form-control" name="alarmCheckBox"
+                                                                style="width:13px;height:13px;display: inline-block;"
+                                                                [(ngModel)]="generateAlarm">
+                                                            <label for="alarmCheckBox"
+                                                                style="margin-left: 6px;">Generate
+                                                                alarm on low stock</label>
+                                                        </div>
+                                                        <div class="col-lg-6" [hidden]="!generateAlarm">
+                                                            <div class="form-group">
+                                                                <label for="l30">Minimum Quantity For alarm</label>
+                                                                <input type="text" [(ngModel)]="minQtyAlarm"
+                                                                    name="minQtyAlarm" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input"
+                                                                        name="trackQuantityCheck"
+                                                                        [(ngModel)]="trackQuantity" type="checkbox"
+                                                                        value="">
+                                                                    <label class="form-check-label"
+                                                                        for="flexCheckDefault">
+
+                                                                        Track quantity
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input"
+                                                                        [(ngModel)]="continueSelling" type="checkbox"
+                                                                        name="continueSelling" value=""
+                                                                        >
+                                                                    <label class="form-check-label"
+                                                                        for="flexCheckDefault">
+
+                                                                        Continue selling when out of stock
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <h4 hidden class="text-black mb-3">Shipping</h4>
+                                                    <div hidden class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input"
+                                                                        [(ngModel)]="physicalProduct" type="checkbox"
+                                                                        name="physical-product" value=""
+                                                                        >
+                                                                    <label class="form-check-label"
+                                                                        for="flexCheckDefault">
+
+                                                                        This is a physical product
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" hidden>
+                                                        <div class="col-lg-10">
+                                                            <div class="form-group">
+                                                                <div>Weight</div>
+                                                                <p style="font-weight: normal;">Used to calculate
+                                                                    shipping
+                                                                    rates at checkout and label prices during
+                                                                    fulfillment.
+                                                                </p>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="quantity">Weight</label>
+                                                                <br>
+                                                                <input type="number" id="quantity-x" name="quantity"
+                                                                    min="1" value="0.0" max="10000">
+                                                                <select name="weight" [(ngModel)]="weight"
+                                                                    id="weight-type-dropdown">
+                                                                    <option value="">lb</option>
+                                                                    <option value="">oz</option>
+                                                                    <option value="">kg</option>
+                                                                    <option value="">g</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" hidden>
+                                                        <div class="col-lg-6">
+                                                            Customs information
+                                                        </div>
+                                                        <div class="col-lg-12" style="font-weight: normal;">
+                                                            Used by border officers to calculate duties when shipping
+                                                            internationally. Shown on customs forms you print during
+                                                            fulfillment.
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" hidden>
+                                                        <div class="col-lg-6">
+                                                            Country/Region of origin
+                                                        </div>
+                                                        <div class="col-lg-12" style="font-weight: normal;">
+                                                            <select name="countries" [(ngModel)]="country">
+                                                                <option value="{{country.code}}"
+                                                                    *ngFor="let country of countries">{{country.name}}
+                                                                </option>
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg-10" style="font-weight:normal">In most cases,
+                                                            where the product is manufactured.</div>
+                                                        <div class="col-lg-10">
+                                                            <div class="form-group">
+                                                                <label for="l30">HS (Harmonized System) code</label>
+                                                                <input type="text" [(ngModel)]="hsCode" name="hsCode"
+                                                                    placeholder="Search by product keyword or HS code"
+                                                                    class="form-control" id="l30" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <h4 class="text-black mb-3">Variants</h4>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="form-group">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input"
+                                                                        name="variant-checked-name"
+                                                                        [(ngModel)]="variantChecked"
+                                                                        (change)="variantChanged($event)"
+                                                                        type="checkbox" value="">
+                                                                    <label class="form-check-label"
+                                                                        for="flexCheckDefault">
+
+                                                                        This product has multiple options, like
+                                                                        different
+                                                                        sizes or colors
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-6" *ngIf="variantChecked">
+                                                            <p class="text-muted" style="width: 400px;">In order to add
+                                                                a
+                                                                tag, press enter after
+                                                                typing it.</p>
+                                                            Options
+                                                        </div>
+                                                    </div>
+
+                                                    <div *ngIf="variantChecked">
+                                                        <div *ngFor="let option of options; index as i;">
+                                                            <div class="row">
+                                                                <div class="col-lg-6" style="font-weight: lighter;">
+                                                                    Option {{i+1}}
+                                                                </div>
+                                                            </div>
 
 
-                                                <h4 class="text-black mb-3" *ngIf="variantChecked">Preview</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-3" style="font-weight: lighter;">
+                                                                    <div class="form-group">
+                                                                        <input type="text"
+                                                                        name="variant-name-x"
+                                                                            (keyup)="variantNameChanged($event,i)"
+                                                                            (change)="variantNameChanged($event,i)"
+                                                                            placeholder="Size"
+                                                                            class="form-control necessary"
+                                                                            [formControl]="myControl"
+                                                                            [matAutocomplete]="auto" />
+                                                                        <mat-autocomplete autoActiveFirstOption
+                                                                            #auto="matAutocomplete"
+                                                                            (optionSelected)="optionSelectedAutoComplete($event.option,i)">
+                                                                            <mat-option
+                                                                                *ngFor="let option of filteredOptions | async"
+                                                                                [value]="option">
+                                                                                {{option}}
+                                                                            </mat-option>
+                                                                        </mat-autocomplete>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-7" style="font-weight: lighter;">
+                                                                    <div class="form-group">
+                                                                        <tag-input 
+                                                                            name="tag-input-x"
+                                                                            [(ngModel)]="items[i]"
+                                                                            [placeholder]="'+Option'"
+                                                                            (keyup.enter)="variantsChanged($event)"
+                                                                            (keyup)="variantsChanged($event)"
+                                                                            [separatorKeyCodes]="[32, 188]"
+                                                                            (onRemove)="onRemove($event,i)"
+                                                                            [modelAsStrings]="true"
+                                                                            [secondaryPlaceholder]="'Split options with comma'">
+                                                                        </tag-input>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-lg-1 mt-3"
+                                                                    style="font-weight: lighter;display: inline-block;cursor: pointer;"
+                                                                    (click)="deleteVariant(i)">
+                                                                    <img src="assets/red-cross.svg" height="20px"
+                                                                        width="20px" alt="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="add-option" (click)="addAnotherOption()">Add
+                                                                another
+                                                                option</div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <h4 class="text-black mb-3" *ngIf="variantChecked">Preview</h4>
                                                     <table *ngIf="variantChecked" id="table-inventory">
                                                         <thead>
                                                             <th>Image</th>
@@ -413,119 +448,133 @@
                                                                         alt="" height="768px" width="1336px"></td>
                                                                 <td>{{combo.variant}}</td>
                                                                 <td><input type="number" class="form-control tc"
+                                                                        name="price-variant"
                                                                         (keyup)="priceChanged($event,i)"
-                                                                        value="{{combo.prices}}" placeholder="RM 0.00"  />
+                                                                        value="{{combo.prices}}"
+                                                                        placeholder="RM 0.00" />
                                                                 </td>
-                                                                <td> <input type="number" class="form-control"
+                                                                <td> <input 
+                                                                        name="variant-quantity"
+                                                                        type="number" class="form-control"
                                                                         value="{{combo.quantity}}"
                                                                         (keyup)="quantityChanged($event,i)" name=""
                                                                         id="" min="0"></td>
-                                                                <td><input value="{{combo.sku}}"
+                                                                <td><input 
+                                                                        name="variant-sku"
+                                                                        value="{{combo.sku}}"
                                                                         (keyup)="skuChanged($event,i)" type="text"
                                                                         class="form-control  tc" /> </td>
                                                                 <td>
                                                                     <div class="custom-file">
                                                                         <input type="file" multiple
+                                                                            name="file-variant"
                                                                             class="custom-file-input"
-                                                                            (change)="onFileChanged($event,i)"
-                                                                             />
+                                                                            (change)="onFileChanged($event,i)" />
                                                                         <label class="custom-file-label"
                                                                             for="inputGroupFile01"></label>
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <input class="form-control available"
-                                                                        type="checkbox" name="" (change)="inventoryUnAvailable($event,i)">
+                                                                        type="checkbox" name="variant-unavailable"
+                                                                        (change)="inventoryUnAvailable($event,i)">
                                                                 </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                <!-- <h4 class="text-black mb-3">Search engine listing preview
+                                                    <!-- <h4 class="text-black mb-3">Search engine listing preview
                                                 </h4>
                                                 <div class="row">
-                                                    <div class="col-lg-12">
+                                                 Tit   <div class="col-lg-12">
                                                         <p>Add a title and description to see how this product might
                                                             appear in a search engine listing</p>
                                                     </div>
 
                                                 </div> -->
 
-                                                <div class="form-actions my-4">
-                                                    <button type="button" class="btn btn-primary width-150"
-                                                        (click)="saveProduct()">
-                                                        Save Product
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger"
-                                                        [routerLink]="['/products']">Cancel</button>
+                                                    <div class="form-actions my-4">
+                                                        <button type="button" class="btn btn-primary width-150"
+                                                            (click)="saveProduct()">
+                                                            Save Product
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger"
+                                                            [routerLink]="['/products']">Cancel</button>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-lg-4 right-side-card shadow-lg">
-                                                <h4 class="text-black mb-3">Product Status</h4>
-                                                <div class="add-item position-relative mb-3">
-                                                    <div class="add-item-img d-flex  border-radius">
-                                                        <select name="Inventory-manager" [(ngModel)]="productStatus"
-                                                            class="form-control" id="inventory-manage">
-                                                            <option value="">Select status</option>
-                                                            <option value="ACTIVE">Active</option>
-                                                            <option value="DRAFT">Draft</option>
-                                                            <option value="INACTIVE ">INACTIVE</option>
-
-                                                        </select>
-                                                    </div>
-                                                    <div style="font-weight: normal;" hidden>This product will be hidden
-                                                        from
-                                                        all sales channels.</div>
-                                                    <br>
-                                                    <div hidden>SALES CHANNELS AND APPS</div>
-                                                    <div hidden style="margin-left: 19px;"> <input
-                                                            class="form-check-input" type="checkbox" value=""
-                                                            id="flexCheckDefault">
-                                                        <label class="form-check-label" for="flexCheckDefault">
-
-                                                            Online Store
-                                                        </label>
-                                                    </div>
-                                                    <br>
-                                                    <h4 class="text-black mb-3">Category</h4>
+                                                <div class="col-lg-4 right-side-card shadow-lg">
+                                                    <h4 class="text-black mb-3">Product Status</h4>
                                                     <div class="add-item position-relative mb-3">
                                                         <div class="add-item-img d-flex  border-radius">
+                                                            <select name="Inventory-manager" [(ngModel)]="productStatus"
+                                                                class="form-control" >
+                                                                <option value="">Select status</option>
+                                                                <option value="ACTIVE">Active</option>
+                                                                <option value="DRAFT">Draft</option>
+                                                                <option value="INACTIVE ">INACTIVE</option>
+
+                                                            </select>
                                                         </div>
-                                                        <input list="categories-data-list" id="categories"
-                                                            [(ngModel)]='category' type="text"
-                                                            class="form-control necessary" />
-                                                        <datalist id="categories-data-list">
-                                                            <option value="{{cat.name}}" id="{{cat.id}}"
-                                                                *ngFor="let cat of categories;"></option>
-                                                        </datalist>
-                                                        <div class="add-item-img d-flex  border-radius" hidden>
-                                                            <div hidden>Vendor</div>
+                                                        <div style="font-weight: normal;" hidden>This product will be
+                                                            hidden
+                                                            from
+                                                            all sales channels.</div>
+                                                        <br>
+                                                        <div hidden>SALES CHANNELS AND APPS</div>
+                                                        <div hidden style="margin-left: 19px;"> 
+                                                            <input
+                                                                name="test-xxx"
+                                                                class="form-check-input" type="checkbox" value=""
+                                                                >
+                                                            <label class="form-check-label" for="flexCheckDefault">
+
+                                                                Online Store
+                                                            </label>
                                                         </div>
-                                                        <input type="text" class="form-control" hidden />
-                                                        <div class="add-item-img d-flex  border-radius" hidden>
-                                                            <div hidden>Collections</div>
+                                                        <br>
+                                                        <h4 class="text-black mb-3">Category</h4>
+                                                        <div class="add-item position-relative mb-3">
+                                                            <div class="add-item-img d-flex  border-radius">
+                                                            </div>
+                                                            <input list="categories-data-list" id="categories"
+                                                                name="categories"
+                                                                [(ngModel)]='category' type="text"
+                                                                class="form-control necessary" />
+                                                            <datalist id="categories-data-list">
+                                                                <option value="{{cat.name}}" id="{{cat.id}}"
+                                                                    *ngFor="let cat of categories;"></option>
+                                                            </datalist>
+                                                            <div class="add-item-img d-flex  border-radius" hidden>
+                                                                <div hidden>Vendor</div>
+                                                            </div>
+                                                            <input type="text" class="form-control" name="collectios" hidden />
+                                                            <div class="add-item-img d-flex  border-radius" hidden>
+                                                                <div hidden>Collections</div>
+                                                            </div>
+                                                            <input type="text" placeholder="Search for collections"
+                                                                name="search-collections"
+                                                                hidden class="form-control" />
+                                                            <div class="add-item-img d-flex  border-radius">
+                                                                <div hidden>Tags</div>
+                                                            </div>
+                                                            <input type="text" placeholder="Vintage, cotton, summer"
+                                                                name="cotton-cloths"
+                                                                hidden class="form-control" />
                                                         </div>
-                                                        <input type="text" placeholder="Search for collections" hidden
-                                                            class="form-control" />
-                                                        <div class="add-item-img d-flex  border-radius">
-                                                            <div hidden>Tags</div>
-                                                        </div>
-                                                        <input type="text" placeholder="Vintage, cotton, summer" hidden
-                                                            class="form-control" />
-                                                    </div>
-                                                    <br>
-                                                    <!-- <label for="weight">Weight in KG</label>
+                                                        <br>
+                                                        <!-- <label for="weight">Weight in KG</label>
 
                                                     <input type="number" id="delivery-weight" name="quantity" min="1"
                                                         placeholder="Weight in Kg" value="0" max="10000" min="0"
                                                         [(ngModel)]="weight" class="form-control"> -->
+                                                    </div>
+
                                                 </div>
 
+
                                             </div>
-
-
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -576,7 +625,7 @@
                     <aside class="col-md">
                         <h6><i class="las la-coffee mr-2"></i>Stay Up-to-Date!</h6>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control bg-dark" placeholder="Subscribe"
+                            <input type="text" name="Subscribe" class="form-control bg-dark" placeholder="Subscribe"
                                 aria-label="Subscribe.." aria-describedby="button-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary text-white" type="button" id="button-addon2">@</button>
