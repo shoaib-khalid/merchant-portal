@@ -139,8 +139,13 @@ export class ProductsComponent implements OnInit {
    * basically it helps pagination
    */
   async openPage(page) {
-    const products: any = await this.apiCalls.getProducts(page - 1, null);
+    this.page = page;
+    const obj: any = this.filterObj;
+    obj.page = page - 1;
+    this.products = await this.apiCalls.getFilteredProducts(obj);
+    this.totalProducts = this.products.data.totalElements;
     this.markSelectedPage(page)
+    this.products = this.products.data.content;
     this.removeClassIfExist()
   }
 
