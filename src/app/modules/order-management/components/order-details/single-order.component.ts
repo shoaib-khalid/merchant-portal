@@ -19,10 +19,20 @@ export class SingleOrderComponent implements OnInit {
   subTotal: any = "";
   total: any = "";
   order: any = "";
+  dt:any="";
+
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
     this.initializeStoreDetails();
+    this.checkDeliveryType();
+  }
+
+  async checkDeliveryType(){
+    const data:any = await this.apiCalls.getDeliveryDetailsStore(localStorage.getItem('storeId'));
+    if(data.data.type=="SELF"){
+      this.dt='SELF';
+    }
   }
 
 

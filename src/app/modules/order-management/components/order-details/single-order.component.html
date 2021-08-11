@@ -102,9 +102,8 @@
                                                                         class="text-success f-w-5 ml-2">{{this.order.completionStatus}}</span>
                                                                 </p>
                                                                 <p>
-                                                                    <button
-                                                                        *ngIf="order.completionStatus=='PAYMENT_CONFIRMED'"
-                                                                        style="
+                                                                    <button *ngIf="(order.completionStatus=='PAYMENT_CONFIRMED')
+                                                                                && (dt!='SELF')" style="
                                                                 width: 180px;
                                                                 background-color: #32e06c;
                                                                 border-radius: 25px;

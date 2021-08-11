@@ -161,7 +161,7 @@
                             required="" placeholder="Enter post code" (keypress)="showPostWarning()">
                     </div>
                     <div class="add-item-img d-flex  border-radius">
-                        <select name="payment-type" class="form-control" [(ngModel)]="paymentType">
+                        <select name="payment-type" id="payment-type" class="form-control" [(ngModel)]="paymentType">
                             <option value="">Select Payment type</option>
                             <option value="COD">Cash On delivery</option>
                             <option value="ONLINEPAYMENT">Online Payment</option>

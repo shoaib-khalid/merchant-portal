@@ -35,7 +35,7 @@ export class ErrorPopUpComponent implements OnInit {
   }
 
   close() {
-    HttpConfigInterceptor.error = null;
+    // HttpConfigInterceptor.error = null;
     this.dialogRef.close();
     if(this.apiCalls.loadingdialogRef){
       this.apiCalls.loadingdialogRef.close();

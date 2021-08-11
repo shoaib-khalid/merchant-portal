@@ -36,15 +36,15 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         console.log(error)
         if (error.error instanceof ErrorEvent) {
         } else {
-            if (HttpConfigInterceptor.error) {
-            } else {
+            // if (HttpConfigInterceptor.error) {
+            // } else {
                 const dialogRef = HttpConfigInterceptor.globalDialog.open(ErrorPopUpComponent, {
                     disableClose: true,
                     width: "600px",
                     data: { data: error }
                 });
-                HttpConfigInterceptor.error = "error";
-            }
+                // HttpConfigInterceptor.error = "error";
+            // }
         }
         return throwError(
             '');

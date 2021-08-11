@@ -53,6 +53,7 @@ export class ChannelsComponent implements OnInit {
 
     });
     dialogRef.afterClosed().subscribe(result => {
+      this.channels = [];
       this.loadUserChannels()
     });
   }
@@ -92,19 +93,19 @@ export class ChannelsComponent implements OnInit {
 
   async connectToFbPage(accessToken, pageId, botNo, channelName) {
     this.addFacebookChannel(pageId, channelName)
-      this.apiCalls.connectFbPageToSymplified(accessToken, pageId).subscribe(data => {
-        if (data.success) {
-          this.getLongLivedAppAccessToken(accessToken)
-          var x: any = document.getElementsByClassName('connect-button');
-          for (var i = 0; i < x.length; i++) {
-            if (botNo == i) {
-              x[i].style.display = "none"
-              this.apiCalls.successPopUp("Bot connected successfully")
-              break;
-            }
+    this.apiCalls.connectFbPageToSymplified(accessToken, pageId).subscribe(data => {
+      if (data.success) {
+        this.getLongLivedAppAccessToken(accessToken)
+        var x: any = document.getElementsByClassName('connect-button');
+        for (var i = 0; i < x.length; i++) {
+          if (botNo == i) {
+            x[i].style.display = "none"
+            this.apiCalls.successPopUp("Bot connected successfully")
+            break;
           }
         }
-      })
+      }
+    })
 
   }
 
@@ -183,7 +184,7 @@ export class ChannelsComponent implements OnInit {
       userId: localStorage.getItem('ownerId')
     })
     this.apiCalls.successPopUp(`Channel Connected Successfully. 
-    Kindly go to 'Flows' menu to publish the channel.`,2800,'290px')
+    Kindly go to 'Flows' menu to publish the channel.`, 2800, '290px')
   }
 
   /**
@@ -192,7 +193,7 @@ export class ChannelsComponent implements OnInit {
   async deleteUserChannel(channelId) {
     await this.apiCalls.deleteUserChannel(channelId)
     this.apiCalls.successPopUp("Channel Deleted Successfully")
-    this.channels=[];
+    this.channels = [];
     this.loadUserChannels();
   }
 
@@ -213,5 +214,5 @@ export class ChannelsComponent implements OnInit {
     }
   }
 
-  
+
 }

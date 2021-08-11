@@ -54,9 +54,17 @@ export class EditStoreComponent implements OnInit {
     $("#phone-pattern").hide()
   }
 
+  hideOptionsWhenFnB(){
+    $("#delivery-type option[value=" + "SCHEDULED" + "]").hide();
+    $("#payment-type option[value=" + "COD" + "]").hide();
+  }
+
   async loadStore(id) {
     this.store = await this.apiCalls.getStoreDetails(id);
     this.store = this.store.data;
+    if(this.store.verticalCode.includes("FnB")){
+      this.hideOptionsWhenFnB()
+    }
     this.setAssets();
     this.setTextualDetails();
     this.fetchRegions();
@@ -257,11 +265,6 @@ export class EditStoreComponent implements OnInit {
     const dType: any = document.getElementById('delivery-type');
     const dPackage: any = document.getElementById('delivery-package');
     const bikeOrderQty: any = document.getElementById('bike');
-    console.log({  "type": dType.value,
-    "itemType": dPackage.value,
-    "maxOrderQuantityForBike": bikeOrderQty.value,
-    "allowsStorePickup" : this.storeModel.storePickUp
-  })
     return await this.apiCalls.updateDeliveryDetailsStore(this.store.id, {
       "type": dType.value,
       "itemType": dPackage.value,
@@ -319,7 +322,6 @@ export class EditStoreComponent implements OnInit {
       this.storeModel.stateCharges.deletedStateIds.push(dbId)
     }
     this.storeModel.stateCharges.stateIds[i] = "";
-    console.log(this.storeModel.stateCharges)
     this.storeModel.stateCharges.stateCharges.splice(i, 1)
   }
 
@@ -355,7 +357,6 @@ export class EditStoreComponent implements OnInit {
     }
     this.storeModel.stateCharges.stateIds = stateIds;
     this.storeModel.stateCharges.deletedStateIds = [];
-    console.log(this.storeModel.stateCharges)
   }
 
   async deleteStateCharges() {

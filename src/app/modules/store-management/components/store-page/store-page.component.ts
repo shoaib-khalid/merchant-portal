@@ -42,8 +42,9 @@ export class StorePageComponent implements OnInit {
     this.extractVerticleCode();
     this.setRegionUsingClientIpAddress();
 
-    if (this.verticleCode == "FnB") {
+    if (this.verticleCode.includes("FnB")) {
       this.storeModel.packType = "Food"
+      this.hideOptionsWhenFnB();
     }
   }
 
@@ -61,6 +62,10 @@ export class StorePageComponent implements OnInit {
     }
   }
 
+  hideOptionsWhenFnB(){
+    $("#delivery-type option[value=" + "SCHEDULED" + "]").hide();
+    $("#payment-type option[value=" + "CoD" + "]").hide();
+  }
 
   async onLogoChanged(event) {
     const file = event.target.files[0];
