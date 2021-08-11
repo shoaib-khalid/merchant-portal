@@ -6,6 +6,7 @@ import { SingleOrderComponent } from '../order-management/components/order-detai
 import {RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CustomersComponent } from './components/customers/customers.component';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [OrdersComponent,SingleOrderComponent, CustomersComponent],
@@ -13,7 +14,8 @@ import { CustomersComponent } from './components/customers/customers.component';
     CommonModule,
     HomeModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    MatIconModule
   ]
 })
 export class OrderManagementModule { }

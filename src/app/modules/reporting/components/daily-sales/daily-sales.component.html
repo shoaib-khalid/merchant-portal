@@ -9,7 +9,7 @@
 
     <app-shared-header></app-shared-header>
 
-    
+
 
     <main role="main" style="margin-top:80px;">
         <div class="wrapper">
@@ -45,50 +45,44 @@
                                                 daily sales to show.</div> -->
 
                                             <div style="padding-top: 50px; padding-bottom: 15px;">
-                                                <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">Summary Sales
+                                                <div
+                                                    style="font-weight: bold;text-align: center; padding-bottom: 15px;">
+                                                    Summary Sales
                                                 </div>
                                                 <input type="date" placeholder="From - date" class="form-control filter"
-                                                    style="width:160px; margin-right: 10px;display: inline-block;" name=""
-                                                    id="from-date-detailed2">
+                                                    style="width:160px; margin-right: 10px;display: inline-block;"
+                                                    name="" id="from-date-detailed2">
                                                 <input type="date" placeholder="From - date" class="form-control filter"
-                                                    style="width:160px; margin-right: 10px;display: inline-block;" name="" id="to-date-detailed2">
-                                                    <div class="search-btn" (click)="searchSummary()">Search</div>
+                                                    style="width:160px; margin-right: 10px;display: inline-block;"
+                                                    name="" id="to-date-detailed2">
+                                                <div class="search-btn" (click)="searchSummary()">Search</div>
                                             </div>
 
-                                            <ngx-datatable
-                                                class="material"
-                                                [rows]="rows2"
-                                                [columns]="[
+                                            <ngx-datatable class="material" [rows]="rows2" [columns]="[
                                                 { name: 'Date' }, 
                                                 { name: 'Total orders' }, 
                                                 { name: 'Amount earned' }
-                                                ]"
-                                                [columnMode]="ColumnMode.force"
-                                                [headerHeight]="50"
-                                                [footerHeight]="50"
-                                                rowHeight="auto"
-                                                [limit]="5"
-                                              >
+                                                ]" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                                                [footerHeight]="50" rowHeight="auto" [limit]="5">
                                             </ngx-datatable>
 
                                         </div>
-                                        
+
                                         <div style="padding-top: 50px;">
-                                            <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">Daily Detailed Sales
+                                            <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">
+                                                Daily Detailed Sales
                                             </div>
                                             <input type="date" placeholder="From - date" class="form-control filter"
                                                 style="width:160px; margin-right: 10px;display: inline-block;" name=""
                                                 id="from-date-detailed">
                                             <input type="date" placeholder="From - date" class="form-control filter"
-                                                style="width:160px; margin-right: 10px;display: inline-block;" name="" id="to-date-detailed">
-                                                <div class="search-btn" (click)="searchDailyDetails()">Search</div>
+                                                style="width:160px; margin-right: 10px;display: inline-block;" name=""
+                                                id="to-date-detailed">
+                                            <div class="search-btn" (click)="searchDailyDetails()">Search</div>
                                         </div>
                                         <div id="dailySales" style="padding-top: 5px;">
 
-                                            <ngx-datatable
-                                                class="material"
-                                                [rows]="rows"
-                                                [columns]="[
+                                            <ngx-datatable class="material" [rows]="rows" [columns]="[
                                                 { name: 'Date' }, 
                                                 { name: 'Store Name' }, 
                                                 { name: 'Customer Name' }, 
@@ -99,15 +93,10 @@
                                                 { name: 'Total' },
                                                 { name: 'Order Status' },
                                                 { name: 'Delivery Status' }
-                                                ]"
-                                                [columnMode]="ColumnMode.force"
-                                                [headerHeight]="50"
-                                                [footerHeight]="50"
-                                                rowHeight="auto"
-                                                [limit]="5"
-                                              >
+                                                ]" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                                                [footerHeight]="50" rowHeight="auto" [limit]="5">
                                             </ngx-datatable>
-                                           
+
                                         </div>
                                         <div id="dailyTopProducts" style="padding-top: 50px;">
                                             <!-- <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">
@@ -117,33 +106,28 @@
                                                 daily top products to show.</div> -->
                                             <!-- <table [hidden]="dataAvailableToView[2]" datatable [dtOptions]="dtOptions3" [dtTrigger]="dtTrigger3" class="row-border hover table"> -->
                                             <div style="padding-top: 50px; padding-bottom: 15px;">
-                                                <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">Daily Top Products
+                                                <div
+                                                    style="font-weight: bold;text-align: center; padding-bottom: 15px;">
+                                                    Daily Top Products
                                                 </div>
                                                 <input type="date" placeholder="From - date" class="form-control filter"
-                                                    style="width:160px; margin-right: 10px;display: inline-block;" name=""
-                                                    id="from-date-detailed3">
+                                                    style="width:160px; margin-right: 10px;display: inline-block;"
+                                                    name="" id="from-date-detailed3">
                                                 <input type="date" placeholder="From - date" class="form-control filter"
-                                                    style="width:160px; margin-right: 10px;display: inline-block;" name="" id="to-date-detailed3">
-                                                    <div class="search-btn" (click)="searchTopProduct()">Search</div>
+                                                    style="width:160px; margin-right: 10px;display: inline-block;"
+                                                    name="" id="to-date-detailed3">
+                                                <div class="search-btn" (click)="searchTopProduct()">Search</div>
                                             </div>
 
-                                            <ngx-datatable
-                                                class="material"
-                                                [rows]="rows3"
-                                                [columns]="[
+                                            <ngx-datatable class="material" [rows]="rows3" [columns]="[
                                                 { name: 'Date' }, 
                                                 { name: 'Product Name' }, 
                                                 { name: 'Rank' },
                                                 { name: 'Total Transaction' }
-                                                ]"
-                                                [columnMode]="ColumnMode.force"
-                                                [headerHeight]="50"
-                                                [footerHeight]="50"
-                                                rowHeight="auto"
-                                                [limit]="5"
-                                              >
+                                                ]" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                                                [footerHeight]="50" rowHeight="auto" [limit]="5">
                                             </ngx-datatable>
-                                            
+
                                         </div>
 
                                         <!-- <div style="margin-top: 80px;text-align: center;"> -->
@@ -160,115 +144,6 @@
 
         </div>
     </main>
-    <footer class="section-footer bg-dark position-relative">
-        <section class="footer py-5">
-            <div class="container">
-                <div class="row pb-3">
-                    <aside class="col-md-2">
-                        <div class="footer-logo">
-                            <h4 class="text-white font-weight-bold">Theme<span class="text-muted">Shop</span></h4>
-                        </div>
-                    </aside>
-                    <aside class="col-md">
-                        <h6 class="title">Company</h6>
-                        <ul class="list-unstyled">
-                            <li> <a href="#">About us</a></li>
-                            <li> <a href="#">Career</a></li>
-                            <li> <a href="#">Find a store</a></li>
-                            <li> <a href="#">Rules and terms</a></li>
-                            <li> <a href="#">Sitemap</a></li>
-                        </ul>
-                    </aside>
-                    <aside class="col-md">
-                        <h6 class="title">Help</h6>
-                        <ul class="list-unstyled">
-                            <li> <a href="#">Contact us</a></li>
-                            <li> <a href="#">Money refund</a></li>
-                            <li> <a href="#">Order status</a></li>
-                            <li> <a href="#">Shipping info</a></li>
-                            <li> <a href="#">Open dispute</a></li>
-                        </ul>
-                    </aside>
-                    <aside class="col-md">
-                        <h6 class="title">Account</h6>
-                        <ul class="list-unstyled">
-                            <li> <a href="#"> User Login </a></li>
-                            <li> <a href="#"> User register </a></li>
-                            <li> <a href="#"> Account Setting </a></li>
-                            <li> <a href="#"> My Orders </a></li>
-                        </ul>
-                    </aside>
-                    <aside class="col-md">
-                        <h6><i class="las la-coffee mr-2"></i>Stay Up-to-Date!</h6>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control bg-dark" placeholder="Subscribe"
-                                aria-label="Subscribe.." aria-describedby="button-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary text-white" type="button" id="button-addon2">@</button>
-                            </div>
-                        </div>
-                    </aside>
-                </div>
-                <!-- row.// -->
-            </div>
-            <!-- //container -->
-        </section>
-        <!-- footer-top.// -->
-        <section class="pt-3 pb-4">
-            <div class="container">
-                <div class="footer-cta rounded border-dark">
-                    <div class="row no-gutters d-flex justify-content-between align-items-center">
-                        <div class="col-5 col-md-4 affiliate d-flex align-items-center">
-                            <div class="aff-btn">
-                                <a href="/affiliate" class="btn btn-primary btn-sm">
-                                    Affiliate
-                                </a>
-                            </div>
-                            <div>
-                                <p class="text-white d-none d-md-block m-0 w-75 small ml-3">
-                                    Earn 55% and more on all sales
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="d-flex flex-row justify-content-between">
-                                <div class="fact">
-                                    <h6 class="mb-1">12,961</h6>
-                                    <p class="mb-0">Downloads</p>
-                                </div>
-                                <div class="fact">
-                                    <h6 class="mb-1">90</h6>
-                                    <p class="mb-0">Authors</p>
-                                </div>
-                                <div class="fact">
-                                    <h6 class="mb-1">270</h6>
-                                    <p class="mb-0">Themes</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="footer-bottom border-top border-dark white pt-4">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <span class="pr-2">© 2019 Company name</span>
-                        <span class="pr-2"><a href="#">Privacy policy</a></span>
-                        <span class="pr-2"><a href="#">Terms of use</a></span>
-                    </div>
-                    <div class="col-md-6 text-md-right">
-                        <a href="#" class="mr-2"><img src="assets/img/payment/footer-visa.svg" width="42"></a>
-                        <a href="#" class="mr-2"><img src="assets/img/payment/footer-mastercard.svg" width="42"></a>
-                        <a href="#"><img src="assets/img/payment/footer-paypal.svg" width="42"></a>
-                    </div>
-                </div>
-                <!-- row.// -->
-            </div>
-            <!-- //container -->
-        </section>
-    </footer> <!-- build:js -->
 
 
 </body>

@@ -141,7 +141,12 @@
                                                                 {{order.orderShipmentDetail.receiverName}}
                                                             </ng-container>
                                                         </p>
-
+                                                        <p class="f-w-5 text-black">
+                                                            Customer Notes :
+                                                            <ng-container *ngIf="order.customerNotes">
+                                                                {{order.customerNotes}}
+                                                            </ng-container>
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <!-- <div class="col-sm-6 col-md-6 col-lg-6">

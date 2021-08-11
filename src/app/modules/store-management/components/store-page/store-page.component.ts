@@ -149,6 +149,7 @@ export class StorePageComponent implements OnInit {
   async fetchRegions() {
     var regions: any = await this.apiCalls.getStoreRegions();
     this.regions = regions.data.content;
+    console.log(this.regions)
   }
 
   async storeExists(event) {

@@ -3,7 +3,6 @@ import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 
-
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
@@ -20,7 +19,8 @@ export class OrdersComponent implements OnInit {
   totalOrders: any = 0;
   page: any = 1;
   paymentStatuses: any = [];
-  status: any = "";
+  status: any = "PAID";
+  storePickup: false;
   constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -28,12 +28,12 @@ export class OrdersComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.checkForParams(params);
     });
-    const d = new Date();
-    console.log(d.toUTCString())
+    this.toggleStorePickup();
   }
 
   async getOrders() {
     this.orders = await this.apiCalls.getOrders();
+    this.changeUTCToLocalTimeZone();
     this.totalOrders = this.orders.data.totalElements;
     this.totalPages = this.orders.data.totalPages;
     this.setPagination(this.orders.data.totalPages, 1)
@@ -132,7 +132,6 @@ export class OrdersComponent implements OnInit {
 
   async filterOrders() {
     const params: any = this.composeFilterObject(this.getAllFilters())
-    console.log(params)
     const data: any = await this.apiCalls.getFilteredOrders(params);
     this.totalPages = data.data.totalPages;
     this.setPagination(data.data.totalPages, 1)
@@ -248,5 +247,35 @@ export class OrdersComponent implements OnInit {
   async populatePaymentStatus() {
     const statuses: any = await this.apiCalls.getPaymentStatuses();
     this.paymentStatuses = statuses.data.content;
+  }
+
+
+  /**
+   * This function will show store pickup column
+   * based on whether it is set in store page 
+   */
+  async toggleStorePickup() {
+    var data: any = await this.apiCalls.getDeliveryDetailsStore(localStorage.getItem('storeId'));
+    this.storePickup = data.data.allowsStorePickup;
+  }
+
+  /**
+   * Database returns UTC time,
+   * we convert it to time where store was created
+   */
+  async changeUTCToLocalTimeZone() {
+    const store = await this.apiCalls.getStoreDetails(localStorage.getItem('storeId'));
+    var timezone = "";
+    var regions: any = await this.apiCalls.getStoreRegions();
+    regions = regions.data.content;
+    for (var j = 0; j < regions.length; j++) {
+      if (regions[j].id == store.data.regionCountryId) {
+        timezone = regions[j].timezone;
+      }
+    }
+    const data = this.orders;
+    for (var i = 0; i < data.length; i++) {
+      data[i].created = new Date(data[i].created + " UTC").toLocaleString('en-US', { timeZone: timezone });
+    }
   }
 }

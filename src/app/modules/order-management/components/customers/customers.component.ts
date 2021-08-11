@@ -32,13 +32,13 @@ export class CustomersComponent implements OnInit {
   }
 
   openOrdersPage(customerName) {
-    this.router.navigate(['orders'],{ queryParams: { receiverName: customerName, phoneNumber: "", from: "", to: "" } })
+    this.router.navigate(['orders'], { queryParams: { receiverName: customerName, phoneNumber: "", from: "", to: "", paymentStatus: "" } })
   }
 
   searchOrders() {
     const filter: any = document.getElementsByClassName('filter1');
-    this.router.navigate(['customers'], { queryParams: { username: filter[0].value}})
-    
+    this.router.navigate(['customers'], { queryParams: { username: filter[0].value } })
+
   }
 
   /**
@@ -173,15 +173,15 @@ export class CustomersComponent implements OnInit {
     return filterValues;
   }
 
-  previousPage(){
-    if(this.page-1<this.totalPages && this.page-1>0){
-      this.openPage(this.page-1)
+  previousPage() {
+    if (this.page - 1 < this.totalPages && this.page - 1 > 0) {
+      this.openPage(this.page - 1)
       this.markSelectedPage(this.page)
     }
   }
-  nextPage(){
-    if(this.page+1<=this.totalPages){
-      this.openPage(this.page+1)
+  nextPage() {
+    if (this.page + 1 <= this.totalPages) {
+      this.openPage(this.page + 1)
       this.markSelectedPage(this.page)
     }
   }

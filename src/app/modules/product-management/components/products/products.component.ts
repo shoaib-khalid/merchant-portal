@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import $ from 'jquery';
 
 @Component({
   selector: 'app-products',
@@ -26,11 +26,14 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.checkForParams(params);
+      this.initial(params)
     });
-    this.getCategoriesByStoreId();
   }
 
+  async initial(params){
+    await this.getCategoriesByStoreId();
+    this.checkForParams(params);
+  }
 
   async loadProducts() {
     const products: any = await this.apiCalls.getProducts(0, this.categoryId);
@@ -138,7 +141,6 @@ export class ProductsComponent implements OnInit {
   async openPage(page) {
     const products: any = await this.apiCalls.getProducts(page - 1, null);
     this.markSelectedPage(page)
-    console.log(this.products)
     this.removeClassIfExist()
   }
 
@@ -234,6 +236,7 @@ export class ProductsComponent implements OnInit {
     const filter: any = document.getElementsByClassName('filter3');
     filter[0].value = params['productName'];
     filter[1].value = params['categoryId'];
+    $('#cat-prod').val(params['categoryId']);
     this.filterProducts();
   }
 
@@ -260,7 +263,7 @@ export class ProductsComponent implements OnInit {
   }
   getAllFilters() {
     const filter: any = document.getElementsByClassName('filter3');
-    var filterValues = new Array(11).fill('');
+    var filterValues = new Array(4).fill('');
     for (var i = 0; i < filter.length; i++) {
       filterValues[i] = filter[i].value;
     }
@@ -273,8 +276,8 @@ export class ProductsComponent implements OnInit {
   }
 
 
-  setAllFieldsToEmpty(){
-    const filters:any = document.getElementsByClassName('filter3');
-    filters[0].value="";
+  setAllFieldsToEmpty() {
+    const filters: any = document.getElementsByClassName('filter3');
+    filters[0].value = "";
   }
 }

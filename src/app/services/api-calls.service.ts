@@ -10,6 +10,7 @@ import { HelperTextService } from 'src/app/helpers/helper-text.service';
 import { HelperMethodsService } from './helper-methods.service';
 import { AppConfig } from './app.config.ts.service';
 import { SuggestionPopupComponent } from 'src/app/modules/agent-management/components/agents/suggestion-popup/suggestion-popup.component';
+import { param } from 'jquery';
 
 @Injectable({
   providedIn: 'root'
@@ -297,6 +298,7 @@ export class ApiCallsService {
   }
 
   getFilteredProducts(parameters) {
+    parameters.storeId = localStorage.getItem('storeId')
     console.log(parameters)
     const httpOptions: any = {
 
@@ -304,11 +306,7 @@ export class ApiCallsService {
       }),
       params: parameters
     }
-
-    if (localStorage.getItem("storeId")) {
-      return this.http.get(this.productService + "/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
-    }
-    return { data: { content: [] } };
+    return this.http.get(this.productService + "/stores/" + localStorage.getItem("storeId") + "/products", httpOptions).toPromise();
   }
 
 
@@ -913,7 +911,6 @@ export class ApiCallsService {
 
   getPaymentStatuses() {
     return this.http.get(this.orderService + `/orders/payment-statuseses`).toPromise()
-
   }
 
 }
