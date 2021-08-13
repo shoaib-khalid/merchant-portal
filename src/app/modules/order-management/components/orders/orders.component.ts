@@ -273,6 +273,7 @@ export class OrdersComponent implements OnInit {
         timezone = regions[j].timezone;
       }
     }
+    console.log(timezone)
     const data = this.orders;
     for (var i = 0; i < data.length; i++) {
       data[i].created = new Date(data[i].created + " UTC").toLocaleString('en-US', { timeZone: timezone });

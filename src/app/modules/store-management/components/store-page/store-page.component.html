@@ -149,6 +149,18 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="form-control-label" style="margin-top: 12px;">Delivery Provider</label>
+                            <div class="add-item-img d-flex  border-radius">
+                                <select name="delivery-provider" 
+                                    class="form-control necessary" id="delivery-provider" 
+                                    (change)="regionChange($event)" required
+                                    [(ngModel)]="storeModel.deliveryServiceProvider">
+                                    <option value="" disabled>Delivery Provider</option>
+                                    <option value="{{dp.id}}" *ngFor = "let dp of storeModel.deliveryServiceProviders">{{dp.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="form-control-label" style="margin-top: 12px;">States</label>
                             <div class="add-item-img d-flex  border-radius">
                                 <select name="Inventory-manager" class="form-control necessary" required

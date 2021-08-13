@@ -913,4 +913,42 @@ export class ApiCallsService {
     return this.http.get(this.orderService + `/orders/payment-statuseses`).toPromise()
   }
 
+  getDeliveryServiceProviderByRegionCountry(regionCountryId) {
+    const httpOptions = {
+      params: {
+        regionCountryId: regionCountryId
+      }
+    }
+    return this.http.get(this.productService + `/deliveryProvider`, httpOptions).toPromise()
+  }
+
+  saveDeliveryServiceProvider(deliverySpId) {
+    return this.http.post(this.productService + `/stores/${localStorage.getItem('storeId')}/deliveryServiceProvider/${deliverySpId}`, {}).toPromise()
+  }
+
+  getStoreDeliveryServiceProvider(deliverySpId = "") {
+    const httpOptions = {
+      params: {
+        deliverySpId: "",
+        storeId: localStorage.getItem("storeId"),
+        page: 0,
+        pageSize: 20
+      }
+    }
+    return this.http.get(this.productService + `/stores/${localStorage.getItem('storeId')}/deliveryServiceProvider`, httpOptions).toPromise()
+  }
+
+
+  updateStoreDeliveryServiceProvider(deliverySpId) {
+    const httpOptions = {
+      params: {
+        deliverySpId: "",
+        storeId: localStorage.getItem("storeId"),
+        page: 0,
+        pageSize: 20
+      }
+    }
+    return this.http.get(this.productService + `/stores/${localStorage.getItem('storeId')}/deliveryServiceProvider`).toPromise()
+  }
+
 }

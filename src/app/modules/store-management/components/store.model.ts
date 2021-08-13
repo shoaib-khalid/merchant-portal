@@ -14,7 +14,9 @@ export class Store {
         public packType: string,
         public deliveryType: string,
         public stateCharges:any,
-        public storePickUp:boolean
+        public storePickUp:boolean,
+        public deliveryServiceProviders:any,
+        public deliveryServiceProvider:any
     ) {
 
     }

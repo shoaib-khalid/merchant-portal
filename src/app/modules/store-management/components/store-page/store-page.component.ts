@@ -20,7 +20,7 @@ export class StorePageComponent implements OnInit {
   minOrderQty: any = "5";  // nazrul : albert wants default value to start with 5
   states: any = [];
   verticleCode: any = "";
-  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "", "",  {stateCharges:[],stateIds:[]},false);
+  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "", "", { stateCharges: [], stateIds: [] }, false, [], "");
 
   timmings: any = [
     { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
@@ -41,7 +41,6 @@ export class StorePageComponent implements OnInit {
     this.initialStoreActions();
     this.extractVerticleCode();
     this.setRegionUsingClientIpAddress();
-
     if (this.verticleCode.includes("FnB")) {
       this.storeModel.packType = "Food"
       this.hideOptionsWhenFnB();
@@ -49,6 +48,7 @@ export class StorePageComponent implements OnInit {
   }
 
   async registerStore(form) {
+
     if (form.valid) {
       this.apiCalls.loadingAnimation("Registering new store", "280")
       await this.saveDetails();
@@ -56,13 +56,14 @@ export class StorePageComponent implements OnInit {
       this.uploadAssets();
       this.saveStoreDeliveryDetails();
       this.addStateDeliveryCharges();
+      this.apiCalls.saveDeliveryServiceProvider(this.storeModel.deliveryServiceProvider)
     }
     else {
       this.emptyFields();
     }
   }
 
-  hideOptionsWhenFnB(){
+  hideOptionsWhenFnB() {
     $("#delivery-type option[value=" + "SCHEDULED" + "]").hide();
     $("#payment-type option[value=" + "CoD" + "]").hide();
   }
@@ -202,7 +203,7 @@ export class StorePageComponent implements OnInit {
       "type": this.storeModel.deliveryType,
       "itemType": dPackage.value,
       "maxOrderQuantityForBike": bikeOrderQty.value,
-      "allowsStorePickup" : this.storeModel.storePickUp
+      "allowsStorePickup": this.storeModel.storePickUp
     })
     console.log(data)
     this.apiCalls.loadingdialogRef.close();
@@ -252,6 +253,7 @@ export class StorePageComponent implements OnInit {
 
   initialStoreActions() {
     this.fetchRegions();
+    this.getDeliveryProviders();
     $("#store-exists").hide();
     $("#store-timmings-table").show();  // nazrul: albert said he want by default opened
     $("#phone-pattern").hide()
@@ -285,7 +287,7 @@ export class StorePageComponent implements OnInit {
 
 
   addStateCharges() {
-      this.storeModel.stateCharges.stateCharges.push({ stateId: '', price: ''});
+    this.storeModel.stateCharges.stateCharges.push({ stateId: '', price: '' });
   }
 
   removeStateCharge(i) {
@@ -313,5 +315,11 @@ export class StorePageComponent implements OnInit {
         "region_country_state_id": this.storeModel.stateCharges.stateCharges[i].stateId
       })
     }
+  }
+
+
+  async getDeliveryProviders() {
+    const data: any = await this.apiCalls.getDeliveryServiceProviderByRegionCountry("MYS");
+    this.storeModel.deliveryServiceProviders = data.data;
   }
 }

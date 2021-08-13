@@ -1,0 +1,13 @@
+{
+    "env": {
+        "name": "dev"
+    },
+    "services": {
+        "flowBuilderService":   "https://api.symplified.it/flow-builder/v1",
+        "userService":          "https://api.symplified.it/user-service/v1",
+        "productService":       "https://api.symplified.it/product-service/v1",
+        "orderService":         "https://api.symplified.it/order-service/v1",
+        "reportService":        "https://api.symplified.it/report-service/v1"
+    },
+    "storeNames":["hi"]
+}
