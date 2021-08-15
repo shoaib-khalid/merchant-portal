@@ -191,3 +191,18 @@ color:black
   height:14px;
   display: inline-block;
 }
+
+#add-delivery-provider{
+  background-color: rgb(91, 179, 127);
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  width: 200px;
+  margin-top: 10px;
+}
+
+.delivery-provider{
+  margin-top: 10px;
+  width: 200px;
+}

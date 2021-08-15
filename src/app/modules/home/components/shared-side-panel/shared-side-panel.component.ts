@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import $ from 'jquery';
 import { AppConfig } from 'src/app/services/app.config.ts.service';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-shared-side-panel',
   templateUrl: './shared-side-panel.component.html',
@@ -13,7 +13,7 @@ export class SharedSidePanelComponent implements OnInit {
 
   storeDomain: any = "";
   allowed: any = true;
-  constructor(private apiCalls: ApiCallsService,private router:Router) {
+  constructor(private apiCalls: ApiCallsService, private router: Router) {
 
   }
 
@@ -47,5 +47,13 @@ export class SharedSidePanelComponent implements OnInit {
 
   storeSettings() {
     this.router.navigateByUrl(`/stores/${localStorage.getItem('storeId')}`)
+  }
+
+  openOrders() {
+    var toDate: any = document.getElementsByClassName('filter')[3];
+    var fromDate: any = document.getElementsByClassName('filter')[2];
+    toDate = new Date().toISOString().replace(/T.*/, '').split('-').join('-');
+    fromDate = new Date().toISOString().replace(/T.*/, '').split('-').join('-');
+    this.router.navigate(['orders'], { queryParams: { receiverName: '', phoneNumber: '', from: fromDate, to: toDate, paymentStatus: 'PAID' } })
   }
 }

@@ -15,8 +15,9 @@ export class Store {
         public deliveryType: string,
         public stateCharges:any,
         public storePickUp:boolean,
-        public deliveryServiceProviders:any,
-        public deliveryServiceProvider:any
+        public deliveryTypeChange:Boolean,
+        public sdSp:any,
+        public storeDsp:String
     ) {
 
     }

@@ -20,7 +20,8 @@ export class StorePageComponent implements OnInit {
   minOrderQty: any = "5";  // nazrul : albert wants default value to start with 5
   states: any = [];
   verticleCode: any = "";
-  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "", "", { stateCharges: [], stateIds: [] }, false, [], "");
+  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "", "", { stateCharges: [], stateIds: [] },
+    false, false, { dsp: [], loopLength: [], values: [] }, "");
 
   timmings: any = [
     { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
@@ -56,7 +57,8 @@ export class StorePageComponent implements OnInit {
       this.uploadAssets();
       this.saveStoreDeliveryDetails();
       this.addStateDeliveryCharges();
-      this.apiCalls.saveDeliveryServiceProvider(this.storeModel.deliveryServiceProvider)
+      this.saveDeliveryServiceProvider();
+      // this.apiCalls.saveDeliveryServiceProvider(this.storeModel.deliveryServiceProvider)
     }
     else {
       this.emptyFields();
@@ -155,7 +157,6 @@ export class StorePageComponent implements OnInit {
   async fetchRegions() {
     var regions: any = await this.apiCalls.getStoreRegions();
     this.regions = regions.data.content;
-    console.log(this.regions)
   }
 
   async storeExists(event) {
@@ -225,7 +226,7 @@ export class StorePageComponent implements OnInit {
   regionChange(event) {
     if (event.target.value) {
       this.fetchStates(event.target.value)
-      this.storeModel.stateCharges = [];
+      this.storeModel.stateCharges = { stateCharges: [], stateIds: [] };
     } else {
       this.states = [];
     }
@@ -253,7 +254,6 @@ export class StorePageComponent implements OnInit {
 
   initialStoreActions() {
     this.fetchRegions();
-    this.getDeliveryProviders();
     $("#store-exists").hide();
     $("#store-timmings-table").show();  // nazrul: albert said he want by default opened
     $("#phone-pattern").hide()
@@ -309,8 +309,9 @@ export class StorePageComponent implements OnInit {
   }
 
   async addStateDeliveryCharges() {
+    debugger
     for (var i = 0; i < this.storeModel.stateCharges.stateCharges.length; i++) {
-      await this.apiCalls.saveStoreStateCharges({
+      const data = await this.apiCalls.saveStoreStateCharges({
         "delivery_charges": this.storeModel.stateCharges.stateCharges[i].price,
         "region_country_state_id": this.storeModel.stateCharges.stateCharges[i].stateId
       })
@@ -318,8 +319,44 @@ export class StorePageComponent implements OnInit {
   }
 
 
-  async getDeliveryProviders() {
-    const data: any = await this.apiCalls.getDeliveryServiceProviderByRegionCountry("MYS");
-    this.storeModel.deliveryServiceProviders = data.data;
+  delivery(event,j){
+    this.storeModel.stateCharges.stateCharges[j].price=event.target.value;
+  }
+
+  async deliveryTypeChange(event) {
+    const delType = event.target.value;
+    this.storeModel.sdSp = { dsp: [], loopLength: [], values: [] };
+    if (delType == "SELF") {
+      return;
+    }
+    else if (delType == "ADHOC") {
+      this.storeModel.sdSp.loopLength.push("0");
+    }
+    var data: any = await this.apiCalls.getDeliveryServiceProviderByType(delType);
+    data = data.data;
+    for (var i = 0; i < data.length; i++) {
+      this.storeModel.sdSp.dsp.push(data[i].provider);
+    }
+  }
+
+  addDeliveryServiceProvider() {
+    if (this.storeModel.sdSp.loopLength.length < this.storeModel.sdSp.dsp.length) {
+      this.storeModel.sdSp.loopLength.push("0");
+      this.storeModel.sdSp.values.push("0");
+    }
+  }
+  dpChange(event, j) {
+    this.storeModel.sdSp.values[j] = event.target.value;
+  }
+
+  saveDeliveryServiceProvider() {
+    for (var i = 0; i < this.storeModel.sdSp.values.length; i++) {
+      this.apiCalls.saveDeliveryServiceProvider(this.storeModel.sdSp.values[i]);
+    }
+  }
+
+  removeDeliveryProvider(i){
+    this.storeModel.sdSp.loopLength.splice(i,1);
+    this.storeModel.sdSp.values.push(i,1);
   }
 }

@@ -27,6 +27,7 @@ export class ApiCallsService {
   private productService: string = this.services.productService;
   private orderService: string = this.services.orderService;
   private reportService: string = this.services.reportService;
+  private deliveryService: string = this.services.deliveryService;
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -927,28 +928,33 @@ export class ApiCallsService {
   }
 
   getStoreDeliveryServiceProvider(deliverySpId = "") {
-    const httpOptions = {
-      params: {
+
+    const httpOptions: any = {
+      params: ({
         deliverySpId: "",
         storeId: localStorage.getItem("storeId"),
         page: 0,
         pageSize: 20
-      }
+      })
     }
     return this.http.get(this.productService + `/stores/${localStorage.getItem('storeId')}/deliveryServiceProvider`, httpOptions).toPromise()
   }
 
 
-  updateStoreDeliveryServiceProvider(deliverySpId) {
+  updateStoreDeliveryServiceProvider(deliverySpId, id) {
     const httpOptions = {
-      params: {
-        deliverySpId: "",
-        storeId: localStorage.getItem("storeId"),
-        page: 0,
-        pageSize: 20
-      }
+      params: ({
+        deliverySpId: deliverySpId
+      })
     }
-    return this.http.get(this.productService + `/stores/${localStorage.getItem('storeId')}/deliveryServiceProvider`).toPromise()
+    return this.http.put(this.productService + `/stores/${localStorage.getItem('storeId')}/deliveryServiceProvider/${id}?deliverySpId=${deliverySpId}`, httpOptions).toPromise()
   }
 
+  getDeliveryServiceProviderByType(deliveryType) {
+    return this.http.get(this.deliveryService + `/orders/getDeliveryProvider/${deliveryType}`, {}).toPromise()
+  }
+
+  async deleteStoreDeliveryProvidersAttachedtoStore(){
+    return this.http.delete(this.productService+`/stores/${localStorage.getItem("storeId")}/deliveryServiceProvider/all`).toPromise()
+  }
 }

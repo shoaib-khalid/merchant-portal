@@ -34,7 +34,8 @@ export class EditStoreComponent implements OnInit {
   state: any = "";
   serviceCharges: any = "0";
   public Editor = ClassicEditor;
-  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "", "", { stateCharges: [], stateIds: [], deletedStateIds: [] }, false, [], "");
+  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "", "", { stateCharges: [], stateIds: [], deletedStateIds: [] }, false,
+    false, { dsp: [], loopLength: [], values: [], ids: [] }, "");
 
 
   constructor(private apiCalls: ApiCallsService, private route: ActivatedRoute, private helperService: HelperService) { }
@@ -52,7 +53,6 @@ export class EditStoreComponent implements OnInit {
     $("#warning-address").hide();
     $("#warning-postcode").hide();
     $("#phone-pattern").hide()
-    this.getDeliveryProviders();
   }
 
   hideOptionsWhenFnB() {
@@ -63,16 +63,20 @@ export class EditStoreComponent implements OnInit {
   async loadStore(id) {
     this.store = await this.apiCalls.getStoreDetails(id);
     this.store = this.store.data;
-    if (this.store.verticalCode.includes("FnB")) {
-      this.hideOptionsWhenFnB()
+    try {
+      if (this.store.verticalCode.includes("FnB")) {
+        this.hideOptionsWhenFnB()
+      }
+    } catch (ex) {
+
     }
+
     this.setAssets();
     this.setTextualDetails();
     this.fetchRegions();
     this.setStoreTimmings(id);
     this.setDeliveryDetails();
     this.setStateCharges();
-    this.setStoreDeliveryProvider()
     if (this.store.regionCountry) {
       this.fetchStates(this.store.regionCountry.id);
     }
@@ -98,6 +102,7 @@ export class EditStoreComponent implements OnInit {
     await this.updateDeliveryDetails();
     this.deleteStateCharges();
     this.updateStateCharges();
+    this.updateStoreDeliveryProvider();
     this.apiCalls.loadingdialogRef.close();
   }
 
@@ -261,6 +266,7 @@ export class EditStoreComponent implements OnInit {
     bikeOrderQty.value = data.maxOrderQuantityForBike;
     (<HTMLInputElement>document.getElementById("car")).value = bikeOrderQty.value;
     this.storeModel.storePickUp = data.allowsStorePickup;
+    this.setStoreDeliveryProvider();
   }
 
   async updateDeliveryDetails() {
@@ -389,13 +395,55 @@ export class EditStoreComponent implements OnInit {
   }
 
   async setStoreDeliveryProvider() {
-    const data:any = await this.apiCalls.getStoreDeliveryServiceProvider();
-    console.log(data)
+    var data1: any = await this.apiCalls.getDeliveryServiceProviderByType(this.storeModel.deliveryType);
+    data1 = data1.data;
+    for (var i = 0; i < data1.length; i++) {
+      this.storeModel.sdSp.dsp.push(data1[i].provider);
+    }
+    var data2: any = await this.apiCalls.getStoreDeliveryServiceProvider();
+    data2 = data2.data.content;
 
-    this.storeModel.deliveryServiceProvider=data.data.content[0].deliverySpId;
+    for (var j = 0; j < data2.length; j++) {
+      this.storeModel.sdSp.values.push(data2[j].deliverySpId);
+      this.storeModel.sdSp.loopLength.push("0");
+      this.storeModel.sdSp.ids.push(data2[j].id)
+    }
   }
-async getDeliveryProviders() {
-    const data: any = await this.apiCalls.getDeliveryServiceProviderByRegionCountry("MYS");
-    this.storeModel.deliveryServiceProviders = data.data;
+
+  async updateStoreDeliveryProvider() {
+    if (this.storeModel.deliveryTypeChange) {
+      await this.apiCalls.deleteStoreDeliveryProvidersAttachedtoStore()
+    }
+    for (var i = 0; i < this.storeModel.sdSp.loopLength.length; i++) {
+      const data = await this.apiCalls.updateStoreDeliveryServiceProvider(this.storeModel.sdSp.values[i], this.storeModel.sdSp.ids[i])
+    }
+  }
+
+
+  async deliveryTypeChange(event) {
+    const delType = event.target.value;
+    this.storeModel.sdSp = { dsp: [], loopLength: [], values: [], ids: [] };
+    if (delType == "SELF") {
+      return;
+    }
+    else if (delType == "ADHOC") {
+      this.storeModel.sdSp.loopLength.push("0");
+    }
+    var data: any = await this.apiCalls.getDeliveryServiceProviderByType(delType);
+    data = data.data;
+    for (var i = 0; i < data.length; i++) {
+      this.storeModel.sdSp.dsp.push(data[i].provider);
+    }
+  }
+
+  addDeliveryServiceProvider() {
+    if (this.storeModel.sdSp.loopLength.length < this.storeModel.sdSp.dsp.length) {
+      this.storeModel.sdSp.loopLength.push("0");
+      this.storeModel.sdSp.values.push("0");
+    }
+  }
+  dpChange(event, j) {
+    this.storeModel.sdSp.values[j] = event.target.value;
+    this.storeModel.deliveryTypeChange = true;
   }
 }

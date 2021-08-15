@@ -137,6 +137,7 @@ export class OrdersComponent implements OnInit {
     this.setPagination(data.data.totalPages, 1)
     this.totalOrders = data.data.totalElements;
     this.orders = data.data.content;
+    this.changeUTCToLocalTimeZone();
   }
 
   getAllFilters() {
@@ -167,9 +168,12 @@ export class OrdersComponent implements OnInit {
   setTodaysDate() {
     const toDate: any = document.getElementsByClassName('filter')[3];
     const fromDate: any = document.getElementsByClassName('filter')[2];
-    toDate.value = new Date().toISOString().replace(/T.*/, '').split('-').join('-');
-    fromDate.value = new Date().toISOString().replace(/T.*/, '').split('-').join('-');
-
+    toDate.value = "";
+    fromDate.value = "";
+    const name: any = document.getElementsByClassName('filter')[0];
+    const ph: any = document.getElementsByClassName('filter')[1];
+    name.value="";
+    ph.value="";
   }
 
   showOrdersBasedOnCustomerId(params) {
@@ -197,6 +201,7 @@ export class OrdersComponent implements OnInit {
 
   displayOrdersWithoutAnyFilter() {
     this.getOrders();
+    this.status="";
     this.setTodaysDate();
   }
 
@@ -275,6 +280,7 @@ export class OrdersComponent implements OnInit {
     }
     console.log(timezone)
     const data = this.orders;
+    console.log(data)
     for (var i = 0; i < data.length; i++) {
       data[i].created = new Date(data[i].created + " UTC").toLocaleString('en-US', { timeZone: timezone });
     }

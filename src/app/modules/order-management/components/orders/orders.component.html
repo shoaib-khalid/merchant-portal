@@ -85,7 +85,7 @@
                                                         style="width:160px; margin-right: 10px;" name="" id="to-date">
                                                 </div>
                                                 <select name="state-charges" class="form-control state-charges filter"
-                                                    style="width: 160px;" id="paymentStatus" [ngModel]="status">
+                                                    style="width: 160px;" id="paymentStatus" [(ngModel)]="status">
                                                     <option disabled>Payment Status</option>
                                                     <option value="">All</option>
                                                     <option *ngFor="let status of paymentStatuses;"
@@ -95,6 +95,7 @@
                                                 <div style="margin-left: 80px;margin-top: 10px;">Total orders :
                                                     {{totalOrders}}</div>
                                             </div>
+                                            <div id="clear-filter"  [routerLink]='["/orders"]'>Clear Filters</div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
                                                     <tr>

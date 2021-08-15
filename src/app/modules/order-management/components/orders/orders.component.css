@@ -9,3 +9,17 @@
     padding: 10px;
     margin-left: 4px;
 }
+
+#clear-filter{
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 14px;
+    margin-top: 3px;
+    color: rgb(172, 171, 171);
+    display: inline;
+    border-bottom: 1px solid rgb(172, 171, 171);
+}
+
+#clear-filter:hover{
+    color: #319795;
+}
