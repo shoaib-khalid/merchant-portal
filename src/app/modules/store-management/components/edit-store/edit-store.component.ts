@@ -417,7 +417,6 @@ export class EditStoreComponent implements OnInit {
     if (this.storeModel.deliveryTypeChange) {
       await this.apiCalls.deleteStoreDeliveryProvidersAttachedtoStore()
     }
-    debugger
     for (var i = 0; i < this.storeModel.sdSp.loopLength.length; i++) {
       const data = await this.apiCalls.updateStoreDeliveryServiceProvider(this.storeModel.sdSp.values[i], this.storeModel.sdSp.ids[i])
     }

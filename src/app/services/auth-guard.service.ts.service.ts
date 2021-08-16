@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { ApiCallsService } from './api-calls.service';
 import { ActivatedRouteSnapshot } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorPopUpComponent } from '../modules/home/components/error-pop-up/error-pop-up.component';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class AuthGuardService implements CanActivate {
   allowedUnAuthenticated: any = ["", "signin", "signup"]
 
 
-  constructor(public router: Router, private apiCalls: ApiCallsService) { }
+  constructor(public router: Router, private apiCalls: ApiCallsService,private dialog: MatDialog) { }
   canActivate(route: ActivatedRouteSnapshot): boolean {
     if (localStorage.getItem("accessToken")) {
       return this.validateToken(route)
@@ -66,8 +68,17 @@ export class AuthGuardService implements CanActivate {
       this.apiCalls.loadingAnimation("Updating session")
       this.getFreshAccessToken(route.url[0] ? route.url[0].path : "");
     } else {
+      this.generateSessionExpiryError();
       localStorage.clear();
       this.router.navigateByUrl('/signin')
     }
+  }
+
+  generateSessionExpiryError(){
+    const dialogRef = this.dialog.open(ErrorPopUpComponent, {
+      disableClose: true,
+      width: "600px",
+      data: { data: "Your session has expired. Please login again, Thank you." }
+  });
   }
 }

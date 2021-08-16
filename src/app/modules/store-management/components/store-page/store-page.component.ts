@@ -228,7 +228,7 @@ export class StorePageComponent implements OnInit {
       this.fetchStates(event.target.value)
       this.storeModel.stateCharges = { stateCharges: [], stateIds: [] };
       if (this.storeModel.deliveryType != "SELF") {
-        this.setDeliveryProvider();
+        this.deliveryTypeChange()
       }
     } else {
       this.states = [];
@@ -326,24 +326,33 @@ export class StorePageComponent implements OnInit {
     this.storeModel.stateCharges.stateCharges[j].price = event.target.value;
   }
 
-  async deliveryTypeChange(event) {
-    const delType = event.target.value;
+  async deliveryTypeChange(event = "") {
     this.storeModel.sdSp = { dsp: [], loopLength: [], values: [] };
-    if (delType == "SELF") {
+    if (this.storeModel.deliveryType == "SELF") {
       return;
     }
-    else if (delType == "ADHOC") {
+    else if (this.storeModel.deliveryType == "ADHOC") {
       this.storeModel.sdSp.loopLength.push("0");
     }
-
+    console.log("inside delivery type change")
+    console.log(this.storeModel.sdSp)
+    this.setDeliveryProvider();
   }
 
   async setDeliveryProvider() {
+    if (this.storeModel.deliveryType=="") {
+      return;
+    }
     var data: any = await this.apiCalls.getDeliveryServiceProviderByType(this.storeModel.deliveryType, this.storeModel.region);
     data = data.data;
+    if (data.length == 0) {
+      this.storeModel.sdSp = { dsp: [], loopLength: [], values: [], ids: [] };
+    }
     for (var i = 0; i < data.length; i++) {
       this.storeModel.sdSp.dsp.push(data[i].provider);
     }
+    console.log("End of delviery provider")
+    console.log(this.storeModel.sdSp)
   }
 
   addDeliveryServiceProvider() {
