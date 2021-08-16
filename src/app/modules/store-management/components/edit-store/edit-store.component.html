@@ -143,7 +143,7 @@
                             *ngFor="let dsp of storeModel.sdSp.loopLength;index as j">
                             <select  class="form-control necessary dp-select" required
                                 (change)="dpChange($event,j)" [ngModel]="storeModel.sdSp.values[j]" >
-                                <option [value]="">Delivery Provider</option>
+                                <option [value]="" [disabled]="true">Delivery Provider</option>
                                 <option [value]="dp.id" *ngFor="let dp of storeModel.sdSp.dsp">
                                     {{dp.name}}</option>
                             </select>

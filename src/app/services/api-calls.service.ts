@@ -10,7 +10,6 @@ import { HelperTextService } from 'src/app/helpers/helper-text.service';
 import { HelperMethodsService } from './helper-methods.service';
 import { AppConfig } from './app.config.ts.service';
 import { SuggestionPopupComponent } from 'src/app/modules/agent-management/components/agents/suggestion-popup/suggestion-popup.component';
-import { param } from 'jquery';
 
 @Injectable({
   providedIn: 'root'
@@ -950,11 +949,11 @@ export class ApiCallsService {
     return this.http.put(this.productService + `/stores/${localStorage.getItem('storeId')}/deliveryServiceProvider/${id}?deliverySpId=${deliverySpId}`, httpOptions).toPromise()
   }
 
-  getDeliveryServiceProviderByType(deliveryType) {
-    return this.http.get(this.deliveryService + `/orders/getDeliveryProvider/${deliveryType}`, {}).toPromise()
+  getDeliveryServiceProviderByType(deliveryType, regionCountry) {
+    return this.http.get(this.deliveryService + `/orders/getDeliveryProvider/${deliveryType}/${regionCountry}`, {}).toPromise()
   }
 
-  async deleteStoreDeliveryProvidersAttachedtoStore(){
-    return this.http.delete(this.productService+`/stores/${localStorage.getItem("storeId")}/deliveryServiceProvider/all`).toPromise()
+  async deleteStoreDeliveryProvidersAttachedtoStore() {
+    return this.http.delete(this.productService + `/stores/${localStorage.getItem("storeId")}/deliveryServiceProvider/all`).toPromise()
   }
 }

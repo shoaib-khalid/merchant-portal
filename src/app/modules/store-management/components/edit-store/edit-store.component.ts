@@ -297,6 +297,9 @@ export class EditStoreComponent implements OnInit {
   regionChange(event) {
     if (event.target.value) {
       this.fetchStates(event.target.value)
+      this.storeModel.deliveryTypeChange = true;
+      this.storeModel.sdSp = { dsp: [], loopLength: [], values: [], ids: [] };
+      this.deliveryTypeChange("");
     } else {
       this.states = [];
     }
@@ -395,14 +398,14 @@ export class EditStoreComponent implements OnInit {
   }
 
   async setStoreDeliveryProvider() {
-    var data1: any = await this.apiCalls.getDeliveryServiceProviderByType(this.storeModel.deliveryType);
+    this.region = this.store.regionCountryId;
+    var data1: any = await this.apiCalls.getDeliveryServiceProviderByType(this.storeModel.deliveryType, this.region);
     data1 = data1.data;
     for (var i = 0; i < data1.length; i++) {
       this.storeModel.sdSp.dsp.push(data1[i].provider);
     }
     var data2: any = await this.apiCalls.getStoreDeliveryServiceProvider();
     data2 = data2.data.content;
-
     for (var j = 0; j < data2.length; j++) {
       this.storeModel.sdSp.values.push(data2[j].deliverySpId);
       this.storeModel.sdSp.loopLength.push("0");
@@ -414,6 +417,7 @@ export class EditStoreComponent implements OnInit {
     if (this.storeModel.deliveryTypeChange) {
       await this.apiCalls.deleteStoreDeliveryProvidersAttachedtoStore()
     }
+    debugger
     for (var i = 0; i < this.storeModel.sdSp.loopLength.length; i++) {
       const data = await this.apiCalls.updateStoreDeliveryServiceProvider(this.storeModel.sdSp.values[i], this.storeModel.sdSp.ids[i])
     }
@@ -421,16 +425,22 @@ export class EditStoreComponent implements OnInit {
 
 
   async deliveryTypeChange(event) {
-    const delType = event.target.value;
+    this.storeModel.deliveryTypeChange=true;
     this.storeModel.sdSp = { dsp: [], loopLength: [], values: [], ids: [] };
-    if (delType == "SELF") {
+    if (this.storeModel.deliveryType == "SELF") {
       return;
     }
-    else if (delType == "ADHOC") {
+    else if (this.storeModel.deliveryType == "ADHOC") {
       this.storeModel.sdSp.loopLength.push("0");
     }
-    var data: any = await this.apiCalls.getDeliveryServiceProviderByType(delType);
+    this.fetchChangedDeliveryProviders();
+  }
+  async fetchChangedDeliveryProviders() {
+    var data: any = await this.apiCalls.getDeliveryServiceProviderByType(this.storeModel.deliveryType, this.region);
     data = data.data;
+    if (data.length == 0) {
+      this.storeModel.sdSp = { dsp: [], loopLength: [], values: [], ids: [] };
+    }
     for (var i = 0; i < data.length; i++) {
       this.storeModel.sdSp.dsp.push(data[i].provider);
     }

@@ -223,10 +223,13 @@ export class StorePageComponent implements OnInit {
     }
   }
 
-  regionChange(event) {
+  async regionChange(event) {
     if (event.target.value) {
       this.fetchStates(event.target.value)
       this.storeModel.stateCharges = { stateCharges: [], stateIds: [] };
+      if (this.storeModel.deliveryType != "SELF") {
+        this.setDeliveryProvider();
+      }
     } else {
       this.states = [];
     }
@@ -319,8 +322,8 @@ export class StorePageComponent implements OnInit {
   }
 
 
-  delivery(event,j){
-    this.storeModel.stateCharges.stateCharges[j].price=event.target.value;
+  delivery(event, j) {
+    this.storeModel.stateCharges.stateCharges[j].price = event.target.value;
   }
 
   async deliveryTypeChange(event) {
@@ -332,7 +335,11 @@ export class StorePageComponent implements OnInit {
     else if (delType == "ADHOC") {
       this.storeModel.sdSp.loopLength.push("0");
     }
-    var data: any = await this.apiCalls.getDeliveryServiceProviderByType(delType);
+
+  }
+
+  async setDeliveryProvider() {
+    var data: any = await this.apiCalls.getDeliveryServiceProviderByType(this.storeModel.deliveryType, this.storeModel.region);
     data = data.data;
     for (var i = 0; i < data.length; i++) {
       this.storeModel.sdSp.dsp.push(data[i].provider);
@@ -355,8 +362,8 @@ export class StorePageComponent implements OnInit {
     }
   }
 
-  removeDeliveryProvider(i){
-    this.storeModel.sdSp.loopLength.splice(i,1);
-    this.storeModel.sdSp.values.push(i,1);
+  removeDeliveryProvider(i) {
+    this.storeModel.sdSp.loopLength.splice(i, 1);
+    this.storeModel.sdSp.values.push(i, 1);
   }
 }
