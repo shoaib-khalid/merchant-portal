@@ -22,57 +22,64 @@
                                 <!-- <p class="text-center">Get started with your free account</p> -->
 
                                 <!-- end:Social logins-->
-                                <hr class="divider divider-fade">
-                                <div class="form-group input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"> <i class="las la-user"></i> </span>
+                                <form #agentForm="ngForm">
+                                    <hr class="divider divider-fade">
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="las la-user"></i> </span>
+                                        </div>
+                                        <input name="name" required [(ngModel)]="AGENT.name" class="form-control"
+                                            placeholder="Name" type="text" required>
                                     </div>
-                                    <input name="name" required [(ngModel)]="name" class="form-control"
-                                        placeholder="Name" type="text">
-                                </div>
-                                <div class="form-group input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"> <i class="las la-user"></i> </span>
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="las la-user"></i> </span>
+                                        </div>
+                                        <div>
+                                            <input name="username" required [(ngModel)]="AGENT.username"
+                                                class="form-control suffix" placeholder="Username" type="text" required>
+                                            -
+                                            <input name="storeName" [(ngModel)]="AGENT.storeDomain"
+                                                class="form-control suffix" type="text" required readonly>
+                                        </div>
                                     </div>
-                                    <input name="username" required [(ngModel)]="username" class="form-control"
-                                        placeholder="Username" type="text">
-                                </div>
-                                <div class="form-group input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"> <i class="las la-envelope"></i> </span>
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="las la-envelope"></i> </span>
+                                        </div>
+                                        <input name="email" required [(ngModel)]="AGENT.email" class="form-control"
+                                            placeholder="Email address" type="email">
                                     </div>
-                                    <input name="email" required [(ngModel)]="email" class="form-control"
-                                        placeholder="Email address" type="email">
-                                </div>
-                                <div class="form-group input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"> <i class="las la-eye"></i> </span>
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="las la-eye"></i> </span>
+                                        </div>
+                                        <select name="role" class="mr-2 form-control" aria-placeholder="Roles"
+                                            [(ngModel)]="AGENT.roleId" required >
+                                            <option value="">Role</option>
+                                            <option value="STORE_CSR_COMPLAINT">Customer Service</option>
+                                            <option value="STORE_CSR_ORDER">Order Manager</option>
+                                            <option value="STORE_CSR_ADMIN">Customer service + Order manager</option>\
+                                        </select>
                                     </div>
-                                    <select id="role" class="mr-2 form-control" aria-placeholder="Roles"
-                                        [(ngModel)]="roleId">
-                                        <option value="">Role</option>
-                                        <option value="STORE_CSR_COMPLAINT">Customer Service</option>
-                                        <option value="STORE_CSR_ORDER">Order Manager</option>
-                                        <option value="STORE_CSR_ADMIN">Customer service + Order manager</option>\
-                                    </select>
-                                </div>
 
-                                <div class="form-group input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"> <i class="las la-key"></i> </span>
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="las la-key"></i> </span>
+                                        </div>
+                                        <input class="form-control" name="password"
+                                            (keyup.enter)="createAccount($event)" required [(ngModel)]="AGENT.password"
+                                            placeholder="Create password" type="password" required>
                                     </div>
-                                    <input class="form-control" name="password" (keyup.enter)="createAccount($event)"
-                                        required [(ngModel)]="password" placeholder="Create password" type="password">
-                                </div>
-                                <div *ngIf="showError"
-                                    style="color: red;font-size: 14px;margin-left: 3px;margin-bottom: 9px;">*
-                                    {{errorText}}</div>
-
+                                    <div *ngIf="AGENT.showError"
+                                        style="color: red;font-size: 14px;margin-left: 3px;margin-bottom: 9px;">*
+                                        {{AGENT.errorText}}</div>
                                 <div class="form-group">
 
-                                    <a class="btn btn-primary btn-block" (click)="createAccount($event)">Create
+                                    <a class="btn btn-primary btn-block" (click)="createAccount(agentForm.form)">Create
                                         Account</a>
                                 </div>
+                            </form>
 
                             </div>
                         </div>

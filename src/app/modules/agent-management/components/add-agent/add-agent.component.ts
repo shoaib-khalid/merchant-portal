@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Agent } from '../agent.model';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 @Component({
   selector: 'app-add-agent',
@@ -6,48 +7,41 @@ import { ApiCallsService } from 'src/app/services/api-calls.service';
   styleUrls: ['./add-agent.component.css']
 })
 export class AddAgentComponent implements OnInit {
-  name: string = '';
-  username: string = '';
-  email: string = '';
-  password: any = '';
-  storeName: any = '';
-  showError: any = '';
-  errorText = "";
-  roleId: any = "";
-  storeDomain: any = "";
+
+  AGENT = new Agent('','','','',localStorage.getItem("store"),'','','','')
   constructor(private apiCalls: ApiCallsService) { }
 
   ngOnInit(): void {
     this.setStoreDomain();
+
   }
 
 
 
-  createAccount(event) {
-    debugger
+  createAccount(form) {
     const data = {
-      name: this.name,
-      username: `${this.username}-${this.storeDomain}`,
-      email: this.email,
-      password: this.password,
+      name: this.AGENT.name,
+      username: `${this.AGENT.username}-${this.AGENT.storeDomain}`,
+      email: this.AGENT.email,
+      password: this.AGENT.password,
       storeId: localStorage.getItem('storeId'),
-      roleId: this.roleId
+      roleId: this.AGENT.roleId
     }
-    console.log(data)
-    if (data.name && data.username && data.email && data.password && data.roleId) {
-      if (this.validateEmail(this.email)) {
+    console.log(form)
+    if (form.valid) {
+      if (this.validateEmail(this.AGENT.email)) {
         if (this.usernameIsValid()) {
           this.apiCalls.loadingAnimation("Adding Agent")
           this.apiCalls.registerClient(data)
         }
       } else {
-        this.errorText = "Wrong Email Format"
-        this.showError = true;
+        this.AGENT.errorText = "Wrong Email Format"
+        this.AGENT.showError = true;
 
       }
     } else {
-      this.errorText = "Please enter all details"
-      this.showError = true;
+      this.AGENT.errorText = "Please enter all details"
+      this.AGENT.showError = true;
     }
   }
 
@@ -56,16 +50,16 @@ export class AddAgentComponent implements OnInit {
     return re.test(email);
   }
   usernameIsValid() {
-    if (/^[0-9a-zA-Z_.-]+$/.test(this.username)) {
+    if (/^[0-9a-zA-Z_.-]+$/.test(this.AGENT.username)) {
       return true;
     } else {
-      this.errorText = "Username Invalid"
+      this.AGENT.errorText = "Username Invalid"
     }
   }
 
 
   async setStoreDomain() {
     const data: any = await this.apiCalls.getStoreDetails(localStorage.getItem('storeId'));
-    this.storeDomain = data.data.domain
+    this.AGENT.storeDomain = data.data.domain
   }
 }

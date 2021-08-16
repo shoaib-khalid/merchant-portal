@@ -1,3 +1,8 @@
 #role{
     width: 450px;
 }
+.suffix{
+    display: inline;
+    width: 190px;
+    margin-left: 5px;
+}
