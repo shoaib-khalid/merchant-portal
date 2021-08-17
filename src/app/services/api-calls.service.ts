@@ -27,6 +27,7 @@ export class ApiCallsService {
   private orderService: string = this.services.orderService;
   private reportService: string = this.services.reportService;
   private deliveryService: string = this.services.deliveryService;
+  private paymentService:string=this.services.paymentService;
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -955,5 +956,16 @@ export class ApiCallsService {
 
   async deleteStoreDeliveryProvidersAttachedtoStore() {
     return this.http.delete(this.productService + `/stores/${localStorage.getItem("storeId")}/deliveryServiceProvider/all`).toPromise()
+  }
+
+  async savePaymentDetails(body) {
+    console.log(this.paymentService + `/clients/${localStorage.getItem("ownerId")}/payment_details`)
+    return this.http.post(this.paymentService + `/clients/${localStorage.getItem("ownerId")}/payment_details`,body).toPromise()
+  }
+  async getPaymentDetails() {
+    return this.http.get(this.paymentService + `/clients/${localStorage.getItem("ownerId")}/payment_details/`).toPromise()
+  }
+  async updatePaymentDetail(body,id) {
+    return this.http.put(this.paymentService + `/clients/${localStorage.getItem("ownerId")}/payment_details/${id}`,body).toPromise()
   }
 }

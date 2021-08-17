@@ -36,6 +36,10 @@ export class ErrorPopUpComponent implements OnInit {
           this.msgs.push("Your session has expired. Please login again, Thank you.");
         } else if (this.error.status == "500") {
           this.msgs.push("Sorry your request cannot be completed, please try again later or contact help@symplified.biz if problem persist")
+        }else{
+          // console.log(this.error)
+          this.msgs.push(this.error.message)
+
         }
       }
     } catch (ex) {

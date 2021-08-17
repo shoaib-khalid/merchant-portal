@@ -9,6 +9,8 @@ export interface IAppConfig {
         orderService:string;
         reportService:string;
         deliveryService:string;
+        paymentService:string;
+
     };
     storeNames:[name:String]
 }
