@@ -29,20 +29,7 @@ export class SharedHeaderComponent implements OnInit {
   }
 
   navHeadings: any = [];
-  @HostListener('document:click', ['$event.target'])
-  onClick(btn) {
-    if (!btn.matches('.dropbtn')) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
-      }
-    }
-    this.toggleDropdown(btn);
-  }
+
 
   ngOnInit(): void {
     this.loadStores();
@@ -64,38 +51,6 @@ export class SharedHeaderComponent implements OnInit {
 
   get leftHeading(): any {
     return localStorage.getItem('store');
-  }
-
-  toggleDropdown(btn) {
-    if (btn.classList.value.includes("username")) {
-      const disp = $(".dropdown-content-header-content").css("display");
-
-      if (disp == "block") {
-        $(".dropdown-content-header").css("display", "none");
-
-      } else {
-        $(".dropdown-content-header").css("display", "block");
-
-      }
-    } else {
-      $(".dropdown-content-header").css("display", "none");
-
-    }
-
-    if (btn.classList.value.includes("heading")) {
-      const disp = $(".dropdown-content-heading").css("display");
-      console.log(disp)
-      if (disp == "block") {
-        $(".dropdown-content-heading").css("display", "none");
-
-      } else {
-        $(".dropdown-content-heading").css("display", "block");
-
-      }
-    } else {
-      $(".dropdown-content-heading").css("display", "none");
-
-    }
   }
 
   async loadStores() {

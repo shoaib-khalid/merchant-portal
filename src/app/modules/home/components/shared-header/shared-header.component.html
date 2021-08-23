@@ -3,15 +3,16 @@
       <nav class="navbar navbar-expand-lg navbar-dark px-lg-0">
          <li>
             <a class="navbar-brand mr-3 swap-link" style="cursor: pointer;">
-               <div *ngIf="!loggedOut" class="heading"> {{store}}
-                  <!-- <mat-icon>keyboard_arrow_down</mat-icon> -->
-               </div>
-               <div *ngIf="loggedOut" [routerLink]="['/']">Symplified.biz</div>
+               <button *ngIf="!loggedOut" mat-button [matMenuTriggerFor]="menu2" class="heading">
+                  {{store}} <mat-icon>keyboard_arrow_down</mat-icon>
+               </button>
+               <mat-menu #menu2="matMenu">
+                  <button mat-menu-item *ngFor="let store of stores"
+                     (click)="selectStore(store.id,store.name,store.domain)">
+                     {{store.name}} </button>
+               </mat-menu>
+               <div *ngIf="loggedOut" [routerLink]="['/']" class="sym-text">Symplified.biz</div>
             </a>
-            <div class="dropdown-content-heading" style="margin-left: 20px;">
-               <div class="options" *ngFor="let store of stores"
-                  (click)="selectStore(store.id,store.name,store.domain)">{{store.name}}</div>
-            </div>
          </li>
          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +32,7 @@
                <li class="nav-item d-flex align-items-center">
                   <span *ngIf="username;  else not_authenticated">
                <li class="">
-                  <button mat-icon-button [matMenuTriggerFor]="menu" id="user-menu">
+                  <button mat-button [matMenuTriggerFor]="menu" id="user-menu">
                      {{username}} <mat-icon>keyboard_arrow_down</mat-icon>
                   </button>
                   <mat-menu #menu="matMenu">

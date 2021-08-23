@@ -577,10 +577,8 @@ export class ApiCallsService {
       headers: new HttpHeaders({
       }),
     }
-    this.http.put<any>(
-      this.productService + `/stores/${localStorage.getItem("storeId")}/products/${productId}`, body, httpOptions
-    ).subscribe(data => {
-    });
+    return this.http.put<any>(
+      this.productService + `/stores/${localStorage.getItem("storeId")}/products/${productId}`, body, httpOptions).toPromise()
   }
 
   deleteProductAsset(productId, assetId) {
@@ -590,9 +588,9 @@ export class ApiCallsService {
   }
 
   deleteVariant(productId, variantId) {
-    this.http.delete<any>(this.productService +
+    return this.http.delete<any>(this.productService +
       `/stores/${localStorage.getItem("storeId")}/products/${productId}/variants/${variantId}`)
-      .subscribe((data) => console.log(data));
+      .toPromise()
   }
 
   deleteInventory(productId, id) {

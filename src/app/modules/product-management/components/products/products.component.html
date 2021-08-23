@@ -5,159 +5,145 @@
 </head>
 
 <body style="margin-top: 80px;">
-    <app-shared-header ></app-shared-header>
+    <app-shared-header></app-shared-header>
     <app-shared-side-panel id="ssp"></app-shared-side-panel>
 
-        <div>
-            <div class="form-container">
-                <div class="row">
-                    <div class="col-lg-11">
-                        <div class="row">
-                            <div class="col" style="margin-bottom: 100px;">
-                                <!-- my items table -->
-                                <div class="card product_item_list mb-4">
-                                    <div class="card-header py-3 border-bottom">
-                                        <div class="d-flex align-items-center">
-                                            <div>
-                                                <h6 class="card-title mb-0">Products</h6>
-                                            </div>
-                                            <div id="add-product" [routerLink]="['/products/add']"> Add Product</div>
+    <div>
+        <div class="form-container">
+            <div class="row">
+                <div class="col-lg-11">
+                    <div class="row">
+                        <div class="col" style="margin-bottom: 100px;">
+                            <!-- my items table -->
+                            <div class="card product_item_list mb-4">
+                                <div class="card-header py-3 border-bottom">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <h6 class="card-title mb-0">Products</h6>
                                         </div>
+                                        <div id="add-product" [routerLink]="['/products/add']"> Add Product</div>
                                     </div>
-                                    <div class="card-body pt-4">
-                                        <div >
-                                            <div style="display: flex;">
-                                                <div>
-                                                    <input type="text" placeholder="Filter Products"
-                                                        class="form-control filter3"
-                                                        style="width:140px; margin-right: 10px;" name="" id="">
-                                                </div>
-                                                <div>
-                                                    <select (change)="getProdsByCat($event.target.value)"
-                                                        [(ngModel)]='categoryId' class="mr-2 form-control filter3"
-                                                        style="width:170px"
-                                                        id="cat-prod"
-                                                        >
-                                                        <option value="">All Categories</option>
-                                                        <option *ngFor="let cat of categories" value="{{cat.id}}">
-                                                            {{cat.name}}
-                                                        </option>
-
-                                                    </select>
-                                                </div>
-                                                <div id="search" (click)="searchOrders()"> Search</div>
+                                </div>
+                                <div class="card-body pt-4">
+                                    <div>
+                                        <div style="display: flex;">
+                                            <div>
+                                                <input type="text" placeholder="Filter Products"
+                                                    class="form-control filter3"
+                                                    style="width:140px; margin-right: 10px;" name="" id="">
                                             </div>
-                                            <table class="table table-hover m-b-0" style="margin-bottom: 110px;">
-                                                <thead>
-                                                    <tr>
-                                                        <!-- <th class="border-0"><input type="checkbox"></th> -->
+                                            <div>
+                                                <select (change)="getProdsByCat($event.target.value)"
+                                                    [(ngModel)]='categoryId' class="mr-2 form-control filter3"
+                                                    style="width:170px" id="cat-prod">
+                                                    <option value="">All Categories</option>
+                                                    <option *ngFor="let cat of categories" value="{{cat.id}}">
+                                                        {{cat.name}}
+                                                    </option>
 
-                                                        <th class="border-0">Product</th>
-                                                        <th class="border-0">Status</th>
-                                                        <th class="border-0">Category</th>
-                                                        <th class="border-0" style="text-align: center;">Link</th>
-                                                        <th class="border-0" style="text-align: center;">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let product of products">
-                                                        <td class="product">
-
-                                                            <div style="display: inline-block;"
-                                                                *ngIf="product.thumbnailUrl!=null">
-                                                                <img src="{{product.thumbnailUrl}}" height="100"
-                                                                    width="100" alt="(product-img)"
-                                                                    class="img-lg rounded">
-                                                            </div>
-                                                            <div style="display: inline-block;"
-                                                                *ngIf="product.thumbnailUrl==null">
-                                                                <img src="assets/img/default.png" height="100"
-                                                                    width="100" alt="(product-img)"
-                                                                    class="img-lg rounded">
-                                                            </div>
-
-                                                            <div class="product-name">{{product.name}}</div>
-                                                        </td>
-                                                        <td style="vertical-align: middle;max-width: 300px;">
-                                                            <div class="status">{{product.status}}</div>
-                                                        </td>
-                                                        <td
-                                                            style="vertical-align: middle;width: 150px;text-overflow: clip;">
-
-                                                            <div>{{categoryWithProduct[product.categoryId]}}</div>
-                                                        </td>
-                                                        <td style="vertical-align: middle;">
-                                                            <div class="tooltip-custom">
-                                                                <img src="assets/copy.svg" alt="" class="links"
-                                                                    (mouseover)="mouseOverCopy()"
-                                                                    (click)="copyProductUrl(product.seoUrl)">
-                                                                <span *ngIf="hover"
-                                                                    class="tooltiptext-custom">{{product.seoUrl}}</span>
-                                                                <span *ngIf="!hover"
-                                                                    class="tooltiptext-custom copied">Link
-                                                                    Copied!</span>
-                                                            </div>
-                                                            <img src="assets/share.svg" alt="" class="links"
-                                                                (click)="shareProduct()">
-                                                            <img src="assets/external-link.svg" alt="" class="links"
-                                                                (click)="externalLink(product.seoUrl)">
-                                                        </td>
-                                                        <td style="vertical-align: middle;">
-                                                            <div class="dropdown">
-                                                                <div (click)="showDropdown(product.id+i)"
-                                                                    class="dropbtn">
-                                                                    Action</div>
-                                                                <div id="{{product.id+i}}" class="dropdown-content">
-                                                                    <a (click)="editProduct(product.id)"
-                                                                        id="{{product.id}}" class="options"> Edit
-                                                                        Product
-                                                                    </a>
-                                                                    <a style="color: red;" id="{{product.id}}"
-                                                                        class="options"
-                                                                        (click)="deleteProduct(product.id)">Delete
-                                                                        Product
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                            <!-- <button type="button"
-                                                                class="btn btn-primary width-150">Edit</button> -->
-                                                        </td>
-                                                    </tr>
-                                                    <div [hidden]="!(products.length==0)" style="color: red;">No data
-                                                        available to view</div>
-                                                </tbody>
-                                            </table>
+                                                </select>
+                                            </div>
+                                            <div id="search" (click)="searchOrders()"> Search</div>
                                         </div>
-                                        <hr>
-                                        <div class="px-3 py-2">
-                                            <nav aria-label="pagin">
-                                                <ul class="pagination pagination-sm">
-                                                    <li class="page-item pagination {{page.isActive}}"
-                                                        *ngFor="let page of pages" style="cursor: pointer;">
-                                                        <a class="page-link" (click)="openPage(page.no)">
-                                                            {{page.no}}</a>
-                                                    </li>
-                                                    <!-- <li class="page-item"><a class="page-link" >Previous</a>
+                                        <table class="table table-hover m-b-0" style="margin-bottom: 110px;">
+                                            <thead>
+                                                <tr>
+                                                    <!-- <th class="border-0"><input type="checkbox"></th> -->
+
+                                                    <th class="border-0">Product</th>
+                                                    <th class="border-0">Status</th>
+                                                    <th class="border-0">Category</th>
+                                                    <th class="border-0" style="text-align: center;">Link</th>
+                                                    <th class="border-0" style="text-align: center;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let product of products">
+                                                    <td class="product">
+
+                                                        <div style="display: inline-block;"
+                                                            *ngIf="product.thumbnailUrl!=null">
+                                                            <img src="{{product.thumbnailUrl}}" height="100" width="100"
+                                                                alt="(product-img)" class="img-lg rounded">
+                                                        </div>
+                                                        <div style="display: inline-block;"
+                                                            *ngIf="product.thumbnailUrl==null">
+                                                            <img src="assets/img/default.png" height="100" width="100"
+                                                                alt="(product-img)" class="img-lg rounded">
+                                                        </div>
+
+                                                        <div class="product-name">{{product.name}}</div>
+                                                    </td>
+                                                    <td style="vertical-align: middle;max-width: 300px;">
+                                                        <div class="status">{{product.status}}</div>
+                                                    </td>
+                                                    <td
+                                                        style="vertical-align: middle;width: 150px;text-overflow: clip;">
+
+                                                        <div>{{categoryWithProduct[product.categoryId]}}</div>
+                                                    </td>
+                                                    <td style="vertical-align: middle;">
+                                                        <div class="tooltip-custom">
+                                                            <img src="assets/copy.svg" alt="" class="links"
+                                                                (mouseover)="mouseOverCopy()"
+                                                                (click)="copyProductUrl(product.seoUrl)">
+                                                            <span *ngIf="hover"
+                                                                class="tooltiptext-custom">{{product.seoUrl}}</span>
+                                                            <span *ngIf="!hover" class="tooltiptext-custom copied">Link
+                                                                Copied!</span>
+                                                        </div>
+                                                        <img src="assets/share.svg" alt="" class="links"
+                                                            (click)="shareProduct()">
+                                                        <img src="assets/external-link.svg" alt="" class="links"
+                                                            (click)="externalLink(product.seoUrl)">
+                                                    </td>
+                                                    <td style="vertical-align: middle;">
+
+                                                        <button class="btn btn-primary connect-button" mat-button
+                                                            [matMenuTriggerFor]="menu">Action</button>
+                                                        <mat-menu #menu="matMenu">
+                                                            <button mat-menu-item (click)="editProduct(product.id)">Edit
+                                                                Product</button>
+                                                            <button mat-menu-item (click)="deleteProduct(product.id)"
+                                                                style="color: red;">Delete Product</button>
+                                                        </mat-menu>
+                                                    </td>
+                                                </tr>
+                                                <div [hidden]="!(products.length==0)" style="color: red;">No data
+                                                    available to view</div>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr>
+                                    <div class="px-3 py-2">
+                                        <nav aria-label="pagin">
+                                            <ul class="pagination pagination-sm">
+                                                <li class="page-item pagination {{page.isActive}}"
+                                                    *ngFor="let page of pages" style="cursor: pointer;">
+                                                    <a class="page-link" (click)="openPage(page.no)">
+                                                        {{page.no}}</a>
+                                                </li>
+                                                <!-- <li class="page-item"><a class="page-link" >Previous</a>
                                                     </li>
                                                     <li class="page-item active"><a class="page-link">{{page+1}}</a></li>
                                                     <li class="page-item"><a class="page-link">{{page+2}}</a>
                                                     </li>
                                                     <li class="page-item"><a class="page-link">{{page+3}}</a></li>
                                                     <li class="page-item"><a class="page-link">Next</a></li> -->
-                                                </ul>
-                                            </nav>
-                                        </div>
+                                            </ul>
+                                        </nav>
                                     </div>
                                 </div>
-                                <!-- end: My items table-->
-
                             </div>
+                            <!-- end: My items table-->
+
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
+
+    </div>
 
 
     <!-- endbuild -->

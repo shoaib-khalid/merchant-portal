@@ -79,6 +79,7 @@ export class AddProductComponent implements OnInit {
   addAnotherOption() {
     if (this.items.length == this.options.length) {
       this.options.push({ name: this.myControl.value })
+      this.items.push([])
     }
   }
 
@@ -96,8 +97,6 @@ export class AddProductComponent implements OnInit {
       this.combos = [];
       this.getallCombinations(this.items)
     }
-
-
   }
 
   variantNameChanged(event, i) {
@@ -291,7 +290,8 @@ export class AddProductComponent implements OnInit {
   }
 
   async getCategoryId() {
-    const name = $('#categories').val();
+    var name = $('#categories').val().toString().trim();
+    name = name.trim() ? name : "no-category";
     this.id = $('#categories-data-list option[value="' + name + '"]').attr('id');
     if (this.id) {
       return this.id;
@@ -385,7 +385,8 @@ export class AddProductComponent implements OnInit {
     }
     this.variantsChanged(0)
     this.updateImageOrder();
-
+    this.combos=[]
+    this.getallCombinations(this.items)
   }
 
   deleteVariantImage(i, j) {

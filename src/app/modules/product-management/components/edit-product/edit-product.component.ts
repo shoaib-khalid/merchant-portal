@@ -280,17 +280,17 @@ export class EditProductComponent implements OnInit {
     if (this.epForm.status == "VALID") {
       this.apiCalls.loadingAnimation('Updating..')
       await this.deleteEntireInventory();
+      this.deleteVariants();
       const body = combinedObject
       this.deleteImages();
       await this.addInventory();
-      this.apiCalls.updateProduct(body, this.product.id)
+      await this.apiCalls.updateProduct(body, this.product.id)
       this.uploadProductImages();
       const variantIds: any = await this.addVariantName();
       const productAvailableIds = await this.addVariantValues(variantIds);
       const allIds: any = await this.joinVariantAvailables(productAvailableIds)
-      this.addInventoryItem(allIds);
+      await this.addInventoryItem(allIds);
       this.uploadVariantImages();
-      this.deleteVariants();
       this.apiCalls.loadingdialogRef.close();
     }
 
@@ -353,6 +353,7 @@ export class EditProductComponent implements OnInit {
 
 
   async addInventoryItem(productVariantAvailableIds) {
+    var promise = new Promise(async (resolve, reject) => {
     var k = 0;
     for (var i = 0; i < this.combos.length; i++) {
       const combosSplitted = this.combos[i].variant.split("/");
@@ -381,6 +382,9 @@ export class EditProductComponent implements OnInit {
       }
 
     }
+    resolve("")
+  });
+  return promise;
   }
 
   getVariantAvailableByValue(value, productAvailableIds) {
@@ -409,6 +413,7 @@ export class EditProductComponent implements OnInit {
             productVariantAvailableIds.push({ productVariantAvailableId: data.data.id, value: data.data.value })
           }
           k = k + 1;
+          this.options[i].new=false;
         }
 
       }
@@ -428,7 +433,9 @@ export class EditProductComponent implements OnInit {
   async deleteVariant(i, variantId) {
     this.items.splice(i, 1)
     this.options.splice(i, 1);
-    this.deletedVariants.push(variantId)
+    if(variantId){
+      this.deletedVariants.push(variantId)
+    }
     this.combos = [];
     this.getallCombinations(this.items)
     if (this.items.length == 0) {
@@ -439,7 +446,8 @@ export class EditProductComponent implements OnInit {
   }
 
   async getCategoryId() {
-    const name = $('#categories').val();
+    var name:any = $('#categories').val().toString();
+    name = name.trim()?name:"no-category";
     this.id = $('#categories-data-list option[value="' + name + '"]').attr('id');
     if (this.id) {
       return this.id;
@@ -490,6 +498,7 @@ export class EditProductComponent implements OnInit {
       for (var j = 0; j < this.product.productInventories.length; j++) {
         await this.apiCalls.deleteInventory(this.product.id, this.product.productInventories[j].itemCode)
       }
+      this.product.productInventories=[];
       resolve("done")
     });
     return promise;
@@ -606,10 +615,11 @@ export class EditProductComponent implements OnInit {
    * Deleted variants if any
    * when update product is clicked
    */
-  deleteVariants() {
+  async deleteVariants() {
     for (var i = 0; i < this.deletedVariants.length; i++) {
-      this.apiCalls.deleteVariant(this.product.id, this.deletedVariants[i])
+      await this.apiCalls.deleteVariant(this.product.id, this.deletedVariants[i])
     }
+    this.deletedVariants=[];
   }
 
   /**
@@ -620,6 +630,7 @@ export class EditProductComponent implements OnInit {
     for (var i = 0; i < this.imagesToBeDeleted.length; i++) {
       await this.apiCalls.deleteProductAsset(this.product.id, this.imagesToBeDeleted[i]);
     }
+    this.imagesToBeDeleted=[];
   }
 
   setFormGroup() {

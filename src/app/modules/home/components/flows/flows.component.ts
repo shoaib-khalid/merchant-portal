@@ -114,9 +114,8 @@ export class FlowsComponent implements OnInit {
       data: { channels: channelIds }
     });
   }
-  showDropdown(id) {
+  actionClick(id) {
     this.openAble = false;
-    document.getElementById("" + id).classList.toggle("show");
   }
 
 

@@ -123,15 +123,6 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  showDropdown(id) {
-    var dropdowns: any = document.getElementsByClassName('dropdown-content');
-    for (var i = 0; i < dropdowns.length; i++) {
-      if (window.getComputedStyle(dropdowns[i], null).display == "block") {
-        dropdowns[i].classList.toggle("show");
-      }
-    }
-    document.getElementById("" + id).classList.toggle("show");
-  }
 
 
   /**

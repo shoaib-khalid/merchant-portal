@@ -397,8 +397,9 @@
                                                                 </div>
                                                                 <div class="col-lg-7" style="font-weight: lighter;">
                                                                     <div class="form-group">
-                                                                        <tag-input name="tag-input-x"
+                                                                        <tag-input 
                                                                             [(ngModel)]="items[i]"
+                                                                            [ngModelOptions]="{standalone: true}"
                                                                             [placeholder]="'+Option'"
                                                                             (keyup.enter)="variantsChanged($event)"
                                                                             (keyup)="variantsChanged($event)"
