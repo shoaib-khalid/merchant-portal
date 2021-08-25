@@ -61,3 +61,15 @@ border-bottom-right-radius: 10px;
 .sym-text{
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.fixed-top-mine{
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.remove-outline:focus{
+  outline:0 !important;
+}

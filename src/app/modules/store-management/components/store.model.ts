@@ -3,6 +3,7 @@ export class Store {
         public storeName: string,
         public email: String,
         public paymentType: string,
+        public state:String,
         public region: any,
         public city: string,
         public address: string,

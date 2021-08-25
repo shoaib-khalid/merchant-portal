@@ -299,6 +299,8 @@ export class ApiCallsService {
 
   getFilteredProducts(parameters) {
     parameters.storeId = localStorage.getItem('storeId')
+    delete parameters.pageSize;
+    parameters.status=["ACTIVE","DRAFT"]
     console.log(parameters)
     const httpOptions: any = {
 

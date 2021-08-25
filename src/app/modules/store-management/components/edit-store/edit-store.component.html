@@ -12,252 +12,262 @@
         <h1 style="text-align: center;">Update Store</h1>
         <div id="container">
             <div class="card" style="border:none;background-color: rgb(248, 248, 248);">
-                <div class="card-body p-4">
-                    <div class="text-center w-75 m-auto">
-                        <a href="index.html">
-                            <span></span>
-                        </a>
-                        <p class="text-muted mb-4 mt-3">Store details</p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="storeName">Store Name</label>
-                        <input class="form-control" name="storeName" type="username" [(ngModel)]="storeName"
-                            id="storeName" required="" placeholder="Enter Store Name" readonly>
-                    </div>
+                <form #editStoreForm="ngForm">
+                    <div class="card-body p-4">
+                        <div class="text-center w-75 m-auto">
+                            <a href="index.html">
+                                <span></span>
+                            </a>
+                            <p class="text-muted mb-4 mt-3">Store details</p>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="storeName">Store Name</label>
+                            <input class="form-control" name="storeName" type="username"
+                                [(ngModel)]="storeModel.storeName" id="storeName" required
+                                placeholder="Enter Store Name" readonly>
+                        </div>
 
 
-                    <div class="form-group">
-                        <label class="form-control-label">Store Info</label>
-                        <ckeditor
-                            [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
-                            [editor]="Editor" [(ngModel)]="storeInfo" rows="3"></ckeditor>
-                        <!-- <textarea class="form-control" [(ngModel)]="storeInfo" rows="3"></textarea> -->
-                    </div>
-                    <div class="form-group mb-3 mt-3">
-                        <label for="service-charges">Service Charges %</label>
-                        <input class="form-control" name="service-charges" type="number" id="service-charges"
-                            required="" placeholder="Enter Service Charge" min="0" max="100"
-                            [(ngModel)]="serviceCharges" (keyup)="serviceChargesChange($event)">
-                    </div>
-                    <label class="form-control-label" style="margin-top: 10px;">Delivery Details</label>
-                    <div class="form-group mb-3">
-                        <div style="display: inline-block;"><img src="assets/motor-bike-icon.svg" alt="" height="30px"
-                                width="30px"> <span style="margin-left:0px;">Maximum Order</span> </div>
-                        <input class="form-control" name="minOrderQty" type="number" [(ngModel)]="minOrderQty"
-                            (keyup)="minOrderQtyChange($event)" id="bike" placeholder="Maximum order quantity" min="5"
-                            max="1000">
-                    </div>
-                    <div class="form-group mb-3">
-                        <div style="display: inline-block;"><img src="assets/car-icon.svg" alt="" height="30px"
-                                width="30px"> <span style="margin-left:5px;">Greater Than</span></div>
-                        <input class="form-control" name="minOrderCar" type="number" (keyup)="minOrderQtyChange($event)"
-                            id="car" value="{{minOrderQty}}" readonly>
-                    </div>
-                    <div class="form-group mb-3">
-                        <div style="width: 150px;display: inline-block;">Allow Store Pickup</div>
-                        <input type="checkbox" class="form-control" id="store-pickup-checkbox"
-                            [checked]="storeModel.storePickUp"
-                            (change)="storeModel.storePickUp = !storeModel.storePickUp">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="email">Email</label>
-                        <input class="form-control" name="phoneNumber" type="tel" id="email" required=""
-                            placeholder="Enter Email" [(ngModel)]="email">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="address">Phone Number</label>
-                        <input class="form-control" name="phoneNumber" type="tel" id="phoneNumber" required=""
-                            placeholder="Enter Phone number" (keyup)="phoneNumberChange($event)">
-                        <p id="phone-pattern"> <img src="assets/error-icon.svg" style="margin-bottom: 2px;"
-                                height="15px" width="15px" alt="">Only digits are allowed in Phone Number</p>
-                    </div>
-                    <!-- <div class="add-item-img d-flex  border-radius">
-                        <select name="delivery-type" class="form-control necessary" id="delivery-type">
-                            <option value="">Delivery Type</option>
-                            <option value="Self">Self Delivery</option>
-                            <option value="Scheduled">Scheduled</option>
-                            <option value="Ad-Hoc">Ad-Hoc</option>
-                        </select>
-                    </div> -->
-                    <div class="add-item-img d-flex  border-radius">
-                        <select name="delivery-type" class="form-control necessary" id="delivery-type"
-                            [(ngModel)]="storeModel.deliveryType" (change)="deliveryTypeChange($event)">
-                            <option value="">Delivery Type</option>
-                            <option value="SELF">Self Delivery</option>
-                            <option value="SCHEDULED">Scheduled</option>
-                            <option value="ADHOC">Ad-Hoc</option>
-                        </select>
-                    </div>
-                    <br>
-                    <div class="form-group mb-3" *ngIf="storeModel.deliveryType=='SELF'">
-                        <div id="add-state-charge" (click)='addStateCharges()'>+ Add State Charges</div>
-                        <br>
-                        <ng-container *ngFor="let stateCharge of storeModel.stateCharges.stateCharges;index as j">
-                            <div style="margin-bottom: 20px;">
-                                <select name="state-charges" class="form-control state-charges" required
-                                    [(ngModel)]="this.storeModel.stateCharges.stateCharges[j].stateId"
-                                    (change)="stateChargeChange($event,j)">
-                                    <option value="" selected="true" disabled="">States</option>
-                                    <option value="{{state.id}}" *ngFor="let state of states"
-                                        [disabled]="storeModel.stateCharges.stateIds.includes(state.id)">
-                                        {{state.name}}
+                        <div class="form-group">
+                            <label class="form-control-label">Store Info</label>
+                            <ckeditor name="store-description"
+                                [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
+                                [editor]="Editor" [(ngModel)]="storeModel.storeInfo" rows="3"></ckeditor>
+                            <!-- <textarea class="form-control" [(ngModel)]="storeInfo" rows="3"></textarea> -->
+                        </div>
+                        <div class="form-group mb-3 mt-3">
+                            <label for="service-charges">Service Charges %</label>
+                            <input class="form-control necessary" name="service-charges" type="number"
+                                id="service-charges" required placeholder="Enter Service Charge" min="0" max="100"
+                                [(ngModel)]="storeModel.serviceCharge" (keyup)="serviceChargesChange($event)">
+                        </div>
+                        <div [hidden]="storeModel.deliveryType!='ADHOC'">
+                            <label class="form-control-label" style="margin-top: 10px;">Delivery Details</label>
+                            <div class="form-group mb-3">
+                                <div style="display: inline-block;"><img src="assets/motor-bike-icon.svg" alt=""
+                                        height="30px" width="30px"> <span style="margin-left:0px;">Maximum Order</span>
+                                </div>
+                                <input class="form-control necessary" name="minOrderQty" type="number"
+                                    [(ngModel)]="storeModel.minOrderQty" (keyup)="minOrderQtyChange($event)" id="bike"
+                                    placeholder="Maximum order quantity" min="5" max="1000" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div style="display: inline-block;"><img src="assets/car-icon.svg" alt="" height="30px"
+                                        width="30px"> <span style="margin-left:5px;">Greater Than</span></div>
+                                <input class="form-control" name="minOrderCar" type="number"
+                                    (keyup)="minOrderQtyChange($event)" id="car" value="{{storeModel.minOrderQty}}"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="add-item-img d-flex  border-radius">
+                            <select name="delivery-type" class="form-control necessary" id="delivery-type"
+                                [(ngModel)]="storeModel.deliveryType" (change)="deliveryTypeChange($event)">
+                                <option value="" disabled>Delivery Type</option>
+                                <option value="SELF">Self Delivery</option>
+                                <option value="SCHEDULED">Scheduled</option>
+                                <option value="ADHOC">Ad-Hoc</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3 mt-3" *ngIf="storeModel.deliveryType=='SELF'">
+                            <div id="add-state-charge" (click)='addStateCharges()'>+ Add State Charges</div>
+                            <br>
+                            <ng-container *ngFor="let stateCharge of storeModel.stateCharges.stateCharges;index as j">
+                                <div style="margin-bottom: 20px;">
+                                    <select name="state-charges-{{j}}" class="form-control state-charges necessary"
+                                        required [(ngModel)]="this.storeModel.stateCharges.stateCharges[j].stateId"
+                                        (change)="stateChargeChange($event,j)">
+                                        <option value="" selected="true" disabled="">States</option>
+                                        <option value="{{state.id}}" *ngFor="let state of states"
+                                            [disabled]="storeModel.stateCharges.stateIds.includes(state.id)">
+                                            {{state.name}}
+                                        </option>
+                                    </select>
+                                    <input class="form-control delivery-state-price necessary" required
+                                        name="delivery-state-price-{{j}}" type="number" placeholder="Enter state charge"
+                                        min="0" [(ngModel)]="this.storeModel.stateCharges.stateCharges[j].price"
+                                        (change)="stateChargePriceChange($event,j)">
+                                    <span style="margin-left: 5px;cursor: pointer;" (click)='removeStateCharge(j)'>
+                                        <mat-icon>remove_circle_outline</mat-icon>
+                                    </span>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="form-group mb-3 mt-4">
+                            <div style="width: 150px;display: inline-block;">Allow Store Pickup</div>
+                            <input type="checkbox" name="store-pickup" class="form-control" id="store-pickup-checkbox"
+                                [checked]="storeModel.storePickUp"
+                                (change)="storeModel.storePickUp = !storeModel.storePickUp">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="email">Email</label>
+                            <input class="form-control necessary" name="email" type="tel" id="email" required
+                                placeholder="Enter Email" [(ngModel)]="storeModel.email">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="address">Phone Number</label>
+                            <input class="form-control necessary" name="phoneNumber" type="tel" id="phoneNumber"
+                                required placeholder="Enter Phone number" (keyup)="phoneNumberChange($event)">
+                            <p id="phone-pattern"> <img src="assets/error-icon.svg" style="margin-bottom: 2px;"
+                                    height="15px" width="15px" alt="">Only digits are allowed in Phone Number</p>
+                        </div>
+
+                        <div class="add-item-img d-flex  border-radius mt-3">
+                            <select name="delivery-package" class="form-control necessary" id="delivery-package"
+                                required [hidden]="storeModel.verticleCode?storeModel.verticleCode.includes('FnB'):'false'">
+                                <option value="">Item Packaging</option>
+                                <option value="PARCEL">Parcel</option>
+                                <option value="DOCUMENT">Document</option>
+                                <option value="FOOD">Food</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label class="form-control-label">Region</label>
+                            <div class="add-item-img d-flex  border-radius mt-1">
+                                <select name="Inventory-manager" [(ngModel)]="storeModel.region" class="form-control"
+                                    (change)="regionChange($event)" id="inventory-manage">
+                                    <option value="">Select region</option>
+                                    <option value="{{region.id}}" *ngFor="let region of regions">{{region.name}}
                                     </option>
                                 </select>
-                                <input class="form-control delivery-state-price" required name="delivery-state-price"
-                                    type="number" placeholder="Enter state charge" min="0"
-                                    [(ngModel)]="this.storeModel.stateCharges.stateCharges[j].price"
-                                    (change)="stateChargePriceChange($event,j)">
-                                <span style="margin-left: 5px;cursor: pointer;" (click)='removeStateCharge(j)'>
-                                    <mat-icon>remove_circle_outline</mat-icon>
-                                </span>
                             </div>
-                        </ng-container>
-                    </div>
-                    <div class="add-item-img d-flex  border-radius">
-                        <select name="delivery-package" class="form-control necessary" id="delivery-package">
-                            <option value="">Item Packaging</option>
-                            <option value="parcel">Parcel</option>
-                            <option value="DOCUMENT">Document</option>
-                            <option value="Food">Food</option>
-
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label">Region</label>
-                        <div class="add-item-img d-flex  border-radius">
-                            <select name="Inventory-manager" [(ngModel)]="region" class="form-control"
-                                (change)="regionChange($event)" id="inventory-manage">
-                                <option value="">Select region</option>
-                                <option value="{{region.id}}" *ngFor="let region of regions">{{region.name}}</option>
-                            </select>
                         </div>
-                    </div>
-                    <div class="form-group" [hidden]="storeModel.deliveryType=='SELF' || storeModel.deliveryType==''">
-                        <div id="add-delivery-provider" [hidden]="storeModel.deliveryType=='ADHOC'" (click)="
+                        <div class="form-group"
+                            [hidden]="storeModel.deliveryType=='SELF' || storeModel.deliveryType==''">
+                            <div id="add-delivery-provider" [hidden]="storeModel.deliveryType=='ADHOC'" (click)="
                         addDeliveryServiceProvider()">+ Add Delivery Provider
-                        </div>
+                            </div>
 
-                        <label [hidden]="storeModel.sdSp.loopLength.length=='0'" class="form-control-label"
-                            style="margin-top: 12px;">Delivery Provider</label>
-                        <div class="add-item-img d-flex  border-radius delivery-provider"
-                            *ngFor="let dsp of storeModel.sdSp.loopLength;index as j">
-                            <select  class="form-control necessary dp-select" required
-                                (change)="dpChange($event,j)" [ngModel]="storeModel.sdSp.values[j]" >
-                                <option [value]="" [disabled]="true">Delivery Provider</option>
-                                <option [value]="dp.id" *ngFor="let dp of storeModel.sdSp.dsp">
-                                    {{dp.name}}</option>
+                            <label [hidden]="storeModel.sdSp.loopLength.length=='0'" class="form-control-label"
+                                style="margin-top: 12px;">Delivery Provider</label>
+                            <div class="add-item-img d-flex  border-radius delivery-provider"
+                                *ngFor="let dsp of storeModel.sdSp.loopLength;index as j">
+                                <select name="delivery-provider-{{j}}}" class="form-control necessary dp-select"
+                                    required (change)="dpChange($event,j)" [(ngModel)]="storeModel.sdSp.values[j]">
+                                    <option [value]="" [disabled]="true">Delivery Provider</option>
+                                    <option [value]="dp.id" *ngFor="let dp of storeModel.sdSp.dsp">
+                                        {{dp.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" style="margin-top: 12px;">State</label>
+                            <div class="add-item-img d-flex  border-radius">
+                                <select name="state-name" class="form-control necessary" id="state-dropdown"
+                                    [(ngModel)]="this.storeModel.state" required>
+                                    <option value="">Select state</option>
+                                    <option value="{{state.id}}" *ngFor="let state of states">{{state.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="address">Address</label>
+                            <p id="warning-address">Warning: Changing store address will direct only new orders to this
+                                store</p>
+                            <input class="form-control necessary" name="address" type="username"
+                                [(ngModel)]="storeModel.address" id="address" required placeholder="Enter Address"
+                                (keypress)="showAddressWarning()">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="city">City</label>
+                            <input class="form-control necessary" name="city" type="username"
+                                [(ngModel)]="storeModel.city" id="cit" required placeholder="Enter City Name">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="city">Post Code</label>
+                            <p id="warning-postcode">Warning: Changing store postcode will direct only new orders to
+                                this
+                                store</p>
+                            <input class="form-control necessary" name="post-code" type="username"
+                                [(ngModel)]="this.storeModel.postCode" id="cit" required placeholder="Enter post code"
+                                (keypress)="showPostWarning()">
+                        </div>
+                        <div class="add-item-img d-flex  border-radius necessary">
+                            <select name="payment-type" id="payment-type" class="form-control necessary"
+                                [(ngModel)]="storeModel.paymentType" required>
+                                <option value="">Select Payment type</option>
+                                <option value="COD">Cash On delivery</option>
+                                <option value="ONLINEPAYMENT">Online Payment</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label" style="margin-top: 12px;">States</label>
-                        <div class="add-item-img d-flex  border-radius">
-                            <select class="form-control" id="state-dropdown" [(ngModel)]="state">
-                                <option value="">Select state</option>
-                                <option value="{{state.id}}" *ngFor="let state of states">{{state.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="address">Address</label>
-                        <p id="warning-address">Warning: Changing store address will direct only new orders to this
-                            store</p>
-                        <input class="form-control" name="address" type="username" [(ngModel)]="address" id="address"
-                            required="" placeholder="Enter Address" (keypress)="showAddressWarning()">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="city">City</label>
-                        <input class="form-control" name="city" type="username" [(ngModel)]="city" id="cit" required=""
-                            placeholder="Enter City Name">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="city">Post Code</label>
-                        <p id="warning-postcode">Warning: Changing store postcode will direct only new orders to this
-                            store</p>
-                        <input class="form-control" name="city" type="username" [(ngModel)]="postCode" id="cit"
-                            required="" placeholder="Enter post code" (keypress)="showPostWarning()">
-                    </div>
-                    <div class="add-item-img d-flex  border-radius">
-                        <select name="payment-type" id="payment-type" class="form-control" [(ngModel)]="paymentType">
-                            <option value="">Select Payment type</option>
-                            <option value="COD">Cash On delivery</option>
-                            <option value="ONLINEPAYMENT">Online Payment</option>
-                        </select>
-                    </div>
-                    <br>
+                        <br>
 
-                    <div class="form-group mb-3">
-                        <label for="city">Logo</label>
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" (change)="onLogoChanged($event)" />
-                            <label class="custom-file-label">Choose
-                                file </label>
+                        <div class="form-group mb-3">
+                            <label for="city">Logo</label>
+                            <div class="custom-file">
+                                <input type="file" name="logo" class="custom-file-input"
+                                    (change)="onLogoChanged($event)" />
+                                <label class="custom-file-label">Choose
+                                    file </label>
+                            </div>
+
+
+                            <div *ngIf="this.logo.preview" class="assets">
+                                <img src="{{this.logo.preview}}" alt="" style="max-width: 400px;max-height: 100px;">
+                                <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px"
+                                    width="14px" (click)="deleteLogo()">
+                            </div>
                         </div>
 
-
-                        <div *ngIf="this.logo.preview" class="assets">
-                            <img src="{{this.logo.preview}}" alt="" style="max-width: 400px;max-height: 100px;">
+                        <div class="form-group mb-3">
+                            <label for="city">Banner</label>
+                            <div class="custom-file">
+                                <input type="file" name="banner" class="custom-file-input"
+                                    (change)="onBannerChanged($event)" />
+                                <label class="custom-file-label">Choose
+                                    file </label>
+                            </div>
+                        </div>
+                        <div *ngIf="this.banner.preview" class="assets">
+                            <img src="{{this.banner.preview}}" alt="" style="max-width: 400px;max-height: 100px;">
                             <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
-                                (click)="deleteLogo()">
+                                (click)="deleteBanner()">
                         </div>
-                    </div>
 
-                    <div class="form-group mb-3">
-                        <label for="city">Banner</label>
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" (change)="onBannerChanged($event)" />
-                            <label class="custom-file-label">Choose
-                                file </label>
-                        </div>
-                    </div>
-                    <div *ngIf="this.banner.preview" class="assets">
-                        <img src="{{this.banner.preview}}" alt="" style="max-width: 400px;max-height: 100px;">
-                        <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
-                            (click)="deleteBanner()">
-                    </div>
-
-                    <div class="form-group">
-                        <table class="table" id="store-timmings-table" style="margin-bottom: 10px;">
-                            <thead>
-                                <tr>
-                                    <th class="border-0">Day</th>
-                                    <th class="border-0">Opening time</th>
-                                    <th class="border-0" data-breakpoints="sm xs">Close Time</th>
-                                    <th class="border-0" data-breakpoints="xs">Off days</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let time of timmings;index as i;" style="width: 700px;">
-                                    <!-- <td><input type="checkbox"></td> -->
-                                    <td class="border-0">{{time.day}}</td>
-                                    <td class="border-0">
-                                        <input class="form-control" type="time" id="openTime"
-                                            (change)="changeOpenTime($event,i)" value="{{time.openTime}}">
-                                    </td>
-                                    <td class="border-0">
-                                        <input class="form-control" type="time" id="closeTime"
-                                            (change)="changeCloseTime($event,i)" value="{{time.closeTime}}">
-                                    </td>
-                                    <td class="border-0">
-                                        <mat-checkbox (change)="changeOn_Off($event,i)" style="text-align: initial;
+                        <div class="form-group">
+                            <table class="table" id="store-timmings-table" style="margin-bottom: 10px;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-0">Day</th>
+                                        <th class="border-0">Opening time</th>
+                                        <th class="border-0" data-breakpoints="sm xs">Close Time</th>
+                                        <th class="border-0" data-breakpoints="xs">Off days</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let time of timmings;index as i;" style="width: 700px;">
+                                        <!-- <td><input type="checkbox"></td> -->
+                                        <td class="border-0">{{time.day}}</td>
+                                        <td class="border-0">
+                                            <input class="form-control" name="open-time-{{i}}" type="time" id="openTime"
+                                                (change)="changeOpenTime($event,i)" value="{{time.openTime}}">
+                                        </td>
+                                        <td class="border-0">
+                                            <input class="form-control" name="close-time-{{i}}" type="time"
+                                                id="closeTime" (change)="changeCloseTime($event,i)"
+                                                value="{{time.closeTime}}">
+                                        </td>
+                                        <td class="border-0">
+                                            <mat-checkbox name="is-off-{{i}}" (change)="changeOn_Off($event,i)" style="text-align: initial;
                                         margin-top: 10px;" [ngModel]="time.isOff">
-                                        </mat-checkbox>
-                                    </td>
-                                </tr>
+                                            </mat-checkbox>
+                                        </td>
+                                    </tr>
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="form-group mb-0 text-center">
+                            <a class="btn btn-primary btn-block"
+                                style="height: 40px;padding: 10px;width: 150px;display: inline; margin-right: 10px;"
+                                (click)="update(editStoreForm.form)">
+                                Update </a>
+                        </div>
+
                     </div>
-
-
-                    <div class="form-group mb-0 text-center">
-                        <a class="btn btn-primary btn-block"
-                            style="height: 40px;padding: 10px;width: 150px;display: inline; margin-right: 10px;"
-                            (click)="update()">
-                            Update </a>
-                    </div>
-
-                </div>
+                </form>
                 <!-- end card-body -->
             </div>
 

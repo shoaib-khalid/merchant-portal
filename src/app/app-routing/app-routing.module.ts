@@ -31,14 +31,7 @@ import { DailySalesComponent } from 'src/app/modules/reporting/components/daily-
 import { SettlementComponent } from 'src/app/modules/reporting/components/settlement/settlement.component';
 import { EmailVerifiedComponent } from '../modules/home/components/email-verified/email-verified.component';
 import { ProfileComponent } from '../modules/user-onboarding/components/profile/profile.component';
-import { LandingPageComponent } from '../modules/external-design/components/landing-page/landing-page.component';
-import { FAndBComponent } from '../modules/external-design/components/f-and-b/f-and-b.component';
-import { ECommerceComponent } from '../modules/external-design/components/e-commerce/e-commerce.component';
-import { ServicesComponent } from '../modules/external-design/components/services/services.component';
-import { WhySymplifiedComponent } from '../modules/external-design/components/why-symplified/why-symplified.component';
-import { PricingComponent } from '../modules/external-design/components/pricing-f-and-b/pricing.component';
-import { PricingECommerceComponent } from '../modules/external-design/components/pricing-e-commerce/pricing-e-commerce.component';
-import { PricingEServicesComponent } from '../modules/external-design/components/pricing-e-services/pricing-e-services.component';
+
 const routes: Routes = [
 
   {
@@ -87,56 +80,7 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     children: []
   },
-//   {
-//     path: '',
-//     component: LandingPageComponent,
-//     canActivate: [AuthGuardService],
-//     children: []
-//   },
-  { path: '', redirectTo: "signin", pathMatch: "full" },
-  {
-    path: 'f-and-b',
-    component: FAndBComponent,
-    canActivate: [],
-    children: []
-  },
-  {
-    path: 'e-commerce',
-    component: ECommerceComponent,
-    canActivate: [],
-    children: []
-  },
-  {
-    path: 'services',
-    component: ServicesComponent,
-    canActivate: [],
-    children: []
-  },
-
-  {
-    path: 'why-symplified',
-    component: WhySymplifiedComponent,
-    canActivate: [],
-    children: []
-  },
-  {
-    path: 'pricing-f-and-b',
-    component: PricingComponent,
-    canActivate: [],
-    children: []
-  },
-  {
-    path: 'pricing-e-commerce',
-    component: PricingECommerceComponent,
-    canActivate: [],
-    children: []
-  },
-  {
-    path: 'pricing-services',
-    component: PricingEServicesComponent,
-    canActivate: [],
-    children: []
-  },
+  { path: '', redirectTo: "products", pathMatch: "full" },
   {
     path: 'header',
     component: SharedHeaderComponent,
