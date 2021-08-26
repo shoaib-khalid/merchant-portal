@@ -7,7 +7,7 @@ export class Card {
         <div class="d-inline img-icon mr-2">
         <img class="delete" src="assets/delete.png" />
         </div>  
-        <img class="copy" class="img-icon"src="assets/copy.png"/>
+        <img  class="img-icon copy"src="assets/copy.png"/>
       </span>      
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
             <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >
@@ -33,7 +33,7 @@ export class Card {
         <div class="d-inline img-icon mr-2">
         <img class="delete" src="assets/delete.png" />
         </div>  
-        <img class="copy" class="img-icon"src="assets/copy.png"/>
+        <img  class="img-icon copy"src="assets/copy.png"/>
       </span>
       
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
@@ -60,7 +60,7 @@ export class Card {
         <div class="d-inline img-icon mr-2">
         <img class="delete" src="assets/delete.png" />
         </div>  
-        <img class="copy" class="img-icon"src="assets/copy.png"/>
+        <img  class="img-icon copy"src="assets/copy.png"/>
       </span>
       
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
@@ -90,7 +90,7 @@ export class Card {
         <div class="d-inline img-icon mr-2">
         <img class="delete" src="assets/delete.png" />
         </div>  
-        <img class="copy" class="img-icon"src="assets/copy.png"/>
+        <img  class="img-icon copy"src="assets/copy.png"/>
       </span>
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
             <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >
@@ -116,7 +116,7 @@ export class Card {
         <div class="d-inline img-icon mr-2">
         <img class="delete" src="assets/delete.png" />
         </div>  
-        <img class="copy" class="img-icon"src="assets/copy.png"/>
+        <img  class="img-icon copy"src="assets/copy.png"/>
       </span>
           <div class="card" style='border-radius:35px;border:0px;width:300px; min-height:200px;'>
             <div id="card-header`+ id + `"class="card-header" style='background-color:white;border-radius:35px;border:0px;' >

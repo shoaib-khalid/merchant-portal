@@ -23,3 +23,11 @@
 #clear-filter:hover{
     color: #319795;
 }
+
+.main{
+    margin-top: 80px;
+}
+
+.row {
+    flex-wrap: nowrap!important;
+}

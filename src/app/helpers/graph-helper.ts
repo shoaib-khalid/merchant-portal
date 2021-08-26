@@ -65,7 +65,7 @@ export class Helper {
 				if (evt.target.classList.contains("delete")) {
 					graph.removeCells([this.v1]);
 
-				} else if (evt.target.className === "copy") {
+				} else if (evt.target.classList[0] === "copy") {
 					this.copyVertex(graph, this.v1);
 				}
 				else {
@@ -611,20 +611,20 @@ export class Helper {
 	}
 
 
-	deleteTriggerUsingSidePanel(length) {
+	deleteTriggerUsingSidePanel(i) {
 		var cell = this.v1;
+		console.log(this.graph.removeCells([this.v1.children[i+1]]))
 		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
-		var childHegiht = -(length * (55));
+		var childHegiht = -(1 * (55));
 		var current = cell.getGeometry();
 		if (childLength > 0) {
-			current.height = current.heightchildHegiht + childHegiht;
+			current.height = current.height + childHegiht;
 		}
 		let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
 		let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
 		flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
 		flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
-		this.graph.cellsResized([cell], [current], false);
-		// this.apiCalls.autoSaveUpdate(JsonCodec.getIndividualJson(this.v1))		
+		this.graph.cellsResized([this.v1], [current], false);
 	}
 
 
@@ -636,7 +636,6 @@ export class Helper {
 		var yAxis = 130;
 		var childHegiht = 30;
 
-		// if (childLength > 0) {
 		yAxis = yAxis + (childLength * childHegiht);
 		var current = cell.getGeometry();
 		current.height = current.height + childHegiht;
@@ -651,7 +650,6 @@ export class Helper {
 		conditionLine.setConnectable(false);
 		var ConnectionStart = doc.createElement('ConnectionStart');
 		var ConnectionStart = this.graph.insertVertex(conditionLine, null, ConnectionStart, 60, 7, 20, 20, "resizable=0;constituent=1;movable=0;strokeColor=none;opacity=0;", null);
-		// this.apiCalls.autoSaveAdd(JsonCodec.getIndividualJson(ConnectionStart), "")
 		this.graph.refresh();
 	}
 

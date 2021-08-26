@@ -9,10 +9,15 @@ import { EditStoreComponent } from './components/edit-store/edit-store.component
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
+import { SelectRegionPopupComponent } from './components/select-region-popup/select-region-popup.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
-  declarations: [ManageStoresComponent, StorePageComponent, EditStoreComponent],
+  declarations: [ManageStoresComponent, StorePageComponent, EditStoreComponent, SelectRegionPopupComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -20,7 +25,11 @@ import {MatIconModule} from '@angular/material/icon';
     FormsModule,
     CKEditorModule,
     MatCheckboxModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule
   ]
 })
 export class StoreManagementModule { }

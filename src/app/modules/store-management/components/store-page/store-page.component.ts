@@ -263,16 +263,16 @@ export class StorePageComponent implements OnInit {
   }
 
   async setRegionUsingClientIpAddress() {
-    const data: any = await this.apiCalls.checkCountry();
-    const country = data.country;
-    var regionId = "";
-    if (country == "Pakistan") {
-      regionId = "PAK"
-    } else if (country == "Malaysia") {
-      regionId = "MYS";
+    var region="";
+    this.route.queryParams.subscribe(params => {
+      region = params["region"];
+    });
+    if (region == "SA") {
+      this.storeModel.region = "PAK"
+    } else if (region == "SEA") {
+      this.storeModel.region = "MYS";
     }
-    this.storeModel.region = regionId;
-    this.fetchStates(regionId)
+    this.fetchStates(this.storeModel.region)
   }
 
 

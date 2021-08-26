@@ -74,21 +74,21 @@ export class SideNav {
     }
   }
 
-  
+
   digitFromString(str) {
-		const digit = parseInt(str.match(/(\d+)/));
-		return String(digit);
-	}
+    const digit = parseInt(str.match(/(\d+)/));
+    return String(digit);
+  }
   handleClick(event) {
     if (this.helperService.vertexClicked() === "TEXT_MESSAGE" || this.helperService.vertexClicked() === "MENU_MESSAGE") {
       if (event.target.id.includes("header") || event.target.id.includes("card")) {
         var id = event.target.id;
-        console.log(id)
-        id  = this.digitFromString(id);
-        console.log(id)
-        var text:any = document.getElementById(`header${id}`);
+        // console.log(id)
+        id = this.digitFromString(id);
+        // console.log(id)
+        var text: any = document.getElementById(`header${id}`);
         text = text.innerHTML;
-        console.log(`header${id}`);
+        // console.log(`header${id}`);
         (<HTMLInputElement>document.getElementById("vertex-title")).value = text;
         this.toggle();
       } else if (event.target.localName === "svg") {
@@ -249,16 +249,9 @@ export class SideNav {
     this.btnValues = this.apiCalls.data[vertexIndex].buttons;
   }
 
-  deleteTriggers() {
-    var len=0;
-    for (var i = 0; i < this.helper.v1.children.length; i++) {
-      if (this.helper.v1.children[i].value.localName == "triggers") {
-      len=len+1;
-        // this.apiCalls.autoSaveDelete(JsonCodec.getIndividualJson(this.helper.v1.children[i]));
-      }
-    }
-    this.buttonsArray=[];
-    this.helper.deleteTriggerUsingSidePanel(len);
+  deleteTriggers(i) {
+    this.buttonsArray.splice(i, 1)
+    this.helper.deleteTriggerUsingSidePanel(i);
   }
 
 

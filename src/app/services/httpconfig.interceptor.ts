@@ -37,10 +37,10 @@ export class HttpConfigInterceptor implements HttpInterceptor {
             })).pipe(catchError(this.handleError));
     }
     private handleError(error: HttpErrorResponse) {
+
         /**
          * Wrote this piece of code here because code in seperate function doesn't get executed for some reason
          */
-
         if (localStorage.getItem("expiry") && localStorage.getItem("refreshToken")) {
             const d = new Date();
             if (new Date(localStorage.getItem("expiry")) < new Date(d.toUTCString())) {
@@ -50,14 +50,16 @@ export class HttpConfigInterceptor implements HttpInterceptor {
 
         if (error.error instanceof ErrorEvent) {
         } else {
+            if (error.url.includes("extreme")) {
+                return;
+            }
             const dialogRef = HttpConfigInterceptor.globalDialog.open(ErrorPopUpComponent, {
                 disableClose: true,
                 width: "600px",
                 data: { data: error }
             });
         }
-        return throwError(
-            '');
+        return throwError('');
     }
 
 

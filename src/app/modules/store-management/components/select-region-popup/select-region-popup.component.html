@@ -1,0 +1,14 @@
+<body style="text-align: center;">
+    <h4>Choose Your country</h4>
+    <mat-form-field appearance="fill">
+        <mat-label>Choose an option</mat-label>
+        <mat-select matInput [(ngModel)]="country">
+            <mat-option value="SA">Pakistan</mat-option>
+            <mat-option value="SEA">Malaysia</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div mat-dialog-actions align="end">
+        <!-- <button mat-button  (click)="selectCountry()">Ok</button> -->
+        <button mat-button [mat-dialog-close]="country" *ngIf="country" style="background-color: gainsboro;">Ok</button> 
+    </div>
+</body>
