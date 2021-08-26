@@ -19,6 +19,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     // DataTablesModule,
     NgxDatatableModule
   ],
-  bootstrap: [DailySalesComponent],
+  bootstrap: [DailySalesComponent, SettlementComponent],
 })
 export class ReportingModule { }

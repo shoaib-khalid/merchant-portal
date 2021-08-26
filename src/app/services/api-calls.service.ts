@@ -790,6 +790,7 @@ export class ApiCallsService {
   fetchDetailedDailySales(startDate, endDate) {
     return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/report/detailedDailySales?startDate=${startDate}&endDate=${endDate}`).toPromise()
   }
+  
 
   /**
    * 
@@ -836,7 +837,11 @@ export class ApiCallsService {
     return this.http.get(this.productService + `/region-country-state?page=0&pageSize=20&regionCountryId=${regionId}`).toPromise()
   }
   async getSettlement(from, to) {
-    return this.http.get(this.reportService + `/store/${localStorage.getItem('storeId')}/settlement?from=${from}&page=0&pageSize=20&sortBy=startDate&sortingOrder=ASC&to=${to}`).toPromise()
+    return this.http.get(this.reportService + `/store/${localStorage.getItem('storeId')}/settlement?from=${from}&page=0&pageSize=20&sortBy=startDate&sortingOrder=DESC&to=${to}`).toPromise()
+  }
+
+  fetchSettlementByDates(startDate, endDate) {
+    return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/settlement?from=${startDate}&page=0&pageSize=20&sortBy=startDate&sortingOrder=DESC&to=${endDate}`).toPromise()
   }
 
   verifyEmail(id, code) {

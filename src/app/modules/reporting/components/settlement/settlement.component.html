@@ -9,6 +9,8 @@
 
     <app-shared-header></app-shared-header>
 
+
+
     <main role="main" class="main">
         <div class="wrapper">
             <div class="container">
@@ -17,7 +19,7 @@
                     <div  style="display: inline-block;width: 80%;">
                         <div class="row">
                             <div class="col">
-                                <div class="card mb-5" >
+                                <div class="card mb-5" style="">
                                     <div class="card-header border-bottom">
                                         <div class="d-flex align-items-center">
                                             <div>
@@ -25,64 +27,42 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div>
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Settlement Date</th>
-                                                        <th>Commission</th>
-                                                        <th>Fees</th>
-                                                        <th>Gross</th>
-                                                        <th>Total</th>
-                                                        <th>refund</th>
-                                                        <th>Service Fee</th>
-                                                    </tr>
-                                                </thead>
+                                    <div style="display: inline-block;">
 
+                                        <div id="dailyTopProducts">
+                                            <!-- <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">
+                                                Daily Top
+                                                Products</div>
+                                            <div [hidden]="!dataAvailableToView[2]" class="note">No data available for
+                                                daily top products to show.</div> -->
+                                            <!-- <table [hidden]="dataAvailableToView[2]" datatable [dtOptions]="dtOptions3" [dtTrigger]="dtTrigger3" class="row-border hover table"> -->
+                                                <div style="padding-top: 50px; padding-bottom: 15px;">
+                                                    <!-- <div
+                                                        style="font-weight: bold;text-align: center; padding-bottom: 15px;">
+                                                        Summary Sales
+                                                    </div> -->
+                                                    <input type="date" placeholder="From - date" class="form-control filter"
+                                                        style="width:160px; margin-right: 10px;display: inline-block;"
+                                                        name="" id="from-date-detailed">
+                                                    <input type="date" placeholder="From - date" class="form-control filter"
+                                                        style="width:160px; margin-right: 10px;display: inline-block;"
+                                                        name="" id="to-date-detailed">
+                                                    <div class="search-btn" (click)="searchSettlement()">Search</div>
+                                                </div>
 
-                                                <tbody>
-                                                    <tr *ngFor="let set of settlement">
-                                                        <td>
-                                                            {{set.settlementDate}}
-                                                        </td>
-                                                        <td>{{set.commission}} </td>
+                                            <ngx-datatable class="material" [rows]="rows" [columns]="[
+                                                { name: 'Payout Date' }, 
+                                                { name: 'Start Date' }, 
+                                                { name: 'Cut-Off Date' },
+                                                { name: 'Gross Amount' },
+                                                { name: 'Service Charges' },
+                                                { name: 'Delivery Charges' },
+                                                { name: 'Commision' },
+                                                { name: 'Nett Amount' }
+                                                ]" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                                                [footerHeight]="50" rowHeight="auto" [limit]="5">
+                                            </ngx-datatable>
 
-                                                        <td>
-                                                            {{set.fees}}
-
-                                                        </td>
-                                                        <td>
-                                                            {{set.gross}}
-
-                                                        </td>
-                                                        <td>
-                                                            {{set.nett}}
-
-                                                        </td>
-                                                        <td>
-                                                            {{set.refund}}
-                                                        </td>
-                                                        <td>
-                                                            {{set.serviceFee}}
-
-                                                        </td>
-                                                        <td>
-                                                            {{set.startDate}}
-
-                                                        </td>
-                                                        <td>
-                                                            {{set.endDate}}
-
-                                                        </td>
-
-                                                    </tr>
-
-                                                </tbody>
-
-                                            </table>
-                                            <div [hidden]="!(settlement.length==0)" style="color: red;">No data
-                                                available to view</div>
                                         </div>
 
                                         <!-- <div style="margin-top: 80px;text-align: center;"> -->
@@ -99,6 +79,8 @@
 
         </div>
     </main>
+
+
 </body>
 
 </html>
