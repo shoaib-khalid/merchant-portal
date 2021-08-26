@@ -14,27 +14,17 @@ import { Store } from '../store.model'
 })
 export class EditStoreComponent implements OnInit {
 
-  storeName: any;
-  storeInfo: any;
-  email: any = "";
-  paymentType: any = "";
-  region: any = "";
+
   regions: any = [];
-  address: any;
-  city: any;
-  postCode: any;
   logo: any = { file: "", preview: "" }
   banner: any = { file: "", preview: "" };
   store: any;
   closeTime: any = "";
   openTime: any = "";
   timmings: any = [];
-  minOrderQty: any = "";
   states: any = [];
-  state: any = "";
-  serviceCharges: any = "0";
   public Editor = ClassicEditor;
-  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "", "", { stateCharges: [], stateIds: [], deletedStateIds: [] }, false,
+  storeModel = new Store("", "", "", "", "", "", "", "", "", 5, 0, "", "", "", { stateCharges: [], stateIds: [], deletedStateIds: [] }, false,
     false, { dsp: [], loopLength: [], values: [], ids: [] }, "");
 
 
@@ -94,34 +84,49 @@ export class EditStoreComponent implements OnInit {
     this.banner.preview = await this.previewImage(file)
   }
 
-  async update() {
-    this.apiCalls.loadingAnimation("Updating..")
-    await this.updateTextualDetails();
-    await this.updateAssets();
-    await this.updateStoreTimmings(this.store.id)
-    await this.updateDeliveryDetails();
-    this.deleteStateCharges();
-    this.updateStateCharges();
-    this.updateStoreDeliveryProvider();
-    this.apiCalls.loadingdialogRef.close();
+  async update(form) {
+    if (form.valid) {
+      this.apiCalls.loadingAnimation("Updating..")
+      await this.updateTextualDetails();
+      await this.updateAssets();
+      await this.updateStoreTimmings(this.store.id)
+      await this.updateDeliveryDetails();
+      this.deleteStateCharges();
+      this.updateStateCharges();
+      this.updateStoreDeliveryProvider();
+      this.apiCalls.loadingdialogRef.close();
+    } else {
+      this.highlightEmptyFields();
+    }
+
+  }
+
+  highlightEmptyFields() {
+    var arr: any = document.getElementsByClassName('necessary');
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].value == "") {
+        $(arr[i]).val('').css("border-color", "red");
+      } else {
+        $(arr[i]).css("border-color", "#EAEDF2");
+      }
+    }
   }
 
   setTextualDetails() {
-    this.storeName = this.store.name;
-    this.storeInfo = this.store.storeDescription;
-    this.email = this.store.email;
-    this.paymentType = this.store.paymentType;
-    this.address = this.store.address;
-    this.city = this.store.city;
-    this.postCode = this.store.postcode;
+    this.storeModel.storeName = this.store.name;
+    this.storeModel.storeInfo = this.store.storeDescription;
+    this.storeModel.email = this.store.email;
+    this.storeModel.paymentType = this.store.paymentType;
+    this.storeModel.address = this.store.address;
+    this.storeModel.city = this.store.city;
+    this.storeModel.postCode = this.store.postcode;
     (<HTMLInputElement>document.getElementById("phoneNumber")).value = this.store.phoneNumber;
-    this.serviceCharges = this.store.serviceChargesPercentage;
+    this.storeModel.serviceCharge = this.store.serviceChargesPercentage;
+    this.storeModel.verticleCode = this.store.verticalCode
   }
 
   setState() {
-    const ele: any = document.getElementById("state-dropdown");
-    ele.value = this.store.regionCountryStateId;
-    this.state = this.store.regionCountryStateId;
+    this.storeModel.state = this.store.regionCountryStateId;
   }
 
   async setAssets() {
@@ -145,18 +150,18 @@ export class EditStoreComponent implements OnInit {
 
   updateTextualDetails() {
     const store = {
-      "address": this.address,
-      "city": this.city,
+      "address": this.storeModel.address,
+      "city": this.storeModel.city,
       "clientId": localStorage.getItem('ownerId'),
-      "name": this.storeName,
-      "email": this.email,
-      "paymentType": this.paymentType,
-      "postcode": this.postCode,
-      "storeDescription": this.storeInfo,
-      "regionCountryId": this.region,
-      "regionCountryStateId": this.state,
+      "name": this.storeModel.storeName,
+      "email": this.storeModel.email,
+      "paymentType": this.storeModel.paymentType,
+      "postcode": this.storeModel.postCode,
+      "storeDescription": this.storeModel.storeInfo,
+      "regionCountryId": this.storeModel.region,
+      "regionCountryStateId": this.storeModel.state,
       "phoneNumber": (<HTMLInputElement>document.getElementById("phoneNumber")).value,
-      serviceChargesPercentage: this.serviceCharges
+      serviceChargesPercentage: this.storeModel.serviceCharge
     }
     return this.apiCalls.updateStore(store, this.store.id)
   }
@@ -203,9 +208,9 @@ export class EditStoreComponent implements OnInit {
   async fetchRegions() {
     var regions: any = await this.apiCalls.getStoreRegions();
     this.regions = regions.data.content;
-    this.region = this.store.regionCountryId;
-    if (this.region == null) {
-      this.region = "";
+    this.storeModel.region = this.store.regionCountryId;
+    if (this.storeModel.region == null) {
+      this.storeModel.region = "";
     }
   }
 
@@ -251,7 +256,7 @@ export class EditStoreComponent implements OnInit {
   minOrderQtyChange(event) {
     const minOrderQty = event.key;
     if (minOrderQty.toString() == "-") {
-      this.minOrderQty = "";
+      this.storeModel.minOrderQty = 0;
     }
   }
 
@@ -295,6 +300,7 @@ export class EditStoreComponent implements OnInit {
   }
 
   regionChange(event) {
+    this.storeModel.state = "";
     if (event.target.value) {
       this.fetchStates(event.target.value)
       this.storeModel.deliveryTypeChange = true;
@@ -312,9 +318,9 @@ export class EditStoreComponent implements OnInit {
   }
   serviceChargesChange(event) {
     if (event.target.value > 100) {
-      this.serviceCharges = 100;
+      this.storeModel.serviceCharge = 100;
     } else if (event.key == "-") {
-      this.serviceCharges = 0;
+      this.storeModel.serviceCharge = 0;
     }
   }
   addStateCharges() {
@@ -384,10 +390,11 @@ export class EditStoreComponent implements OnInit {
         continue;
       }
       if (stateCharges[i].dbId == undefined) {
-        await this.apiCalls.saveStoreStateCharges({
+        const data: any = await this.apiCalls.saveStoreStateCharges({
           "delivery_charges": this.storeModel.stateCharges.stateCharges[i].price,
           "region_country_state_id": this.storeModel.stateCharges.stateCharges[i].stateId
         })
+        this.storeModel.stateCharges.stateCharges[i].dbId = data.data.id;
         continue;
       }
       await this.apiCalls.updateStoreStateCharges({
@@ -398,8 +405,8 @@ export class EditStoreComponent implements OnInit {
   }
 
   async setStoreDeliveryProvider() {
-    this.region = this.store.regionCountryId;
-    var data1: any = await this.apiCalls.getDeliveryServiceProviderByType(this.storeModel.deliveryType, this.region);
+    this.storeModel.region = this.store.regionCountryId;
+    var data1: any = await this.apiCalls.getDeliveryServiceProviderByType(this.storeModel.deliveryType, this.storeModel.region);
     data1 = data1.data;
     for (var i = 0; i < data1.length; i++) {
       this.storeModel.sdSp.dsp.push(data1[i].provider);
@@ -424,7 +431,7 @@ export class EditStoreComponent implements OnInit {
 
 
   async deliveryTypeChange(event) {
-    this.storeModel.deliveryTypeChange=true;
+    this.storeModel.deliveryTypeChange = true;
     this.storeModel.sdSp = { dsp: [], loopLength: [], values: [], ids: [] };
     if (this.storeModel.deliveryType == "SELF") {
       return;
@@ -435,7 +442,7 @@ export class EditStoreComponent implements OnInit {
     this.fetchChangedDeliveryProviders();
   }
   async fetchChangedDeliveryProviders() {
-    var data: any = await this.apiCalls.getDeliveryServiceProviderByType(this.storeModel.deliveryType, this.region);
+    var data: any = await this.apiCalls.getDeliveryServiceProviderByType(this.storeModel.deliveryType, this.storeModel.region);
     data = data.data;
     if (data.length == 0) {
       this.storeModel.sdSp = { dsp: [], loopLength: [], values: [], ids: [] };

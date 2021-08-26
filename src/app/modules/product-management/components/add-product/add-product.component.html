@@ -11,41 +11,8 @@
 
     <app-shared-header></app-shared-header>
 
-    <main role="main">
+    <main role="main" class="main">
         <div class="wrapper">
-
-            <div class="breadcrumb-wrap">
-                <div class="container py-3">
-                    <div class="row d-flex justify-content-md-between justify-content-sm-center">
-                        <div class="col-md-4">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item mr-1 font-weight-bold"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item ml-1 font-weight-bold active" aria-current="page">
-                                        Library
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
-                        <div class="header-actions">
-                            <button class="btn btn-ghost grey-dark font-weight-bold">
-                                <i class="las la-share-alt"></i>
-                                <span>Share</span>
-                            </button>
-                            <button class="btn btn-ghost grey-dark like-button font-weight-bold">
-                                <i class="las la-hand-holding-heart"></i>
-                                <span>150 Likes</span>
-                            </button>
-                            <button class="btn btn-ghost grey-dark font-weight-bold">
-                                <i class="las la-bookmark"></i>
-                                <span><span>Save for Later</span></span>
-                            </button>
-
-                            <!---->
-                        </div>
-                    </div>
-                </div>
-            </div>
 
 
             <div class="container">
@@ -128,7 +95,7 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="l30">Price</label>
-                                                                <input id="general-price" type="text" min="0"
+                                                                <input id="general-price" type="number" min="0"
                                                                     name="price" [disabled]="variantChecked"
                                                                     (keyup)="priceChange($event)"
                                                                     class="form-control necessary" />
@@ -206,7 +173,7 @@
                                                                 <input [disabled]="variantChecked" type="number"
                                                                     name="quantity" [(ngModel)]="quantity" id="quantity"
                                                                     class="form-control necessary" name="quantity"
-                                                                    min="1" max="10000">
+                                                                    min="0" max="10000">
                                                             </div>
                                                         </div>
                                                         <div style="margin-left: 12px;">

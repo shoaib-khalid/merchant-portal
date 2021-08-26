@@ -60,39 +60,23 @@
                                 placeholder="Enter Service Charge" [(ngModel)]="storeModel.serviceCharge"
                                 (keyup)="serviceChargesChange($event)" min="0" max="100">
                         </div>
-                        <label class="form-control-label" style="margin-top: 10px;">Delivery Details</label>
-                        <div class="form-group mb-3">
-                            <div style="display: inline-block;"><img src="assets/motor-bike-icon.svg" alt=""
-                                    height="30px" width="30px"><span style="margin-left:0px;">Maximum Order</span></div>
-                            <input class="form-control necessary" name="minOrderQty" type="number"
-                                [(ngModel)]="storeModel.minOrderQty" (keyup)="minOrderQtyChange($event)" id="bike"
-                                placeholder="Maximum Order Quantity" min="0" max="1000" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <div style="display: inline-block;"><img src="assets/car-icon.svg" alt="" height="30px"
-                                    width="30px"> <span style="margin-left:5px;">Greater Than</span></div>
-                            <input class="form-control" name="minOrderCar" type="number"
-                                (keyup)="minOrderQtyChange($event)" id="car" value="{{storeModel.minOrderQty}}"
-                                readonly>
-                        </div>
-                        <div class="form-group mb-3">
-                            <div style="width: 150px;display: inline-block;">Allow Store Pickup</div>
-                            <input type="checkbox" class="form-control" id="store-pickup-checkbox"
-                                [checked]='storeModel.storePickUp'
-                                (change)="storeModel.storePickUp = !storeModel.storePickUp">
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="address">Email</label>
-                            <input class="form-control" name="email" type="email" id="email" placeholder="Enter Email"
-                                [(ngModel)]="storeModel.email">
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="address">Phone Number</label>
-                            <input class="form-control necessary" required name="phoneNumber" type="tel"
-                                id="phoneNumber" placeholder="Enter Phone number" (keyup)="phoneNumberChange($event)"
-                                ngModel>
-                            <p id="phone-pattern"> <img src="assets/error-icon.svg" style="margin-bottom: 2px;"
-                                    height="15px" width="15px" alt="">Only digits are allowed in Phone Number</p>
+                        <div [hidden]="storeModel.deliveryType!='ADHOC'">
+                            <label class="form-control-label" style="margin-top: 10px;">Delivery Details</label>
+                            <div class="form-group mb-3">
+                                <div style="display: inline-block;"><img src="assets/motor-bike-icon.svg" alt=""
+                                        height="30px" width="30px"><span style="margin-left:0px;">Maximum Order</span>
+                                </div>
+                                <input class="form-control necessary" name="minOrderQty" type="number"
+                                    [(ngModel)]="storeModel.minOrderQty" (keyup)="minOrderQtyChange($event)" id="bike"
+                                    placeholder="Maximum Order Quantity" min="0" max="1000" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div style="display: inline-block;"><img src="assets/car-icon.svg" alt="" height="30px"
+                                        width="30px"> <span style="margin-left:5px;">Greater Than</span></div>
+                                <input class="form-control" name="minOrderCar" type="number"
+                                    (keyup)="minOrderQtyChange($event)" id="car" value="{{storeModel.minOrderQty}}"
+                                    readonly>
+                            </div>
                         </div>
                         <div class="add-item-img d-flex  border-radius">
                             <select name="delivery-type" class="form-control necessary" id="delivery-type" required
@@ -103,8 +87,7 @@
                                 <option value="ADHOC">Ad-Hoc</option>
                             </select>
                         </div>
-                        <br>
-                        <div class="form-group mb-3" *ngIf="storeModel.deliveryType=='SELF'">
+                        <div class="form-group mb-3 mt-3" *ngIf="storeModel.deliveryType=='SELF'">
                             <div id="add-product" (click)='addStateCharges()'>+ Add State Charges</div>
                             <br>
                             <ng-container *ngFor="let stateCharge of storeModel.stateCharges.stateCharges;index as j">
@@ -128,18 +111,38 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <div class="add-item-img d-flex  border-radius">
+                        <div class="form-group mb-3">
+                            <div style="width: 150px;display: inline-block;margin-top: 10px;">Allow Store Pickup</div>
+                            <input type="checkbox" class="form-control" id="store-pickup-checkbox"
+                                [checked]='storeModel.storePickUp'
+                                (change)="storeModel.storePickUp = !storeModel.storePickUp">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="address">Email</label>
+                            <input class="form-control" name="email" type="email" id="email" placeholder="Enter Email"
+                                [(ngModel)]="storeModel.email">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="address">Phone Number</label>
+                            <input class="form-control necessary" required name="phoneNumber" type="tel"
+                                id="phoneNumber" placeholder="Enter Phone number" (keyup)="phoneNumberChange($event)"
+                                ngModel>
+                            <p id="phone-pattern"> <img src="assets/error-icon.svg" style="margin-bottom: 2px;"
+                                    height="15px" width="15px" alt="">Only digits are allowed in Phone Number</p>
+                        </div>
+                        
+                        <div class="add-item-img d-flex  border-radius mt-2" >
                             <select name="delivery-package" class="form-control necessary"
-                                [(ngModel)]='storeModel.packType' id="delivery-package" required>
+                                [(ngModel)]='storeModel.packType' id="delivery-package" required [hidden]="verticleCode.includes('FnB')==true">
                                 <option value="" selected="true" disabled="">Item Packaging</option>
-                                <option value="parcel">Parcel</option>
+                                <option value="PARCEL">Parcel</option>
                                 <option value="DOCUMENT">Document</option>
-                                <option value="Food">Food</option>
+                                <option value="FOOD">Food</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group ">
                             <label class="form-control-label" style="margin-top: 12px;">Region</label>
-                            <div class="add-item-img d-flex  border-radius">
+                            <div class="add-item-img d-flex  border-radius mt-2">
                                 <select name="Inventory-manager" [(ngModel)]="storeModel.region"
                                     class="form-control necessary" id="region" (change)="regionChange($event)" required>
                                     <option value="">Select region</option>
@@ -166,7 +169,8 @@
                                     <option value="{{dp.id}}" *ngFor="let dp of storeModel.sdSp.dsp">
                                         {{dp.name}}</option>
                                 </select>
-                                <span style="margin-left: 5px;cursor: pointer;margin-top: 5px;" (click)='removeDeliveryProvider(j)'>
+                                <span style="margin-left: 5px;cursor: pointer;margin-top: 5px;"
+                                    (click)='removeDeliveryProvider(j)'>
                                     <mat-icon>remove_circle_outline</mat-icon>
                                 </span>
                             </div>
@@ -174,7 +178,7 @@
 
 
                         <div class="form-group">
-                            <label class="form-control-label" style="margin-top: 12px;">States</label>
+                            <label class="form-control-label" style="margin-top: 12px;">State</label>
                             <div class="add-item-img d-flex  border-radius">
                                 <select name="Inventory-manager" class="form-control necessary" required
                                     id="state-dropdown">

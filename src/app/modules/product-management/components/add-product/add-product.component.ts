@@ -417,7 +417,7 @@ export class AddProductComponent implements OnInit {
 
     if (this.variantChecked) {
       return true;
-    } else if (this.price && this.quantity && this.namenew.trim()) {
+    } else if (this.price && this.quantity>-1 && this.namenew.trim()) {
       // else if (this.price && this.quantity && name.trim()) {
       return true;
     } else {
@@ -474,10 +474,10 @@ export class AddProductComponent implements OnInit {
    * Reflects the correct price on front-end
    */
   priceChange(event) {
-    const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
-    const generalPrice: any = document.getElementById('general-price')
-    generalPrice.value = `${acceptedPrice}`
-    this.price = acceptedPrice;
+    // const acceptedPrice = this.helperService.acceptCustomPrice(event.target.value)
+    // const generalPrice: any = document.getElementById('general-price')
+    // generalPrice.value = `${acceptedPrice}`
+    this.price = event.target.value;
   }
 
   titleChange(event) {

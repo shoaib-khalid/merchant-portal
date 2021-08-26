@@ -20,17 +20,17 @@ export class StorePageComponent implements OnInit {
   minOrderQty: any = "5";  // nazrul : albert wants default value to start with 5
   states: any = [];
   verticleCode: any = "";
-  storeModel = new Store("", "", "", "", "", "", "", "", 5, 0, "", "", "", { stateCharges: [], stateIds: [] },
+  storeModel = new Store("", "", "", "", "", "", "", "", "", 5, 0, "", "", "", { stateCharges: [], stateIds: [] },
     false, false, { dsp: [], loopLength: [], values: [] }, "");
 
   timmings: any = [
-    { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
-    { day: "TUESDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
-    { day: "WEDNESDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
-    { day: "THURSDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
-    { day: "FRIDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
-    { day: "SATURDAY", isOff: false, openTime: "09:00", closeTime: "17:00" },
-    { day: "SUNDAY", isOff: false, openTime: "09:00", closeTime: "17:00" }
+    { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "20:00" },
+    { day: "TUESDAY", isOff: false, openTime: "09:00", closeTime: "20:00" },
+    { day: "WEDNESDAY", isOff: false, openTime: "09:00", closeTime: "20:00" },
+    { day: "THURSDAY", isOff: false, openTime: "09:00", closeTime: "20:00" },
+    { day: "FRIDAY", isOff: false, openTime: "09:00", closeTime: "20:00" },
+    { day: "SATURDAY", isOff: false, openTime: "09:00", closeTime: "20:00" },
+    { day: "SUNDAY", isOff: false, openTime: "09:00", closeTime: "20:00" }
   ]
 
   public Editor = ClassicEditor;
@@ -43,7 +43,7 @@ export class StorePageComponent implements OnInit {
     this.extractVerticleCode();
     this.setRegionUsingClientIpAddress();
     if (this.verticleCode.includes("FnB")) {
-      this.storeModel.packType = "Food"
+      this.storeModel.packType = "FOOD"
       this.hideOptionsWhenFnB();
     }
   }
@@ -340,7 +340,7 @@ export class StorePageComponent implements OnInit {
   }
 
   async setDeliveryProvider() {
-    if (this.storeModel.deliveryType=="") {
+    if (this.storeModel.deliveryType == "") {
       return;
     }
     var data: any = await this.apiCalls.getDeliveryServiceProviderByType(this.storeModel.deliveryType, this.storeModel.region);

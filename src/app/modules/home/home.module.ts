@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { RouterModule } from '@angular/router';
 import { FlowsComponent } from './components/flows/flows.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -16,8 +15,9 @@ import { ErrorPopUpComponent } from './components/error-pop-up/error-pop-up.comp
 import { EmailVerifiedComponent } from './components/email-verified/email-verified.component';
 import {MatIconModule} from '@angular/material/icon';
 import { MatIconRegistry } from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
 @NgModule({
-  declarations: [LandingPageComponent, FlowsComponent, SharedHeaderComponent, SharedSidePanelComponent, SuccessAnimationComponent, LoadingComponent, ErrorPopUpComponent, EmailVerifiedComponent],
+  declarations: [FlowsComponent, SharedHeaderComponent, SharedSidePanelComponent, SuccessAnimationComponent, LoadingComponent, ErrorPopUpComponent, EmailVerifiedComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -26,7 +26,8 @@ import { MatIconRegistry } from '@angular/material/icon';
     MatDialogModule,
     MatCheckboxModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatDividerModule
   ],
   exports: [SharedHeaderComponent,SharedSidePanelComponent,SuccessAnimationComponent],
   providers:[MatIconRegistry]
