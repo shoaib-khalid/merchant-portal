@@ -55,45 +55,54 @@ export class SettlementComponent implements OnInit {
     
     this.newSettlementCollection = [];
 
+    // create new topProducts Collection 
     this.settlement.forEach( obj => {
 
 
         var new_date = new Date(obj.settlementDate)
         var day = new_date.getDate()
-        var month = new_date.getMonth()
+        var month = new_date.getMonth() + 1
         var year = new_date.getFullYear()
+
+        // alert(month)
 
         var payout_date = day + "-" + month + "-" + year
 
         var new_date2 = new Date(obj.cycleStartDate)
         var day = new_date2.getDate()
-        var month = new_date2.getMonth()
+        var month = new_date2.getMonth() + 1
         var year = new_date2.getFullYear()
 
         var start_date = day + "-" + month + "-" + year
 
         var new_date3 = new Date(obj.cycleEndDate)
         var day = new_date3.getDate()
-        var month = new_date3.getMonth()
+        var month = new_date3.getMonth() + 1
         var year = new_date3.getFullYear()
 
         var cut_off_date = day + "-" + month + "-" + year
 
-        let custom_obj = {
-            payoutDate: ''+payout_date+'',
-            startDate: ''+start_date+'',
-            cutOffDate: ''+cut_off_date+'',
-            grossAmount: ''+obj.totalServiceFee+'',
-            serviceCharges: ''+obj.totalServiceCharges+'',
-            deliveryCharges: ''+obj.totalServiceFee+'',
-            commision: ''+obj.totalCommissionFee+'',
-            nettAmount: ''+obj.totalServiceFee+''
+        // var gross = !obj.totalServiceFee ? '0.00' : obj.totalServiceFee;
+        var service = !obj.totalServiceFee ? '0.00' : obj.totalServiceFee;
+        var commision = !obj.totalCommissionFee ? '0.00' : obj.totalCommissionFee;
+        var nett = !obj.totalServiceFee ? '0.00' : obj.totalServiceFee;
+
+        if(obj.totalTransactionValue == null){
+            let custom_obj = {
+                payoutDate: ''+payout_date+'',
+                startDate: ''+start_date+'',
+                cutOffDate: ''+cut_off_date+'',
+                grossAmount: ''+service+'',
+                serviceCharges: ''+service+'',
+                deliveryCharges: ''+service+'',
+                commision: ''+commision+'',
+                nettAmount: ''+nett+''
+            }
+    
+            this.newSettlementCollection.push(custom_obj)
         }
 
-        this.newSettlementCollection.push(custom_obj)
-
     });
-
 
     this.rows = this.newSettlementCollection;
 
@@ -108,35 +117,32 @@ export class SettlementComponent implements OnInit {
     data = data.data;
     this.settlement=data.content;
 
-    // console.log('settlement data: ', this.settlement)
-
-    // return false
-
     // hard reset newTopCollection
     this.newSettlementCollection = [];
 
     // create new topProducts Collection 
     this.settlement.forEach( obj => {
-        // const date = obj.settlementDate
-        // const subObj = obj.topProduct
+
 
         var new_date = new Date(obj.settlementDate)
         var day = new_date.getDate()
-        var month = new_date.getMonth()
+        var month = new_date.getMonth() + 1
         var year = new_date.getFullYear()
+
+        // alert(month)
 
         var payout_date = day + "-" + month + "-" + year
 
         var new_date2 = new Date(obj.cycleStartDate)
         var day = new_date2.getDate()
-        var month = new_date2.getMonth()
+        var month = new_date2.getMonth() + 1
         var year = new_date2.getFullYear()
 
         var start_date = day + "-" + month + "-" + year
 
         var new_date3 = new Date(obj.cycleEndDate)
         var day = new_date3.getDate()
-        var month = new_date3.getMonth()
+        var month = new_date3.getMonth() + 1
         var year = new_date3.getFullYear()
 
         var cut_off_date = day + "-" + month + "-" + year
@@ -151,22 +157,27 @@ export class SettlementComponent implements OnInit {
         // Commission - totalCommissionFee
         // Nett amount - tbc
 
-        let custom_obj = {
-            payoutDate: ''+payout_date+'',
-            startDate: ''+start_date+'',
-            cutOffDate: ''+cut_off_date+'',
-            grossAmount: ''+obj.totalServiceFee+'',
-            serviceCharges: ''+obj.totalServiceCharges+'',
-            deliveryCharges: ''+obj.totalServiceFee+'',
-            commision: ''+obj.totalCommissionFee+'',
-            nettAmount: ''+obj.totalServiceFee+''
+        // var gross = !obj.totalServiceFee ? '0.00' : obj.totalServiceFee;
+        var service = !obj.totalServiceFee ? '0.00' : obj.totalServiceFee;
+        var commision = !obj.totalCommissionFee ? '0.00' : obj.totalCommissionFee;
+        var nett = !obj.totalServiceFee ? '0.00' : obj.totalServiceFee;
+
+        if(obj.totalTransactionValue == null){
+            let custom_obj = {
+                payoutDate: ''+payout_date+'',
+                startDate: ''+start_date+'',
+                cutOffDate: ''+cut_off_date+'',
+                grossAmount: ''+service+'',
+                serviceCharges: ''+service+'',
+                deliveryCharges: ''+service+'',
+                commision: ''+commision+'',
+                nettAmount: ''+nett+''
+            }
+    
+            this.newSettlementCollection.push(custom_obj)
         }
 
-        this.newSettlementCollection.push(custom_obj)
-
     });
-
-    // this.rows3 = this.newSettlementCollection
 
     this.rows = this.newSettlementCollection;
 
