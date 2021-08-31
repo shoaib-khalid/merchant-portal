@@ -164,7 +164,7 @@ export class ApiCallsService {
     this.http.post<any>(this.userService + "/clients/register", signUpData).
       subscribe(data => {
         if (signUpData.roleId == "STORE_OWNER") {
-          this.authenticateClient({ username: signUpData.username, password: signUpData.password })
+          this.authenticateClient({ username: signUpData.username, password: signUpData.password },true,"")
         } else {
 
           this.loadingdialogRef.close()
@@ -184,8 +184,7 @@ export class ApiCallsService {
     }
   }
 
-  authenticateClient(logInData, rememberMe = true) {
-
+  authenticateClient(logInData, rememberMe = true, redirectUrl) {
     return this.http.post<any>(this.userService + "/clients/authenticate", logInData).
       subscribe(async data => {
         if (data.status == 202) {
@@ -200,15 +199,24 @@ export class ApiCallsService {
           if (data.data.content.length == 0) {
             this.router.navigateByUrl('/chooseverticle')
           } else if (data.data.content.length == 1) {
-            localStorage.setItem("storeId", data.data.content[0].id)
-            localStorage.setItem("store", data.data.content[0].name)
+            this.helperService2.setDefaultStoreDetails(data);
             this.helperService.setDefaultJson(data.data.content[0].phoneNumber, data.data.content[0].domain, data.data.content[0].name)
-            this.router.navigateByUrl('/products')
+            this.gotoRedirect(redirectUrl, "/products");
           } else {
-            this.router.navigateByUrl('/store-management')
+            this.helperService2.setDefaultStoreDetails(data);
+            this.gotoRedirect(redirectUrl, '/store-management')
           }
         }
       }, error => this.loadingdialogRef.close());
+  }
+
+  gotoRedirect(redirectUrl, url) {
+
+    if (redirectUrl) {
+      this.router.navigateByUrl(redirectUrl);
+    } else {
+      this.router.navigateByUrl(url);
+    }
   }
 
   getStoresByOwnerId() {
@@ -300,7 +308,7 @@ export class ApiCallsService {
   getFilteredProducts(parameters) {
     parameters.storeId = localStorage.getItem('storeId')
     delete parameters.pageSize;
-    parameters.status=["ACTIVE","DRAFT"]
+    parameters.status = ["ACTIVE", "DRAFT"]
     console.log(parameters)
     const httpOptions: any = {
 
@@ -792,7 +800,7 @@ export class ApiCallsService {
   fetchDetailedDailySales(startDate, endDate) {
     return this.http.get(`${this.reportService}/store/${localStorage.getItem("storeId")}/report/detailedDailySales?startDate=${startDate}&endDate=${endDate}`).toPromise()
   }
-  
+
 
   /**
    * 
@@ -964,12 +972,12 @@ export class ApiCallsService {
 
   async savePaymentDetails(body) {
     console.log(this.userService + `/clients/${localStorage.getItem("ownerId")}/payment_details`)
-    return this.http.post(this.userService + `/clients/${localStorage.getItem("ownerId")}/payment_details`,body).toPromise()
+    return this.http.post(this.userService + `/clients/${localStorage.getItem("ownerId")}/payment_details`, body).toPromise()
   }
   async getPaymentDetails() {
     return this.http.get(this.userService + `/clients/${localStorage.getItem("ownerId")}/payment_details/`).toPromise()
   }
-  async updatePaymentDetail(body,id) {
-    return this.http.put(this.userService + `/clients/${localStorage.getItem("ownerId")}/payment_details/${id}`,body).toPromise()
+  async updatePaymentDetail(body, id) {
+    return this.http.put(this.userService + `/clients/${localStorage.getItem("ownerId")}/payment_details/${id}`, body).toPromise()
   }
 }

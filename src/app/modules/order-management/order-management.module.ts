@@ -7,6 +7,8 @@ import {RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CustomersComponent } from './components/customers/customers.component';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSidenavModule} from '@angular/material/sidenav';
+
 
 @NgModule({
   declarations: [OrdersComponent,SingleOrderComponent, CustomersComponent],
@@ -15,7 +17,8 @@ import {MatIconModule} from '@angular/material/icon';
     HomeModule,
     RouterModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    MatSidenavModule
   ]
 })
 export class OrderManagementModule { }

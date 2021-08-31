@@ -4,6 +4,7 @@ import { ApiCallsService } from './api-calls.service';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorPopUpComponent } from '../modules/home/components/error-pop-up/error-pop-up.component';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -11,27 +12,33 @@ import { ErrorPopUpComponent } from '../modules/home/components/error-pop-up/err
 export class AuthGuardService implements CanActivate {
 
   allowedUnAuthenticated: any = ["", "signin", "signup"]
+  redirectUrl: String = "";
 
-
-  constructor(public router: Router, private apiCalls: ApiCallsService,private dialog: MatDialog) { }
+  constructor(public router: Router, private apiCalls: ApiCallsService, private dialog: MatDialog,private location:Location) { }
   canActivate(route: ActivatedRouteSnapshot): boolean {
     if (localStorage.getItem("accessToken")) {
       return this.validateToken(route)
     } else {
       if (route.url[0]) {
         if (this.allowedUnAuthenticated.includes(route.url[0].path)) {
+          this.redirectUrl="";
           return true;
         } else {
-          this.router.navigateByUrl("/signin")
+          this.makeRedirectUrl();
+          this.router.navigateByUrl("signin")
+          return false;
         }
       } else {
+        this.makeRedirectUrl();
         return true;
       }
     }
-
-
-
   }
+
+  makeRedirectUrl(){
+    this.redirectUrl = this.location.path();
+  }
+
   async getFreshAccessToken(path) {
     const data = await this.apiCalls.getAccessTokenUsingRefresh();
     localStorage.setItem('accessToken', data.data.session.accessToken)
@@ -74,11 +81,11 @@ export class AuthGuardService implements CanActivate {
     }
   }
 
-  generateSessionExpiryError(){
+  generateSessionExpiryError() {
     const dialogRef = this.dialog.open(ErrorPopUpComponent, {
       disableClose: true,
       width: "600px",
       data: { data: "Your session has expired. Please login again, Thank you." }
-  });
+    });
   }
 }

@@ -15,4 +15,8 @@ export class HelperMethodsService {
     localStorage.setItem("expiry", data.data.session.expiry)
     localStorage.setItem('rememberMe', rememberMe.toString())
   }
+  setDefaultStoreDetails(data){
+    localStorage.setItem("storeId", data.data.content[0].id)
+    localStorage.setItem("store", data.data.content[0].name)
+  }
 }

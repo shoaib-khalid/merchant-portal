@@ -63,7 +63,7 @@ export class Helper {
 			try {
 
 				if (evt.target.classList.contains("delete")) {
-					graph.removeCells([this.v1]);
+					this.graph.removeCells([this.v1]);
 
 				} else if (evt.target.classList[0] === "copy") {
 					this.copyVertex(graph, this.v1);
@@ -452,8 +452,8 @@ export class Helper {
 		var cached = true;
 		graph.convertValueToString = (cell) => {
 			const objJson = JsonCodec.getIndividualJson(cell);
-			if(this.cardId<1){
-			this.cardId = this.findLatestId(graph.getChildVertices(graph.getDefaultParent()));
+			if (this.cardId < 1) {
+				this.cardId = this.findLatestId(graph.getChildVertices(graph.getDefaultParent()));
 			}
 
 			if (cached && cell.div != null) {
@@ -542,41 +542,13 @@ export class Helper {
 		};
 	}
 
-	private bindCellEvents(div: HTMLDivElement, cell: any, graph: any) {
-		// if (div.getElementsByClassName('btnAddTrigger')[0]) {
-		// (<any>div.getElementsByClassName('btnAddTrigger')[0]).onclick = (() => {
-		// 	var doc = mxUtils.createXmlDocument();
-		// 	let triggers = doc.createElement('triggers');
-
-		// 	let initialMessage = cell.div.getElementsByClassName('initial-message');
-		// 	if (initialMessage && initialMessage.length > 0) {
-		// 		initialMessage[0].remove()
-		// 		// cell.div.removeChild(initialMessage[0]);
-		// 	}
-		// 	let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
-		// 	var yAxis = 70;
-		// 	var childHegiht = 55;
-
-		// 	if (childLength > 0) {
-		// 		yAxis = yAxis + (childLength * childHegiht);
-		// 		var current = cell.getGeometry();
-		// 		current.height = current.height + childHegiht;
-		// 		let flowStarTriggerList = cell.div.querySelector('.flow-start-trigger-list');
-		// 		let flowStarTriggerListHeight = flowStarTriggerList.style.getPropertyValue('height');
-
-		// 		flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
-		// 		flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
-		// 		graph.cellsResized([cell], [current], false);
-		// 		graph.refresh();
-		// 	}
-		// 	var trigger = graph.insertVertex(cell, null, triggers, 85, yAxis, 150, childHegiht, "resizable=0;constituent=1;movable=0;strokeColor=none;", null);
-
-
-		// });
-	}
-
 
 	addTriggerUsingSidePanel(cell = this.v1) {
+		const triggers_ = this.v1.children.filter(v => v.value.nodeName == "triggers");
+		if (triggers_.length > 2) {
+			return
+		}
+
 		var doc = mxUtils.createXmlDocument();
 		let triggers = doc.createElement('triggers');
 
@@ -612,8 +584,10 @@ export class Helper {
 
 
 	deleteTriggerUsingSidePanel(i) {
+		const triggers = this.v1.children.filter(v => v.value.nodeName == "triggers");
+		this.triggersRestructuring(triggers, i);
 		var cell = this.v1;
-		console.log(this.graph.removeCells([this.v1.children[i+1]]))
+		this.graph.removeCells([triggers[i]])
 		let childLength = cell.children ? cell.children.filter((m: any) => !m.style.includes('port')).length : 0;
 		var childHegiht = -(1 * (55));
 		var current = cell.getGeometry();
@@ -625,6 +599,7 @@ export class Helper {
 		flowStarTriggerListHeight = parseInt(flowStarTriggerListHeight, 10) + childHegiht;
 		flowStarTriggerList.style.setProperty('height', flowStarTriggerListHeight + 'px');
 		this.graph.cellsResized([this.v1], [current], false);
+		this.graph.refresh();
 	}
 
 
@@ -666,17 +641,28 @@ export class Helper {
 	 */
 	findLatestId(children) {
 		var largest = -1;
-		var digit=-1;
+		var digit = -1;
 		for (var i = 0; i < children.length; i++) {
-				var digit = this.digitFromString(children[i].div.firstChild.id);
+			var digit = this.digitFromString(children[i].div.firstChild.id);
 
 			if (digit > largest) {
 				largest = digit;
 			}
 		}
-		return largest+1;
+		return largest + 1;
 	}
 
 
-
+	/**
+	 * If next cell is also trigger while deletion
+	 * we move it backwards and so on
+	 * @param j
+	 */
+	triggersRestructuring(triggers, i) {
+		for (var x = triggers.length - 1; x >= i; x--) {
+			if (triggers[x - 1]) {
+				this.graph.getModel().setGeometry(triggers[x], triggers[x - 1].getGeometry());
+			}
+		}
+	}
 }

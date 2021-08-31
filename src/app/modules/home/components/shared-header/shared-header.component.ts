@@ -68,4 +68,10 @@ export class SharedHeaderComponent implements OnInit {
       this.router.navigate(['/products']);
     });
   }
+
+  navMobToggle(){
+    $('.nav-mobile').toggle(200);
+
+  }
+
 }

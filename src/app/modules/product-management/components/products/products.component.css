@@ -177,3 +177,10 @@ flex-container{
 #sh{
   margin-top: 100px;
 }
+
+
+@media screen and (max-width:900px){
+  app-shared-side-panel{
+      display: none;
+  }
+}

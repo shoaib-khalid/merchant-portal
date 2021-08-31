@@ -9,3 +9,20 @@
     filter: invert(50%) sepia(80%) saturate(366%) hue-rotate(130deg) brightness(86%) contrast(83%);
     margin-right: 19px;
 }
+
+.link-style{
+    color: #319795;
+    cursor: pointer;
+}
+
+.link-style:hover{
+    color: #319795;
+}
+
+.social-media-submenu{
+    display: none;
+}
+
+.customer-support-submenu{
+    display: none;
+}

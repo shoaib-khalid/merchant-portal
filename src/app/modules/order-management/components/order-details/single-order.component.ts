@@ -20,6 +20,7 @@ export class SingleOrderComponent implements OnInit {
   total: any = "";
   order: any = "";
   dt:any="";
+  showFiller = false;
 
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
 

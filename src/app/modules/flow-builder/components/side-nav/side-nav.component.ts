@@ -57,6 +57,9 @@ export class SideNav {
     if (this.buttonsArray.length === 0) {
       this.updateDataVariableArray();
     }
+    if(this.buttonsArray.length>2){
+      return;
+    }
     this.buttonsArray.push("New Button");
     this.btnValues.push({ btnTitle: "New Button", btnValue: "" });
     this.btnValue = "";
@@ -201,11 +204,12 @@ export class SideNav {
   }
 
   updateButtons() {
+    const triggers = this.helper.v1.children.filter(v => v.value.nodeName == "triggers");
     if (this.helper.isVertex) {
       this.buttonsArray = [];
       try {
-        for (var i = 1; i < (this.helper.v1.children.length - 1); i++) {
-          this.buttonsArray.push(String(this.helper.v1.children[i].div.innerText))
+        for (var i = 0; i < (triggers.length); i++) {
+          this.buttonsArray.push(String(triggers[i].div.innerText))
         }
       } catch (ex) {
       }

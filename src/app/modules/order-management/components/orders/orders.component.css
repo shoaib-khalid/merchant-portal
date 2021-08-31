@@ -3,11 +3,14 @@
 }
 #search{
     background-color: rgb(91, 179, 127);
-    border-radius: 6px;
+    border-radius: 0.5em;
     cursor: pointer;
     color: white;
-    padding: 10px;
-    margin-left: 4px;
+    outline: none;
+    margin-left: 1em;
+    border: none;
+    height: 3em;
+    width: 5em;
 }
 
 #clear-filter{
@@ -31,3 +34,10 @@
 .row {
     flex-wrap: nowrap!important;
 }
+
+
+@media screen and (max-width:900px){
+    app-shared-side-panel{
+        display: none;
+    }
+  }

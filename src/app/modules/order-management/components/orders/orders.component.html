@@ -15,7 +15,7 @@
                         <div class="row">
                             <div class="col">
                                 <!-- my items table -->
-                                <div class="card product_item_list mb-4" style="margin-right: -140px;">
+                                <div class="card product_item_list mb-4">
                                     <div class="card-header py-3 border-bottom">
                                         <div class="d-flex align-items-center">
                                             <div>
@@ -53,7 +53,7 @@
                                                     <option *ngFor="let status of paymentStatuses;"
                                                         value="{{status.status}}"> {{status.status}}</option>
                                                 </select>
-                                                <div id="search" (click)="searchOrders()"> Search</div>
+                                                <button id="search" (click)="searchOrders()"> Search</button>
                                                 <div style="margin-left: 80px;margin-top: 10px;">Total orders :
                                                     {{totalOrders}}</div>
                                             </div>

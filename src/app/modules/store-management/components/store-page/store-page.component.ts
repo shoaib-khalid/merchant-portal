@@ -290,7 +290,9 @@ export class StorePageComponent implements OnInit {
 
 
   addStateCharges() {
-    this.storeModel.stateCharges.stateCharges.push({ stateId: '', price: '' });
+    if(this.storeModel.stateCharges.stateCharges.length<this.states.length){
+      this.storeModel.stateCharges.stateCharges.push({ stateId: '', price: '' });
+    }
   }
 
   removeStateCharge(i) {
