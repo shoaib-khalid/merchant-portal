@@ -29,8 +29,8 @@
                                 <div class="card mb-4">
                                     <div class="card-body">
                                         <div class="invoice">
-                                            <div class="col-6 col-md-6 col-lg-6" >
-                                                <div class="invoice-name text-right" >
+                                            <div class="col-6 col-md-6 col-lg-6">
+                                                <div class="invoice-name text-right">
                                                     <h5 class="mb-0">Invoice</h5>
                                                 </div>
                                             </div>
@@ -42,7 +42,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="row mb-3">
+                                            <div class="row">
                                                 <div class="col-md-12 col-lg-12">
                                                     <div class="invoice-meta">
                                                         <ul class="list-inline mb-3">
@@ -65,19 +65,53 @@
                                                                 <p class="mb-0">Completion Status : <span
                                                                         class="text-success f-w-5 ml-2">{{this.order.completionStatus}}</span>
                                                                 </p>
-                                                                <p>
-                                                                    <button *ngIf="(order.completionStatus=='PAYMENT_CONFIRMED')
-                                                                                && (dt!='SELF')" style="
-                                                                width: 180px;
-                                                                background-color: #2bbe5c;
-                                                                border-radius: 25px;
-                                                                color: white;
-                                                                border: none;
-                                                                height: 40px;
-                                                                margin-top: 10px;
-                                                                margin-bottom: 19px;
-                                                                font-size: larger;" (click)="readyForPickup()">Ready
-                                                                        for Pickup</button>
+                                                                <div style="display: flex;" *ngIf="order.orderShipmentDetail">
+                                                                    <div>Store Pickup:</div>
+                                                                    <div style="padding:0.1em">
+                                                                        <mat-icon
+                                                                            *ngIf="order.orderShipmentDetail.storePickup">
+                                                                            check_circle</mat-icon>
+                                                                        <mat-icon
+                                                                            *ngIf="!order.orderShipmentDetail.storePickup">
+                                                                            clear
+                                                                        </mat-icon>
+                                                                    </div>
+                                                                </div>
+                                                                <p class="mt-4">
+                                                                    <ng-container>
+                                                                        <button *ngIf="(order.completionStatus=='PAYMENT_CONFIRMED')
+                                                                                && (dt!='SELF')"
+                                                                            class="order-status-btn"
+                                                                            (click)="readyForPickup('BEING_PREPARED')">
+                                                                            Process
+                                                                        </button>
+                                                                    </ng-container>
+                                                                    <ng-container>
+                                                                        <button *ngIf="(order.completionStatus=='BEING_PREPARED')
+                                                                                && (dt!='SELF')"
+                                                                            class="order-status-btn"
+                                                                            (click)="readyForPickup('AWAITING_PICKUP')">
+                                                                            Ready
+                                                                            for Pickup
+                                                                        </button>
+                                                                    </ng-container>
+                                                                    <ng-container>
+                                                                        <button *ngIf="(order.completionStatus=='AWAITING_PICKUP')
+                                                                                && (dt!='SELF')"
+                                                                            class="order-status-btn"
+                                                                            (click)="readyForPickup('BEING_DELIVERED')">
+                                                                            Sent
+                                                                        </button>
+                                                                    </ng-container>
+                                                                    <ng-container>
+                                                                        <button *ngIf="(order.completionStatus=='BEING_DELIVERED')
+                                                                                && (dt!='SELF')"
+                                                                            class="order-status-btn"
+                                                                            (click)="readyForPickup('DELIVERED_TO_CUSTOMER')">
+                                                                            Received
+                                                                        </button>
+                                                                    </ng-container>
+
                                                                 </p>
                                                             </li>
                                                         </ul>
@@ -85,10 +119,9 @@
                                                 </div>
                                             </div>
 
-                                            <div class=" mb-3">
-
+                                            <div>
                                                 <div class="">
-                                                    <div class="invoice-address mb-4">
+                                                    <div class="invoice-address">
                                                         <p class="f-w-5 text-black">Shipment Address :
                                                             {{address.address}}</p>
                                                         <p class="f-w-5 text-black">City : {{address.city}}</p>

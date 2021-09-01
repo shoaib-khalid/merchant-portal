@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { OrderFilter } from './order-filter.model';
 
 @Component({
   selector: 'app-orders',
@@ -11,45 +11,28 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class OrdersComponent implements OnInit {
 
   orders: any = [];
-  orderId: any = [];
-  customerId: any = "";
   pages: any = [];
   totalPages: number = 0;
   filterObj: any = { pageSize: 10 };
   totalOrders: any = 0;
   page: any = 1;
-  paymentStatuses: any = [];
-  status: any = "PAID";
   storePickup: false;
+  selectedIndex: any = "0";
+
+  orderFilter = new OrderFilter('', '', '', '', 'PAID', '');
+
   constructor(private apiCalls: ApiCallsService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.populatePaymentStatus();
     this.route.queryParams.subscribe(params => {
-      this.checkForParams(params);
+      this.populateSearchFields(params);
     });
     this.toggleStorePickup();
-  }
-
-  async getOrders() {
-    this.orders = await this.apiCalls.getOrders();
-    this.changeUTCToLocalTimeZone();
-    this.totalOrders = this.orders.data.totalElements;
-    this.totalPages = this.orders.data.totalPages;
-    this.setPagination(this.orders.data.totalPages, 1)
-    this.orders = this.orders.data.content;
-    console.log(this.orders)
-  }
-
-  async getOrdersBasedOnCustomerId() {
-    this.orders = await this.apiCalls.getOrders(this.customerId);
-    this.orders = this.orders.data.content;
   }
 
   showOrderItems(order) {
     this.router.navigate(['orders/order-details'], { queryParams: { orderId: order.id } })
   }
-
 
   /**
    * This function fetches next 10 orders to show
@@ -96,7 +79,6 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-
   markSelectedPage(page) {
     const arr = this.setNextPagination(page);
     const start = arr[0];
@@ -131,7 +113,7 @@ export class OrdersComponent implements OnInit {
   }
 
   async filterOrders() {
-    const params: any = this.composeFilterObject(this.getAllFilters())
+    const params: any = this.composeFilterObject()
     const data: any = await this.apiCalls.getFilteredOrders(params);
     this.totalPages = data.data.totalPages;
     this.setPagination(data.data.totalPages, 1)
@@ -140,27 +122,12 @@ export class OrdersComponent implements OnInit {
     this.changeUTCToLocalTimeZone();
   }
 
-  getAllFilters() {
-    const filter: any = document.getElementsByClassName('filter');
-    var filterValues = new Array(11).fill('');
-    for (var i = 0; i < filter.length; i++) {
-      filterValues[i] = filter[i].value;
-    }
-    filterValues[4] = this.status;
-    return filterValues;
-  }
-
-
-  composeFilterObject(filterValues) {
+  composeFilterObject() {
+    const { receiverName, phoneNumber, from, to, completionStatus } = this.orderFilter;
     const obj = {
-      receiverName: filterValues[0],
-      phoneNumber: filterValues[1],
-      from: filterValues[2],
-      to: filterValues[3],
-      paymentStatus: filterValues[4],
+      receiverName: receiverName, phoneNumber: phoneNumber, from: from, to: to, completionStatus: completionStatus,
       pageSize: 10
     }
-
     this.filterObj = obj;
     return obj;
   }
@@ -172,68 +139,32 @@ export class OrdersComponent implements OnInit {
     fromDate.value = "";
     const name: any = document.getElementsByClassName('filter')[0];
     const ph: any = document.getElementsByClassName('filter')[1];
-    name.value="";
-    ph.value="";
-  }
-
-  showOrdersBasedOnCustomerId(params) {
-    this.customerId = params["customerId"];
-    this.getOrdersBasedOnCustomerId()
-  }
-
-  /**
-   * Check whether the parameters contain customerId
-   * If params contain customerId then orders will be
-   * shown related to that customer. Otherwise general 
-   * orders will be shown
-   * @param params 
-   */
-  checkForParams(params) {
-    if (params["customerId"]) {
-      this.showOrdersBasedOnCustomerId(params);
-    } else if (this.urlContainsSearchParams(params)) {
-      this.populateSearchFields(params);
-    }
-    else {
-      this.displayOrdersWithoutAnyFilter();
-    }
-  }
-
-  displayOrdersWithoutAnyFilter() {
-    this.getOrders();
-    this.status="";
-    this.setTodaysDate();
-  }
-
-
-
-  /**
-   * Check whether the url contains search params
-   * If url contains any param then we put them in
-   * object and them to backend for searching
-   */
-  urlContainsSearchParams(params) {
-    if ('receiverName' in params && 'phoneNumber' in params && 'from' in params && 'to' in params && 'paymentStatus' in params) {
-      return true;
-    } else {
-      return false;
-    }
+    name.value = "";
+    ph.value = "";
   }
 
   populateSearchFields(params) {
-    const filter: any = document.getElementsByClassName('filter');
-    filter[0].value = params['receiverName'];
-    filter[1].value = params['phoneNumber'];
-    filter[2].value = params['from'];
-    filter[3].value = params['to'];
-    filter[4].value = params['paymentStatus'];
-    this.status = params['paymentStatus'];
-    this.filterOrders();
+    this.orderFilter.receiverName = params['receiverName'] || '';
+    this.orderFilter.phoneNumber = params['phoneNumber'] || '';
+    this.orderFilter.from = params['from'] || '';
+    this.orderFilter.to = params['to'] || '';
+    this.orderFilter.completionStatus = params['completionStatus'] || '';
+    this.tabChangeUsingCompletionStatus();
   }
 
   searchOrders() {
-    const filter: any = document.getElementsByClassName('filter');
-    this.router.navigate(['orders'], { queryParams: { receiverName: filter[0].value, phoneNumber: filter[1].value, from: filter[2].value, to: filter[3].value, paymentStatus: filter[4].value } })
+    this.page = 1;
+    this.router.navigate(['orders'],
+      {
+        queryParams:
+        {
+          receiverName: this.orderFilter.receiverName,
+          phoneNumber: this.orderFilter.phoneNumber,
+          from: this.orderFilter.from,
+          to: this.orderFilter.to,
+          completionStatus: this.orderFilter.completionStatus
+        }
+      })
   }
 
   previousPage() {
@@ -248,12 +179,6 @@ export class OrdersComponent implements OnInit {
       this.markSelectedPage(this.page)
     }
   }
-
-  async populatePaymentStatus() {
-    const statuses: any = await this.apiCalls.getPaymentStatuses();
-    this.paymentStatuses = statuses.data.content;
-  }
-
 
   /**
    * This function will show store pickup column
@@ -278,11 +203,72 @@ export class OrdersComponent implements OnInit {
         timezone = regions[j].timezone;
       }
     }
-    console.log(timezone)
     const data = this.orders;
-    console.log(data)
     for (var i = 0; i < data.length; i++) {
       data[i].created = new Date(data[i].created + " UTC").toLocaleString('en-US', { timeZone: timezone });
     }
+  }
+
+  tabChange(event) {
+    this.setDateToEmpty();
+    switch (event.index) {
+      case 0:
+        this.orderFilter.completionStatus = 'PAYMENT_CONFIRMED';
+        break;
+      case 1:
+        this.orderFilter.completionStatus = 'BEING_PREPARED';
+        break;
+      case 2:
+        this.orderFilter.completionStatus = 'AWAITING_PICKUP';
+        break;
+      case 3:
+        this.orderFilter.completionStatus = 'BEING_DELIVERED';
+        break;
+      case 4:
+        this.orderFilter.completionStatus = 'DELIVERED_TO_CUSTOMER';
+        break;
+      case 5:
+        this.orderFilter.completionStatus = '';
+        break;
+      default:
+        break;
+    }
+    this.searchOrders();
+  }
+
+  /**
+   * This function will show tab based
+   * on completion Status
+   */
+  tabChangeUsingCompletionStatus() {
+    switch (this.orderFilter.completionStatus) {
+      case 'PAYMENT_CONFIRMED':
+        this.selectedIndex = 0;
+        break;
+      case 'BEING_PREPARED':
+        this.selectedIndex = 1;
+        break;
+      case 'AWAITING_PICKUP':
+        this.selectedIndex = 2;
+        break;
+      case 'BEING_DELIVERED':
+        this.selectedIndex = 3;
+        break;
+      case 'DELIVERED_TO_CUSTOMER':
+        this.selectedIndex = 4;
+        break;
+      case '':
+        this.selectedIndex = 5;
+        break;
+      default:
+        this.selectedIndex = 0;
+        break;
+    }
+    this.filterOrders();
+  }
+
+  setDateToEmpty() {
+    this.orderFilter.from = '';
+    this.orderFilter.to = '';
   }
 }

@@ -91,9 +91,10 @@ export class SingleOrderComponent implements OnInit {
     }, 10);
   }
 
-  async readyForPickup(){
+  async readyForPickup(completionStatus){
     this.apiCalls.loadingAnimation("Loading...");
-    const data = await this.apiCalls.orderUpdationCompletionStatus(this.order.id);
+    // const data = await this.apiCalls.orderUpdationCompletionStatus(this.order.id);
+    const data = await this.apiCalls.updateCompletionStatus(this.order.id,completionStatus)
     this.apiCalls.loadingdialogRef.close();
     this.initializeStoreDetails()
   }

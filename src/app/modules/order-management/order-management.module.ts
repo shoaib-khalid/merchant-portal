@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { CustomersComponent } from './components/customers/customers.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     RouterModule,
     FormsModule,
     MatIconModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatTabsModule
   ]
 })
 export class OrderManagementModule { }

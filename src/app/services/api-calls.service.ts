@@ -164,7 +164,7 @@ export class ApiCallsService {
     this.http.post<any>(this.userService + "/clients/register", signUpData).
       subscribe(data => {
         if (signUpData.roleId == "STORE_OWNER") {
-          this.authenticateClient({ username: signUpData.username, password: signUpData.password },true,"")
+          this.authenticateClient({ username: signUpData.username, password: signUpData.password }, true, "")
         } else {
 
           this.loadingdialogRef.close()
@@ -893,6 +893,13 @@ export class ApiCallsService {
 
   orderUpdationCompletionStatus(orderId) {
     return this.http.put(this.orderService + `/orders/${orderId}/completion-status-updates/request-delivery`, {}).toPromise()
+  }
+
+  updateCompletionStatus(orderId,completionStatus) {
+    return this.http.put(this.orderService + `/orders/${orderId}/completion-status-updates`, {
+      "orderId":orderId,
+      "status": completionStatus
+    }).toPromise()
   }
 
   async updateFlowBuilderJson() {

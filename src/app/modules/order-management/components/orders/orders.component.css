@@ -3,14 +3,17 @@
 }
 #search{
     background-color: rgb(91, 179, 127);
-    border-radius: 0.5em;
     cursor: pointer;
     color: white;
     outline: none;
-    margin-left: 1em;
     border: none;
     height: 3em;
     width: 5em;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+#search:hover{
+    background: #319795;
 }
 
 #clear-filter{
@@ -35,6 +38,20 @@
     flex-wrap: nowrap!important;
 }
 
+.filter{
+    width: 9em;
+    margin-right: 1em;    
+}
+.filters{
+    display: flex;
+}
+.orders-all{
+    margin-top: 1em;
+}
+
+.date-input{
+    width: 11em;
+}
 
 @media screen and (max-width:900px){
     app-shared-side-panel{

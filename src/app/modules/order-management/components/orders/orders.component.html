@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 </head>
-
 <body>
     <app-shared-header></app-shared-header>
     <main role="main" class="main">
@@ -24,39 +22,39 @@
                                         </div>
                                     </div>
                                     <div class="card-body pt-4">
-                                        <div class="">
-                                            <div style="display: flex;">
-                                                <div>
-                                                    <input type="text" placeholder="Customer Name"
-                                                        class="form-control filter"
-                                                        style="width:145px; margin-right: 10px;" name="">
+                                        <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChange($event)"
+                                            [selectedIndex]="selectedIndex">
+                                            <mat-tab label="New"></mat-tab>
+                                            <mat-tab label="Processed"></mat-tab>
+                                            <mat-tab label="Awaiting Pickup"></mat-tab>
+                                            <mat-tab label="Sent Out"></mat-tab>
+                                            <mat-tab label="Delivered"></mat-tab>
+                                            <mat-tab label="History"></mat-tab>
+                                        </mat-tab-group>
+
+                                        <div class="orders-all">
+                                            <form #filterForm="ngForm">
+                                                <div class="filters">
+                                                    <input type="text" name="customer-name" placeholder="Customer Name"
+                                                        [(ngModel)]='orderFilter.receiverName'
+                                                        class="form-control filter">
+                                                    <input type="text" name="phone-number" placeholder="Phone Number"
+                                                        [(ngModel)]='orderFilter.phoneNumber'
+                                                        class="form-control filter">
+                                                    <ng-container *ngIf="orderFilter.completionStatus==''">
+                                                        <input type="date" name="from-date" placeholder="From - date"
+                                                            [(ngModel)]='orderFilter.from'
+                                                            class="form-control filter date-input" id="from-date">
+                                                        <input type="date" name="to-date" placeholder="To - date"
+                                                            [(ngModel)]='orderFilter.to'
+                                                            class="form-control filter date-input" id="to-date">
+                                                    </ng-container>
+                                                    <button name="search" id="search" (click)="searchOrders()">
+                                                        Search</button>
+                                                    <div style="padding: 0.7em;">Total orders :
+                                                        {{totalOrders}}</div>
                                                 </div>
-                                                <div>
-                                                    <input type="text" placeholder="Phone Number"
-                                                        class="form-control filter"
-                                                        style="width:160px; margin-right: 10px;" value="" name="">
-                                                </div>
-                                                <div>
-                                                    <input type="date" placeholder="From - date"
-                                                        class="form-control filter"
-                                                        style="width:160px; margin-right: 10px;" name="" id="from-date">
-                                                </div>
-                                                <div>
-                                                    <input type="date" placeholder="To - date"
-                                                        class="form-control filter"
-                                                        style="width:160px; margin-right: 10px;" name="" id="to-date">
-                                                </div>
-                                                <select name="state-charges" class="form-control state-charges filter"
-                                                    style="width: 160px;" id="paymentStatus" [(ngModel)]="status">
-                                                    <option disabled>Payment Status</option>
-                                                    <option value="">All</option>
-                                                    <option *ngFor="let status of paymentStatuses;"
-                                                        value="{{status.status}}"> {{status.status}}</option>
-                                                </select>
-                                                <button id="search" (click)="searchOrders()"> Search</button>
-                                                <div style="margin-left: 80px;margin-top: 10px;">Total orders :
-                                                    {{totalOrders}}</div>
-                                            </div>
+                                            </form>
                                             <div id="clear-filter" [routerLink]='["/orders"]'>Clear Filters</div>
                                             <table class="table table-hover m-b-0">
                                                 <thead>
@@ -71,8 +69,8 @@
                                                         <th class="border-0" data-breakpoints="xs">Phone No</th>
                                                         <th class="border-0" data-breakpoints="xs">Date</th>
                                                         <th class="border-0">Order Status</th>
-                                                        <th class="border-0" data-breakpoints="sm xs">Payment Status
-                                                        </th>
+                                                        <!-- <th class="border-0" data-breakpoints="sm xs">Payment Status
+                                                        </th> -->
                                                         <th class="border-0" data-breakpoints="sm xs"
                                                             *ngIf="storePickup">Store Pickup
                                                         </th>
@@ -107,10 +105,10 @@
                                                             (click)="showOrderItems(order)">
                                                             <div>{{order.completionStatus}}</div>
                                                         </td>
-                                                        <td *ngIf="order.orderShipmentDetail"
+                                                        <!-- <td *ngIf="order.orderShipmentDetail"
                                                             (click)="showOrderItems(order)">
                                                             <div>{{order.paymentStatus}}</div>
-                                                        </td>
+                                                        </td> -->
                                                         <td *ngIf="order.orderShipmentDetail && storePickup">
                                                             <mat-icon *ngIf="order.orderShipmentDetail.storePickup">
                                                                 check_circle</mat-icon>
@@ -127,13 +125,13 @@
                                         <hr>
                                         <div class="px-3 py-2">
                                             <nav aria-label="pagin">
-                                                <ul class="pagination pagination-sm">
+                                                <ul class="pagination pagination-sm" style="cursor: pointer;">
                                                     <li class="page-item add-pointer"><a class="page-link"
                                                             (click)="previousPage()" *ngIf="totalPages>0">Previous</a>
                                                     </li>
 
                                                     <li class="page-item pagination {{page.isActive}}"
-                                                        *ngFor="let page of pages" style="cursor: pointer;">
+                                                        *ngFor="let page of pages">
                                                         <a class="page-link" (click)="openPage(page.no)">
                                                             {{page.no}}</a>
                                                     </li>
@@ -156,10 +154,5 @@
 
         </div>
     </main>
-
-
-    <!-- endbuild -->
-
 </body>
-
 </html>

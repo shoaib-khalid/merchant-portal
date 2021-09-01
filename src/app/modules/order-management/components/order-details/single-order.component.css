@@ -9,6 +9,21 @@
     width: 200px;
 }
 
+.order-status-btn{
+  background-color: rgb(91, 179, 127);
+  cursor: pointer;
+  color: white;
+  outline: none;
+  border: none;
+  padding: 0.8em;
+  font-size: 1.1rem;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+.order-status-btn:hover{
+  background: #319795;
+}
+
 tr{
     border-bottom: 1px solid black;
 }

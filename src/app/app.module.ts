@@ -26,6 +26,7 @@ export function initializeApp(appConfig: AppConfig) {
 @NgModule({
   declarations: [
     AppComponent,
+    
   ],
   imports: [
     HttpClientModule,

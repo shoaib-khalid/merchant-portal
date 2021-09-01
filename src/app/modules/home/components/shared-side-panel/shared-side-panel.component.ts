@@ -58,6 +58,6 @@ export class SharedSidePanelComponent implements OnInit {
     var fromDate: any = document.getElementsByClassName('filter')[2];
     toDate = new Date().toISOString().replace(/T.*/, '').split('-').join('-');
     fromDate = new Date().toISOString().replace(/T.*/, '').split('-').join('-');
-    this.router.navigate(['orders'], { queryParams: { receiverName: '', phoneNumber: '', from: fromDate, to: toDate, paymentStatus: 'PAID' } })
+    this.router.navigate(['orders'], { queryParams: { 'receiverName': '', 'phoneNumber': '','from':'','to':'',completionStatus:'PAYMENT_CONFIRMED' } });
   }
 }

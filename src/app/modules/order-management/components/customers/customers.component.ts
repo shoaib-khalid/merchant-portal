@@ -32,7 +32,7 @@ export class CustomersComponent implements OnInit {
   }
 
   openOrdersPage(customerName) {
-    this.router.navigate(['orders'], { queryParams: { receiverName: customerName, phoneNumber: "", from: "", to: "", paymentStatus: "" } })
+    this.router.navigate(['orders'], { queryParams: { receiverName: customerName, phoneNumber: "", from: "", to: "", completionStatus: "" } })
   }
 
   searchOrders() {
