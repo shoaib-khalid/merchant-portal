@@ -133,14 +133,9 @@ export class OrdersComponent implements OnInit {
   }
 
   setTodaysDate() {
-    const toDate: any = document.getElementsByClassName('filter')[3];
-    const fromDate: any = document.getElementsByClassName('filter')[2];
-    toDate.value = "";
-    fromDate.value = "";
-    const name: any = document.getElementsByClassName('filter')[0];
-    const ph: any = document.getElementsByClassName('filter')[1];
-    name.value = "";
-    ph.value = "";
+    const date = new Date().toISOString().split('T')[0];
+    this.orderFilter.from = date;
+    this.orderFilter.to = date;
   }
 
   populateSearchFields(params) {
@@ -210,7 +205,7 @@ export class OrdersComponent implements OnInit {
   }
 
   tabChange(event) {
-    this.setDateToEmpty();
+    this.setDateToEmpty(event.index);
     switch (event.index) {
       case 0:
         this.orderFilter.completionStatus = 'PAYMENT_CONFIRMED';
@@ -267,8 +262,12 @@ export class OrdersComponent implements OnInit {
     this.filterOrders();
   }
 
-  setDateToEmpty() {
-    this.orderFilter.from = '';
-    this.orderFilter.to = '';
+  setDateToEmpty(index) {
+    if (index == 5) {
+      this.orderFilter.from = '';
+      this.orderFilter.to = '';
+      return;
+    }
+    this.setTodaysDate();
   }
 }

@@ -46,28 +46,35 @@
                                                 <div class="col-md-12 col-lg-12">
                                                     <div class="invoice-meta">
                                                         <ul class="list-inline mb-3">
-                                                            <li class="list-inline-item">
-                                                                <p class="mb-0">Date : <span
-                                                                        class="text-black f-w-5 ml-2">{{date}}</span>
-                                                                </p>
-                                                            </li>
-                                                            <br>
-                                                            <li class="list-inline-item">
-                                                                <p class="mb-0">Invoice # : <span
-                                                                        class="text-black f-w-5 ml-2">{{invoiceNo}}</span>
-                                                                </p>
-                                                            </li>
-                                                            <br>
-                                                            <li class="list-inline-item">
-                                                                <p class="mb-0">Payment Status : <span
-                                                                        class="text-success f-w-5 ml-2">{{paymentStatus}}</span>
-                                                                </p>
-                                                                <p class="mb-0">Completion Status : <span
-                                                                        class="text-success f-w-5 ml-2">{{this.order.completionStatus}}</span>
-                                                                </p>
-                                                                <div style="display: flex;" *ngIf="order.orderShipmentDetail">
-                                                                    <div>Store Pickup:</div>
-                                                                    <div style="padding:0.1em">
+                                                            <table>
+                                                                <th></th>
+                                                                <th></th>
+                                                                <tr>
+                                                                    <td class="amount-cols">Date</td>
+                                                                    <td>{{date}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="amount-cols">Invoice #</td>
+                                                                    <td>
+                                                                        {{invoiceNo}}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="amount-cols">
+                                                                        Payment Status
+                                                                    </td>
+                                                                    <td class="green-text">{{paymentStatus}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="amount-cols">
+                                                                        Completion Status</td>
+                                                                    <td class="green-text">{{order.completionStatus}}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr
+                                                                    *ngIf="order.orderShipmentDetail&&order.orderShipmentDetail.storePickup">
+                                                                    <td class="amount-cols">Store Pickup</td>
+                                                                    <td>
                                                                         <mat-icon
                                                                             *ngIf="order.orderShipmentDetail.storePickup">
                                                                             check_circle</mat-icon>
@@ -75,9 +82,11 @@
                                                                             *ngIf="!order.orderShipmentDetail.storePickup">
                                                                             clear
                                                                         </mat-icon>
-                                                                    </div>
-                                                                </div>
-                                                                <p class="mt-4">
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <li class="list-inline-item">
+                                                                <p class="mt-3">
                                                                     <ng-container>
                                                                         <button *ngIf="(order.completionStatus=='PAYMENT_CONFIRMED')
                                                                                 && (dt!='SELF')"
@@ -100,7 +109,7 @@
                                                                                 && (dt!='SELF')"
                                                                             class="order-status-btn"
                                                                             (click)="readyForPickup('BEING_DELIVERED')">
-                                                                            Sent
+                                                                            Send
                                                                         </button>
                                                                     </ng-container>
                                                                     <ng-container>
@@ -120,6 +129,7 @@
                                             </div>
 
                                             <div>
+
                                                 <div class="">
                                                     <div class="invoice-address">
                                                         <p class="f-w-5 text-black">Shipment Address :
@@ -160,7 +170,7 @@
                                                         <div class="table-responsive">
                                                             <table class="table table-hover table-borderless">
                                                                 <thead>
-                                                                    <tr>
+                                                                    <tr class="tr">
                                                                         <th scope="col">#</th>
                                                                         <th scope="col">Sku</th>
                                                                         <th scope="col">Product Name</th>
@@ -171,7 +181,8 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr *ngFor="let orderItem of orderItems;index as i">
+                                                                    <tr *ngFor="let orderItem of orderItems;index as i"
+                                                                        class="tr">
                                                                         <th scope="col">{{i+1}}</th>
                                                                         <td>{{orderItem.SKU}}</td>
                                                                         <td class="prod-name">{{orderItem.productName}}
@@ -199,23 +210,23 @@
                                                         <table style="float: right;">
                                                             <th></th>
                                                             <th></th>
-                                                            <tr>
+                                                            <tr class="tr">
                                                                 <td class="amount-cols">Sub Total</td>
                                                                 <td>{{order.subTotal | number :'0.2-3'}}</td>
                                                             </tr>
-                                                            <tr>
+                                                            <tr class="tr">
                                                                 <td class="amount-cols">Service Charges</td>
                                                                 <td>{{order.storeServiceCharges==null?0:order.storeServiceCharges
                                                                     | number :'0.2-3'}}
                                                                 </td>
                                                             </tr>
-                                                            <tr>
+                                                            <tr class="tr">
                                                                 <td class="amount-cols"><span style="color:red">Delivery
                                                                         Charges
                                                                     </span></td>
                                                                 <td>{{order.deliveryCharges | number :'0.2-3'}}</td>
                                                             </tr>
-                                                            <tr>
+                                                            <tr class="tr">
                                                                 <td class="amount-cols" style="color:rgb(9, 180, 3)">
                                                                     Grand Total</td>
                                                                 <td>{{total | number :'0.2-2'}}</td>
@@ -236,16 +247,7 @@
 
                                         </div>
                                     </div>
-                                    <button style="
-                                            width: 156px;
-                                            background-color: #319795;
-                                            border-radius: 25px;
-                                            color: white;
-                                            border: none;
-                                            height: 40px;
-                                            margin: auto;
-                                            margin-bottom: 19px;
-                                            font-size: larger;" (click)="printInvoice()">Print Invoice</button>
+                                    <button class="order-status-btn" (click)="printInvoice()">Print Invoice</button>
                                 </div>
                             </div>
                         </div>

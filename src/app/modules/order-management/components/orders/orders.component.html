@@ -9,7 +9,7 @@
             <div class="container">
                 <div class="row">
                     <app-shared-side-panel></app-shared-side-panel>
-                    <div class="col-lg-10">
+                    <div class="col-custom">
                         <div class="row">
                             <div class="col">
                                 <!-- my items table -->
@@ -68,7 +68,7 @@
                                                         <th class="border-0" data-breakpoints="xs">Customer Address</th>
                                                         <th class="border-0" data-breakpoints="xs">Phone No</th>
                                                         <th class="border-0" data-breakpoints="xs">Date</th>
-                                                        <th class="border-0">Order Status</th>
+                                                        <th class="border-0" *ngIf="selectedIndex=='5'">Order Status</th>
                                                         <!-- <th class="border-0" data-breakpoints="sm xs">Payment Status
                                                         </th> -->
                                                         <th class="border-0" data-breakpoints="sm xs"
@@ -101,7 +101,7 @@
                                                             *ngIf="order.orderShipmentDetail"
                                                             (click)="showOrderItems(order)">
                                                             {{order.created| date:'medium' }}</td>
-                                                        <td *ngIf="order.orderShipmentDetail" style="max-width: 130px;"
+                                                        <td *ngIf="order.orderShipmentDetail&&(selectedIndex=='5')" style="max-width: 130px;"
                                                             (click)="showOrderItems(order)">
                                                             <div>{{order.completionStatus}}</div>
                                                         </td>

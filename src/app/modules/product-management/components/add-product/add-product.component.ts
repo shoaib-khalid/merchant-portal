@@ -93,7 +93,7 @@ export class AddProductComponent implements OnInit {
   }
 
   variantsChanged(event) {
-    if (event.key == "Enter" || event.key == "," || event.key == " ") {
+    if (event.key == "Enter" || event.key == ",") {
       this.combos = [];
       this.getallCombinations(this.items)
     }
@@ -110,7 +110,7 @@ export class AddProductComponent implements OnInit {
 
     if (n == combos.length) {
       if (result.substring(1) != "") {
-        this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: 0, status: "AVAILABLE" })
+        this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: `${this.title.replace(" ","_")}_${result.substring(1).replace(" / ","_").replace("/ ","_").replace(" ","_")}`, status: "AVAILABLE" })
         this.images.push({ file: "", preview: "" })
         // console.log(this.combos)
       }

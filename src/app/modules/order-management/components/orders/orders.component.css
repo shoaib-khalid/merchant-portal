@@ -1,6 +1,9 @@
 .orders-list{
     cursor: pointer;
 }
+.col-custom{
+    width: 90%;
+}
 #search{
     background-color: rgb(91, 179, 127);
     cursor: pointer;

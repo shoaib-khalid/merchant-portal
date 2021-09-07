@@ -9,6 +9,20 @@
     width: 200px;
 }
 
+.print-invoice-btn{
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  width: 156px;
+  background-color: #319795;
+  border-radius: 25px;
+  color: white;
+  border: none;
+  height: 40px;
+  margin: auto;
+  margin-bottom: 19px;
+  font-size: larger;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
 .order-status-btn{
   background-color: rgb(91, 179, 127);
   cursor: pointer;
@@ -19,13 +33,18 @@
   font-size: 1.1rem;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  max-width: 10em;
+  margin: 0 auto;
 }
 .order-status-btn:hover{
   background: #319795;
 }
 
-tr{
+.tr{
     border-bottom: 1px solid black;
+}
+.green-text{
+  color: #36ad5a;
 }
 
 .example-container {

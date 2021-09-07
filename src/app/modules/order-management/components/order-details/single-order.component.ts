@@ -88,7 +88,7 @@ export class SingleOrderComponent implements OnInit {
     newWin.document.close();
     setTimeout(function () {
       newWin.close();
-    }, 10);
+    }, 30);
   }
 
   async readyForPickup(completionStatus){

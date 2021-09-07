@@ -4,17 +4,12 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet"
         type="text/css" />
-
 </head>
 
 <body>
-
     <app-shared-header></app-shared-header>
-
     <main role="main" class="main">
         <div class="wrapper">
-
-
             <div class="container">
                 <div class="row">
                     <app-shared-side-panel></app-shared-side-panel>
@@ -364,13 +359,12 @@
                                                                 </div>
                                                                 <div class="col-lg-7" style="font-weight: lighter;">
                                                                     <div class="form-group">
-                                                                        <tag-input 
-                                                                            [(ngModel)]="items[i]"
+                                                                        <tag-input [(ngModel)]="items[i]"
                                                                             [ngModelOptions]="{standalone: true}"
                                                                             [placeholder]="'+Option'"
                                                                             (keyup.enter)="variantsChanged($event)"
                                                                             (keyup)="variantsChanged($event)"
-                                                                            [separatorKeyCodes]="[32, 188]"
+                                                                            [separatorKeyCodes]="[188]"
                                                                             (onRemove)="onRemove($event,i)"
                                                                             [modelAsStrings]="true"
                                                                             [secondaryPlaceholder]="'Split options with comma'">

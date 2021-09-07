@@ -87,7 +87,7 @@ export class SettlementComponent implements OnInit {
         var commision = !obj.totalCommissionFee ? '0.00' : obj.totalCommissionFee;
         var nett = !obj.totalServiceFee ? '0.00' : obj.totalServiceFee;
 
-        if(obj.totalTransactionValue == null){
+        // if(obj.totalTransactionValue == null){
             let custom_obj = {
                 payoutDate: ''+payout_date+'',
                 startDate: ''+start_date+'',
@@ -100,7 +100,7 @@ export class SettlementComponent implements OnInit {
             }
     
             this.newSettlementCollection.push(custom_obj)
-        }
+        // }
 
     });
 
@@ -116,7 +116,6 @@ export class SettlementComponent implements OnInit {
     console.log(data)
     data = data.data;
     this.settlement=data.content;
-
     // hard reset newTopCollection
     this.newSettlementCollection = [];
 
@@ -162,7 +161,7 @@ export class SettlementComponent implements OnInit {
         var commision = !obj.totalCommissionFee ? '0.00' : obj.totalCommissionFee;
         var nett = !obj.totalServiceFee ? '0.00' : obj.totalServiceFee;
 
-        if(obj.totalTransactionValue == null){
+        // if(obj.totalTransactionValue == null){
             let custom_obj = {
                 payoutDate: ''+payout_date+'',
                 startDate: ''+start_date+'',
@@ -175,7 +174,7 @@ export class SettlementComponent implements OnInit {
             }
     
             this.newSettlementCollection.push(custom_obj)
-        }
+        // }
 
     });
 
