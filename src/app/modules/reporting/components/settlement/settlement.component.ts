@@ -88,16 +88,16 @@ export class SettlementComponent implements OnInit {
         var nett = !obj.totalServiceFee ? '0.00' : obj.totalServiceFee;
 
         // if(obj.totalTransactionValue == null){
-            let custom_obj = {
-                payoutDate: ''+payout_date+'',
-                startDate: ''+start_date+'',
-                cutOffDate: ''+cut_off_date+'',
-                grossAmount: ''+service+'',
-                serviceCharges: ''+service+'',
-                deliveryCharges: ''+service+'',
-                commision: ''+commision+'',
-                nettAmount: ''+nett+''
-            }
+          let custom_obj = {
+            payoutDate: ''+payout_date+'',
+            startDate: ''+start_date+'',
+            cutOffDate: ''+cut_off_date+'',
+            grossAmount: obj.totalTransactionValue?obj.totalTransactionValue:"",
+            serviceCharges: ''+service+'',
+            deliveryCharges: ''+obj.totalDeliveryFee?obj.totalDeliveryFee:""+'',
+            commision: ''+obj.totalCommisionFee?obj.totalCommisionFee:"0",
+            nettAmount: ''+obj.totalStoreShare?obj.totalStoreShare:""
+        }
     
             this.newSettlementCollection.push(custom_obj)
         // }
