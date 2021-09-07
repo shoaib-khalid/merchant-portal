@@ -166,11 +166,11 @@ export class SettlementComponent implements OnInit {
                 payoutDate: ''+payout_date+'',
                 startDate: ''+start_date+'',
                 cutOffDate: ''+cut_off_date+'',
-                grossAmount: ''+service+'',
+                grossAmount: obj.totalTransactionValue?obj.totalTransactionValue:"",
                 serviceCharges: ''+service+'',
-                deliveryCharges: ''+service+'',
-                commision: ''+commision+'',
-                nettAmount: ''+nett+''
+                deliveryCharges: ''+obj.totalDeliveryFee?obj.totalDeliveryFee:""+'',
+                commision: ''+obj.totalCommisionFee?obj.totalCommisionFee:"0",
+                nettAmount: ''+obj.totalStoreShare?obj.totalStoreShare:""
             }
     
             this.newSettlementCollection.push(custom_obj)
