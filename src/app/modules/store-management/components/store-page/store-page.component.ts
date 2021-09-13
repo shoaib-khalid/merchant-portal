@@ -13,10 +13,8 @@ import { Store } from '../store.model'
 export class StorePageComponent implements OnInit {
   regions: any = [];
   requiredError: any = false;
-  logo: any = { file: "", preview: "" };
-  banner: any = { file: "", preview: "" };
-  openTime: any = "";
-  closeTime: any = "";
+  logo: any = { file: "", preview: "", valid: true };
+  banner: any = { file: "", preview: "", valid: true };
   minOrderQty: any = "5";  // nazrul : albert wants default value to start with 5
   states: any = [];
   verticleCode: any = "";
@@ -72,14 +70,29 @@ export class StorePageComponent implements OnInit {
 
   async onLogoChanged(event) {
     const file = event.target.files[0];
-    this.logo.file = file;
-    this.logo.preview = await this.previewImage(file)
+    if (this.imageSizeCheck(file.size)) {
+      this.logo.file = file;
+      this.logo.preview = await this.previewImage(file)
+      this.logo.valid = true;
+    } else {
+      this.logo.file = "";
+      this.logo.preview = "";
+      this.logo.valid = "";
+    }
   }
 
   async onBannerChanged(event) {
     const file = event.target.files[0];
-    this.banner.file = file;
-    this.banner.preview = await this.previewImage(file)
+    if (this.imageSizeCheck(file.size)) {
+      this.banner.file = file;
+      this.banner.preview = await this.previewImage(file)
+      this.banner.valid = true;
+    } else {
+      this.banner.file = "";
+      this.banner.preview = ""
+      this.banner.valid = false;
+    }
+
   }
 
 
@@ -263,7 +276,7 @@ export class StorePageComponent implements OnInit {
   }
 
   async setRegionUsingClientIpAddress() {
-    var region="";
+    var region = "";
     this.route.queryParams.subscribe(params => {
       region = params["region"];
     });
@@ -290,7 +303,7 @@ export class StorePageComponent implements OnInit {
 
 
   addStateCharges() {
-    if(this.storeModel.stateCharges.stateCharges.length<this.states.length){
+    if (this.storeModel.stateCharges.stateCharges.length < this.states.length) {
       this.storeModel.stateCharges.stateCharges.push({ stateId: '', price: '' });
     }
   }
@@ -376,5 +389,9 @@ export class StorePageComponent implements OnInit {
   removeDeliveryProvider(i) {
     this.storeModel.sdSp.loopLength.splice(i, 1);
     this.storeModel.sdSp.values.push(i, 1);
+  }
+
+  imageSizeCheck(size) {
+    return (size / 2048) > 1024 ? false : true;
   }
 }

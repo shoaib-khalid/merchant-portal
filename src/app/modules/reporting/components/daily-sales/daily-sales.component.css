@@ -25,16 +25,29 @@
     color:red;
 }
 
-.search-btn{
-        background-color: rgb(91, 179, 127);
-        border-radius: 6px;
-        cursor: pointer;
-        color: white;
-        padding: 10px;
-        width: 70px;
-        display: inline-block;
-}
 
 .main{
     margin-top: 80px;
+  }
+
+  #daily-sales-search{
+      display: flex;
+      padding: 1em;
+  }
+  .table-headings{
+      text-align: center;
+      font-weight: bold;
+      padding: 1em;
+  }
+  .col-input{
+      width: 11em;
+      margin-right: 1em;
+  }
+  #daily-detaied-sales-search{
+      display: flex;
+      padding: 1em;
+  }
+  #dtp-search{
+    display: flex;
+    padding: 1em;
   }

@@ -1,7 +1,7 @@
 .status{
-    border-radius: 15px;
+    border-radius: 0.7em;
+    padding: 0.26em;
     text-align: center;
-    border: none;
     background-color: rgb(193, 255, 219);
 }
 .product{
@@ -20,11 +20,6 @@ flex-container{
 
 #add-product{
     margin-left: auto;
-    background-color: rgb(91, 179, 127);
-    padding: 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    color: white;
 }
 
 #add-product:hover{
@@ -49,9 +44,8 @@ flex-container{
 }
 
 .product-name{
-    float: right;
-    text-overflow:  clip;
-    width:200px;
+  max-width: 15em;
+  vertical-align: middle;
 }
 
 .tooltip-custom {
@@ -155,13 +149,13 @@ flex-container{
   .options{
     cursor: pointer;
   }
-  #search{
+  /* #search{
     background-color: rgb(91, 179, 127);
     border-radius: 6px;
     cursor: pointer;
     color: white;
     padding: 10px;
-}
+} */
 #ssp{
   float: left;
   margin-left: 7.5%;

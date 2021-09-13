@@ -88,27 +88,27 @@
                             </div>
                         </div>
                         <div class="form-group"
-                        [hidden]="storeModel.deliveryType=='SELF' || storeModel.deliveryType==''">
-                        <div id="add-delivery-provider" [hidden]="storeModel.deliveryType=='ADHOC'" (click)="
+                            [hidden]="storeModel.deliveryType=='SELF' || storeModel.deliveryType==''">
+                            <div id="add-delivery-provider" [hidden]="storeModel.deliveryType=='ADHOC'" (click)="
                             addDeliveryServiceProvider()">+ Add Delivery Provider
-                        </div>
+                            </div>
 
-                        <label [hidden]="storeModel.sdSp.loopLength.length=='0'" class="form-control-label"
-                            style="margin-top: 12px;">Delivery Provider</label>
-                        <div class="add-item-img d-flex  border-radius delivery-provider"
-                            *ngFor="let dsp of storeModel.sdSp.loopLength;index as j">
-                            <select name="delivery-provider" class="form-control necessary" required
-                                (change)="dpChange($event,j)" value="storeModel.sdSp.values[j]">
-                                <option value="" selected="true" disabled>Delivery Provider</option>
-                                <option value="{{dp.id}}" *ngFor="let dp of storeModel.sdSp.dsp">
-                                    {{dp.name}}</option>
-                            </select>
-                            <span style="margin-left: 5px;cursor: pointer;margin-top: 5px;"
-                                (click)='removeDeliveryProvider(j)'>
-                                <mat-icon>remove_circle_outline</mat-icon>
-                            </span>
+                            <label [hidden]="storeModel.sdSp.loopLength.length=='0'" class="form-control-label"
+                                style="margin-top: 12px;">Delivery Provider</label>
+                            <div class="add-item-img d-flex  border-radius delivery-provider"
+                                *ngFor="let dsp of storeModel.sdSp.loopLength;index as j">
+                                <select name="delivery-provider" class="form-control necessary" required
+                                    (change)="dpChange($event,j)" value="storeModel.sdSp.values[j]">
+                                    <option value="" selected="true" disabled>Delivery Provider</option>
+                                    <option value="{{dp.id}}" *ngFor="let dp of storeModel.sdSp.dsp">
+                                        {{dp.name}}</option>
+                                </select>
+                                <span style="margin-left: 5px;cursor: pointer;margin-top: 5px;"
+                                    (click)='removeDeliveryProvider(j)'>
+                                    <mat-icon>remove_circle_outline</mat-icon>
+                                </span>
+                            </div>
                         </div>
-                    </div>
                         <div class="form-group mb-3 mt-3" *ngIf="storeModel.deliveryType=='SELF'">
                             <div id="add-product" (click)='addStateCharges()'>+ Add State Charges</div>
                             <br>
@@ -206,6 +206,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="city">Logo</label>
+                            <div class="text-muted">Recommended Logo Dimensions are 500 x 500px</div>
                             <div class="custom-file">
                                 <input type="file" name="file" class="custom-file-input"
                                     (change)="onLogoChanged($event)" />
@@ -218,8 +219,10 @@
                                     width="14px" (click)="deleteLogo()">
                             </div>
                         </div>
+                        <span id="store-exists" [hidden]="logo.valid">Size over 2MB is not allowed</span>
                         <div class="form-group mb-3">
                             <label for="city">Banner</label>
+                            <div class="text-muted">Recommended Banner Dimensions are 950 x 260px</div>
                             <div class="custom-file">
                                 <input type="file" name="file2" class="custom-file-input"
                                     (change)="onBannerChanged($event)" />
@@ -232,6 +235,7 @@
                             <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
                                 (click)="deleteBanner()">
                         </div>
+                        <div id="store-exists" [hidden]="banner.valid">Size over 2MB is not allowed</div>
                         <label class="form-control-label" style="margin-top: 12px;">Payment Type</label>
                         <div class="add-item-img d-flex  border-radius">
                             <select name="payment-type" class="form-control necessary"

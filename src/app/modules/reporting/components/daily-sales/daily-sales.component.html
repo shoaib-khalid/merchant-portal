@@ -16,7 +16,7 @@
             <div class="container">
                 <div class="row">
                     <app-shared-side-panel style="display:inline-block;width: 20%;"></app-shared-side-panel>
-                    <div  style="display: inline-block;width: 80%;">
+                    <div style="display: inline-block;width: 80%;">
                         <div class="row">
                             <div class="col">
                                 <div class="card mb-5" style="">
@@ -29,7 +29,7 @@
                                     </div>
                                     <div style="display: inline-block;">
 
-                                        <span id="graph1" [hidden]="dataAvailableToView[0]">
+                                        <!-- <span id="graph1" [hidden]="dataAvailableToView[0]">
                                             <apx-chart [series]="series" [chart]="chart" [dataLabels]="dataLabels"
                                                 [markers]="markers" [title]="title" [fill]="fill" [yaxis]="yaxis"
                                                 [xaxis]="xaxis" [tooltip]="tooltip" [autoUpdateSeries]="true">
@@ -37,27 +37,19 @@
                                         </span>
                                         <div class="note" [hidden]="!dataAvailableToView[0]">No data for daily sales
                                             available to show graph.</div>
-                                        <hr>
+                                        <hr> -->
 
-                                        <div id="summary-sales" style="padding-top: 50px;">
-                                            <!-- <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">Summary Sales</div>
-                                            <div [hidden]="!dataAvailableToView[1]" class="note">No data available for
-                                                daily sales to show.</div> -->
-
-                                            <div style="padding-top: 50px; padding-bottom: 15px;">
-                                                <div
-                                                    style="font-weight: bold;text-align: center; padding-bottom: 15px;">
-                                                    Summary Sales
-                                                </div>
-                                                <input type="date" placeholder="From - date" class="form-control filter"
-                                                    style="width:160px; margin-right: 10px;display: inline-block;"
-                                                    name="" id="from-date-detailed2">
-                                                <input type="date" placeholder="From - date" class="form-control filter"
-                                                    style="width:160px; margin-right: 10px;display: inline-block;"
-                                                    name="" id="to-date-detailed2">
-                                                <div class="search-btn" (click)="searchSummary()">Search</div>
+                                        <div id="summary-sales">
+                                            <div class="table-headings">
+                                                Summary Sales
                                             </div>
-
+                                            <div id="daily-sales-search">
+                                                <input type="date" placeholder="From - date"
+                                                    class="form-control col-input" name="" id="from-date-detailed2">
+                                                <input type="date" placeholder="From - date"
+                                                    class="form-control col-input" name="" id="to-date-detailed2">
+                                                <div class="custom-button-1" (click)="searchSummary()">Search</div>
+                                            </div>
                                             <ngx-datatable class="material" [rows]="rows2" [columns]="[
                                                 { name: 'Date' }, 
                                                 { name: 'Total orders' }, 
@@ -67,18 +59,15 @@
                                             </ngx-datatable>
 
                                         </div>
-
-                                        <div style="padding-top: 50px;">
-                                            <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">
-                                                Daily Detailed Sales
-                                            </div>
-                                            <input type="date" placeholder="From - date" class="form-control filter"
-                                                style="width:160px; margin-right: 10px;display: inline-block;" name=""
-                                                id="from-date-detailed">
-                                            <input type="date" placeholder="From - date" class="form-control filter"
-                                                style="width:160px; margin-right: 10px;display: inline-block;" name=""
-                                                id="to-date-detailed">
-                                            <div class="search-btn" (click)="searchDailyDetails()">Search</div>
+                                        <div class="table-headings">
+                                            Daily Detailed Sales
+                                        </div>
+                                        <div id="daily-detaied-sales-search">
+                                            <input type="date" placeholder="From - date" class="form-control col-input"
+                                                name="" id="from-date-detailed">
+                                            <input type="date" placeholder="From - date" class="form-control col-input"
+                                                name="" id="to-date-detailed">
+                                            <div class="custom-button-1" (click)="searchDailyDetails()">Search</div>
                                         </div>
                                         <div id="dailySales" style="padding-top: 5px;">
 
@@ -99,24 +88,15 @@
 
                                         </div>
                                         <div id="dailyTopProducts" style="padding-top: 50px;">
-                                            <!-- <div style="font-weight: bold;text-align: center; padding-bottom: 15px;">
-                                                Daily Top
-                                                Products</div>
-                                            <div [hidden]="!dataAvailableToView[2]" class="note">No data available for
-                                                daily top products to show.</div> -->
-                                            <!-- <table [hidden]="dataAvailableToView[2]" datatable [dtOptions]="dtOptions3" [dtTrigger]="dtTrigger3" class="row-border hover table"> -->
-                                            <div style="padding-top: 50px; padding-bottom: 15px;">
-                                                <div
-                                                    style="font-weight: bold;text-align: center; padding-bottom: 15px;">
-                                                    Daily Top Products
-                                                </div>
-                                                <input type="date" placeholder="From - date" class="form-control filter"
-                                                    style="width:160px; margin-right: 10px;display: inline-block;"
+                                            <div class="table-headings">
+                                                Daily Top Products
+                                            </div>
+                                            <div id="dtp-search">
+                                                <input type="date" placeholder="From - date" class="form-control col-input"
                                                     name="" id="from-date-detailed3">
-                                                <input type="date" placeholder="From - date" class="form-control filter"
-                                                    style="width:160px; margin-right: 10px;display: inline-block;"
+                                                <input type="date" placeholder="From - date" class="form-control col-input"
                                                     name="" id="to-date-detailed3">
-                                                <div class="search-btn" (click)="searchTopProduct()">Search</div>
+                                                <div class="custom-button-1" (click)="searchTopProduct()">Search</div>
                                             </div>
 
                                             <ngx-datatable class="material" [rows]="rows3" [columns]="[

@@ -5,7 +5,8 @@ export class Profile {
         public phoneNumber: string,
         public bankName: string,
         public bankAccNo: string,
-        public newProfile:any
+        public bankAccountTitle: string,
+        public newProfile: any
     ) {
 
     }

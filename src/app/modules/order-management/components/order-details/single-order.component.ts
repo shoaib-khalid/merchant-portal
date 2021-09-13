@@ -19,7 +19,7 @@ export class SingleOrderComponent implements OnInit {
   subTotal: any = "";
   total: any = "";
   order: any = "";
-  dt:any="";
+  dt: any = "";
   showFiller = false;
 
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
@@ -29,10 +29,10 @@ export class SingleOrderComponent implements OnInit {
     this.checkDeliveryType();
   }
 
-  async checkDeliveryType(){
-    const data:any = await this.apiCalls.getDeliveryDetailsStore(localStorage.getItem('storeId'));
-    if(data.data.type=="SELF"){
-      this.dt='SELF';
+  async checkDeliveryType() {
+    const data: any = await this.apiCalls.getDeliveryDetailsStore(localStorage.getItem('storeId'));
+    if (data.data.type == "SELF") {
+      this.dt = 'SELF';
     }
   }
 
@@ -69,7 +69,7 @@ export class SingleOrderComponent implements OnInit {
   async setOrderDetails() {
     const data: any = await this.apiCalls.getOrderDetails(this.orderId)
     const orderDetails = data.data;
-    this.order=orderDetails;
+    this.order = orderDetails;
     this.address = orderDetails.orderShipmentDetail;
     console.log(orderDetails)
     this.paymentStatus = orderDetails.paymentStatus;
@@ -88,19 +88,19 @@ export class SingleOrderComponent implements OnInit {
     newWin.document.close();
     setTimeout(function () {
       newWin.close();
-    }, 30);
+    }, 100);
   }
 
-  async readyForPickup(completionStatus){
+  async readyForPickup(completionStatus) {
     this.apiCalls.loadingAnimation("Loading...");
     // const data = await this.apiCalls.orderUpdationCompletionStatus(this.order.id);
-    const data = await this.apiCalls.updateCompletionStatus(this.order.id,completionStatus)
+    const data = await this.apiCalls.updateCompletionStatus(this.order.id, completionStatus)
     this.apiCalls.loadingdialogRef.close();
     this.initializeStoreDetails()
   }
 
 
-  initializeStoreDetails(){
+  initializeStoreDetails() {
     this.route.queryParams.subscribe(params => {
       if (params["orderId"]) {
         this.orderId = params["orderId"];

@@ -23,11 +23,6 @@ export class SharedHeaderComponent implements OnInit {
   }
 
   username: any;
-  navOptionalHeadings: any = {
-    signedIn: [],
-    signedUp: []
-  }
-
   navHeadings: any = [];
 
 

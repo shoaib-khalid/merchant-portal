@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <app-shared-header></app-shared-header>
+    <div class="container">
+        <div class="row_">
+            <div class="col_">
+                <app-shared-side-panel></app-shared-side-panel>
+            </div>
+            <div class="col_">
+                <div class="header-d">Discounts</div>
+                <div class="main-content">
+                    <table class="table tc">
+                        <thead>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Discount On</th>
+                            <th>Tier</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let discount of discounts">
+                                <td>{{discount.name}}</td>
+                                <td>{{discount.status=="true"||discount.status=="ACTIVE"?"ACTIVE":"INACTIVE"}}</td>
+                                <td>{{discount.startDate}}</td>
+                                <td>{{discount.endDate}}</td>
+                                <td>{{discount.discountOn}}</td>
+                                <td class="o-t" (click)="openDiscountTier(discount.id)">Open Tier</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <form #discountForm="ngForm">
+                        <table class="table tc-2">
+                            <tr>
+                                <td class="table-h">Name</td>
+                                <td><input type="text" name="name" id="" class="form-control" placeholder="Name"
+                                    [(ngModel)]="DISCOUNT.name"
+                                    ></td>
+                                <td class="table-h">Status</td>
+                                <td>
+                                    <select name="status" class="form-control" required
+                                    [(ngModel)]="DISCOUNT.status">
+                                        <option value="">Status</option>
+                                        <option value="true">ACTIVE</option>
+                                        <option value="false">INACTIVE</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-h">Start Date</td>
+                                <td><input type="date" name="start-date" placeholder="Start Date" class="form-control"
+                                    [(ngModel)]="DISCOUNT.startDate"
+                                    >
+                                </td>
+                                <td class="table-h">End Date</td>
+                                <td><input type="date" name="end-date" placeholder="End Date" class="form-control"
+                                    [(ngModel)]="DISCOUNT.endDate"></td>
+                            </tr>
+                        </table>
+                        <div class="mt-2 mb-3">
+                            <label for="" class="table-h">Discount On</label>
+                            <select name="discount-on" class="form-control" required style="width: 15em;margin: auto;"
+                            [(ngModel)]="DISCOUNT.discountOn">
+                                <option value="">Discount On</option>
+                                <option value="SHIPPING">SHIPPING</option>
+                                <option value="TOTALSALES">TOTAL SALES</option>
+                            </select>
+                        </div>
+                        <button class="custom-button-1" (click)="insertDiscount(discountForm.form)">+ Insert New Discount</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

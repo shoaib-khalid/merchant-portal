@@ -1,10 +1,5 @@
 #add-agent{
     margin-left: auto;
-    background-color: rgb(91, 179, 127);
-    padding: 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    color: white;
 }
 #sortable1, #sortable2 {
     border: 1px solid #eee;
@@ -20,13 +15,6 @@
     font-size: 1.2em;
     width: 120px;
   }
-  #search{
-    background-color: rgb(91, 179, 127);
-    border-radius: 6px;
-    cursor: pointer;
-    color: white;
-    padding: 10px;
-}
 
 .main{
   margin-top: 80px;

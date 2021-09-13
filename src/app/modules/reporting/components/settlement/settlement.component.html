@@ -36,7 +36,7 @@
                                             <div [hidden]="!dataAvailableToView[2]" class="note">No data available for
                                                 daily top products to show.</div> -->
                                             <!-- <table [hidden]="dataAvailableToView[2]" datatable [dtOptions]="dtOptions3" [dtTrigger]="dtTrigger3" class="row-border hover table"> -->
-                                                <div style="padding-top: 50px; padding-bottom: 15px;">
+                                                <div id="search-inputs" >
                                                     <!-- <div
                                                         style="font-weight: bold;text-align: center; padding-bottom: 15px;">
                                                         Summary Sales
@@ -47,7 +47,7 @@
                                                     <input type="date" placeholder="From - date" class="form-control filter"
                                                         style="width:160px; margin-right: 10px;display: inline-block;"
                                                         name="" id="to-date-detailed">
-                                                    <div class="search-btn" (click)="searchSettlement()">Search</div>
+                                                    <div class="custom-button-1" (click)="searchSettlement()">Search</div>
                                                 </div>
 
                                             <ngx-datatable class="material" [rows]="rows" [columns]="[

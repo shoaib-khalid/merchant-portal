@@ -9,7 +9,7 @@ import { Profile } from './profile.model';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  profile = new Profile("", "", "", "", "", "");
+  profile = new Profile("", "", "", "", "", "", "");
   storeName: any = localStorage.getItem('store');
   constructor(private apiCalls: ApiCallsService) { }
 
@@ -32,23 +32,24 @@ export class ProfileComponent implements OnInit {
     console.log(data2)
     data2 = data2.data.content;
     if (data2.length == 0) {
-      this.profile = new Profile(data1.username, data1.email, "", '', '', { new: true, paymentId: "" });
+      this.profile = new Profile(data1.username, data1.email, "", '', '', '', { new: true, paymentId: "" });
       return;
     }
-    this.profile = new Profile(data1.username, data1.email, "", data2[0].bankName, data2[0].bankAccountNumber, { new: false, paymentId: data2[0].id });
+    this.profile = new Profile(data1.username, data1.email, "", data2[0].bankName, data2[0].bankAccountNumber, data2[0].bankAccountTitle, { new: false, paymentId: data2[0].id });
   }
 
   async updatePaymentDetails() {
     const data = {
       bankName: this.profile.bankName,
-      bankAccountNumber: this.profile.bankAccNo
+      bankAccountNumber: this.profile.bankAccNo,
+      bankAccountTitle: this.profile.bankAccountTitle
     }
     if (this.profile.newProfile.new) {
-      const data1=await this.apiCalls.savePaymentDetails(data);
+      const data1 = await this.apiCalls.savePaymentDetails(data);
       console.log(data1)
       return;
     }
-    
+
     const data1 = await this.apiCalls.updatePaymentDetail(data, this.profile.newProfile.paymentId)
   }
 }

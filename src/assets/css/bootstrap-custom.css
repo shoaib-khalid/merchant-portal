@@ -13191,3 +13191,24 @@
     background-color: rgba(240, 252, 250, 0.13);
   }
   
+  .custom-button-1{
+    background-color: rgb(91, 179, 127);
+    cursor: pointer;
+    color: white;
+    outline: none!important;
+    border: none;
+    padding: 0.8em;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    text-align: center;
+    font-weight: 300;
+  }
+/**
+The css below is the custom css and did not come with template
+**/
+  .custom-button-1:hover{
+    background-color: rgb(62, 185, 62);
+  }
+  button{
+    outline: none!important;
+  }

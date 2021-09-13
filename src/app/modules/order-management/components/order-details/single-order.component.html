@@ -215,6 +215,14 @@
                                                                 <td>{{order.subTotal | number :'0.2-3'}}</td>
                                                             </tr>
                                                             <tr class="tr">
+                                                                <td class="amount-cols">Discount
+                                                                    ({{order.appliedDiscountDescription==null?0:order.appliedDiscountDescription}})
+                                                                </td>
+                                                                <td>{{(order.appliedDiscount==null?0:order.appliedDiscount)
+                                                                    | number :'0.2-3'}}
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="tr">
                                                                 <td class="amount-cols">Service Charges</td>
                                                                 <td>{{order.storeServiceCharges==null?0:order.storeServiceCharges
                                                                     | number :'0.2-3'}}
@@ -225,6 +233,15 @@
                                                                         Charges
                                                                     </span></td>
                                                                 <td>{{order.deliveryCharges | number :'0.2-3'}}</td>
+                                                            </tr>
+                                                            <tr class="tr">
+                                                                <td class="amount-cols"><span >Delivery
+                                                                        Charges Discount
+                                                                        ({{order.deliveryDiscountDescription==null?0:order.deliveryDiscountDescription
+                                                                        }})
+                                                                    </span></td>
+                                                                <td>{{(order.deliveryDiscount==null?0:order.deliveryDiscount)
+                                                                    | number :'0.2-3'}}</td>
                                                             </tr>
                                                             <tr class="tr">
                                                                 <td class="amount-cols" style="color:rgb(9, 180, 3)">

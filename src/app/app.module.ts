@@ -17,6 +17,7 @@ import { CartManagementModule } from './modules/cart-management/cart-management.
 import { OrderManagementModule } from './modules/order-management/order-management.module';
 import { ReportingModule } from './modules/reporting/reporting.module';
 import { AgentManagementModule } from './modules/agent-management/agent-management.module';
+import { DiscountManagementModule } from './modules/discount-management/discount-management.module';
 import { BrowserModule } from "@angular/platform-browser";
 // import { DataTablesModule } from "angular-datatables";
 
@@ -25,7 +26,7 @@ export function initializeApp(appConfig: AppConfig) {
 }
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
     
   ],
   imports: [
@@ -40,7 +41,8 @@ export function initializeApp(appConfig: AppConfig) {
     OrderManagementModule,
     ReportingModule,
     AgentManagementModule,
-    BrowserModule
+    BrowserModule,
+    DiscountManagementModule
     // DataTablesModule.forRoot()
   ], entryComponents: [FlowDialog],
   providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' }, },

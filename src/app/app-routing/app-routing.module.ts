@@ -31,6 +31,8 @@ import { DailySalesComponent } from 'src/app/modules/reporting/components/daily-
 import { SettlementComponent } from 'src/app/modules/reporting/components/settlement/settlement.component';
 import { EmailVerifiedComponent } from '../modules/home/components/email-verified/email-verified.component';
 import { ProfileComponent } from '../modules/user-onboarding/components/profile/profile.component';
+import { DiscountsComponent } from '../modules/discount-management/components/discounts/discounts.component';
+import { DiscountTierComponent } from '../modules/discount-management/components/discount-tier/discount-tier.component';
 
 const routes: Routes = [
 
@@ -189,6 +191,18 @@ const routes: Routes = [
   {
     path: 'email-verified',
     component: EmailVerifiedComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: 'discounts',
+    component: DiscountsComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: 'discount-tiers/:discountId',
+    component: DiscountTierComponent,
     canActivate: [AuthGuardService],
     children: []
   },

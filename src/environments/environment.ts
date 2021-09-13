@@ -4,7 +4,7 @@
  
 export const environment = {
   production: false,
-  name:"prod",
+  name:"dev",
   client_id:'2915126152079198',
   client_secret:'2a9f0365d6777a36f509c8d9deefcc83'
 };

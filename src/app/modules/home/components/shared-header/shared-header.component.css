@@ -56,6 +56,7 @@ border-bottom-right-radius: 10px;
 
 #user-menu{
   color: white;
+  outline: none;
 }
 
 .sym-text{
@@ -133,6 +134,29 @@ For mobile
   .nav-mobile{
     width: 50%;
   }
+}
+
+.heading{
+  outline: none;
+}
+
+#log-in{
+background: #319795;
+border-radius: 0.26em;
+font-weight: 400;
+}
+#log-in:hover{
+background: #34adab;
+
+}
+#sign-up{
+  background-color: #000000;
+  border: 1px solid #1ba94c;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+}
+#sign-up:hover{
+  background: #22b93b;
 }
 
  /**

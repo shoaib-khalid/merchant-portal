@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <app-shared-header></app-shared-header>
+    <div class="container">
+        <div class="row_">
+            <div class="col_">
+                <app-shared-side-panel></app-shared-side-panel>
+            </div>
+            <div class="col_">
+                <div class="header-d">Discount Tier List</div>
+                <div class="main-content">
+                    <table class="table tc">
+                        <thead>
+                            <th>Min Sub Total</th>
+                            <th>Max Sub Total</th>
+                            <th>Discount Amount</th>
+                            <th>Calculation Type</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let dt of discountTiers">
+                                <td>{{dt.minSubTotal}}</td>
+                                <td>{{dt.maxSubTotal}}</td>
+                                <td>{{dt.discountAmount}}</td>
+                                <td>{{dt.calculationType}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <form #discountTierForm="ngForm">
+                        <table class="table tc-2">
+                            <tr>
+                                <td class="table-h">Min Sub Total</td>
+                                <td><input type="number" name="name" id="" class="form-control"
+                                        placeholder="Min subtotal" [(ngModel)]="DISCOUNT_TIER.minSubTotal"></td>
+                                <td class="table-h">Max Sub Total</td>
+                                <td><input type="number" name="name" id="" class="form-control"
+                                        placeholder="Max Subtotal" [(ngModel)]="DISCOUNT_TIER.maxSubTotal"></td>
+                            </tr>
+                            <tr>
+                                <td class="table-h">Discount Amount</td>
+                                <td><input type="number" name="start-date" placeholder="Discount Amount"
+                                        class="form-control" [(ngModel)]="DISCOUNT_TIER.discountAmount">
+                                </td>
+                                <td class="table-h">Calculation Type</td>
+                                <td> <select name="discount-on" class="form-control" required
+                                        style="width: 15em;margin: auto;" [(ngModel)]="DISCOUNT_TIER.calculationType">
+                                        <option value="">Calculation Type</option>
+                                        <option value="PERCENT">PERCENTAGE</option>
+                                        <option value="FIX">FIX</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        <button class="custom-button-1" (click)="insertDiscountTier(discountTierForm.form)">+ Insert
+                            Discount Tier</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

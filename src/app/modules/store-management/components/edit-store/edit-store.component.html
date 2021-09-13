@@ -198,6 +198,8 @@
 
                         <div class="form-group mb-3">
                             <label for="city">Logo</label>
+                        <div class="text-muted">Recommended Logo Dimensions are 500 x 500px</div>
+
                             <div class="custom-file">
                                 <input type="file" name="logo" class="custom-file-input"
                                     (change)="onLogoChanged($event)" />
@@ -212,9 +214,12 @@
                                     width="14px" (click)="deleteLogo()">
                             </div>
                         </div>
+                        <span [hidden]="logo.valid" id="phone-pattern">Size over 2MB is not allowed!</span>
 
                         <div class="form-group mb-3">
                             <label for="city">Banner</label>
+                        <div class="text-muted">Recommended Banner Dimensions are 950 x 260px</div>
+
                             <div class="custom-file">
                                 <input type="file" name="banner" class="custom-file-input"
                                     (change)="onBannerChanged($event)" />
@@ -227,6 +232,7 @@
                             <img src="assets/red-cross.svg" style="margin-left: 5px;" alt="" height="14px" width="14px"
                                 (click)="deleteBanner()">
                         </div>
+                        <span [hidden]="banner.valid" id="phone-pattern">Size over 2MB is not allowed!</span>
 
                         <div class="form-group">
                             <table class="table" id="store-timmings-table" style="margin-bottom: 10px;">

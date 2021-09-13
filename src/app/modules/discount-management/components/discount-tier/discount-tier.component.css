@@ -1,0 +1,37 @@
+.container{
+    margin-top: 5.2em;
+}
+.row_{
+    display: flex;
+    justify-content: space-between;
+}
+.col_:first-child{
+    width: 15%;
+}
+.col_:last-child{
+    width: 80%;
+}
+.header-d{
+    border-bottom: 1px solid #EAEDF2 !important;
+    padding: 1em;
+    background-color: rgba(0, 0, 0, 0.03);
+    font-weight:700 ;
+}
+.tc{
+    border-bottom: 1px solid black;
+}
+.table-h{
+    font-weight: bold;
+}
+.tc-2{
+    margin-top: 2em;
+}
+.main-content{
+    text-align: center;
+    justify-content: center;
+}
+
+.o-t{
+    cursor: pointer;
+    color: blue;
+}

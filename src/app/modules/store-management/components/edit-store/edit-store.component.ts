@@ -16,11 +16,9 @@ export class EditStoreComponent implements OnInit {
 
 
   regions: any = [];
-  logo: any = { file: "", preview: "" }
-  banner: any = { file: "", preview: "" };
+  logo: any = { file: "", preview: "", valid: true }
+  banner: any = { file: "", preview: "", valid: true };
   store: any;
-  closeTime: any = "";
-  openTime: any = "";
   timmings: any = [];
   states: any = [];
   public Editor = ClassicEditor;
@@ -74,14 +72,29 @@ export class EditStoreComponent implements OnInit {
 
   async onLogoChanged(event) {
     const file = event.target.files[0];
-    this.logo.file = file;
-    this.logo.preview = await this.previewImage(file)
+    if (this.imageSizeCheck(file.size)) {
+      this.logo.valid = true;
+      this.logo.file = file;
+      this.logo.preview = await this.previewImage(file);
+    } else {
+      this.logo.preview = "";
+      this.logo.file = "";
+      this.logo.valid = false;
+    }
   }
 
   async onBannerChanged(event) {
     const file = event.target.files[0];
-    this.banner.file = file;
-    this.banner.preview = await this.previewImage(file)
+    if (this.imageSizeCheck(file.size)) {
+      this.banner.file = file;
+      this.banner.valid = true;
+      this.banner.preview = await this.previewImage(file);
+    } else {
+      this.banner.preview = "";
+      this.banner.file = "";
+      this.banner.valid = false;
+    }
+
   }
 
   async update(form) {
@@ -168,14 +181,14 @@ export class EditStoreComponent implements OnInit {
 
   async updateAssets() {
     const formData = new FormData();
-    if (this.banner.file || this.logo.file) {
+    if (this.banner.file) {
       formData.append("banner", this.banner.file);
+    }
+    if (this.logo.file) {
       formData.append("logo", this.logo.file);
-      return this.apiCalls.uploadStoreAssets(formData, this.store.id)
     }
-    else {
-      this.deleteAssets();
-    }
+    this.deleteAssets();
+    return this.apiCalls.uploadStoreAssets(formData, this.store.id)
   }
 
   deleteBanner() {
@@ -462,4 +475,9 @@ export class EditStoreComponent implements OnInit {
     this.storeModel.sdSp.values[j] = event.target.value;
     this.storeModel.deliveryTypeChange = true;
   }
+
+  imageSizeCheck(size) {
+    return (size / 2048) > 1024 ? false : true;
+  }
+
 }

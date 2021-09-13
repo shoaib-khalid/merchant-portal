@@ -978,7 +978,6 @@ export class ApiCallsService {
   }
 
   async savePaymentDetails(body) {
-    console.log(this.userService + `/clients/${localStorage.getItem("ownerId")}/payment_details`)
     return this.http.post(this.userService + `/clients/${localStorage.getItem("ownerId")}/payment_details`, body).toPromise()
   }
   async getPaymentDetails() {
@@ -986,5 +985,17 @@ export class ApiCallsService {
   }
   async updatePaymentDetail(body, id) {
     return this.http.put(this.userService + `/clients/${localStorage.getItem("ownerId")}/payment_details/${id}`, body).toPromise()
+  }
+  async getStoresByDiscount(){
+    return this.http.get(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount`).toPromise();
+  }
+  async setStoreDiscount(body){
+    return this.http.post(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount`,body).toPromise();
+  }
+  async getDiscountTiersByStore(discountId){
+    return this.http.get(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${discountId}/tier`).toPromise();
+  }
+  async setStoreTier(discountId,body){
+    return this.http.post(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${discountId}/tier`,body).toPromise();
   }
 }

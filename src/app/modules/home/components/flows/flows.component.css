@@ -1,11 +1,6 @@
 /* Dropdown Button */
 #add-flow{
   margin-left: auto;
-  background-color: rgb(91, 179, 127);
-  padding: 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  color: white;
 }
 
 .dropbtn {
