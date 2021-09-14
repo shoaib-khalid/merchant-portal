@@ -75,3 +75,4 @@ export class ForgotPasswordComponent implements OnInit {
     }, 1200)
   }
 }
+
