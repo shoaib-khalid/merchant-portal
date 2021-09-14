@@ -292,7 +292,6 @@ export class ApiCallsService {
         "pageSize": "10",
         "page": page + "",
         status: ['ACTIVE', 'DRAFT', 'INACTIVE']
-
       }
     }
 
@@ -995,7 +994,7 @@ export class ApiCallsService {
   async getDiscountTiersByStore(discountId){
     return this.http.get(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${discountId}/tier`).toPromise();
   }
-  async setStoreTier(discountId,body){
+  async setDiscountTier(discountId,body){
     return this.http.post(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${discountId}/tier`,body).toPromise();
   }
 }

@@ -34,7 +34,7 @@ export class ForgotPasswordComponent implements OnInit {
       this.apiCalls.loadingdialogRef.close();
       this.apiCalls.successPopUp('Check your email to reset your password', 2000);
       setTimeout(() => {
-        location.href = "https://symplified.biz"
+        location.href = "https://symplified.biz/merchant/signin"
       }, 2000)
     }
   }
@@ -71,7 +71,7 @@ export class ForgotPasswordComponent implements OnInit {
   passwordHasBeenReset() {
     this.apiCalls.successPopUp('Password reset successfully.')
     setTimeout(() => {
-      location.href = "https://symplified.biz/signin"
+      location.href = "https://symplified.biz/merchant/signin"
     }, 1200)
   }
 }

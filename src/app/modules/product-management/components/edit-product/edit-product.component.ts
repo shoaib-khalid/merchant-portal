@@ -476,7 +476,7 @@ export class EditProductComponent implements OnInit {
     for (var i = 0; i < this.productImages.length; i++) {
       if (this.productImages[i].new) {
         await this.apiCalls.uploadImage(this.product.id, this.productImages[i].file, "", this.productImages[i].isThumbnail ? this.productImages[i].isThumbnail : false)
-        this.productImages[i].new=false;
+        this.productImages[i].new = false;
       }
     }
   }
@@ -520,7 +520,6 @@ export class EditProductComponent implements OnInit {
     return promise;
 
   }
-
 
 
   async onFileChanged(event, i) {

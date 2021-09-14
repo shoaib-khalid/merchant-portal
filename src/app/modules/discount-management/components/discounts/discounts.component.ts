@@ -20,7 +20,7 @@ export class DiscountsComponent implements OnInit {
   async insertDiscount(form) {
     if (form.valid) {
       const { startDate, endDate } = this.fD();
-      await this.apiCalls.setStoreDiscount(
+      const data = await this.apiCalls.setStoreDiscount(
         {
           discountName: this.DISCOUNT.name,
           isActive: this.DISCOUNT.status,
