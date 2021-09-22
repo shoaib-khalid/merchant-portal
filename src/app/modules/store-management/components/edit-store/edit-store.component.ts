@@ -16,8 +16,8 @@ export class EditStoreComponent implements OnInit {
 
 
   regions: any = [];
-  logo: any = { file: "", preview: "", valid: true }
-  banner: any = { file: "", preview: "", valid: true };
+  logo: any = { file: null, preview: "", valid: true }
+  banner: any = { file: null, preview: "", valid: true };
   store: any;
   timmings: any = [];
   states: any = [];
@@ -76,9 +76,10 @@ export class EditStoreComponent implements OnInit {
       this.logo.valid = true;
       this.logo.file = file;
       this.logo.preview = await this.previewImage(file);
+      this.banner.delete=false;
     } else {
       this.logo.preview = "";
-      this.logo.file = "";
+      this.logo.file = null;
       this.logo.valid = false;
     }
   }
@@ -89,9 +90,10 @@ export class EditStoreComponent implements OnInit {
       this.banner.file = file;
       this.banner.valid = true;
       this.banner.preview = await this.previewImage(file);
+      this.banner.delete=false;
     } else {
       this.banner.preview = "";
-      this.banner.file = "";
+      this.banner.file = null;
       this.banner.valid = false;
     }
 
@@ -204,10 +206,14 @@ export class EditStoreComponent implements OnInit {
   }
 
   async deleteAssets() {
-    if (this.banner.delete || this.logo.delete) {
-      await this.apiCalls.deleteStoreAssets(this.store.id);
-      this.apiCalls.loadingdialogRef.close();
+    if (this.banner.delete) {
+      await this.apiCalls.deleteStoreAssets("banner");
     }
+
+    if (this.logo.delete) {
+      await this.apiCalls.deleteStoreAssets("logo");
+    }
+    this.apiCalls.loadingdialogRef.close();
   }
 
   showAddressWarning() {
@@ -454,6 +460,7 @@ export class EditStoreComponent implements OnInit {
     }
     this.fetchChangedDeliveryProviders();
   }
+
   async fetchChangedDeliveryProviders() {
     var data: any = await this.apiCalls.getDeliveryServiceProviderByType(this.storeModel.deliveryType, this.storeModel.region);
     data = data.data;

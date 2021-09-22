@@ -99,12 +99,14 @@
                                                         </div>
                                                     </div>
                                                     <h4 class="mt-4 mb-3">Media</h4>
-                                                    <div class="text-muted">Recommended Image Size is 1580 x 1050px
+                                                    <div class="text-muted">Recommended Image Dimensions are 1580 x 1050px
+                                                    </div>
+                                                    <div class="text-muted">Image size varies from 5KB-2MB
                                                     </div>
                                                     <div class="input-group mb-3">
                                                         <div class="custom-file">
                                                             <input type="file" multiple class="custom-file-input"
-                                                                (change)="onThumbnailChanged($event,0)"
+                                                                accept="image/*" (change)="onThumbnailChanged($event,0)"
                                                                 id="inputGroupFile011" />
                                                             <label class="custom-file-label"
                                                                 for="inputGroupFile011">Choose
@@ -112,7 +114,6 @@
                                                         </div>
 
                                                     </div>
-                                                    <p class="text-muted">Dimensions: 100 x 100 </p>
 
                                                     <div>
                                                         <div *ngFor="let prodImg of productImages;index as i"
@@ -364,6 +365,7 @@
                                                             <td>
                                                                 <div class="custom-file">
                                                                     <input type="file" class="custom-file-input"
+                                                                        accept="image/*"
                                                                         (change)="onFileChanged($event,i)" />
                                                                     <label class="custom-file-label"
                                                                         for="inputGroupFile01"></label>

@@ -207,8 +207,10 @@
                         <div class="form-group mb-3">
                             <label for="city">Logo</label>
                             <div class="text-muted">Recommended Logo Dimensions are 500 x 500px</div>
+                            <div class="text-muted">Image size varies from 5KB-2MB
+                            </div>
                             <div class="custom-file">
-                                <input type="file" name="file" class="custom-file-input"
+                                <input type="file" name="file" class="custom-file-input" accept="image/*"
                                     (change)="onLogoChanged($event)" />
                                 <label class="custom-file-label">Choose
                                     file </label>
@@ -223,8 +225,10 @@
                         <div class="form-group mb-3">
                             <label for="city">Banner</label>
                             <div class="text-muted">Recommended Banner Dimensions are 950 x 260px</div>
+                            <div class="text-muted">Image size varies from 5KB-2MB
+                            </div>
                             <div class="custom-file">
-                                <input type="file" name="file2" class="custom-file-input"
+                                <input type="file" name="file2" class="custom-file-input" accept="image/*"
                                     (change)="onBannerChanged($event)" />
                                 <label class="custom-file-label">Choose
                                     file </label>

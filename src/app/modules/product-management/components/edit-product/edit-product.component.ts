@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import $ from 'jquery';
@@ -38,6 +38,7 @@ export class EditProductComponent implements OnInit {
     private route: ActivatedRoute,
     private apiCalls: ApiCallsService,
     private helperService: HelperService,
+    private router: Router,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -233,9 +234,10 @@ export class EditProductComponent implements OnInit {
     const files = event.target.files;
     for (var j = 0; j < files.length; j++) {
       const formdata = new FormData();
-      formdata.append("file", files[j]);
-      this.productImages.push({ file: formdata, preview: await this.previewImage(files[j]), new: true, isThumbnail: false })
-
+      if (this.imageSizeCheck(files[j].size)) {
+        formdata.append("file", files[j]);
+        this.productImages.push({ file: formdata, preview: await this.previewImage(files[j]), new: true, isThumbnail: false })
+      }
     }
   }
 
@@ -287,13 +289,16 @@ export class EditProductComponent implements OnInit {
       this.deleteImages();
       await this.addInventory();
       await this.apiCalls.updateProduct(body, this.product.id)
-      this.uploadProductImages();
+      await this.uploadProductImages();
       const variantIds: any = await this.addVariantName();
       const productAvailableIds = await this.addVariantValues(variantIds);
       const allIds: any = await this.joinVariantAvailables(productAvailableIds)
       await this.addInventoryItem(allIds);
-      this.uploadVariantImages();
+      await this.uploadVariantImages();
       this.apiCalls.loadingdialogRef.close();
+      this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
+        this.router.navigate([`/products/${this.product.id}`]);
+      });
     }
 
   }
@@ -473,12 +478,19 @@ export class EditProductComponent implements OnInit {
   }
 
   async uploadProductImages() {
-    for (var i = 0; i < this.productImages.length; i++) {
-      if (this.productImages[i].new) {
-        await this.apiCalls.uploadImage(this.product.id, this.productImages[i].file, "", this.productImages[i].isThumbnail ? this.productImages[i].isThumbnail : false)
-        this.productImages[i].new = false;
+
+    var promise = new Promise(async (resolve, reject) => {
+      for (var i = 0; i < this.productImages.length; i++) {
+        if (this.productImages[i].new) {
+          await this.apiCalls.uploadImage(this.product.id, this.productImages[i].file, "", this.productImages[i].isThumbnail ? this.productImages[i].isThumbnail : false)
+          this.productImages[i].new = false;
+        }
       }
-    }
+      resolve("done")
+    });
+    return promise;
+
+
   }
 
   priceChanged(event, i) {
@@ -532,15 +544,19 @@ export class EditProductComponent implements OnInit {
   }
 
   async uploadVariantImages() {
-    for (var i = 0; i < this.images.length; i++) {
-      if (this.images[i]) {
-        if (this.images[i].new) {
-          const formdata = new FormData();
-          formdata.append("file", this.images[i].file);
-          const data = await this.apiCalls.uploadImage(this.product.id, formdata, this.product.id + i, "")
+    var promise = new Promise(async (resolve, reject) => {
+      for (var i = 0; i < this.images.length; i++) {
+        if (this.images[i]) {
+          if (this.images[i].new) {
+            const formdata = new FormData();
+            formdata.append("file", this.images[i].file);
+            const data = await this.apiCalls.uploadImage(this.product.id, formdata, this.product.id + i, "")
+          }
         }
       }
-    }
+      resolve("")
+    });
+    return promise;
   }
 
   async setThumbnail(i) {
@@ -703,5 +719,7 @@ export class EditProductComponent implements OnInit {
     }
     this.combos[index].status = "AVAILABLE"
   }
-
+  imageSizeCheck(size) {
+    return (size / 2048) > 1024 ? false : true;
+  }
 }

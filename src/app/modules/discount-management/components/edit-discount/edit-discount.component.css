@@ -35,8 +35,6 @@
     cursor: pointer;
     color: blue;
 }
-
 .error{
     color: red;
-    font-size: 0.7em;
 }

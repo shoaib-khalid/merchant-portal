@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { AppConfig } from 'src/app/services/app.config.ts.service';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import { Router } from '@angular/router';
+import { HelperMethodsService } from 'src/app/services/helper-methods.service';
 @Component({
   selector: 'app-shared-side-panel',
   templateUrl: './shared-side-panel.component.html',
@@ -13,7 +14,7 @@ export class SharedSidePanelComponent implements OnInit {
 
   storeDomain: any = "";
   allowed: any = true;
-  constructor(private apiCalls: ApiCallsService, private router: Router) {
+  constructor(private apiCalls: ApiCallsService, private router: Router,private helperMethods:HelperMethodsService) {
 
   }
 
@@ -44,7 +45,7 @@ export class SharedSidePanelComponent implements OnInit {
   async loadStores() {
     if (localStorage.getItem("storeId")) {
       const data: any = await this.apiCalls.getStoreDetails(localStorage.getItem('storeId'));
-      this.storeDomain = data.data.domain
+      this.storeDomain = data.data.domain+this.helperMethods.getStoreExtension();
     }
 
   }

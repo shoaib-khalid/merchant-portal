@@ -307,7 +307,7 @@ export class ApiCallsService {
   getFilteredProducts(parameters) {
     parameters.storeId = localStorage.getItem('storeId')
     delete parameters.pageSize;
-    parameters.status = ["ACTIVE", "DRAFT"]
+    parameters.status = ["ACTIVE", "DRAFT", "INACTIVE"]
     console.log(parameters)
     const httpOptions: any = {
 
@@ -652,10 +652,10 @@ export class ApiCallsService {
     return this.http.put<any>(
       this.productService + `/stores/${id}`, body).toPromise()
   }
-  deleteStoreAssets(id) {
+  deleteStoreAssets(assetType) {
     return this.http.delete<any>(
       this.productService +
-      `/stores/${localStorage.getItem("storeId")}/assets/${id}`).toPromise()
+      `/stores/${localStorage.getItem("storeId")}/assets/${assetType}`).toPromise()
   }
 
   getCustomers(page = 0) {
@@ -894,9 +894,9 @@ export class ApiCallsService {
     return this.http.put(this.orderService + `/orders/${orderId}/completion-status-updates/request-delivery`, {}).toPromise()
   }
 
-  updateCompletionStatus(orderId,completionStatus) {
+  updateCompletionStatus(orderId, completionStatus) {
     return this.http.put(this.orderService + `/orders/${orderId}/completion-status-updates`, {
-      "orderId":orderId,
+      "orderId": orderId,
       "status": completionStatus
     }).toPromise()
   }
@@ -985,16 +985,39 @@ export class ApiCallsService {
   async updatePaymentDetail(body, id) {
     return this.http.put(this.userService + `/clients/${localStorage.getItem("ownerId")}/payment_details/${id}`, body).toPromise()
   }
-  async getStoresByDiscount(){
+  async getStoresByDiscount() {
     return this.http.get(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount`).toPromise();
   }
-  async setStoreDiscount(body){
-    return this.http.post(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount`,body).toPromise();
+  async setStoreDiscount(body) {
+    return this.http.post(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount`, body).toPromise();
   }
-  async getDiscountTiersByStore(discountId){
+  async getDiscountTiersByStore(discountId) {
     return this.http.get(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${discountId}/tier`).toPromise();
   }
-  async setDiscountTier(discountId,body){
-    return this.http.post(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${discountId}/tier`,body).toPromise();
+  async setDiscountTier(discountId, body) {
+    return this.http.post(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${discountId}/tier`, body).toPromise();
+  }
+  deleteDiscount(discountId) {
+    return this.http.delete(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${discountId}`).toPromise();
+  }
+  deleteDiscountTier(discountId, tierId) {
+    return this.http.delete(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${discountId}/tier/${tierId}`).toPromise();
+  }
+  async getSingleDiscount(id) {
+    return this.http.get(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${id}`).toPromise();
+  }
+  async getSingleDiscountTier(discountId, id) {
+    return this.http.get(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${discountId}/tier/${id}`).toPromise();
+  }
+  async updateSingleDiscount(body) {
+    return this.http.put(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount`, body).toPromise();
+  }
+  updateSingleDiscountTier(discountId, id, body) {
+    body.id = id;
+    // body.storeDiscountId=discountId;
+    console.log(body)
+    console.log(`${ this.productService } / stores / ${ localStorage.getItem('storeId') } / discount / ${ discountId } / tier`)
+    return this.http.put(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${discountId}/tier`, body).toPromise();
   }
 }
+

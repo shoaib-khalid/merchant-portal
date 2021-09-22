@@ -1,0 +1,13 @@
+++++++++++++++++++++++
+ VERSION: 1.2.10
+++++++++++++++++++++++
+Changes:
+---------------------
+1.Discounts should not support Negative values and shouldn’t be in Negative. [done]
+2. Discounts are not created for previous days/month now. [Done]
+3. There should be an option of TIME selection (start/end). [Done]
+4. There should be an option of DELETE/EDIT in Discounts → Discount Tier list. [Done]
+5. The tab Name should be rename as “Discount Name” for better understanding. [Done]
+6. New property added in config: storeFrontUrl
+7. Now when on it, .ai domain will open while on biz .store domain will open for store front.
+

@@ -33,6 +33,8 @@ import { EmailVerifiedComponent } from '../modules/home/components/email-verifie
 import { ProfileComponent } from '../modules/user-onboarding/components/profile/profile.component';
 import { DiscountsComponent } from '../modules/discount-management/components/discounts/discounts.component';
 import { DiscountTierComponent } from '../modules/discount-management/components/discount-tier/discount-tier.component';
+import { EditDiscountComponent } from '../modules/discount-management/components/edit-discount/edit-discount.component';
+import { EditDiscountTierComponent } from '../modules/discount-management/components/edit-discount-tier/edit-discount-tier.component';
 
 const routes: Routes = [
 
@@ -201,8 +203,20 @@ const routes: Routes = [
     children: []
   },
   {
+    path: `discounts/:id`,
+    component: EditDiscountComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
     path: 'discount-tiers/:discountId',
     component: DiscountTierComponent,
+    canActivate: [AuthGuardService],
+    children: []
+  },
+  {
+    path: 'discounts/:discountId/discount-tiers/:id',
+    component: EditDiscountTierComponent,
     canActivate: [AuthGuardService],
     children: []
   },

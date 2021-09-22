@@ -172,6 +172,8 @@ color:black
   width: 75%;
   margin-left: 20%;
   margin-top: 80px;
+  max-width: 1200px;
+  text-align: center;
 }
 
 #ssp{
@@ -216,4 +218,10 @@ color:black
 
 .delivery-provider{
   margin-top: 10px;
+}
+#u-btn{
+  color: white;
+  box-shadow: whitesmoke;
+  width: 5em;
+  margin-left: 0 auto;
 }

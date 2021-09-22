@@ -15,37 +15,8 @@
                 <app-shared-side-panel></app-shared-side-panel>
             </div>
             <div class="col_">
-                <div class="header-d">Discounts</div>
+                <div class="header-d">Edit Discount</div>
                 <div class="main-content">
-                    <table class="table tc">
-                        <thead>
-                            <th>Name</th>
-                            <th>Status</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Discount On</th>
-                            <th>Action</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let discount of discounts">
-                                <td>{{discount.name}}</td>
-                                <td>{{discount.status=="true"||discount.status=="ACTIVE"?"ACTIVE":"INACTIVE"}}</td>
-                                <td>{{discount.startDate}}</td>
-                                <td>{{discount.endDate}}</td>
-                                <td>{{discount.discountOn}}</td>
-                                <td class="o-t">
-                                    <button class="btn btn-primary" mat-button [matMenuTriggerFor]="menu"
-                                        (click)="actionClick()">Action</button>
-                                    <mat-menu #menu="matMenu">
-                                        <button mat-menu-item (click)="openDiscountTier(discount.id)">Open Tier</button>
-                                        <button mat-menu-item (click)="editDiscount(discount.id)">Edit</button>
-                                        <button mat-menu-item (click)="deleteDiscount(discount.id)"
-                                            style="color: red;">Delete</button>
-                                    </mat-menu>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                     <form #discountForm="ngForm">
                         <table class="table tc-2">
                             <tr>
@@ -66,8 +37,7 @@
                                 <td>
                                     <div class="row_">
                                         <input type="date" name="start-date" placeholder="Start Date"
-                                            class="form-control" [(ngModel)]="DISCOUNT.startDate" #startDate='ngModel'>
-
+                                            class="form-control" [(ngModel)]="DISCOUNT.startDate" #startDate="ngModel">
                                         <input type="time" class="form-control" name="start-time" id=""
                                             [(ngModel)]="DISCOUNT.startTime" required>
                                     </div>
@@ -86,7 +56,7 @@
                             </tr>
                         </table>
                         <div *ngIf="(DISCOUNT.endDate|date:'yMMdd')<(DISCOUNT.startDate|date:'yMMdd') && !endDate.pristine"
-                            class="error">End date can not be less than Start date</div>
+                        class="error">End date can not be less than Start date</div>
                         <div class="mt-2 mb-3">
                             <label for="" class="table-h">Discount On</label>
                             <select name="discount-on" class="form-control" required style="width: 15em;margin: auto;"
@@ -96,8 +66,9 @@
                                 <option value="TOTALSALES">TOTAL SALES</option>
                             </select>
                         </div>
-                        <button class="custom-button-1" (click)="insertDiscount(discountForm.form)">+ Insert New
-                            Discount</button>
+                        <button class="custom-button-1" (click)="updateDiscount()">
+                            Update Discount
+                        </button>
                     </form>
                 </div>
             </div>

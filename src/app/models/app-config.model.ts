@@ -12,5 +12,6 @@ export interface IAppConfig {
         paymentService:string;
 
     };
+    storeFrontUrl:string;
     storeNames:[name:String]
 }

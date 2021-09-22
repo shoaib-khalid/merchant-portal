@@ -15,34 +15,9 @@
                 <app-shared-side-panel></app-shared-side-panel>
             </div>
             <div class="col_">
-                <div class="header-d">Discount Tier List</div>
+                <div class="header-d">Edit Discount Tier List</div>
                 <div class="main-content">
-                    <table class="table tc">
-                        <thead>
-                            <th>Min Sub Total</th>
-                            <th>Max Sub Total</th>
-                            <th>Discount Amount</th>
-                            <th>Calculation Type</th>
-                            <th>Action</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let dt of discountTiers">
-                                <td>{{dt.minSubTotal}}</td>
-                                <td>{{dt.maxSubTotal}}</td>
-                                <td>{{dt.discountAmount}}</td>
-                                <td>{{dt.calculationType}}</td>
-                                <td>
-                                    <button class="btn btn-primary" mat-button [matMenuTriggerFor]="menu"
-                                        >Action</button>
-                                    <mat-menu #menu="matMenu">
-                                        <button mat-menu-item (click)="edit(dt.id)">Edit</button>
-                                        <button mat-menu-item (click)="delete(dt.id)"
-                                            style="color: red;">Delete</button>
-                                    </mat-menu>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+
                     <form #discountTierForm="ngForm">
                         <table class="table tc-2">
                             <tr>
@@ -81,8 +56,7 @@
                                 </td>
                             </tr>
                         </table>
-                        <button class="custom-button-1" (click)="insertDiscountTier(discountTierForm.form)">+ Insert
-                            Discount Tier</button>
+                        <button class="custom-button-1" (click)="updateDiscountTier()">Update Discount Tier</button>
                     </form>
                 </div>
             </div>

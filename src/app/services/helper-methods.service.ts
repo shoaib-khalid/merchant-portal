@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { AppConfig } from './app.config.ts.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HelperMethodsService {
+  private storeFrontExtension:string = AppConfig.settings.storeFrontUrl;
 
   constructor() { }
   setUserDetailsOnAuthentication(data, rememberMe) {
@@ -18,5 +20,9 @@ export class HelperMethodsService {
   setDefaultStoreDetails(data){
     localStorage.setItem("storeId", data.data.content[0].id)
     localStorage.setItem("store", data.data.content[0].name)
+  }
+
+  getStoreExtension(){
+    return this.storeFrontExtension;
   }
 }

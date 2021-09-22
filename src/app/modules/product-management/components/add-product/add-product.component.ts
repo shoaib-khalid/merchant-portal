@@ -110,7 +110,7 @@ export class AddProductComponent implements OnInit {
 
     if (n == combos.length) {
       if (result.substring(1) != "") {
-        this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: `${this.title.replace(" ","_")}_${result.substring(1).replace(" / ","_").replace("/ ","_").replace(" ","_")}`, status: "AVAILABLE" })
+        this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: `${this.title.replace(" ", "_")}_${result.substring(1).replace(" / ", "_").replace("/ ", "_").replace(" ", "_")}`, status: "AVAILABLE" })
         this.images.push({ file: "", preview: "" })
         // console.log(this.combos)
       }
@@ -344,9 +344,11 @@ export class AddProductComponent implements OnInit {
   async onThumbnailChanged(event, i) {
     const files = event.target.files;
     for (var j = 0; j < files.length; j++) {
-      const formdata = new FormData();
-      formdata.append("file", files[j]);
-      this.productImages.push({ file: formdata, preview: await this.previewImage(files[j]), isThumbnail: false })
+      if (this.imageSizeCheck(files[j].size)) {
+        const formdata = new FormData();
+        formdata.append("file", files[j]);
+        this.productImages.push({ file: formdata, preview: await this.previewImage(files[j]), isThumbnail: false })
+      }
     }
   }
 
@@ -385,7 +387,7 @@ export class AddProductComponent implements OnInit {
     }
     this.variantsChanged(0)
     this.updateImageOrder();
-    this.combos=[]
+    this.combos = []
     this.getallCombinations(this.items)
   }
 
@@ -417,7 +419,7 @@ export class AddProductComponent implements OnInit {
 
     if (this.variantChecked) {
       return true;
-    } else if (this.price && this.quantity>-1 && this.namenew.trim()) {
+    } else if (this.price && this.quantity > -1 && this.namenew.trim()) {
       // else if (this.price && this.quantity && name.trim()) {
       return true;
     } else {
@@ -507,5 +509,9 @@ export class AddProductComponent implements OnInit {
       return;
     }
     this.combos[index].status = "AVAILABLE"
+  }
+
+  imageSizeCheck(size) {
+    return (size / 2048) > 1024 ? false : true;
   }
 }

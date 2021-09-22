@@ -56,12 +56,15 @@
                                                         </ckeditor>
                                                     </div>
                                                     <h4 class="mt-4 mb-3">Media</h4>
-                                                    <div class="text-muted">Recommended Product Image Size is 1580 x
-                                                        1050px</div>
+                                                    <div class="text-muted">Recommended Image Dimensions are 1580 x
+                                                        1050px
+                                                    </div>
+                                                    <div class="text-muted">Image size varies from 5KB-2MB
+                                                    </div>
                                                     <div class="input-group mb-3">
                                                         <div class="custom-file">
                                                             <input type="file" multiple name="file-upload-product"
-                                                                class="custom-file-input"
+                                                                accept="image/*" class="custom-file-input"
                                                                 (change)="onThumbnailChanged($event,0)"
                                                                 id="inputGroupFile011" />
                                                             <label class="custom-file-label"
@@ -69,7 +72,6 @@
                                                                 file(s) </label>
                                                         </div>
                                                     </div>
-                                                    <p class="text-muted">Dimensions: 100 x 100 </p>
                                                     <div *ngFor="let prodImg of productImages;index as i"
                                                         style="display: inline-block;margin-top: 3px;margin-right: 3px;">
                                                         <div class="image-container">
@@ -421,7 +423,7 @@
                                                                 <td>
                                                                     <div class="custom-file">
                                                                         <input type="file" multiple name="file-variant"
-                                                                            class="custom-file-input"
+                                                                            accept="image/*" class="custom-file-input"
                                                                             (change)="onFileChanged($event,i)" />
                                                                         <label class="custom-file-label"
                                                                             for="inputGroupFile01"></label>

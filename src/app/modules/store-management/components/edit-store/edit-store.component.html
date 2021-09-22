@@ -13,14 +13,14 @@
         <div id="container">
             <div class="card" style="border:none;background-color: rgb(248, 248, 248);">
                 <form #editStoreForm="ngForm">
-                    <div class="card-body p-4">
+                    <div class="card-body p-5 text-center">
                         <div class="text-center w-75 m-auto">
                             <a href="index.html">
                                 <span></span>
                             </a>
                             <p class="text-muted mb-4 mt-3">Store details</p>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3 text-left">
                             <label for="storeName">Store Name</label>
                             <input class="form-control" name="storeName" type="username"
                                 [(ngModel)]="storeModel.storeName" id="storeName" required
@@ -28,20 +28,20 @@
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group text-left">
                             <label class="form-control-label">Store Info</label>
                             <ckeditor name="store-description"
                                 [config]="{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
                                 [editor]="Editor" [(ngModel)]="storeModel.storeInfo" rows="3"></ckeditor>
                             <!-- <textarea class="form-control" [(ngModel)]="storeInfo" rows="3"></textarea> -->
                         </div>
-                        <div class="form-group mb-3 mt-3">
+                        <div class="form-group mb-3 mt-3 text-left">
                             <label for="service-charges">Service Charges %</label>
                             <input class="form-control necessary" name="service-charges" type="number"
                                 id="service-charges" required placeholder="Enter Service Charge" min="0" max="100"
                                 [(ngModel)]="storeModel.serviceCharge" (keyup)="serviceChargesChange($event)">
                         </div>
-                        <div class="add-item-img d-flex  border-radius">
+                        <div class="add-item-img d-flex  border-radius text-left">
                             <select name="delivery-type" class="form-control necessary" id="delivery-type"
                                 [(ngModel)]="storeModel.deliveryType" (change)="deliveryTypeChange($event)">
                                 <option value="" disabled>Delivery Type</option>
@@ -50,7 +50,7 @@
                                 <option value="ADHOC">Ad-Hoc</option>
                             </select>
                         </div>
-                        <div [hidden]="storeModel.deliveryType!='ADHOC'">
+                        <div [hidden]="storeModel.deliveryType!='ADHOC'" class="text-left">
                             <label class="form-control-label" style="margin-top: 10px;">Delivery Details</label>
                             <div class="form-group mb-3">
                                 <div style="display: inline-block;"><img src="assets/motor-bike-icon.svg" alt=""
@@ -68,26 +68,26 @@
                                     readonly>
                             </div>
                         </div>
-                        <div class="form-group"
-                        [hidden]="storeModel.deliveryType=='SELF' || storeModel.deliveryType==''">
-                        <div id="add-delivery-provider" [hidden]="storeModel.deliveryType=='ADHOC'" (click)="
+                        <div class="form-group text-left"
+                            [hidden]="storeModel.deliveryType=='SELF' || storeModel.deliveryType==''">
+                            <div id="add-delivery-provider" [hidden]="storeModel.deliveryType=='ADHOC'" (click)="
                             addDeliveryServiceProvider()">+ Add Delivery Provider
+                            </div>
+
+                            <label [hidden]="storeModel.sdSp.loopLength.length=='0'" class="form-control-label"
+                                style="margin-top: 12px;">Delivery Provider</label>
+                            <div class="add-item-img d-flex  border-radius delivery-provider"
+                                *ngFor="let dsp of storeModel.sdSp.loopLength;index as j">
+                                <select name="delivery-provider-{{j}}}" class="form-control necessary dp-select"
+                                    required (change)="dpChange($event,j)" [(ngModel)]="storeModel.sdSp.values[j]">
+                                    <option [value]="" [disabled]="true">Delivery Provider</option>
+                                    <option [value]="dp.id" *ngFor="let dp of storeModel.sdSp.dsp">
+                                        {{dp.name}}</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <label [hidden]="storeModel.sdSp.loopLength.length=='0'" class="form-control-label"
-                            style="margin-top: 12px;">Delivery Provider</label>
-                        <div class="add-item-img d-flex  border-radius delivery-provider"
-                            *ngFor="let dsp of storeModel.sdSp.loopLength;index as j">
-                            <select name="delivery-provider-{{j}}}" class="form-control necessary dp-select"
-                                required (change)="dpChange($event,j)" [(ngModel)]="storeModel.sdSp.values[j]">
-                                <option [value]="" [disabled]="true">Delivery Provider</option>
-                                <option [value]="dp.id" *ngFor="let dp of storeModel.sdSp.dsp">
-                                    {{dp.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                        <div class="form-group mb-3 mt-3" *ngIf="storeModel.deliveryType=='SELF'">
+                        <div class="form-group mb-3 mt-3 text-left" *ngIf="storeModel.deliveryType=='SELF'">
                             <div id="add-state-charge" (click)='addStateCharges()'>+ Add State Charges</div>
                             <br>
                             <ng-container *ngFor="let stateCharge of storeModel.stateCharges.stateCharges;index as j">
@@ -111,18 +111,18 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <div class="form-group mb-3 mt-4">
+                        <div class="form-group mb-3 mt-4 text-left">
                             <div style="width: 150px;display: inline-block;">Allow Store Pickup</div>
                             <input type="checkbox" name="store-pickup" class="form-control" id="store-pickup-checkbox"
                                 [checked]="storeModel.storePickUp"
                                 (change)="storeModel.storePickUp = !storeModel.storePickUp">
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3 text-left">
                             <label for="email">Email</label>
                             <input class="form-control necessary" name="email" type="tel" id="email" required
                                 placeholder="Enter Email" [(ngModel)]="storeModel.email">
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3 text-left">
                             <label for="address">Phone Number</label>
                             <input class="form-control necessary" name="phoneNumber" type="tel" id="phoneNumber"
                                 required placeholder="Enter Phone number" (keyup)="phoneNumberChange($event)">
@@ -130,7 +130,7 @@
                                     height="15px" width="15px" alt="">Only digits are allowed in Phone Number</p>
                         </div>
 
-                        <div class="add-item-img d-flex  border-radius mt-3">
+                        <div class="add-item-img d-flex  border-radius mt-3 text-left">
                             <select name="delivery-package" class="form-control necessary" id="delivery-package"
                                 required
                                 [hidden]="storeModel.verticleCode?storeModel.verticleCode.includes('FnB'):'false'">
@@ -141,7 +141,7 @@
 
                             </select>
                         </div>
-                        <div class="form-group mt-2">
+                        <div class="form-group mt-2 text-left">
                             <label class="form-control-label">Region</label>
                             <div class="add-item-img d-flex  border-radius mt-1">
                                 <select name="Inventory-manager" [(ngModel)]="storeModel.region" class="form-control"
@@ -154,7 +154,7 @@
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group text-left">
                             <label class="form-control-label" style="margin-top: 12px;">State</label>
                             <div class="add-item-img d-flex  border-radius">
                                 <select name="state-name" class="form-control necessary" id="state-dropdown"
@@ -164,7 +164,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3 text-left">
                             <label for="address">Address</label>
                             <p id="warning-address">Warning: Changing store address will direct only new orders to this
                                 store</p>
@@ -172,21 +172,21 @@
                                 [(ngModel)]="storeModel.address" id="address" required placeholder="Enter Address"
                                 (keypress)="showAddressWarning()">
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3 text-left">
                             <label for="city">City</label>
                             <input class="form-control necessary" name="city" type="username"
                                 [(ngModel)]="storeModel.city" id="cit" required placeholder="Enter City Name">
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3 text-left">
                             <label for="city">Post Code</label>
                             <p id="warning-postcode">Warning: Changing store postcode will direct only new orders to
                                 this
                                 store</p>
-                            <input class="form-control necessary" name="post-code" type="username"
+                            <input class="form-control necessary text-left" name="post-code" type="username"
                                 [(ngModel)]="this.storeModel.postCode" id="cit" required placeholder="Enter post code"
                                 (keypress)="showPostWarning()">
                         </div>
-                        <div class="add-item-img d-flex  border-radius necessary">
+                        <div class="add-item-img d-flex  border-radius necessary text-left">
                             <select name="payment-type" id="payment-type" class="form-control necessary"
                                 [(ngModel)]="storeModel.paymentType" required>
                                 <option value="">Select Payment type</option>
@@ -198,10 +198,12 @@
 
                         <div class="form-group mb-3">
                             <label for="city">Logo</label>
-                        <div class="text-muted">Recommended Logo Dimensions are 500 x 500px</div>
+                            <div class="text-muted">Recommended Logo Dimensions are 500 x 500px</div>
+                            <div class="text-muted">Image size varies from 5KB-2MB 
+                            </div>
 
                             <div class="custom-file">
-                                <input type="file" name="logo" class="custom-file-input"
+                                <input type="file" name="logo" class="custom-file-input" accept="image/*"
                                     (change)="onLogoChanged($event)" />
                                 <label class="custom-file-label">Choose
                                     file </label>
@@ -218,10 +220,11 @@
 
                         <div class="form-group mb-3">
                             <label for="city">Banner</label>
-                        <div class="text-muted">Recommended Banner Dimensions are 950 x 260px</div>
-
+                            <div class="text-muted">Recommended Banner Dimensions are 950 x 260px</div>
+                            <div class="text-muted">Image size varies from 5KB-2MB
+                            </div>
                             <div class="custom-file">
-                                <input type="file" name="banner" class="custom-file-input"
+                                <input type="file" name="banner" class="custom-file-input" accept="image/*"
                                     (change)="onBannerChanged($event)" />
                                 <label class="custom-file-label">Choose
                                     file </label>
@@ -268,14 +271,49 @@
                             </table>
                         </div>
 
+                        <a title="Google Play" href="https://play.google.com/store/apps/details?id=com.symplified.order"
+                            target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="160" height="45">
+                                <g data-name="Grupo 4563">
+                                    <path class="path-hover-blue" data-name="Caminho 13086"
+                                        d="M0 0h150a10 10 0 0110 10v35H10A10 10 0 010 35z" fill="#000000"></path>
+                                    <g data-name="Grupo 4331"><text data-name="Available on the"
+                                            transform="translate(82.234 17)" fill="#f5455c" font-size="12"
+                                            font-family="Montserrat-Light, Montserrat" font-weight="300">
+                                            <tspan x="-31.388" y="0">Available on the</tspan>
+                                        </text><text data-name="Google Play" transform="translate(90.915 31.407)"
+                                            fill="#f5455c" font-size="13" font-family="Inter-Medium, Inter"
+                                            font-weight="500">
+                                            <tspan x="-36.893" y="0">Google Play</tspan>
+                                        </text>
 
-                        <div class="form-group mb-0 text-center">
-                            <a class="btn btn-primary btn-block"
-                                style="height: 40px;padding: 10px;width: 150px;display: inline; margin-right: 10px;"
-                                (click)="update(editStoreForm.form)">
-                                Update </a>
+                                        <g data-name="Grupo 4330">
+                                            <g data-name="Grupo 4329">
+                                                <g data-name="Grupo 4328">
+                                                    <g data-name="Grupo 4327" fill="#f5455c">
+                                                        <path data-name="Caminho 12837"
+                                                            d="M47.418 22.679l-4.627-2.67-3.806 3.678 3.478 3.362 4.955-2.859a.872.872 0 000-1.511z">
+                                                        </path>
+                                                        <path data-name="Caminho 12838"
+                                                            d="M42.006 19.555l-5.092-2.939L25.757 10.9l12.6 12.183z">
+                                                        </path>
+                                                        <path data-name="Caminho 12839"
+                                                            d="M25.941 36.3l10.992-6.055 4.744-2.74-3.319-3.209z">
+                                                        </path>
+                                                        <path data-name="Caminho 12840"
+                                                            d="M25.011 11.393l-.012 24.6 12.732-12.308z"></path>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </a>
+                        <div class="custom-button-1 mt-3 p-2" style="width: 10em;text-align: center;margin: auto;"
+                            (click)="update(editStoreForm.form)">
+                            Update
                         </div>
-
                     </div>
                 </form>
                 <!-- end card-body -->
