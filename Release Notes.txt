@@ -1,4 +1,14 @@
 ++++++++++++++++++++++
+ VERSION: 1.2.11
+++++++++++++++++++++++
+Changes:
+---------------------
+1. Bug removed which did not let user add todays discount.
+2. The product pages issue is not a bug but there is data issue.
+
+
+
+++++++++++++++++++++++
  VERSION: 1.2.10
 ++++++++++++++++++++++
 Changes:

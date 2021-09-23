@@ -10,7 +10,7 @@ import { Discount } from '../discounts/discount.model';
 })
 export class EditDiscountComponent implements OnInit {
   DISCOUNT: any = new Discount('', '', '', '', '', '', '', '')
-  currentDate:any=new Date();
+  currentDate:any=new Date().toISOString().split('T')[0];
 
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
 
@@ -37,32 +37,25 @@ export class EditDiscountComponent implements OnInit {
       data.discountType, data.startTime, data.endTime);
   }
 
-  async updateDiscount() {
-    this.apiCalls.loadingAnimation("Updating...")
+  async updateDiscount(form) {
+    if(form.valid&& this.customValidation()){
+      this.apiCalls.loadingAnimation("Updating...")
 
-    const { startDate, endDate } = this.fD();
-    console.log(   {
-      id: this.DISCOUNT.id,
-      discountName: this.DISCOUNT.name,
-      isActive: this.DISCOUNT.status,
-      startDate: startDate,
-      endDate: endDate,
-      discountType: this.DISCOUNT.discountOn,
-      startTime: this.DISCOUNT.startTime.substring(0,5),
-      endTime: this.DISCOUNT.endTime.substring(0,5)
-    })
-    await this.apiCalls.updateSingleDiscount(
-      {
-        id: this.DISCOUNT.id,
-        discountName: this.DISCOUNT.name,
-        isActive: this.DISCOUNT.status,
-        startDate: startDate,
-        endDate: endDate,
-        discountType: this.DISCOUNT.discountOn,
-        startTime: this.DISCOUNT.startTime,
-        endTime: this.DISCOUNT.endTime
-      })
-    this.apiCalls.loadingdialogRef.close();
+      const { startDate, endDate } = this.fD();
+      await this.apiCalls.updateSingleDiscount(
+        {
+          id: this.DISCOUNT.id,
+          discountName: this.DISCOUNT.name,
+          isActive: this.DISCOUNT.status,
+          startDate: startDate,
+          endDate: endDate,
+          discountType: this.DISCOUNT.discountOn,
+          startTime: this.DISCOUNT.startTime,
+          endTime: this.DISCOUNT.endTime
+        })
+      this.apiCalls.loadingdialogRef.close();
+    }
+
   }
 
   fD() {
@@ -71,5 +64,12 @@ export class EditDiscountComponent implements OnInit {
     const date_ = new Date(this.DISCOUNT.endDate).toISOString().split("T")[0];
     const endDate = date_;
     return { startDate: startDate, endDate: endDate }
+  }
+
+  customValidation() {
+    if (new Date(this.DISCOUNT.startDate) > new Date(this.DISCOUNT.endDate) || (new Date(this.DISCOUNT.startDate)<new Date(this.currentDate))) {
+      return false;
+    }
+    return true;
   }
 }

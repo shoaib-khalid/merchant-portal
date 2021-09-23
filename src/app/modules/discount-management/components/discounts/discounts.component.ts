@@ -11,7 +11,7 @@ export class DiscountsComponent implements OnInit {
 
   DISCOUNT: any = new Discount('', '', '', '', '', '', '', '')
   discounts: any = [];
-  currentDate:any=new Date();
+  currentDate:any=new Date().toISOString().split('T')[0];
   constructor(private apiCalls: ApiCallsService, private router: Router) { }
 
   ngOnInit(): void {
