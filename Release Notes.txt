@@ -1,4 +1,11 @@
 ++++++++++++++++++++++
+ VERSION: 1.2.12
+++++++++++++++++++++++
+Changes:
+---------------------
+1. Updated User Interface for downloading merchant app in store add page and store edit page.
+
+++++++++++++++++++++++
  VERSION: 1.2.11
 ++++++++++++++++++++++
 Changes:
