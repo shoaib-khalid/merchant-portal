@@ -1016,7 +1016,7 @@ export class ApiCallsService {
     body.id = id;
     // body.storeDiscountId=discountId;
     console.log(body)
-    console.log(`${ this.productService } / stores / ${ localStorage.getItem('storeId') } / discount / ${ discountId } / tier`)
+    console.log(`${this.productService} / stores / ${localStorage.getItem('storeId')} / discount / ${discountId} / tier`)
     return this.http.put(`${this.productService}/stores/${localStorage.getItem('storeId')}/discount/${discountId}/tier`, body).toPromise();
   }
 }

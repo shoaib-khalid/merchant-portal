@@ -76,7 +76,7 @@ export class EditStoreComponent implements OnInit {
       this.logo.valid = true;
       this.logo.file = file;
       this.logo.preview = await this.previewImage(file);
-      this.banner.delete=false;
+      this.banner.delete = false;
     } else {
       this.logo.preview = "";
       this.logo.file = null;
@@ -90,7 +90,7 @@ export class EditStoreComponent implements OnInit {
       this.banner.file = file;
       this.banner.valid = true;
       this.banner.preview = await this.previewImage(file);
-      this.banner.delete=false;
+      this.banner.delete = false;
     } else {
       this.banner.preview = "";
       this.banner.file = null;
@@ -106,9 +106,9 @@ export class EditStoreComponent implements OnInit {
       await this.updateAssets();
       await this.updateStoreTimmings(this.store.id)
       await this.updateDeliveryDetails();
-      this.deleteStateCharges();
-      this.updateStateCharges();
-      this.updateStoreDeliveryProvider();
+      await this.deleteStateCharges();
+      await this.updateStateCharges();
+      await this.updateStoreDeliveryProvider();
       this.apiCalls.loadingdialogRef.close();
     } else {
       this.highlightEmptyFields();
@@ -213,7 +213,6 @@ export class EditStoreComponent implements OnInit {
     if (this.logo.delete) {
       await this.apiCalls.deleteStoreAssets("logo");
     }
-    this.apiCalls.loadingdialogRef.close();
   }
 
   showAddressWarning() {
@@ -297,7 +296,7 @@ export class EditStoreComponent implements OnInit {
     const dType: any = document.getElementById('delivery-type');
     const dPackage: any = document.getElementById('delivery-package');
     const bikeOrderQty: any = document.getElementById('bike');
-    return await this.apiCalls.updateDeliveryDetailsStore(this.store.id, {
+    return this.apiCalls.updateDeliveryDetailsStore(this.store.id, {
       "type": dType.value,
       "itemType": dPackage.value,
       "maxOrderQuantityForBike": bikeOrderQty.value,
@@ -396,31 +395,42 @@ export class EditStoreComponent implements OnInit {
   }
 
   async deleteStateCharges() {
-    const deleteIds = this.storeModel.stateCharges.deletedStateIds;
-    for (var i = 0; i < deleteIds.length; i++) {
-      await this.apiCalls.deleteStateCharge(deleteIds[i]);
-    }
+    var promise = new Promise(async (resolve, reject) => {
+      const deleteIds = this.storeModel.stateCharges.deletedStateIds;
+      for (var i = 0; i < deleteIds.length; i++) {
+        await this.apiCalls.deleteStateCharge(deleteIds[i]);
+      }
+      resolve("");
+    });
+    return promise;
   }
 
   async updateStateCharges() {
-    const stateCharges = this.storeModel.stateCharges.stateCharges;
-    for (var i = 0; i < stateCharges.length; i++) {
-      if (this.storeModel.stateCharges.deletedStateIds.includes(stateCharges[i].dbId)) {
-        continue;
+    var promise = new Promise(async (resolve, reject) => {
+      const stateCharges = this.storeModel.stateCharges.stateCharges;
+      for (var i = 0; i < stateCharges.length; i++) {
+        if (this.storeModel.stateCharges.deletedStateIds.includes(stateCharges[i].dbId)) {
+          continue;
+        }
+        if (stateCharges[i].dbId == undefined) {
+          const data: any = await this.apiCalls.saveStoreStateCharges({
+            "delivery_charges": this.storeModel.stateCharges.stateCharges[i].price,
+            "region_country_state_id": this.storeModel.stateCharges.stateCharges[i].stateId
+          })
+          this.storeModel.stateCharges.stateCharges[i].dbId = data.data.id;
+          continue;
+        }
+        await this.apiCalls.updateStoreStateCharges({
+          "delivery_charges": stateCharges[i].price,
+          "region_country_state_id": stateCharges[i].stateId
+        }, stateCharges[i].dbId)
       }
-      if (stateCharges[i].dbId == undefined) {
-        const data: any = await this.apiCalls.saveStoreStateCharges({
-          "delivery_charges": this.storeModel.stateCharges.stateCharges[i].price,
-          "region_country_state_id": this.storeModel.stateCharges.stateCharges[i].stateId
-        })
-        this.storeModel.stateCharges.stateCharges[i].dbId = data.data.id;
-        continue;
-      }
-      await this.apiCalls.updateStoreStateCharges({
-        "delivery_charges": stateCharges[i].price,
-        "region_country_state_id": stateCharges[i].stateId
-      }, stateCharges[i].dbId)
-    }
+      resolve("");
+    });
+    return promise;
+
+
+
   }
 
   async setStoreDeliveryProvider() {
@@ -440,12 +450,20 @@ export class EditStoreComponent implements OnInit {
   }
 
   async updateStoreDeliveryProvider() {
-    if (this.storeModel.deliveryTypeChange) {
-      await this.apiCalls.deleteStoreDeliveryProvidersAttachedtoStore()
-    }
-    for (var i = 0; i < this.storeModel.sdSp.loopLength.length; i++) {
-      const data = await this.apiCalls.updateStoreDeliveryServiceProvider(this.storeModel.sdSp.values[i], this.storeModel.sdSp.ids[i])
-    }
+
+    var promise = new Promise(async (resolve, reject) => {
+      if (this.storeModel.deliveryTypeChange) {
+        await this.apiCalls.deleteStoreDeliveryProvidersAttachedtoStore()
+      }
+      for (var i = 0; i < this.storeModel.sdSp.loopLength.length; i++) {
+        const data = await this.apiCalls.updateStoreDeliveryServiceProvider(this.storeModel.sdSp.values[i], this.storeModel.sdSp.ids[i])
+      }
+      resolve("")
+
+    });
+    return promise;
+
+
   }
 
 

@@ -402,6 +402,7 @@ export class AddProductComponent implements OnInit {
 
 
   getVariantAvailableByValue(value, productAvailableIds) {
+    debugger
     var promise = new Promise(async (resolve, reject) => {
       for (var i = 0; i < productAvailableIds.length; i++) {
         if (productAvailableIds[i].value == value.trim()) {
