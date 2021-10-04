@@ -19,6 +19,8 @@ import { ReportingModule } from './modules/reporting/reporting.module';
 import { AgentManagementModule } from './modules/agent-management/agent-management.module';
 import { DiscountManagementModule } from './modules/discount-management/discount-management.module';
 import { BrowserModule } from "@angular/platform-browser";
+import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
+
 // import { DataTablesModule } from "angular-datatables";
 
 export function initializeApp(appConfig: AppConfig) {
@@ -42,7 +44,8 @@ export function initializeApp(appConfig: AppConfig) {
     ReportingModule,
     AgentManagementModule,
     BrowserModule,
-    DiscountManagementModule
+    DiscountManagementModule,
+    TreeViewModule
     // DataTablesModule.forRoot()
   ], entryComponents: [FlowDialog],
   providers: [Helper, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' }, },

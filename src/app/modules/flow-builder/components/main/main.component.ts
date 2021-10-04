@@ -299,6 +299,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       });
    }
    addStepWithType(type, x: any = 50, y: any = 0) {
+      console.log(type)
       this.helper.vertexType = type;
       const v1 = this.addStep(x, y);
       const length = this.configService.data.length;
@@ -388,6 +389,8 @@ export class MainComponent implements OnInit, AfterViewInit {
 
    async save() {
       const newStartJson:any = this.getStartJson();
+      console.log(newStartJson)
+      console.log(this.configService.data)
       const json = {
          "data": this.configService.data,
          "mxGraphModel": JSON.parse(newStartJson).mxGraphModel
