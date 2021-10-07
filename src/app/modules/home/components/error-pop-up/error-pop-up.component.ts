@@ -56,7 +56,7 @@ export class ErrorPopUpComponent implements OnInit {
     }
     if (this.error.status == 401) {
       localStorage.clear();
-      this.router.navigateByUrl('/signin')
+      this.router.navigateByUrl('/merchant/signin')
       location.reload()
     }
   }

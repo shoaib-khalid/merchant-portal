@@ -1,14 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable,OnInit } from '@angular/core';
 import { AppConfig } from './app.config.ts.service';
-declare function showChatBotIcon():any;
+declare function showChatBotIcon(): any;
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class HelperMethodsService {
-  private storeFrontExtension:string = AppConfig.settings.storeFrontUrl;
-  constructor() { }
+export class HelperMethodsService  implements OnInit{
+  private storeFrontExtension: string = AppConfig.settings.storeFrontUrl;
+  private chatBotUrlExtension: string = AppConfig.settings.chatbotUrlExt;
+  constructor() {
+    this.setChatbotUrlExtension();
+
+   }
+  ngOnInit() {
+  }
   setUserDetailsOnAuthentication(data, rememberMe) {
     localStorage.setItem('accessToken', data.data.session.accessToken)
     localStorage.setItem('ownerId', data.data.session.ownerId)
@@ -19,12 +25,16 @@ export class HelperMethodsService {
     localStorage.setItem('rememberMe', rememberMe.toString())
     showChatBotIcon();
   }
-  setDefaultStoreDetails(data){
+  setDefaultStoreDetails(data) {
     localStorage.setItem("storeId", data.data.content[0].id)
     localStorage.setItem("store", data.data.content[0].name)
   }
 
-  getStoreExtension(){
+  getStoreExtension() {
     return this.storeFrontExtension;
+  }
+  setChatbotUrlExtension(){
+    localStorage.setItem("chatbotUrlExt",this.chatBotUrlExtension);
+    console.log(localStorage.getItem("chatbotUrlExt"))
   }
 }

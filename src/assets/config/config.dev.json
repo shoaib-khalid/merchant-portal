@@ -11,5 +11,6 @@
         "deliveryService":      "https://api.symplified.it/delivery-service/v1"
     },
     "storeFrontUrl":".symplified.ai",
+    "chatbotUrlExt":".symplified.it",
     "storeNames":["hi"]
 }

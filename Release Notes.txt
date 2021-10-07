@@ -1,4 +1,10 @@
 ++++++++++++++++++++++
+ VERSION: 1.2.15
+++++++++++++++++++++++
+Changes:
+1. Messenger bug removed, now messenger icon wont appear when logged in.
+
+++++++++++++++++++++++
  VERSION: 1.2.14
 ++++++++++++++++++++++
 Changes:

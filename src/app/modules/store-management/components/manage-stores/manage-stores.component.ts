@@ -21,6 +21,13 @@ export class ManageStoresComponent implements OnInit {
       this.showEdit = true;
     }
     this.loadStores();
+    this.hideFbBubble();
+  }
+
+  
+  hideFbBubble() {
+    var x:any= $(".fb_dialog_content");
+    x.remove();
   }
 
   async loadStores() {
