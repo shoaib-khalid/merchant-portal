@@ -28,6 +28,11 @@ export class ProductsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.initial(params)
     });
+    this.test();
+  }
+
+  test(){
+    
   }
 
   async initial(params){

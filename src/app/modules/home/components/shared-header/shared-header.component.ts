@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
 import $ from "jquery";
+declare function showChatBotIcon():any;
 
 @Component({
   selector: 'app-shared-header',
@@ -42,6 +43,7 @@ export class SharedHeaderComponent implements OnInit {
       this.apiCalls.loadingdialogRef.close();
     }
     localStorage.clear();
+    showChatBotIcon();
   }
 
   get leftHeading(): any {

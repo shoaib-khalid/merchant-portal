@@ -1,4 +1,11 @@
 ++++++++++++++++++++++
+ VERSION: 1.2.14
+++++++++++++++++++++++
+Changes:
+1. Now rocket-chat will appear when user is logged in, otherwise facebook widget will appear.
+---------------------
+1. Added rocket-chat chatbot widget
+++++++++++++++++++++++
  VERSION: 1.2.13
 ++++++++++++++++++++++
 Changes:

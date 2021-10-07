@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AppConfig } from './app.config.ts.service';
+declare function showChatBotIcon():any;
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class HelperMethodsService {
   private storeFrontExtension:string = AppConfig.settings.storeFrontUrl;
-
   constructor() { }
   setUserDetailsOnAuthentication(data, rememberMe) {
     localStorage.setItem('accessToken', data.data.session.accessToken)
@@ -16,6 +17,7 @@ export class HelperMethodsService {
     localStorage.setItem("created", data.data.session.created)
     localStorage.setItem("expiry", data.data.session.expiry)
     localStorage.setItem('rememberMe', rememberMe.toString())
+    showChatBotIcon();
   }
   setDefaultStoreDetails(data){
     localStorage.setItem("storeId", data.data.content[0].id)
