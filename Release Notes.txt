@@ -3,6 +3,7 @@
 ++++++++++++++++++++++
 Changes:
 1. Messenger bug removed, now messenger icon wont appear when logged in.
+Property Added: chatbotUrlExt:".symplified.it"
 
 ++++++++++++++++++++++
  VERSION: 1.2.14
