@@ -14,7 +14,7 @@ export class ManageStoresComponent implements OnInit {
   stores: any;
   loading: any = true;
   showEdit: any = false;
-  constructor(private apiCalls: ApiCallsService, private router: Router,private helperTextSvc:HelperTextService) { }
+  constructor(private apiCalls: ApiCallsService, private router: Router, private helperTextSvc: HelperTextService) { }
 
   ngOnInit(): void {
     if (localStorage.getItem('storeId')) {
@@ -24,10 +24,12 @@ export class ManageStoresComponent implements OnInit {
     this.hideFbBubble();
   }
 
-  
+
   hideFbBubble() {
-    var x:any= $(".fb_dialog_content");
-    x.remove();
+    const a: any = $("#fb-customer-chat");
+    const b: any = $("#fb-root");
+    a.remove();
+    b.remove();
   }
 
   async loadStores() {
@@ -35,10 +37,10 @@ export class ManageStoresComponent implements OnInit {
     this.stores = data.data.content;
   }
 
-  selectStore(id, name, domain,phoneNumber) {
+  selectStore(id, name, domain, phoneNumber) {
     localStorage.setItem("storeId", id)
     localStorage.setItem("store", name)
-    this.helperTextSvc.setDefaultJson(phoneNumber,domain,name)
+    this.helperTextSvc.setDefaultJson(phoneNumber, domain, name)
     this.router.navigateByUrl("/products")
   }
   nextPage() {
