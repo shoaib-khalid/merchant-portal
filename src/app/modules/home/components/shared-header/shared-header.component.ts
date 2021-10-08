@@ -43,7 +43,7 @@ export class SharedHeaderComponent implements OnInit {
       this.apiCalls.loadingdialogRef.close();
     }
     localStorage.clear();
-    showChatBotIcon();
+    location.reload();
   }
 
   get leftHeading(): any {
