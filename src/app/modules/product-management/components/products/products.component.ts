@@ -30,7 +30,8 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  async initial(params){
+
+  async initial(params) {
     await this.getCategoriesByStoreId();
     this.checkForParams(params);
   }

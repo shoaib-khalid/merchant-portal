@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ApiCallsService } from 'src/app/services/api-calls.service'
-
+import $ from 'jquery';
 @Component({
   selector: 'app-error-pop-up',
   templateUrl: './error-pop-up.component.html',
@@ -36,7 +36,7 @@ export class ErrorPopUpComponent implements OnInit {
           this.msgs.push("Your session has expired. Please login again, Thank you.");
         } else if (this.error.status == "500") {
           this.msgs.push("Sorry your request cannot be completed, please try again later or contact help@symplified.biz if problem persist")
-        }else{
+        } else {
           // console.log(this.error)
           this.msgs.push(this.error.message)
 
@@ -56,7 +56,8 @@ export class ErrorPopUpComponent implements OnInit {
     }
     if (this.error.status == 401) {
       localStorage.clear();
-      this.router.navigateByUrl('/signin')
+      this.router.navigateByUrl('/merchant/signin')
+      location.reload()
     }
   }
 }

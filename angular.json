@@ -56,7 +56,8 @@
               "src/assets/js/xml2json.js",
               "src/assets/js/fb-login.js",
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/datatables.net/js/jquery.dataTables.js"
+              "node_modules/datatables.net/js/jquery.dataTables.js",
+              "src/assets/js/chatbot.js"
             ]
           },
           "configurations": {

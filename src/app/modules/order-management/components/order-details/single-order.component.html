@@ -88,16 +88,14 @@
                                                             <li class="list-inline-item">
                                                                 <p class="mt-3">
                                                                     <ng-container>
-                                                                        <button *ngIf="(order.completionStatus=='PAYMENT_CONFIRMED')
-                                                                                && (dt!='SELF')"
+                                                                        <button *ngIf="(order.completionStatus=='PAYMENT_CONFIRMED' || order.completionStatus=='RECEIVED_AT_STORE')"
                                                                             class="order-status-btn"
                                                                             (click)="readyForPickup('BEING_PREPARED')">
                                                                             Process
                                                                         </button>
                                                                     </ng-container>
                                                                     <ng-container>
-                                                                        <button *ngIf="(order.completionStatus=='BEING_PREPARED')
-                                                                                && (dt!='SELF')"
+                                                                        <button *ngIf="(order.completionStatus=='BEING_PREPARED')"
                                                                             class="order-status-btn"
                                                                             (click)="readyForPickup('AWAITING_PICKUP')">
                                                                             Ready
@@ -105,16 +103,14 @@
                                                                         </button>
                                                                     </ng-container>
                                                                     <ng-container>
-                                                                        <button *ngIf="(order.completionStatus=='AWAITING_PICKUP')
-                                                                                && (dt!='SELF')"
+                                                                        <button *ngIf="(order.completionStatus=='AWAITING_PICKUP')"
                                                                             class="order-status-btn"
                                                                             (click)="readyForPickup('BEING_DELIVERED')">
                                                                             Send
                                                                         </button>
                                                                     </ng-container>
                                                                     <ng-container>
-                                                                        <button *ngIf="(order.completionStatus=='BEING_DELIVERED')
-                                                                                && (dt!='SELF')"
+                                                                        <button *ngIf="(order.completionStatus=='BEING_DELIVERED')"
                                                                             class="order-status-btn"
                                                                             (click)="readyForPickup('DELIVERED_TO_CUSTOMER')">
                                                                             Received

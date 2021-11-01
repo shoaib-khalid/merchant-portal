@@ -13,5 +13,6 @@ export interface IAppConfig {
 
     };
     storeFrontUrl:string;
+    chatbotUrlExt:string;
     storeNames:[name:String]
 }
