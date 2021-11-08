@@ -1,8 +1,15 @@
 ++++++++++++++++++++++
+ VERSION: 1.2.19
+++++++++++++++++++++++
+Changes:
+1. Add popup select country if 3rd party API failed
+
+++++++++++++++++++++++
  VERSION: 1.2.17
 ++++++++++++++++++++++
 Changes:
 1. Removed logout bug
+
 ++++++++++++++++++++++
  VERSION: 1.2.16
 ++++++++++++++++++++++
