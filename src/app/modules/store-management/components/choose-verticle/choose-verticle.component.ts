@@ -36,6 +36,12 @@ export class ChooseVerticleComponent implements OnInit {
         this.region = "SA";
       } else if (country == "Malaysia") {
         this.region = "SEA";
+      } else {
+        const dialogRef = this.dialog.open(SelectRegionPopupComponent, { disableClose: true });
+        dialogRef.afterClosed().subscribe(result => {
+          this.region=result;
+          this.getVerticles(this.region);
+        });
       }
       this.getVerticles(this.region);
     }, (error) => {
