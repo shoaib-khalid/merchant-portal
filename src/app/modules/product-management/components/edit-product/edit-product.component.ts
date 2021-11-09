@@ -280,7 +280,8 @@ export class EditProductComponent implements OnInit {
         "thumbnailUrl": this.thumbnailUrl,
         "minQuantityForAlarm": this.epForm['controls'].defaultInventory['controls'].minQtyAlarm.value,
         "allowOutOfStockPurchases": this.epForm['controls'].defaultInventory['controls'].continueSelling.value,
-        "trackQuantity": this.epForm['controls'].defaultInventory['controls'].trackQuantity.value
+        "trackQuantity": this.epForm['controls'].defaultInventory['controls'].trackQuantity.value,
+        "packingSize": this.packingSize
       }
     }
     if (this.epForm.status == "VALID") {
