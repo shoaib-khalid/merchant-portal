@@ -42,6 +42,7 @@ export class AddProductComponent implements OnInit {
   physicalProduct: any;
   weight: any;
   weightType: any;
+  packingSize: any = "";
   country: any;
   hsCode: any;
   items: any = [];
@@ -132,7 +133,7 @@ export class AddProductComponent implements OnInit {
 
   async saveProduct() {
 
-    if (this.title && this.verifyDetails() && this.sku) {
+    if (this.title && this.verifyDetails() && this.sku && this.packingSize) {
       this.apiCalls.loadingAnimation("Adding Product")
       const categoryId = await this.getCategoryId()
       const body = {
@@ -143,8 +144,8 @@ export class AddProductComponent implements OnInit {
         "storeId": localStorage.getItem("storeId"),
         "allowOutOfStockPurchases": this.continueSelling,
         "trackQuantity": this.trackQuantity,
-        "minQuantityForAlarm": this.minQtyAlarm ? this.minQtyAlarm : -1
-
+        "minQuantityForAlarm": this.minQtyAlarm ? this.minQtyAlarm : -1,
+        "packingSize": this.packingSize
       }
       const data: any = await this.apiCalls.addProduct(body);
       // this.addDeliveryDetails(data.data.id)

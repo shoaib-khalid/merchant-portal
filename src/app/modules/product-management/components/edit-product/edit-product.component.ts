@@ -16,6 +16,7 @@ export class EditProductComponent implements OnInit {
   productStatus: any = "";
   weight: any;
   weightType: any;
+  packingSize: any = "";
   items: any = [];
   variantChecked: boolean = false;
   options: any = []
@@ -68,6 +69,7 @@ export class EditProductComponent implements OnInit {
     this.epForm['controls'].defaultInventory['controls'].trackQuantity.setValue(this.product.trackQuantity)
     this.epForm['controls'].defaultInventory['controls'].continueSelling.setValue(this.product.allowOutOfStockPurchases)
     this.epForm['controls'].defaultInventory['controls'].minQtyAlarm.setValue(this.product.minQuantityForAlarm)
+    this.packingSize = this.product.packingSize;
     this.productStatus = this.product.status;
     this.weight = this.product.weight;
     this.setCategory();
@@ -659,7 +661,7 @@ export class EditProductComponent implements OnInit {
         stock: [0],
         description: [''],
         storeId: [localStorage.getItem('storeId')],
-
+        packingSize: ['']
       }),
       defaultInventory: this.fb.group({
         price: ['', [Validators.required]],

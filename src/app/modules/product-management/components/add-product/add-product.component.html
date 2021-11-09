@@ -240,27 +240,23 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row" hidden>
+                                                    <div class="row">
                                                         <div class="col-lg-10">
                                                             <div class="form-group">
-                                                                <div>Weight</div>
-                                                                <p style="font-weight: normal;">Used to calculate
-                                                                    shipping
-                                                                    rates at checkout and label prices during
-                                                                    fulfillment.
-                                                                </p>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="quantity">Weight</label>
+                                                                <label for="packingSize">Packing Size</label>
                                                                 <br>
-                                                                <input type="number" id="quantity-x" name="quantity"
-                                                                    min="1" value="0.0" max="10000">
-                                                                <select name="weight" [(ngModel)]="weight"
+                                                                <select 
+                                                                    id="packingSize"
+                                                                    name="packingSize" 
+                                                                    value="packingSize"
+                                                                    [(ngModel)]="packingSize"
+                                                                    placeholder="Please select size weight"
                                                                     id="weight-type-dropdown">
-                                                                    <option value="">lb</option>
-                                                                    <option value="">oz</option>
-                                                                    <option value="">kg</option>
-                                                                    <option value="">g</option>
+                                                                    <option disabled value="">Please select a weight size</option>
+                                                                    <option value="S">Small (below 0.5kg)</option>
+                                                                    <option value="M">Medium (0.5-1.0kg)</option>
+                                                                    <option value="L">Large (1.0-2.0kg)</option>
+                                                                    <option value="XL">Xtra Large (above 2.0kg)</option>
                                                                 </select>
                                                             </div>
                                                         </div>
