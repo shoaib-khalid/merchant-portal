@@ -36,11 +36,11 @@ export class SelectProviderPopupComponent implements OnInit {
   }
 
   setPickupDateTime() {
-    this.dialogRef.close();
+    this.dialogRef.close({date:this.date, time:this.time});
   }
 
   cancelPickupDateTime(){
-    this.dialogRef.close();
+    this.dialogRef.close("cancelled");
   }
   
   checkDate(){
