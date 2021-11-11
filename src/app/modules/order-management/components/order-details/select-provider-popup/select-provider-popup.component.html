@@ -1,0 +1,33 @@
+<body style="text-align: center;">
+    <h4>Choose Pickup Datetime</h4>
+    <img [src]="image.src" [alt]="image.atl" width="200px"/>
+    <br><br>
+    <div>
+        <span>Pick Date : </span> &nbsp;
+        <mat-form-field appearance="fill">
+            <mat-label>Pick a date</mat-label>
+            <input 
+                matInput 
+                type="date" 
+                [(ngModel)]="date"
+                (change)="checkDate()"
+                [min]="mindate"
+            >
+        </mat-form-field>
+    </div>
+    <div>
+        <span>Pick Time : </span> &nbsp;
+        <mat-form-field appearance="fill">
+            <mat-label>Pick a time</mat-label>
+            <input 
+                matInput type="time" 
+                [(ngModel)]="time"
+                (change)="checkTime()"
+            >
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="cancelPickupDateTime()">Cancel</button> &nbsp;&nbsp;
+        <button mat-button *ngIf="showButton" (click)="setPickupDateTime()">Ok</button>
+    </div>
+</body>

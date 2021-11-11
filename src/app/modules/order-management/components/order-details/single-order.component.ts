@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiCallsService } from 'src/app/services/api-calls.service';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SelectProviderPopupComponent } from './select-provider-popup/select-provider-popup.component';
 
 @Component({
   selector: 'app-single-order',
@@ -12,6 +14,7 @@ export class SingleOrderComponent implements OnInit {
   orderItems: any = [];
   orderId: any;
   address: any = "";
+  deliveryProviderId: any = "";
   logo: any = "";
   invoiceNo: any = "";
   date: any = "";
@@ -22,7 +25,7 @@ export class SingleOrderComponent implements OnInit {
   dt: any = "";
   showFiller = false;
 
-  constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService) { }
+  constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.initializeStoreDetails();
@@ -71,6 +74,7 @@ export class SingleOrderComponent implements OnInit {
     const orderDetails = data.data;
     this.order = orderDetails;
     this.address = orderDetails.orderShipmentDetail;
+    this.deliveryProviderId = orderDetails.orderShipmentDetail.deliveryProviderId;
     console.log(orderDetails)
     this.paymentStatus = orderDetails.paymentStatus;
     this.invoiceNo = orderDetails.invoiceId;
@@ -92,11 +96,32 @@ export class SingleOrderComponent implements OnInit {
   }
 
   async readyForPickup(completionStatus) {
-    this.apiCalls.loadingAnimation("Loading...");
-    // const data = await this.apiCalls.orderUpdationCompletionStatus(this.order.id);
-    const data = await this.apiCalls.updateCompletionStatus(this.order.id, completionStatus)
-    this.apiCalls.loadingdialogRef.close();
-    this.initializeStoreDetails()
+
+    if (completionStatus === "AWAITING_PICKUP") { 
+      const assets: any = await this.apiCalls.getDeliveryProviderDetails(this.deliveryProviderId);
+      console.log("assets: ", assets)
+      const dialogRef = this.dialog.open(SelectProviderPopupComponent, { disableClose: true, data: assets });
+      dialogRef.afterClosed().subscribe(async result => {
+        console.log(result);
+        if (result === "cancelled" || !result.date || !result.time){
+          alert("Date and time required !!");
+        } else {
+            console.log("disini: ")
+            this.apiCalls.loadingAnimation("Loading...");
+            // const data = await this.apiCalls.orderUpdationCompletionStatus(this.order.id);
+            const data = await this.apiCalls.updateCompletionStatus(this.order.id, completionStatus,result.date,result.time)
+            this.apiCalls.loadingdialogRef.close();
+            this.initializeStoreDetails()
+        }
+      });
+    } else {
+      this.apiCalls.loadingAnimation("Loading...");
+      // const data = await this.apiCalls.orderUpdationCompletionStatus(this.order.id);
+      const data = await this.apiCalls.updateCompletionStatus(this.order.id, completionStatus)
+      this.apiCalls.loadingdialogRef.close();
+      this.initializeStoreDetails()
+    }
+    
   }
 
 
