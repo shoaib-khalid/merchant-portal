@@ -458,6 +458,9 @@ export class ApiCallsService {
     return this.http.get(this.orderService + "/orders/" + cartId + "/items", httpOptions).toPromise();
   }
 
+  getOrderCompletionStatuses(orderId){
+    return this.http.get(this.orderService + "/orders/details/" + orderId).toPromise();
+  }
 
   getStoreCategories(page) {
     const httpOptions = {
