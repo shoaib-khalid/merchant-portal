@@ -3,6 +3,7 @@
 ++++++++++++++++++++++
 Changes:
 1. Add Weight to product
+2. Add date and time for delivery provider
 
 ++++++++++++++++++++++
  VERSION: 1.2.19
