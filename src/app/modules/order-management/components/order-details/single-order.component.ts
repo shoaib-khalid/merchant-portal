@@ -24,12 +24,26 @@ export class SingleOrderComponent implements OnInit {
   order: any = "";
   dt: any = "";
   showFiller = false;
+  completionStatus = {
+      currentCompletionStatus: "",
+      nextCompletionStatus: "",
+      nextActionText: "",
+  }
 
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.initializeStoreDetails();
     this.checkDeliveryType();
+    this.getOrderCompletionStatuses();
+  }
+
+  async getOrderCompletionStatuses(){
+    const response: any = await this.apiCalls.getOrderCompletionStatuses(this.orderId);
+    this.completionStatus.currentCompletionStatus = response.data.currentCompletionStatus;
+    this.completionStatus.nextCompletionStatus = response.data.nextCompletionStatus;
+    this.completionStatus.nextActionText = response.data.nextActionText;
+    console.log("getOrderCompletionStatuses: ", response)
   }
 
   async checkDeliveryType() {
@@ -111,7 +125,10 @@ export class SingleOrderComponent implements OnInit {
             // const data = await this.apiCalls.orderUpdationCompletionStatus(this.order.id);
             const data = await this.apiCalls.updateCompletionStatus(this.order.id, completionStatus,result.date,result.time)
             this.apiCalls.loadingdialogRef.close();
-            this.initializeStoreDetails()
+            this.initializeStoreDetails();
+
+            // re call this.getOrderCompletionStatuses() to get new status
+            this.getOrderCompletionStatuses();
         }
       });
     } else {
@@ -121,6 +138,9 @@ export class SingleOrderComponent implements OnInit {
       this.apiCalls.loadingdialogRef.close();
       this.initializeStoreDetails()
     }
+
+    // re query to change the text and label
+    this.getOrderCompletionStatuses();
     
   }
 
