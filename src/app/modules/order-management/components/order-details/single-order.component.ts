@@ -14,6 +14,7 @@ export class SingleOrderComponent implements OnInit {
   orderItems: any = [];
   orderId: any;
   address: any = "";
+  deliveryProviderId: any = "";
   logo: any = "";
   invoiceNo: any = "";
   date: any = "";
@@ -73,6 +74,7 @@ export class SingleOrderComponent implements OnInit {
     const orderDetails = data.data;
     this.order = orderDetails;
     this.address = orderDetails.orderShipmentDetail;
+    this.deliveryProviderId = orderDetails.orderShipmentDetail.deliveryProviderId;
     console.log(orderDetails)
     this.paymentStatus = orderDetails.paymentStatus;
     this.invoiceNo = orderDetails.invoiceId;
@@ -95,26 +97,29 @@ export class SingleOrderComponent implements OnInit {
 
   async readyForPickup(completionStatus) {
 
-    if (completionStatus === "AWAITING_PICKUP") {
-      const dialogRef = this.dialog.open(SelectProviderPopupComponent, { disableClose: true });
-      dialogRef.afterClosed().subscribe(result => {
+    if (completionStatus === "AWAITING_PICKUP") { 
+      const assets: any = await this.apiCalls.getDeliveryProviderDetails(this.deliveryProviderId);
+      console.log("assets: ", assets)
+      const dialogRef = this.dialog.open(SelectProviderPopupComponent, { disableClose: true, data: assets });
+      dialogRef.afterClosed().subscribe(async result => {
         console.log(result);
         if (result === "cancelled" || !result.date || !result.time){
           alert("Date and time required !!");
         } else {
-          // this.apiCalls.loadingAnimation("Loading...");
-          // // const data = await this.apiCalls.orderUpdationCompletionStatus(this.order.id);
-          // const data = await this.apiCalls.updateCompletionStatus(this.order.id, completionStatus)
-          // this.apiCalls.loadingdialogRef.close();
-          // this.initializeStoreDetails()
+            console.log("disini: ")
+            this.apiCalls.loadingAnimation("Loading...");
+            // const data = await this.apiCalls.orderUpdationCompletionStatus(this.order.id);
+            const data = await this.apiCalls.updateCompletionStatus(this.order.id, completionStatus,result.date,result.time)
+            this.apiCalls.loadingdialogRef.close();
+            this.initializeStoreDetails()
         }
       });
     } else {
-      // this.apiCalls.loadingAnimation("Loading...");
-      // // const data = await this.apiCalls.orderUpdationCompletionStatus(this.order.id);
-      // const data = await this.apiCalls.updateCompletionStatus(this.order.id, completionStatus)
-      // this.apiCalls.loadingdialogRef.close();
-      // this.initializeStoreDetails()
+      this.apiCalls.loadingAnimation("Loading...");
+      // const data = await this.apiCalls.orderUpdationCompletionStatus(this.order.id);
+      const data = await this.apiCalls.updateCompletionStatus(this.order.id, completionStatus)
+      this.apiCalls.loadingdialogRef.close();
+      this.initializeStoreDetails()
     }
     
   }

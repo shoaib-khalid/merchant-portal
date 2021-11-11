@@ -23,6 +23,7 @@ export class SelectProviderPopupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     let today = new Date();
     let yy = today.getFullYear();
     let mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -30,8 +31,8 @@ export class SelectProviderPopupComponent implements OnInit {
     this.mindate = yy + '-' + mm + '-' + dd;
 
     this.image = {
-      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
-      atl: "No Image"
+      src: this.data["data"].providerImage,
+      atl: this.data["data"].name
     };
   }
 
