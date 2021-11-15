@@ -230,6 +230,13 @@ export class ApiCallsService {
     return this.http.get(this.productService + "/stores", httpOptions).toPromise();
   }
 
+  getStoreByStoreId(storeId: string){
+    const httpOptions = {
+    }
+
+    return this.http.get(this.productService + "/stores/"+storeId , httpOptions).toPromise();
+  }
+
   async getUserChannels() {
 
     const httpOptions = {

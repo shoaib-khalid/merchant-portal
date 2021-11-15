@@ -11,6 +11,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Product } from '../product.model';
+import { AppConfig } from 'src/app/services/app.config.ts.service';
 
 
 
@@ -25,6 +26,7 @@ import { Product } from '../product.model';
 
 export class AddProductComponent implements OnInit {
 
+  store: any;
   productStatus: any = "ACTIVE";
   title: string;
   description: string;
@@ -63,6 +65,7 @@ export class AddProductComponent implements OnInit {
   vos: string[] = ['Size', 'Color', 'Material', 'Style', 'Title'];
   filteredOptions: Observable<string[]>;
   public Editor = ClassicEditor;
+  protected storeFrontUrl = AppConfig.settings.storeFrontUrl;
 
   productModel = new Product("yoo", "", "", "", "", false, false, 0)
   constructor(private dialog: MatDialog,
@@ -74,7 +77,14 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.countries = this.helperTextService.countriesList;
+    this.loadStoreDetails(localStorage.getItem("storeId"));
     this.getCategoriesByStoreId();
+  }
+
+  async loadStoreDetails(id){
+    const data: any = await this.apiCalls.getStoreByStoreId(id);
+    this.store = data.data;
+    console.log(this.store);
   }
 
   addAnotherOption() {
@@ -111,7 +121,7 @@ export class AddProductComponent implements OnInit {
 
     if (n == combos.length) {
       if (result.substring(1) != "") {
-        this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: `${this.title.replace(" ", "_")}_${result.substring(1).replace(" / ", "_").replace("/ ", "_").replace(" ", "_")}`, status: "AVAILABLE" })
+        this.combos.push({ variant: result.substring(1), price: this.price, quantity: 0, sku: `${this.title.replace(/ /g, '-').replace(/[-]+/g, '-').replace(/[^\w\d-]+/g, '').replace(" ", "_")}_${result.substring(1).replace(" / ", "_").replace("/ ", "_").replace(" ", "_")}`, status: "AVAILABLE" })
         this.images.push({ file: "", preview: "" })
         // console.log(this.combos)
       }
@@ -145,7 +155,9 @@ export class AddProductComponent implements OnInit {
         "allowOutOfStockPurchases": this.continueSelling,
         "trackQuantity": this.trackQuantity,
         "minQuantityForAlarm": this.minQtyAlarm ? this.minQtyAlarm : -1,
-        "packingSize": this.packingSize
+        "packingSize": this.packingSize,
+        "seoName": this.title.toLowerCase().replace(/ /g, '-').replace(/[-]+/g, '-').replace(/[^\w\d-]+/g, ''),
+        "seoUrl": "https://" + this.store.domain + this.storeFrontUrl + "/product/name/" + this.title.toLowerCase().replace(/ /g, '-').replace(/[-]+/g, '-').replace(/[^\w\d-]+/g, ''),
       }
       const data: any = await this.apiCalls.addProduct(body);
       // this.addDeliveryDetails(data.data.id)
