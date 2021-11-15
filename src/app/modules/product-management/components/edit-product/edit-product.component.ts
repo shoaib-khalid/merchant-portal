@@ -5,6 +5,7 @@ import { ApiCallsService } from 'src/app/services/api-calls.service';
 import $ from 'jquery';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { HelperService } from 'src/app/services/helper.service';
+import { AppConfig } from 'src/app/services/app.config.ts.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -16,6 +17,7 @@ export class EditProductComponent implements OnInit {
   productStatus: any = "";
   weight: any;
   weightType: any;
+  packingSize: any = "";
   items: any = [];
   variantChecked: boolean = false;
   options: any = []
@@ -25,6 +27,7 @@ export class EditProductComponent implements OnInit {
   category: any;
   images: any = [];
   product: any;
+  store: any;
   productImages: any = [];
   newItems: any = [];
   thumbnailUrl: any = null;
@@ -32,6 +35,7 @@ export class EditProductComponent implements OnInit {
   imagesToBeDeleted: any = [];
   id: any;
   public Editor = ClassicEditor;
+  protected storeFrontUrl = AppConfig.settings.storeFrontUrl;
 
 
   constructor(
@@ -44,7 +48,8 @@ export class EditProductComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id) {
-        this.loadProduct(params.id)
+        this.loadProduct(params.id);
+        this.loadStoreDetails(localStorage.getItem("storeId"));
         this.setFormGroup();
       }
     });
@@ -60,6 +65,12 @@ export class EditProductComponent implements OnInit {
     // this.findInventory();
   }
 
+  async loadStoreDetails(id){
+    const data: any = await this.apiCalls.getStoreByStoreId(id);
+    this.store = data.data;
+    console.log(this.store);
+  }
+
   setAllVariables() {
     console.log(this.product)
     this.epForm['controls'].productDetails['controls'].name.setValue(this.product.name)
@@ -68,6 +79,7 @@ export class EditProductComponent implements OnInit {
     this.epForm['controls'].defaultInventory['controls'].trackQuantity.setValue(this.product.trackQuantity)
     this.epForm['controls'].defaultInventory['controls'].continueSelling.setValue(this.product.allowOutOfStockPurchases)
     this.epForm['controls'].defaultInventory['controls'].minQtyAlarm.setValue(this.product.minQuantityForAlarm)
+    this.packingSize = this.product.packingSize;
     this.productStatus = this.product.status;
     this.weight = this.product.weight;
     this.setCategory();
@@ -125,10 +137,6 @@ export class EditProductComponent implements OnInit {
     }
 
   }
-
-
-
-
 
   setVariants() {
     if (this.product.productVariants.length > 0) {
@@ -272,13 +280,17 @@ export class EditProductComponent implements OnInit {
 
     const combinedObject = {
       ...this.epForm['controls'].productDetails.value, ...{
+        "name": this.epForm['controls'].productDetails['controls'].name.value,
         "categoryId": await this.getCategoryId(),
         "status": this.productStatus,
         "storeId": localStorage.getItem("storeId"),
         "thumbnailUrl": this.thumbnailUrl,
         "minQuantityForAlarm": this.epForm['controls'].defaultInventory['controls'].minQtyAlarm.value,
         "allowOutOfStockPurchases": this.epForm['controls'].defaultInventory['controls'].continueSelling.value,
-        "trackQuantity": this.epForm['controls'].defaultInventory['controls'].trackQuantity.value
+        "trackQuantity": this.epForm['controls'].defaultInventory['controls'].trackQuantity.value,
+        "seoName": this.epForm['controls'].productDetails['controls'].name.value.toLowerCase().replace(/ /g, '-').replace(/[-]+/g, '-').replace(/[^\w\d-]+/g, ''),
+        "seoUrl": "https://" + this.store.domain + this.storeFrontUrl + "/product/name/" + this.epForm['controls'].productDetails['controls'].name.value.toLowerCase().replace(/ /g, '-').replace(/[-]+/g, '-').replace(/[^\w\d-]+/g, ''),
+        "packingSize": this.packingSize
       }
     }
     if (this.epForm.status == "VALID") {
@@ -659,7 +671,7 @@ export class EditProductComponent implements OnInit {
         stock: [0],
         description: [''],
         storeId: [localStorage.getItem('storeId')],
-
+        packingSize: ['']
       }),
       defaultInventory: this.fb.group({
         price: ['', [Validators.required]],

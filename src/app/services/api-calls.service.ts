@@ -230,6 +230,13 @@ export class ApiCallsService {
     return this.http.get(this.productService + "/stores", httpOptions).toPromise();
   }
 
+  getStoreByStoreId(storeId: string){
+    const httpOptions = {
+    }
+
+    return this.http.get(this.productService + "/stores/"+storeId , httpOptions).toPromise();
+  }
+
   async getUserChannels() {
 
     const httpOptions = {
@@ -458,6 +465,9 @@ export class ApiCallsService {
     return this.http.get(this.orderService + "/orders/" + cartId + "/items", httpOptions).toPromise();
   }
 
+  getOrderCompletionStatuses(orderId){
+    return this.http.get(this.orderService + "/orders/details/" + orderId).toPromise();
+  }
 
   getStoreCategories(page) {
     const httpOptions = {
@@ -733,6 +743,10 @@ export class ApiCallsService {
     return this.http.get<any>(this.orderService + `/orders/${orderId}/shipment-details`).toPromise();
   }
 
+  getDeliveryProviderDetails(deliveryProviderId){
+    return this.http.get<any>(this.deliveryService + `/orders/getDeliveryProviderDetails/${deliveryProviderId}`).toPromise();
+  }
+
 
   async getLongLivedAppAccessToken1(fb_exchange_token) {
     return this.http.get<any>
@@ -894,10 +908,12 @@ export class ApiCallsService {
     return this.http.put(this.orderService + `/orders/${orderId}/completion-status-updates/request-delivery`, {}).toPromise()
   }
 
-  updateCompletionStatus(orderId, completionStatus) {
+  updateCompletionStatus(orderId, completionStatus,pickupDate = null,pickupTime = null) {
     return this.http.put(this.orderService + `/orders/${orderId}/completion-status-updates`, {
       "orderId": orderId,
-      "status": completionStatus
+      "status": completionStatus,
+      "pickupDate": pickupDate,
+      "pickupTime": pickupTime
     }).toPromise()
   }
 
