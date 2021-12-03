@@ -135,6 +135,20 @@
 
                                                 <div class="">
                                                     <div class="invoice-address">
+                                                        <div *ngIf="deliveryRiderDetails.provider">
+                                                            <p class="f-w-5 text-black">Provider :
+                                                                {{deliveryRiderDetails.provider.name}}
+                                                            </p>
+                                                            <p class="f-w-5 text-black">Order :
+                                                                {{deliveryRiderDetails.orderNumber}}
+                                                            </p>
+                                                            <p *ngIf="deliveryRiderDetails.trackingUrl" class="f-w-5 text-black">Tracking Order Link :
+                                                                <a [href]="deliveryRiderDetails.trackingUrl" target="_blank">{{deliveryRiderDetails.orderNumber}}</a>
+                                                            </p>
+                                                            <p *ngIf="deliveryRiderDetails.airwayBill" class="f-w-5 text-black">Air waybill consignment note Link:
+                                                                <a [href]="deliveryRiderDetails.airwayBill" target="_blank">{{deliveryRiderDetails.orderNumber}}</a>
+                                                            </p>
+                                                        </div>
                                                         <p class="f-w-5 text-black">Shipment Address :
                                                             {{address.address}}</p>
                                                         <p class="f-w-5 text-black">City : {{address.city}}</p>

@@ -30,6 +30,13 @@ export class SingleOrderComponent implements OnInit {
       nextActionText: "",
   }
 
+  deliveryRiderDetails = {
+    orderNumber: null,
+    provider: null,
+    airwayBill: null,
+    trackingUrl: null
+  }
+
   constructor(private route: ActivatedRoute, private apiCalls: ApiCallsService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -43,7 +50,21 @@ export class SingleOrderComponent implements OnInit {
     this.completionStatus.currentCompletionStatus = response.data.currentCompletionStatus;
     this.completionStatus.nextCompletionStatus = response.data.nextCompletionStatus;
     this.completionStatus.nextActionText = response.data.nextActionText;
+
+    if (response.data.currentCompletionStatus === "BEING_DELIVERED"){
+      this.getDeliveryRiderDetails();
+    }
     console.log("getOrderCompletionStatuses: ", response)
+  }
+
+  async getDeliveryRiderDetails(){
+    const response: any = await this.apiCalls.getDeliveryRiderDetails(this.orderId);
+    this.deliveryRiderDetails.orderNumber = response.data.orderNumber;
+    this.deliveryRiderDetails.airwayBill = response.data.airwayBill;
+    this.deliveryRiderDetails.trackingUrl = response.data.trackingUrl;
+
+    this.deliveryRiderDetails.provider = response.data.provider;
+    console.log("getDeliveryRiderDetails: ", response)
   }
 
   async checkDeliveryType() {
@@ -126,6 +147,7 @@ export class SingleOrderComponent implements OnInit {
             const data = await this.apiCalls.updateCompletionStatus(this.order.id, completionStatus,result.date,result.time)
             this.apiCalls.loadingdialogRef.close();
             this.initializeStoreDetails();
+            this.getDeliveryRiderDetails();
 
             // re call this.getOrderCompletionStatuses() to get new status
             this.getOrderCompletionStatuses();

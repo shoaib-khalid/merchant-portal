@@ -469,6 +469,10 @@ export class ApiCallsService {
     return this.http.get(this.orderService + "/orders/details/" + orderId).toPromise();
   }
 
+  getDeliveryRiderDetails(orderId){
+    return this.http.get(this.deliveryService + "/orders/getDeliveryRiderDetails/" + orderId).toPromise();
+  }
+
   getStoreCategories(page) {
     const httpOptions = {
       headers: new HttpHeaders({
