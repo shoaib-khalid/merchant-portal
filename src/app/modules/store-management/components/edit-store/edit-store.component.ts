@@ -23,7 +23,7 @@ export class EditStoreComponent implements OnInit {
   states: any = [];
   public Editor = ClassicEditor;
   storeModel = new Store("", "", "", "", "", "", "", "", "", 5, 0, "", "", "", { stateCharges: [], stateIds: [], deletedStateIds: [] }, false,
-    false, { dsp: [], loopLength: [], values: [], ids: [] }, "");
+    false, { dsp: [], loopLength: [], values: [], ids: [] }, "", "");
 
 
   constructor(private apiCalls: ApiCallsService, private route: ActivatedRoute, private helperService: HelperService) { }
@@ -138,6 +138,7 @@ export class EditStoreComponent implements OnInit {
     (<HTMLInputElement>document.getElementById("phoneNumber")).value = this.store.phoneNumber;
     this.storeModel.serviceCharge = this.store.serviceChargesPercentage;
     this.storeModel.verticleCode = this.store.verticalCode
+    this.storeModel.domain = this.store.domain;
   }
 
   setState() {
@@ -176,7 +177,8 @@ export class EditStoreComponent implements OnInit {
       "regionCountryId": this.storeModel.region,
       "regionCountryStateId": this.storeModel.state,
       "phoneNumber": (<HTMLInputElement>document.getElementById("phoneNumber")).value,
-      serviceChargesPercentage: this.storeModel.serviceCharge
+      serviceChargesPercentage: this.storeModel.serviceCharge,
+      "domain": this.storeModel.domain
     }
     return this.apiCalls.updateStore(store, this.store.id)
   }

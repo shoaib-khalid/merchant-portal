@@ -45,6 +45,25 @@
                                     height="15px" width="15px" alt=""> Store Name already exists! Try another name</p>
                         </div>
 
+                        <div class="form-group mb-3">
+                            <label for="domain">Store URL</label>
+                            <input class="form-control necessary" name="domain" type="username" required
+                                [(ngModel)]="storeModel.domain" id="domain" placeholder="Enter Store URL" #domain="ngModel">
+
+                            <!-- <div class="alert alert-warning text-center" role="alert" style="
+                                    padding: 5px; 
+                                    margin-top: 10px; 
+                                    font-size: 10px;"> -->
+                                <!-- Note : Store name can only contain letters, numbers, Dash (-) and underscore (_). -->
+                                <!-- <small class="text-muted" style="font-size: 10px;">
+                                Note : Store name can only contain letters, numbers, Dash (-)  and underscore (_).
+                            </small> -->
+                            <!-- </div> -->
+
+                            <!-- <p id="store-exists"> <img src="assets/error-icon.svg" style="margin-bottom: 2px;"
+                                    height="15px" width="15px" alt=""> Store Name already exists! Try another name</p> -->
+                        </div>
+
 
                         <div class="form-group">
                             <label class="form-control-label">Store Info</label>

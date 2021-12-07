@@ -45,7 +45,9 @@ export class SharedSidePanelComponent implements OnInit {
   async loadStores() {
     if (localStorage.getItem("storeId")) {
       const data: any = await this.apiCalls.getStoreDetails(localStorage.getItem('storeId'));
-      this.storeDomain = data.data.domain+this.helperMethods.getStoreExtension();
+      // this.storeDomain = data.data.domain+this.helperMethods.getStoreExtension();
+      this.storeDomain = data.data.domain;
+
     }
 
   }

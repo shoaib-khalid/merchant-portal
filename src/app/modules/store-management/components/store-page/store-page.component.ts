@@ -19,7 +19,7 @@ export class StorePageComponent implements OnInit {
   states: any = [];
   verticleCode: any = "";
   storeModel = new Store("", "", "", "", "", "", "", "", "", 5, 0, "", "", "", { stateCharges: [], stateIds: [] },
-    false, false, { dsp: [], loopLength: [], values: [] }, "");
+    false, false, { dsp: [], loopLength: [], values: [] }, "","");
 
   timmings: any = [
     { day: "MONDAY", isOff: false, openTime: "09:00", closeTime: "20:00" },
@@ -135,13 +135,14 @@ export class StorePageComponent implements OnInit {
       storeDescription: this.storeModel.storeInfo,
       email: this.storeModel.email,
       clientId: localStorage.getItem("ownerId"),
-      domain: this.storeModel.storeName.replace(/\s+/g, '-').toLowerCase(),
+      // domain: this.storeModel.storeName.replace(/\s+/g, '-').toLowerCase(),
       regionCountryId: this.storeModel.region,
       regionCountryStateId: (<HTMLInputElement>document.getElementById("state-dropdown")).value,
       phoneNumber: (<HTMLInputElement>document.getElementById("phoneNumber")).value,
       serviceChargesPercentage: this.storeModel.serviceCharge,
       verticalCode: this.verticleCode,
-      paymentType: this.storeModel.paymentType
+      paymentType: this.storeModel.paymentType,
+      domain: this.storeModel.domain
     })
   }
 

@@ -18,7 +18,8 @@ export class Store {
         public storePickUp:boolean,
         public deliveryTypeChange:Boolean,
         public sdSp:any,
-        public storeDsp:String
+        public storeDsp:String,
+        public domain: string
     ) {
 
     }
