@@ -1,4 +1,11 @@
 ++++++++++++++++++++++
+ VERSION: 1.2.22
+++++++++++++++++++++++
+Changes:
+1. Fix preview, add & update store domain
+2. Fix store completion status to always call getDeliveryRiderDetails()
+
+++++++++++++++++++++++
  VERSION: 1.2.21
 ++++++++++++++++++++++
 Changes:
