@@ -43,6 +43,7 @@ export class SingleOrderComponent implements OnInit {
     this.initializeStoreDetails();
     this.checkDeliveryType();
     this.getOrderCompletionStatuses();
+    this.getDeliveryRiderDetails();
   }
 
   async getOrderCompletionStatuses(){
@@ -50,10 +51,7 @@ export class SingleOrderComponent implements OnInit {
     this.completionStatus.currentCompletionStatus = response.data.currentCompletionStatus;
     this.completionStatus.nextCompletionStatus = response.data.nextCompletionStatus;
     this.completionStatus.nextActionText = response.data.nextActionText;
-
-    if (response.data.currentCompletionStatus === "BEING_DELIVERED"){
-      this.getDeliveryRiderDetails();
-    }
+    
     console.log("getOrderCompletionStatuses: ", response)
   }
 
